@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/spam/{id}' , 'TicketsController@spamTicket');
+
+/** Tag CRUD Operations */
+Route::get('/tags' , 'TagsController@allTags');
+Route::post('/tags/create' , 'TagsController@create');
+Route::get('/tags/edit/{id}' , 'TagsController@edit');
+Route::put('/tags/update/{id}' , 'TagsController@update');
+Route::delete('/tags/delete/{id}' , 'TagsController@delete');
