@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Ticket;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,18 @@ class User extends Authenticatable
      *
      * @var array
      */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+/*public function tickets()
+    {
+      return $this->belongsToMany(Ticket::class);
+    }
+*/
+    public function requests(){
+        $this->belongsToMany('App\Ticket' , 'requested_tickets' ,'name' , 'id' , 'city');
+    }
+
 }

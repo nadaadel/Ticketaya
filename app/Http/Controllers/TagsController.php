@@ -20,6 +20,10 @@ class TagsController extends Controller
         $getTag = Tag::find($id);
 
     }
+      public function show($id){
+        $getTag = Tag::find($id);
+
+    }
     public function update(Request $request ,$id){
         $getTag = Tag::find($id);
         $getTag->name = $request->name;

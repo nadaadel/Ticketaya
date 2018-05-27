@@ -20,4 +20,8 @@ class Ticket extends Model
     public function tags(){
         return $this->hasMany(Tag::class);
     }
+
+    public function requests(){
+        $this->belongsToMany('App\User' , 'requested_tickets' ,'name' , 'price' , 'description');
+    }
 }
