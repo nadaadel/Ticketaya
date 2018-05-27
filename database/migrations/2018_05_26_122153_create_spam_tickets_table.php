@@ -17,7 +17,6 @@ class CreateSpamTicketsTable extends Migration
             $table->increments('id');
             $table->string('ticket_id');
             $table->string('user_id');
-            $table->timestamps();
         });
     }
 
