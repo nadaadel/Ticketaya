@@ -23,7 +23,7 @@ class CreateTicketsTable extends Migration
             $table->string('type');  // wanted or requested
             $table->integer('quantity');
             $table->integer('category_id');
-            $table->integer('creator_id');
+            $table->integer('user_id');
             $table->string('region');
             $table->string('city');
             $table->date('expire_date');

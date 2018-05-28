@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestedTicketsTable extends Migration
+class CreateSoldTicketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateRequestedTicketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('requested_tickets', function (Blueprint $table) {
+        Schema::create('sold_tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ticket_id');
             $table->integer('user_id');
-            $table->integer('requester_id');
-            $table->boolean('is_accepted')->default(0); // true
-            $table->boolean('is_sold')->default(0); // true
+            $table->integer('buyer_id');
             $table->string('quantity');
             $table->timestamps();
         });
@@ -32,6 +30,6 @@ class CreateRequestedTicketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requested_tickets');
+        Schema::dropIfExists('sold_tickets');
     }
 }
