@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class RequestedTicket extends Pivot
 {
-    // protected $table = 'ticket_user';
+     protected $table = 'requested_tickets';
 
-    // public function users(){
-    //     return $this->hasMany(User::class);
-    // }
+     public function requested_user(){
+         $request_user = User::find($this->requester_id);
+         return $request_user;
+     }
+     public function ticket(){
+        $ticket = Ticket::find($this->ticket_id);
+         return $ticket;
+    }
 
-    // public function requestedTicket(){
-    //     return $this->hasMany(Ticket::class);
-    // }
 }
