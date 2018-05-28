@@ -8,6 +8,7 @@ use Image;
 use Auth;
 use App\Category;
 use App\RequestedTicket;
+use App\SoldTicket;
 
 use Illuminate\Http\Request;
 
