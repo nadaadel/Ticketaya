@@ -38,7 +38,6 @@ class TicketsController extends Controller
     }
 
     public function getUserRequests(Request $request){
-    $userTickets = User::find(1)->tickets;
 
     /** User Tickets received Requests */
     $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);
