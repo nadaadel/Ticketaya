@@ -27,4 +27,15 @@ Route::delete('/tags/delete/{id}' , 'TagsController@delete');
 
 
 /** Ticket CRUD Operations */
-Route::get('/tickets/show/{id}' , 'TicketsController@show');
+Route::delete('/tickets/{id}','TicketsController@destroy');
+Route::get('/tickets', 'TicketsController@index');
+Route::get('/tickets/create', 'TicketsController@create');
+Route::post('/tickets/store', 'TicketsController@store');
+Route::get('/tickets/edit/{id}', 'TicketsController@edit');
+Route::get('/tickets/{id}' , 'TicketsController@show');
+Route::get('/tickets/view/{id}' , 'TicketsController@view');
+Route::put('/tickets/update/{id}', 'TicketsController@update');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
