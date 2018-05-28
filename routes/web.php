@@ -19,7 +19,8 @@ Route::post('/tickets/request/{id}' , 'TicketsController@requestTicket');
 
 /** Tag CRUD Operations */
 Route::get('/tags' , 'TagsController@allTags');
-Route::post('/tags/create' , 'TagsController@create');
+Route::get('/tags/create' , 'TagsController@create');
+Route::post('/tags/store' , 'TagsController@store');
 Route::get('/tags/show/{id}' , 'TagsController@show');
 Route::get('/tags/edit/{id}' , 'TagsController@edit');
 Route::put('/tags/update/{id}' , 'TagsController@update');

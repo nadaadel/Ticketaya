@@ -11,7 +11,11 @@ class TagsController extends Controller
      $tags = Tag::all();
      return view('tags.index' , compact('tags'));
     }
-    public function create(Request $request){
+    public function create(){
+        return view('tags.create');
+
+    }
+    public function store(Request $request){
         Tag::create([
             'name' => $request->name
         ]);
@@ -23,18 +27,20 @@ class TagsController extends Controller
 
     }
       public function show($id){
-        $getTag = Tag::find($id);
+        $tag = Tag::find($id);
         return view('tags.show' , compact('tag'));
 
     }
     public function update(Request $request ,$id){
         $getTag = Tag::find($id);
         $getTag->name = $request->name;
+        $getTag->save();
         return redirect('/tags');
     }
     public function delete($id){
         $getTag = Tag::find($id);
         $getTag->delete();
+        return redirect('/tags');
 
     }
 
