@@ -5,7 +5,7 @@ Route::get('/', function () {
 });
 
 /** Search For Tickets */
-Route::get('/tickets/bycategory/{name}' , 'FilterTicketsController@bycategory');
+Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');

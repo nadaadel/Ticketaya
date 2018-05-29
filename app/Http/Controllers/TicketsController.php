@@ -87,9 +87,6 @@ class TicketsController extends Controller
       return redirect('/tickets/requests');
     }
 
-
-
-
      public function view ($id){
         $ticket=Ticket::find($id);
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();

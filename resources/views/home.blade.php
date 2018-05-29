@@ -10,13 +10,13 @@
 
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     <a class="btn btn-outline-success my-2 my-sm-0"  href={{ URL::to('tickets/search ') }} type="submit">Search</a>
-  
+
 </div>
-@endsection
+
 
 <div class="container">
     <div class="row justify-content-center">
-    @role('admin') 
+    @role('admin')
     <a href="/admin"  type="button" class="btn btn-default" >Admin Panel</a>
      @endrole
         <div class="col-md-8">
@@ -32,7 +32,7 @@
 
                     You are logged in!
                 </div>
-                
+
             </div>
         </div>
     </div>

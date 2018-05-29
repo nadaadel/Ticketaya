@@ -24,7 +24,7 @@
                                 </a>
                                 </h5>
                               </div>
-                          
+
                               <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <div class="card-body">
                                   <ul>
@@ -56,16 +56,16 @@
                                 <div class="card-body">
                                         <ul>
                                            <li>
-                                                <input type="checkbox"> Sport
+                                                <input type="checkbox" name="category" value="sport"> Sport
                                             </li>
                                              <li>
-                                                <input type="checkbox"> Train
+                                                <input type="checkbox" name="category" value="train"> Train
                                             </li>
                                             <li>
-                                               <input type="checkbox"> Concert
+                                               <input type="checkbox" name="category" value="concert"> Concert
                                             </li>
                                             <li>
-                                                 <input type="checkbox"> Festival
+                                                 <input type="checkbox" name="category" value="travel"> Travel
                                             </li>
                                         </ul>
 
@@ -87,9 +87,9 @@
                                                      <input type="checkbox" name="city" value="cairo"> Cairo
                                                  </li>
                                                   <li>
-                                                     <input type="checkbox" value="alex"> Alexandria
+                                                     <input type="checkbox" name="city" value="alexandria"> Alexandria
                                                  </li>
-                                                 
+
                                              </ul>
                                 </div>
                               </div>
@@ -102,22 +102,22 @@
                 <div class="row">
                     <div class="col-md-4 col-xs-12 tick-search">
                     @foreach($tickets as $ticket)
-                            <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
-                                    <div class="card-body">
-                                      <h5 class="card-title">Card title</h5>
-                                      <p class="card-text">{{$ticket->name}}</p>
-                                      <p class="card-text">{{$ticket->user->name}}</p>
-                                      <p class="card-text">{{$ticket->quantity}}</p>
-                                      <p class="card-text">{{$ticket->expire_date}}</p>
-                                      <p>{{$ticket->category->name}}</p>
-                   
-                                      <p>{{ $ticket->region }},{{ $ticket->city }}</p>
-                                    </div>
-                                  </div>
+                <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">{{$ticket->name}}</p>
+                            <p class="card-text">{{$ticket->user->name}}</p>
+                            <p class="card-text">{{$ticket->quantity}}</p>
+                            <p class="card-text">{{$ticket->expire_date}}</p>
+                            <p>{{$ticket->category->name}}</p>
+
+                            <p>{{ $ticket->region }},{{ $ticket->city }}</p>
+                        </div>
+                </div>
                      @endforeach
                     </div>
-                    
+
                 </div>
             </div>
         </div>
