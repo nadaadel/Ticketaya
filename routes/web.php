@@ -27,9 +27,9 @@ Route::put('/tags/update/{id}' , 'TagsController@update');
 Route::delete('/tags/delete/{id}' , 'TagsController@delete');
 
 
-/** Ticket CRUD Operations */
-Route::get('/tickets/show/{id}' , 'TicketsController@show');
-Route::get('/tickets' , 'TicketsController@index');
+
+
+
 
 /**Comments */
 Route::post('/comments','CommentsController@store');
@@ -37,9 +37,19 @@ Route::post('/comments','CommentsController@store');
 Route::get('/replies/{id}','RepliesController@show');
 Route::post('/replies','RepliesController@store');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/** Ticket CRUD Operations */
+
+Route::delete('/tickets/{id}','TicketsController@destroy');
+Route::get('/tickets', 'TicketsController@index');
+Route::get('/tickets/create', 'TicketsController@create');
+Route::post('/tickets/store', 'TicketsController@store');
+Route::get('/tickets/edit/{id}', 'TicketsController@edit');
+Route::get('/tickets/{id}' , 'TicketsController@show');
+Route::put('/tickets/update/{id}', 'TicketsController@update');
+
+
+
 
 Auth::routes();
 
@@ -47,3 +57,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');
+

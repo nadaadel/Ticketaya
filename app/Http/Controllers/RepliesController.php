@@ -17,7 +17,7 @@ class RepliesController extends Controller
     }
 
     public function store(Request $request){
-        //dd($request->ticket_bodyReply);
+        
         Reply::create([
             'body' => $request->bodyReply,
             'user_id'=>Auth::user()->id,
