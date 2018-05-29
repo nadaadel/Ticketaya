@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Reply extends Model
 {
     protected $fillable = [
-        'body','user_id','ticket_id'
+        'body','user_id','ticket_id','comment_id'
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -15,8 +15,7 @@ class Comment extends Model
     public function ticket(){
         return $this->belongsTo(Ticket::class);
     }
-    public function replies(){
-        return $this->hasMany(Reply::class);
+    public function comment(){
+        return $this->belongsTo(Comment::class);
     }
-
 }

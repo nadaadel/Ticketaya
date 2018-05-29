@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTicketsReplayTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateTicketsReplayTable extends Migration
      */
     public function up()
     {
-        Schema::create('tickets_replay', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('comment_id');
+            $table->integer('ticket_id');
             $table->integer('user_id');
             $table->string('body');
+           
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -29,6 +30,6 @@ class CreateTicketsReplayTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets_replay');
+        Schema::dropIfExists('comments');
     }
 }
