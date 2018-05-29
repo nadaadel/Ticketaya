@@ -1,8 +1,16 @@
+
 <div class="container">
     <div class="row">
   <h1>
  All Tickets
   </h1>
+  
+  <form method="POST" action="/tickets/search" enctype="multipart/form-data" >
+    {{ csrf_field() }}
+  <input type="search" name="search"> 
+  <button type="submit">search</button>
+
+  </form>
   <div class="col-sm">
       <a href={{ URL::to('tickets/create' )}} ><input type="button" class="btn btn-success" value='Create Ticket'/></div></a>
   <table class="table table-hover table-dark">
@@ -38,4 +46,5 @@
   </div>
 </div>
   </div>
+
 

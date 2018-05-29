@@ -28,15 +28,35 @@ Route::delete('/tags/delete/{id}' , 'TagsController@delete');
 Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
 
 
+
+
+
+
+/**Comments */
+Route::post('/comments','CommentsController@store');
+
+Route::get('/replies/{id}','RepliesController@show');
+Route::post('/replies','RepliesController@store');
+
+
 /** Ticket CRUD Operations */
+
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index');
 Route::get('/tickets/create', 'TicketsController@create');
 Route::post('/tickets/store', 'TicketsController@store');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
+Route::get('/tickets/search' , 'TicketsController@search');
 Route::get('/tickets/{id}' , 'TicketsController@show');
 Route::put('/tickets/update/{id}', 'TicketsController@update');
+Route::post('/tickets/search','TicketsController@search');
+
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/** Admin  */
+Route::get('/admin', 'AdminsController@index')->name('admin');
+
