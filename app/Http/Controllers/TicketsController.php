@@ -9,7 +9,6 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
-use Auth;
 
 use Illuminate\Http\Request;
 
@@ -86,10 +85,11 @@ class TicketsController extends Controller
       return redirect('/tickets/requests');
     }
 
-    public function index (){
-        $tickets=Ticket::all();
-        return view('tickets.index',compact('tickets'));
-     }
+    public function search (Request $request){
+      $tickets=Ticket::all()->where('name' , '=' , $request->search);
+  
+      return view('tickets.search',['tickets'=> $tickets] );
+    }
 
 
     public function create (){

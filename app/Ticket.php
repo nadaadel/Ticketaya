@@ -7,6 +7,7 @@ use App\Tag;
 use App\Comment;
 use App\User;
 use App\RequestedTicket;
+use App\Category;
 use Actuallymab\LaravelComment\Commentable;
 
 class Ticket extends Model
@@ -14,6 +15,9 @@ class Ticket extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
     public function comments(){
         return $this->hasMany(Comment::class);

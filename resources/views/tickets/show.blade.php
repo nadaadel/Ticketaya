@@ -74,6 +74,7 @@ Comments:
 <hr>
 <br>
 
+@endforeach
 
 <div class="card-body">
     <form method="POST" action="/comments" enctype="multipart/form-data" >
@@ -103,7 +104,6 @@ Comments:
  <hr>   
  
 
-@endforeach
 
 
 
