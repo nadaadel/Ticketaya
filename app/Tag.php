@@ -12,8 +12,9 @@ class Tag extends Model
         'name'
     ];
 
-   /* public function tickets(){
-        return  $this->belongsToMany(Ticket::class);
+
+    public function tickets(){
+        return  $this->belongsToMany(Ticket::class, 'ticket_tags', 'tag_id','ticket_id');
     }
-*/
+
 }

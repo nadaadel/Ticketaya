@@ -9,11 +9,17 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
+use App\Tag;
 
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
+    public function index (){
+        $tickets=Ticket::all();
+        return view('tickets.index',compact('tickets'));
+     }
+
     public function show($id){
         $ticket = Ticket::find($id);
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
@@ -81,10 +87,8 @@ class TicketsController extends Controller
       return redirect('/tickets/requests');
     }
 
-    public function index (){
-        $tickets=Ticket::all();
-        return view('tickets.index',compact('tickets'));
-     }
+
+
 
      public function view ($id){
         $ticket=Ticket::find($id);
@@ -92,6 +96,10 @@ class TicketsController extends Controller
         return view('tickets.view',compact('ticket' , 'userSpam'));
      }
 
+     public function search (Request $request){
+        $tickets=Ticket::all()->where('name' , '=' , $request->search);
+        return view('search.search',['tickets'=> $tickets] );
+     }
 
     public function create (){
         $categories=Category::all();
@@ -123,20 +131,21 @@ class TicketsController extends Controller
         $ticket->type=1;
         $ticket->is_sold= 0;
         $ticket->save();
-       /* Ticket::create([
-            'price'=>$request->price,
-            'name' => $request->name,
-            'description'=>$request->description,
-            'user_id'=> Auth::user()->id,
-            'quantity'=>$request->quantity,
-            'region'=>$request->region,
-            'city'=>$request->city,
-            'expire_date'=>$request->expire_date,
-            'category_id'=>$request->category,
-            'type'=>1,
-            'is_sold'=> 0,
-            'photo' => $filename
-        ]);*/
+        if($ticket)
+        {
+            $tagNames = explode(',' ,$request->tags);
+            $tagIds = [];
+            foreach($tagNames as $tagName)
+            {
+                $tag = Tag::firstOrCreate(['name'=>$tagName]);
+                if($tag)
+                {
+                  $tagIds[] = $tag->id;
+                }
+
+            }
+            $ticket->tags()->sync($tagIds);
+        }
        return redirect('tickets');
     }
 

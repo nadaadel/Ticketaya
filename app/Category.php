@@ -7,7 +7,7 @@ use App\Ticket;
 
 class Category extends Model
 {
-   public function tickets(){
-       return $this->belongsToMany(Ticket::Class);
-   }
+    public function tickets(){
+        return $this->hasMany(Ticket::Class);
+    }
 }
