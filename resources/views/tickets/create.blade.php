@@ -25,6 +25,8 @@
         <label for="image" class="col-md-4 col-form-label text-md-right">Ticket Image</label>
         <input type="file" class="form-control-file" name="photo"/>
 <br/>
+<label >Tags</label>
+<input type="text" name="tags" class="form-control"/>
 <label >Category</label>
 <select name="category">
         @foreach($categories as $category)

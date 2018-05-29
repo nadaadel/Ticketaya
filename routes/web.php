@@ -25,6 +25,7 @@ Route::get('/tags/show/{id}' , 'TagsController@show');
 Route::get('/tags/edit/{id}' , 'TagsController@edit');
 Route::put('/tags/update/{id}' , 'TagsController@update');
 Route::delete('/tags/delete/{id}' , 'TagsController@delete');
+Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
 
 
 /** Ticket CRUD Operations */

@@ -9,6 +9,13 @@
                     <p>Category :{{ $ticket->category_id }}</p>
                     <p>Location:{{ $ticket->region }},{{ $ticket->city }}</p>
                     <p>Created by :{{ $ticket->user->name }} </p>
+                    @if($ticket->tags)
+                    <p>
+                        @foreach($ticket->tags as $tag)
+                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                        @endforeach
+                    </p>
+                    @endif
                    <hr>
                 </fieldset>
 @foreach ($userSpam as $spam )

@@ -31,6 +31,14 @@ class TagsController extends Controller
         return view('tags.show' , compact('tag'));
 
     }
+
+
+    public function tagTickets($id){
+        $tag = Tag::find($id);
+        $tickets=$tag->tickets;
+        return view('tags.show_tickets' , compact('tickets','tag'));
+
+    }
     public function update(Request $request ,$id){
         $getTag = Tag::find($id);
         $getTag->name = $request->name;

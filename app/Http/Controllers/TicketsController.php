@@ -9,6 +9,7 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
+use App\Tag;
 
 use Illuminate\Http\Request;
 
@@ -109,20 +110,21 @@ class TicketsController extends Controller
         $ticket->type=1;
         $ticket->is_sold= 0;
         $ticket->save();
-       /* Ticket::create([
-            'price'=>$request->price,
-            'name' => $request->name,
-            'description'=>$request->description,
-            'user_id'=> Auth::user()->id,
-            'quantity'=>$request->quantity,
-            'region'=>$request->region,
-            'city'=>$request->city,
-            'expire_date'=>$request->expire_date,
-            'category_id'=>$request->category,
-            'type'=>1,
-            'is_sold'=> 0,
-            'photo' => $filename
-        ]);*/
+        if($ticket)
+        {
+            $tagNames = explode(',' ,$request->tags);
+            $tagIds = [];
+            foreach($tagNames as $tagName)
+            {
+                $tag = Tag::firstOrCreate(['name'=>$tagName]);
+                if($tag)
+                {
+                  $tagIds[] = $tag->id;
+                }
+
+            }
+            $ticket->tags()->sync($tagIds);
+        }
        return redirect('tickets');
     }
 
