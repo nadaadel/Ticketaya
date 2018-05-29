@@ -29,3 +29,18 @@ Route::delete('/tags/delete/{id}' , 'TagsController@delete');
 
 /** Ticket CRUD Operations */
 Route::get('/tickets/show/{id}' , 'TicketsController@show');
+Route::get('/tickets' , 'TicketsController@index');
+
+/**Comments */
+Route::post('/tickets/{id}/comment','CommentsController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+/** Admin  */
+Route::get('/admin', 'AdminsController@index')->name('admin');

@@ -6,12 +6,25 @@ use App\Ticket;
 use App\User;
 use App\RequestedTicket;
 use App\SoldTicket;
+use Auth;
 
 
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
+
+
+    public function index(){
+        
+        $tickets=Ticket::All();
+     
+
+        return view('tickets.index',[
+         'tickets'=> $tickets,
+      
+        ]);
+    }
     public function show($id){
         $ticket = Ticket::find($id);
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();

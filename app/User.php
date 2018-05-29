@@ -4,13 +4,19 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use App\Ticket;
 use App\RequestedTicket;
+use Actuallymab\LaravelComment\CanComment;
+
 
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoles;
+    
+    protected $guard_name = 'web';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','avatar','region','city'
     ];
 
     /**
@@ -33,6 +39,13 @@ class User extends Authenticatable
 
     public function tickets(){
         return  $this->hasMany(Ticket::class);
+    }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+    
+    public function replies(){
+        return $this->hasMany(Reply::class);
     }
 
     public function requestedTicket(){
