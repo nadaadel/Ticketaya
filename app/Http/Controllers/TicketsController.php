@@ -63,7 +63,6 @@ class TicketsController extends Controller
     }
    public function ticketSold($id){
        $ticket = Ticket::find($id);
-<<<<<<< HEAD
        $ticket->is_sold =1;
        $ticket->save();
        SoldTicket::create([
@@ -73,16 +72,6 @@ class TicketsController extends Controller
         'quantity' => '2' ,
        ]);
 
-=======
-        DB::table('sold_tickets')->insert([
-            'ticket_id' => $id,
-            'user_id' => $ticket->user_id,
-            'buyer_id' => Auth::user()->id,
-            'quantity' => '2' ,
-        ]);
-        $ticket->is_sold =1;
-        $ticket->save();
->>>>>>> 37a7da661dc91d489724357bef4997352eff29c1
       return redirect('/tickets/requests');
     }
 
