@@ -32,7 +32,10 @@ Route::get('/tickets/show/{id}' , 'TicketsController@show');
 Route::get('/tickets' , 'TicketsController@index');
 
 /**Comments */
-Route::post('/tickets/{id}/comment','CommentsController@store');
+Route::post('/comments','CommentsController@store');
+
+Route::get('/replies/{id}','RepliesController@show');
+Route::post('/replies','RepliesController@store');
 
 Auth::routes();
 

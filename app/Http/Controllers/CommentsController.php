@@ -12,7 +12,7 @@ class CommentsController extends Controller
         Comment::create([
             'body' => $request->body,
             'user_id'=>Auth::user()->id,
-            'ticket_id'=>$request->id
+            'ticket_id'=>$request->ticket_id
         ]);
         return redirect('/tickets');
     }

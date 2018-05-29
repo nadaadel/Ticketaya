@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+    protected $fillable = [
+        'body','user_id','ticket_id','comment_id'
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }
