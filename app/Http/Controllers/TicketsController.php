@@ -91,6 +91,12 @@ class TicketsController extends Controller
       return view('tickets.search',['tickets'=> $tickets] );
     }
 
+     public function search (){
+       // $tickets=Ticket::all();
+        return view('search.search');
+     }
+
+
 
     public function create (){
         $categories=Category::all();
