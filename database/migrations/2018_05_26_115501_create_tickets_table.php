@@ -18,7 +18,7 @@ class CreateTicketsTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->string('description');
-            $table->string('photo');
+            $table->string('photo')->default('default.jpg');
             $table->boolean('is_sold');   //sold or unsold
             $table->string('type');  // wanted or requested
             $table->integer('quantity');
