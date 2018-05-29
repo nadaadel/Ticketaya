@@ -85,15 +85,12 @@ class TicketsController extends Controller
       return redirect('/tickets/requests');
     }
 
-    public function search (Request $request){
-      $tickets=Ticket::all()->where('name' , '=' , $request->search);
   
-      return view('tickets.search',['tickets'=> $tickets] );
-    }
 
-     public function search (){
-       // $tickets=Ticket::all();
-        return view('search.search');
+     public function search (Request $request){
+        $tickets=Ticket::all()->where('name' , '=' , $request->search);
+      
+        return view('search.search',['tickets'=> $tickets] );
      }
 
 
