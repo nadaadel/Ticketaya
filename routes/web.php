@@ -4,6 +4,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+/** Search For Tickets */
+Route::get('/tickets/bycategory/{name}' , 'FilterTicketsController@bycategory');
+
+
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
 
 

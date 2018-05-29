@@ -1,5 +1,6 @@
 <div class="container">
     <div class="row">
+        <form></form>
   <h1>
  All Tickets
   </h1>
@@ -17,7 +18,6 @@
       </tr>
     </thead>
     <tbody>
-
   @foreach($tickets as $ticket)
   <tr>
         <th scope="row">{{$ticket->id}}</th>
