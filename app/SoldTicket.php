@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SoldTicket extends Model
 {
     protected $table = 'sold_tickets';
+    protected $fillable = ['ticket_id' , 'user_id' , 'buyer_id' , 'quantity'];
 
      public function buyer(){
          $buyer = User::find($this->buyer_id);

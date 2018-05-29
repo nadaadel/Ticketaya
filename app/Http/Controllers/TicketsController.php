@@ -65,6 +65,12 @@ class TicketsController extends Controller
        $ticket = Ticket::find($id);
        $ticket->is_sold =1;
        $ticket->save();
+       $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
+       ['requester_id' , '=' , Auth::user()->id] ,
+       ['user_id' , '=' , $ticket->user_id]])->get();
+       $requested[0]->is_sold = 1;
+       $requested[0]->save();
+
        SoldTicket::create([
         'ticket_id' => $id,
         'user_id' => $ticket->user_id,
@@ -82,7 +88,8 @@ class TicketsController extends Controller
 
      public function view ($id){
         $ticket=Ticket::find($id);
-        return view('tickets.view',compact('ticket'));
+        $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
+        return view('tickets.view',compact('ticket' , 'userSpam'));
      }
 
 

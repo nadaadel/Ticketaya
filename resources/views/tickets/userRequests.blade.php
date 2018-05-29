@@ -36,13 +36,13 @@
 
 <h2> Wanted </h2>
 @foreach ($userRequestsWanted as  $ticket)
-     @if($ticket->is_accepted == 0)
-
+ @if($ticket->is_accepted == 0 )
     You Request {{ $ticket->ticket()->name }} from {{ $ticket->ticket()->user->name }}
     and your ticket is pending
 
-    @endif
- @if($ticket->is_accepted == 1 && $ticket->ticket()->is_sold == 0)
+@endif
+
+ @if($ticket->is_accepted == 1 && $ticket->is_sold == 0)
     You Request {{ $ticket->ticket()->name }} from {{ $ticket->ticket()->user->name }}
     and your ticket request Accepted
 
