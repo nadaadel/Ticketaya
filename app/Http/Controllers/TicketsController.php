@@ -28,12 +28,13 @@ class TicketsController extends Controller
     }
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
-        DB::table('requested_tickets')->insert([
+        RequestedTicket::create([
             'ticket_id' => $id,
             'user_id' => $ticket->user_id,
             'requester_id' => Auth::user()->id,
             'quantity' => $request->quantity ,
         ]);
+
         return redirect('/tickets/requests');
     }
 
@@ -72,12 +73,12 @@ class TicketsController extends Controller
        $ticket = Ticket::find($id);
        $ticket->is_sold =1;
        $ticket->save();
-        DB::table('sold_tickets')->insert([
-            'ticket_id' => $id,
-            'user_id' => $ticket->user_id,
-            'buyer_id' => Auth::user()->id,
-            'quantity' => '2' ,
-        ]);
+       SoldTicket::create([
+        'ticket_id' => $id,
+        'user_id' => $ticket->user_id,
+        'buyer_id' => Auth::user()->id,
+        'quantity' => '2' ,
+       ]);
 
       return redirect('/tickets/requests');
     }
