@@ -78,11 +78,6 @@ class TicketsController extends Controller
         return view('tickets.index',compact('tickets'));
      }
 
-     public function view ($id){
-        $ticket=Ticket::find($id);
-        return view('tickets.view',compact('ticket'));
-     }
-
 
     public function create (){
         $categories=Category::all();

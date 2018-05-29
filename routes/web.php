@@ -34,7 +34,6 @@ Route::get('/tickets/create', 'TicketsController@create');
 Route::post('/tickets/store', 'TicketsController@store');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 Route::get('/tickets/{id}' , 'TicketsController@show');
-Route::get('/tickets/view/{id}' , 'TicketsController@view');
 Route::put('/tickets/update/{id}', 'TicketsController@update');
 
 Auth::routes();
