@@ -4,10 +4,12 @@
     <section class="search-page">
         <div class="row">
                 <div class="col-md-12 col-xs-12">
-                        <form class="form-inline">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                              </form>
+                   <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
+                   {{ csrf_field() }}
+                   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"> 
+                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+                   </form>
                 </div>
         </div>
     </section>
@@ -29,16 +31,16 @@
                                 <div class="card-body">
                                   <ul>
                                       <li>
-                                          <input type="checkbox"> 50-100
+                                          <input type="checkbox" name="price" value="50" > 50-100
                                       </li>
                                       <li>
-                                            <input type="checkbox"> 150-200
+                                            <input type="checkbox" name="price" value="150" > 150-200
                                       </li>
                                       <li>
-                                            <input type="checkbox"> 250-300
+                                            <input type="checkbox" name="price"  value="250"> 250-300
                                       </li>
                                       <li>
-                                            <input type="checkbox"> 300 or more
+                                            <input type="checkbox" name="highprice"  value="300"> 300 or more
                                       </li>
                                   </ul>
                                 </div>
@@ -100,9 +102,12 @@
             </div>
             <div class="col-md-9">
                 <div class="row">
+                 
                     <div class="col-md-4 col-xs-12 tick-search">
-                    @foreach($tickets as $ticket)
-                <div class="card" style="width: 18rem;">
+                                            
+                        @foreach($tickets as $ticket)
+                   
+                        <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
@@ -111,11 +116,19 @@
                             <p class="card-text">{{$ticket->quantity}}</p>
                             <p class="card-text">{{$ticket->expire_date}}</p>
                             <p>{{$ticket->category->name}}</p>
+                            <p>price:{{$ticket->price}}</p>
 
                             <p>{{ $ticket->region }},{{ $ticket->city }}</p>
                         </div>
-                </div>
-                     @endforeach
+                        </div>
+                        
+                       
+                       
+                        @endforeach
+
+                     
+                        
+
                     </div>
 
                 </div>

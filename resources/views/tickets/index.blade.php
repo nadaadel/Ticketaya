@@ -1,15 +1,15 @@
-
+@extends('layouts.app')
+@section('content')
 <div class="container">
-    <div class="row">
-        <form></form>
-  <h1>
- All Tickets
-  </h1>
+  <div class="row">
+        
+  <h1>All Tickets </h1>
   
-  <form method="POST" action="/tickets/search" enctype="multipart/form-data" >
+  
+  <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
     {{ csrf_field() }}
-  <input type="search" name="search"> 
-  <button type="submit">search</button>
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"> 
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
   </form>
   <div class="col-sm">
@@ -46,5 +46,6 @@
   </div>
 </div>
   </div>
+@endsection
 
 
