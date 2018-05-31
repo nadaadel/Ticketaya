@@ -44,13 +44,17 @@ class TicketsController extends Controller
         return redirect('/tickets/requests');
     }
     public function getUserRequests(Request $request){
-    $userTickets = User::find(1)->tickets;
+
+
     /** User Tickets received Requests */
     $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);
     $userTicketsSold = SoldTicket::all()->where('user_id' , '=' , Auth::user()->id);
+
     /** User Tickets Send Requests */
     $userRequestsWanted = RequestedTicket::all()->where('requester_id' , '=' , Auth::user()->id);
     $userTicketsBought = SoldTicket::all()->where('buyer_id' , '=' , Auth::user()->id);
+
+
      return view('tickets.userRequests' , compact('userRequestsReceived' , 'userTicketsSold' ,
     'userRequestsWanted' , 'userTicketsBought'));
     }
