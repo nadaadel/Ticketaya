@@ -14,7 +14,7 @@
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}" > -->
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">   
-    <!-- <link rel="stylesheet" href="{{ asset('css/main.css') }}" > -->
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}" >
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/flag-icon.min.css') }}">

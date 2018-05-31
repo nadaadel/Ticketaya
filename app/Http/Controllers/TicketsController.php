@@ -9,7 +9,6 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
-use Auth;
 
 use Illuminate\Http\Request;
 
@@ -29,6 +28,7 @@ class TicketsController extends Controller
     }
     public function show($id){
         $ticket = Ticket::find($id);
+   
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
         return view('tickets.show' , compact('ticket' , 'userSpam'));
     }
@@ -86,10 +86,6 @@ class TicketsController extends Controller
       return redirect('/tickets/requests');
     }
 
-    public function index (){
-        $tickets=Ticket::all();
-        return view('tickets.index',compact('tickets'));
-     }
 
      public function search (){
        // $tickets=Ticket::all();
