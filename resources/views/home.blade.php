@@ -3,7 +3,8 @@
 @section('content')
 <div class="container">
 
-        <script type="text/javascript">
+      <script type="text/javascript">
+       
         // notification for status liked
           var notificationsWrapper   = $('.dropdown-notifications');
           var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
@@ -14,15 +15,24 @@
           // Enable pusher logging - don't include this in production
           Pusher.logToConsole = true;
 
-          var pusher = new Pusher('6042cdb1e9ffa998e5be', {
-            encrypted: true,
-            cluster:"mt1"
+          var pusher = new Pusher('4d7e010216000810ea69', {
+            authEndpoint: '/notification/auth',
+            cluster:"mt1",
+            auth: {
+                    headers: {
+                        'X-CSRF-Token': '{{ csrf_token() }}'
+                    }
+                }
+                     
+           
           });
 
           // Subscribe to the channel we specified in our Laravel Event
-          var channel = pusher.subscribe('status-liked');
-          var ticketRequestChannel = pusher.subscribe('ticket-requested');
+          var channel = pusher.subscribe('private-status');
+          var ticketRequestChannel = pusher.subscribe('private-tickets');
           ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
+              console.log(data.message)
+              alert(data.message)
               var existingNotifications = notifications.html();
               var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
               var newNotificationHtml = `
@@ -48,13 +58,15 @@
             notificationsCountElem.attr('data-count', notificationsCount);
             notificationsWrapper.find('.notif-count').text(notificationsCount);
             notificationsWrapper.show();
-            console.log(data.message);
+            
           });
 
 
 
           // Bind a function to a Event (the full Laravel class)
           channel.bind('App\\Events\\StatusLiked', function(data) {
+            console.log(data.message)
+            alert(data.message)
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `

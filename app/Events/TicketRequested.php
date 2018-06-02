@@ -36,6 +36,6 @@ class TicketRequested implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['ticket-requested'];
+        return ['private-tickets'];
     }
 }

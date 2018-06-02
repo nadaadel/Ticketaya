@@ -1,21 +1,25 @@
 <?php
 
-Route::get('test', function () {
+Route::get('/test', function () {
     event(new App\Events\StatusLiked('Someone
     '));
     return "Event has been sent!";
 });
 
 
-Route::get('request', function () {
+Route::get('/request', function () {
     event(new App\Events\TicketRequested('Tamer Hosny Ticket' , 'Nada'));
     return "Your Ticket Request Sent!";
 });
 
 
-Route::get('/', function () {
+Route::get('/', function(){
     return view('home');
 });
+
+Route::post('/notification/auth' , 'NotificationsController@auth');
+    
+
 
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
