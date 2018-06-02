@@ -16,6 +16,8 @@
           </li>
     </ul>
   </div>
+  @if (Auth::check())
+  <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       <li class="dropdown dropdown-notifications">
@@ -39,6 +41,7 @@
       </li>
     </ul>
   </div>
+
   <script type="text/javascript">
     // notification for status liked
       var notificationsWrapper   = $('.dropdown-notifications');
@@ -55,8 +58,9 @@
         cluster:"mt1"
       });
 
+      var user_id = $('#user_id').val()
       // Subscribe to the channel we specified in our Laravel Event
-      var ticketRequestChannel = pusher.subscribe('ticket-requested_2');
+      var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
 
       ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
           var existingNotifications = notifications.html();
@@ -88,5 +92,10 @@
       });
 
     </script>
+  @else
+  //show logged out navbar
+
+@endif
+
 </div>
 </nav>
