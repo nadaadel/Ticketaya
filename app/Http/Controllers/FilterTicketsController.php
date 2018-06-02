@@ -23,11 +23,8 @@ class FilterTicketsController extends Controller
                               ->where('city' , '=' , $request['city'])
                               ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
                               ->get();
-
-
         }
         else{
-
             $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
             $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
              ->where('city' , '=' , $request['city'])
