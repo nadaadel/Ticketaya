@@ -22,8 +22,7 @@
         @csrf
         <input type="submit" value="cancel">
     </form>
-     @else
-      You Accept  {{ $ticket->requested_user()->name }} Request for Ticket {{ $ticket->ticket()->name }}
+    
     @endif
 
 @endforeach

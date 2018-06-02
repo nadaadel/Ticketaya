@@ -11,6 +11,7 @@ use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
 use App\Events\TicketRequested;
+use App\Events\StatusTicketRequested;
 // use App\Http\Controllers\Flashy;
 use Illuminate\Http\Request;
 
@@ -67,6 +68,9 @@ class TicketsController extends Controller
         $request = $user->requestedTicket()->where('requester_id' , '=' , $requester_id)->first();
         $request->pivot->is_accepted = 1;
         $request->pivot->save();
+        $requestedTicket=RequestedTicket::all()->where('requester_id' , '=' , $requester_id)->first();
+        event(new StatusTicketRequested( $requestedTicket));
+        //return response()->json(['response' => 'success']);
         return redirect('/tickets/requests');
     }
     public function cancelTicketRequest($id , $requester_id){

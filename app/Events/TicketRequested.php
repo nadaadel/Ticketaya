@@ -40,7 +40,7 @@ class TicketRequested implements ShouldBroadcast
     {
 
         //    return ['ticket-requested'];
-        return ['ticket-requested'.$this->user_id];
+        return ['ticket-requested_'.$this->user_id];
 
     }
 }

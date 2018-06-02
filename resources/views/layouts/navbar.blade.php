@@ -53,7 +53,7 @@
       // Enable pusher logging - don't include this in production
       Pusher.logToConsole = true;
 
-      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+      var pusher = new Pusher('4d7e010216000810ea69', {
         encrypted: true,
         cluster:"mt1"
       });
@@ -61,8 +61,37 @@
       var user_id = $('#user_id').val()
       // Subscribe to the channel we specified in our Laravel Event
       var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
-
+      var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}')
       ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
+          var existingNotifications = notifications.html();
+          var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+          var newNotificationHtml = `
+          <li class="notification active">
+              <div class="media">
+                <div class="media-left">
+                  <div class="media-object">
+                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
+                  </div>
+                </div>
+                <div class="media-body">
+                 <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                  <!--p class="notification-desc">Extra description can go here</p-->
+                  <div class="notification-meta">
+                    <small class="timestamp">about a minute ago</small>
+                  </div>
+                </div>
+              </div>
+          </li>
+        `;
+        notifications.html(newNotificationHtml + existingNotifications);
+        notificationsCount += 1;
+        notificationsCountElem.attr('data-count', notificationsCount);
+        notificationsWrapper.find('.notif-count').text(notificationsCount);
+        notificationsWrapper.show();
+        console.log(data.message);
+      });
+      //for accept ticket notification
+      statusTicketrequested.bind('App\\Events\\StatusTicketRequested' , function(data){
           var existingNotifications = notifications.html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
           var newNotificationHtml = `
