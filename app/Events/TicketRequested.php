@@ -17,16 +17,18 @@ class TicketRequested implements ShouldBroadcast
     public $ticketName;
     public $fromUser;
     public $message;
+    public $user_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($ticketName , $fromUser )
+    public function __construct($ticketName , $fromUser , $toUser_id)
     {
         $this->ticketName = $ticketName;
-        $this->message = "Your ticket {$ticketName} requested from {$fromUser}";
+        $this->message = "{$fromUser} request Your ticket {$ticketName}";
+        $this->user_id = $toUser_id;
     }
 
     /**
@@ -36,6 +38,9 @@ class TicketRequested implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['private-tickets'];
+
+        //    return ['ticket-requested'];
+        return ['ticket-requested'.$this->user_id];
+
     }
 }

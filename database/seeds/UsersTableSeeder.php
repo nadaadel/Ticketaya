@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
+use App\User;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -11,6 +12,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        User::create([
+            'name' => 'Nada',
+            'email' => 'nada@gmail.com',
+            'password' => bcrypt('123456'),
+            'avatar' => 'avatar',
+            'street' => 'el horia st',
+            'region' => 'smouha',
+            'city' => 'alexandria',
+        ]);
         // DB::table('users')->insert([
         //     'name' => str_random(10),
         //     'email' => str_random(10).'@gmail.com',
@@ -20,14 +30,5 @@ class UsersTableSeeder extends Seeder
         //     'region' => 'smouha',
         //     'city' => 'alexandria',
         // ]);
-        DB::table('users')->insert([
-            'name' => 'Nada',
-            'email' => 'nada@gmail.com',
-            'password' => bcrypt('123456'),
-            'avatar' => 'avatar',
-            'street' => 'el horia st',
-            'region' => 'smouha',
-            'city' => 'alexandria',
-        ]);
     }
 }

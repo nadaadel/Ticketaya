@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventQuestionsTable extends Migration
+class CreateNotifyTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateEventQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_questions', function (Blueprint $table) {
+        Schema::create('notify_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('question');
-            $table->string('answer');
-            $table->integer('event_id');
-            $table->integer('user_id');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateEventQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_questions');
+        Schema::dropIfExists('notify_types');
     }
 }

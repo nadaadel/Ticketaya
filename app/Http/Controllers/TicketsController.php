@@ -10,7 +10,8 @@ use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
-
+use App\Events\TicketRequested;
+// use App\Http\Controllers\Flashy;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -30,8 +31,10 @@ class TicketsController extends Controller
             'ticket_id' => $id,
             'user_id' => Auth::user()->id
         ]);
-        return redirect('/tickets/show/'.$id );
+        flashy()->error('This Ticket Spammed By You');
+        return redirect('/tickets/'.$id );
     }
+
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
         RequestedTicket::create([
@@ -40,12 +43,13 @@ class TicketsController extends Controller
             'requester_id' => Auth::user()->id,
             'quantity' => $request->quantity ,
         ]);
-
-        return redirect('/tickets/requests');
+        // send request notification to ticket author
+        event(new TicketRequested($ticket->name , Auth::user()->name , $ticket->user_id));
+        return response()->json(['response' => 'success']);
     }
+
+
     public function getUserRequests(Request $request){
-
-
     /** User Tickets received Requests */
     $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);
     $userTicketsSold = SoldTicket::all()->where('user_id' , '=' , Auth::user()->id);
@@ -99,7 +103,7 @@ class TicketsController extends Controller
 
      public function search (Request $request){
         $tickets=Ticket::all()->where('name' , '=' , $request->search);
-        
+
         return view('search.search',['tickets'=> $tickets] );
      }
 

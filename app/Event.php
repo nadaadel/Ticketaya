@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+<<<<<<< HEAD
 use App\User;
 use App\EventQuestion;
 
@@ -27,3 +28,12 @@ class Event extends Model {
     }
 
 }
+=======
+
+use Illuminate\Database\Eloquent\Model;
+
+class Event extends Model
+{
+    //
+}
+>>>>>>> 349528bfe525eb92a3c956ad1e890a4fd2ce3ba1

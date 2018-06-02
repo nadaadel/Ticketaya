@@ -21,8 +21,8 @@ class CreateEventsTable extends Migration
             $table->string('photo');
             $table->string('category');
             $table->integer('avaliabletickets');
-            $table->timestamps('startdate');
-            $table->timestamps('enddate');
+            $table->DateTime('startdate');
+            $table->DateTime('enddate');
             $table->integer('user_id');
 
             $table->timestamps();

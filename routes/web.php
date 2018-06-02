@@ -1,16 +1,17 @@
 <?php
 
 Route::get('/test', function () {
-    event(new App\Events\StatusLiked('Someone
-    '));
-    return "Event has been sent!";
+    event(new App\Events\StatusLiked('Someone'));
+    return "test";
 });
 
 
 Route::get('/request', function () {
+
     event(new App\Events\TicketRequested('Tamer Hosny Ticket' , 'Nada'));
     return "Your Ticket Request Sent!";
 });
+
 
 
 Route::get('/', function(){
@@ -25,16 +26,20 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 
+
+/**Events Routes */
+Route::get('/events/locations' , 'MapController@eventsLocation');
+
+
+
+/** Search For Tickets */
+Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
-
-
 Route::get('/tickets/requests' , 'TicketsController@getUserRequests');
 Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketsController@acceptTicket');
 Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketsController@cancelTicketRequest');
-
-
-
 Route::post('/tickets/sold/{id}' , 'TicketsController@ticketSold');
+
 Route::post('/tickets/request/{id}' , 'TicketsController@requestTicket');
 
 
@@ -50,18 +55,13 @@ Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
 
 
 
-
-
-
-/**Comments */
+/** Ticket Comments */
 Route::post('/comments','CommentsController@store');
-
 Route::get('/replies/{id}','RepliesController@show');
 Route::post('/replies','RepliesController@store');
 
 
 /** Ticket CRUD Operations */
-
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index');
 Route::get('/tickets/create', 'TicketsController@create');
@@ -75,7 +75,6 @@ Route::post('/tickets/search','TicketsController@search');
 
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 /** Admin  */
