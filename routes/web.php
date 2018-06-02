@@ -15,6 +15,12 @@ Route::get('/', function () {
     return view('home');
 });
 
+
+/**Events Routes */
+Route::get('/events/locations' , 'MapController@eventsLocation');
+
+
+
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
