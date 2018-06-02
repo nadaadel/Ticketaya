@@ -2,6 +2,8 @@
 @section('content')
 <div class="container">
 
+      
+
         <div class="jumbotron">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <a class="btn btn-outline-success my-2 my-sm-0"  href={{ URL::to('tickets/search ') }} type="submit">Search</a>

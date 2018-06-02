@@ -38,8 +38,9 @@ class TicketRequested implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+
         //    return ['ticket-requested'];
-        return ['ticket-requested_'.$this->user_id];
+        return ['ticket-requested'.$this->user_id];
 
     }
 }

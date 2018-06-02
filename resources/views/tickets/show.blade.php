@@ -58,12 +58,14 @@ Comments:
 <br>
 @foreach($ticket->comments as $comment)
 {{$comment->body}}
+
 <button  id="ticket" class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
-<div id="replies" style="display: none;">
+
+<div class="replies" style="display: none;">
 
 <div class="card-body" style="display: none;" id="form" >
 
-    <form method="POST" action="/replies" enctype="multipart/form-data" >
+    <form method="POST" action="/replies" enctype="multipart/form-data" class="formreply">
          {{ csrf_field() }}
         <div class="form-group row">
                 <div class="col-md-6">
@@ -79,6 +81,7 @@ Comments:
     </form>
     </div>
  </div>
+ 
 <hr>
 <br>
 @endforeach
@@ -133,29 +136,41 @@ $(document).ready( function(){
                 }
             });
  });
-});
-//  $(document).on('click','.reply', function () {
+})
 
-//             alert('offf');
-//             ticketId=$(this).attr("ticket-no");
-//             commentId=$(this).attr("comment-id");
-//             $.ajax({
-//                 url: '/replies/'+commentId,
-//                 type: 'GET',
-//                 data: {
-//                     '_token':'{{csrf_token()}}',
-//                 },
-//                 success: function (response) {
-//                    console.log(response.response.length)
-//                    for(var i=0;i<response.response.length;i++){
-//                        $('#replies').show();
-//                        $('#replies').append(response.response[i].body +'<br>')
-//                        console.log(response.response[i])
-//                    }
-//                    $('#form').show();
-//                 }
-//             });
-//    });
+
+  $(document).on('click','.reply', function () {
+
+         var elem = this;
+             ticketId=$(this).attr("ticket-no");
+            commentId=$(this).attr("comment-id");
+            $.ajax({
+                url: '/replies/'+commentId,
+                 type: 'GET',
+                 data: {
+                    '_token':'{{csrf_token()}}',
+                },
+                success: function (response) {
+                   console.log(response.response.length)
+                   $('.formreply').show();
+                   for(var i=0;i<response.response.length;i++){
+                        $('.replies').show();                        
+                        $('.replies').append(response.response[i].body +'<br>')
+                       console.log(response.response[i])
+                  }
+                 
+                   
+                }
+
+            })
+
+
+  });
+
+
+
+           
+ 
 
 </script>
 @endsection
