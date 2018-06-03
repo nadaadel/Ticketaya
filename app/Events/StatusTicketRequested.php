@@ -33,7 +33,7 @@ class StatusTicketRequested implements ShouldBroadcast
         $this->TicketName=$this->Ticket->name;
         $this->Quantity=$requestedTicket->quantity;
         $this->BuyerId=$requestedTicket->requester_id;
-     
+        
         $this->SellerId=User::find($requestedTicket->user_id)->first();
         $this->sellerName=$this->SellerId->name;
         $this->message = "{$this->sellerName} accept  Your ticket {$this->TicketName} with quantity= {$this->Quantity}";
