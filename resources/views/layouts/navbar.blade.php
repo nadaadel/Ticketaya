@@ -35,7 +35,7 @@
           <ul class="dropdown-menu">
           </ul>
           <div class="dropdown-footer text-center">
-            <a href="/notifications/{{ Auth::user()->id }}">View All</a>
+            <a href="/notifications">View All</a>
           </div>
         </div>
       </li>

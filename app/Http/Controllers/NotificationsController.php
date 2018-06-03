@@ -30,6 +30,11 @@ class NotificationsController extends Controller
     public function show(){
         $user=Auth::user();
         $userNotifications=$user->notifications;
+        $unseenUserNotifications=$userNotifications->where('is_seen','=',0);
+        foreach($unseenUserNotifications as $userNotification){
+            $userNotification->is_seen= 1;
+            $userNotification->save();
+        }
         return view('notifications.show',compact('userNotifications'));
     }
 
