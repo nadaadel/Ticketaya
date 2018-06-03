@@ -81,3 +81,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');
 
+/* Notifications */
+Route::get('/notifications','NotificationsController@show');
+Route::get('/notifications/allread','NotificationsController@updateAllRead');
+Route::get('/notifications/{id}/edit','NotificationsController@edit');

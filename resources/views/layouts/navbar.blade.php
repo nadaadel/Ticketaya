@@ -28,14 +28,14 @@
         <div class="dropdown-container">
           <div class="dropdown-toolbar">
             <div class="dropdown-toolbar-actions">
-              <a href="#">Mark all as read</a>
+              <a id="readall" href="#">Mark all as read</a>
             </div>
             <h3 class="dropdown-toolbar-title">Notifications (<span class="notif-count">0</span>)</h3>
           </div>
           <ul class="dropdown-menu">
           </ul>
           <div class="dropdown-footer text-center">
-            <a href="/tickets/requests">View All</a>
+            <a href="/notifications/{{ Auth::user()->id }}">View All</a>
           </div>
         </div>
       </li>
@@ -43,9 +43,40 @@
   </div>
 
   <script type="text/javascript">
-  function notificationsHtml(data){
+  $(function () {
+    var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
+      var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
+      var notificationsWrapper   = $('.dropdown-notifications');
+      var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+      var notificationsCountElem = notificationsToggle.find('i[data-count]');
+      //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+      var notificationsCount=CountoldNotifications;
+      var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+
+      Pusher.logToConsole = true;
+      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+    //  var pusher = new Pusher('7cd2d7485f85e6da6263', {
+        encrypted: true,
+        cluster:"eu"
+      });
+
+      function updateNotificationCount(){
+        notificationsCountElem.attr('data-count', notificationsCount);
+        notificationsWrapper.find('.notif-count').text(notificationsCount);
+        notificationsWrapper.show();
+      }
+  function notificationsHtml(data,realtime){
               var existingNotifications = notifications.html();
               var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+              if(realtime){
+                {{$nextId = DB::table('notifications')->max('id') + 1}};
+                    notificationsCount += 1;
+                    data.created_at=new Date(Date.now());
+                    data.is_seen=0;
+                    data.id={{$nextId}};
+                }
+                var res = data.message.substring(0,20);
+              //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
                  <div class="media">
@@ -55,8 +86,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
-                                <!--p class="notification-desc">Extra description can go here</p-->
+                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
+                                <p class="notification-desc">`+data.message+`</p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
@@ -64,47 +95,62 @@
                                     </div>
                                     </li>`;
                 notifications.html(newNotificationHtml + existingNotifications);
-                notificationsCount += 1;
-                notificationsCountElem.attr('data-count', notificationsCount);
-                notificationsWrapper.find('.notif-count').text(notificationsCount);
-                notificationsWrapper.show();
-                console.log(data.message);
+                updateNotificationCount();
 
       }
       function bindChannel(channel,event) {
           channel.bind(event , function(notify){
-            notificationsHtml(notify)
+            notificationsHtml(notify,1);
             });
 }
 
     // notification for status liked
-      var notificationsWrapper   = $('.dropdown-notifications');
-      var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
-      var notificationsCountElem = notificationsToggle.find('i[data-count]');
-      var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-      var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+    var user_id = $('#user_id').val();
 
-      // Enable pusher logging - don't include this in production
-      Pusher.logToConsole = true;
-      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
-    //  var pusher = new Pusher('7cd2d7485f85e6da6263', {
-        encrypted: true,
-        cluster:"eu"
-      });
-
-      var user_id = $('#user_id').val()
-      // Subscribe to the channel we specified in our Laravel Event
-
-      var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
-    $.each( oldNotifications, function( i, val ) {
-        notificationsHtml(val)
+      $.each( oldNotifications, function( i, val ) {
+        notificationsHtml(val,0);
     });
+
+    $(document).on('click','#readall',function(event){
+        event.preventDefault();
+                $.ajax({
+                    type: 'get',
+                    url: '/notifications/allread',
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    },
+                    success: function (response) {
+                        if(response.res=='success'){
+                            notificationsCount=0;
+                            updateNotificationCount();
+                        }
+                    }
+                });
+           });
+    $(document).on('click','.notify-seen',function(event){
+        event.preventDefault();
+        notif_id=$(this).attr('notif-no');
+                $.ajax({
+                    type: 'get',
+                    url: '/notifications/'+notif_id+'/edit',
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    },
+                    success: function (response) {
+                        if(response.res=='unseen'){
+                            notificationsCount-=1;
+                            updateNotificationCount();
+                        }
+                    }
+                });
+           });
     var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
     bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
     var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}')
     bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
+});
 
     </script>
   @else
