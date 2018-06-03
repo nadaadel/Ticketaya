@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <h2> Requests Received</h2>
+
 @foreach ($userRequestsReceived as  $ticket)
 
      @if($ticket->is_accepted == 0)
 
-     {{ $ticket->requested_user()->name }} Request {{ $ticket->ticket()->name }} from You
+     {{ $ticket->requested_user()->name }} Request {{ $ticket->ticket()->name }} from You with quantity ={{$ticket->quantity}}
 
      <form method="POST" action="/users/contact/{{ $ticket->requester_id}}">
         @csrf
@@ -22,8 +23,7 @@
         @csrf
         <input type="submit" value="cancel">
     </form>
-     @else
-      You Accept  {{ $ticket->requested_user()->name }} Request for Ticket {{ $ticket->ticket()->name }}
+    
     @endif
 
 @endforeach

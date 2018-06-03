@@ -24,11 +24,13 @@ class TicketRequested implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($ticketName , $fromUser , $toUser_id)
+    public function __construct($ticketName , $fromUser , $toUser_id,$request)
     {
         $this->ticketName = $ticketName;
-        $this->message = "{$fromUser} request Your ticket {$ticketName}";
         $this->user_id = $toUser_id;
+        $this->quantity=$request->quantity;
+        $this->message = "{$fromUser} request Your ticket {$ticketName} with quantity ={$this->quantity}";
+      
     }
 
     /**

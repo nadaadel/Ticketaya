@@ -86,14 +86,15 @@
 
       // Enable pusher logging - don't include this in production
       Pusher.logToConsole = true;
-
       var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+    //  var pusher = new Pusher('7cd2d7485f85e6da6263', {
         encrypted: true,
         cluster:"eu"
       });
 
       var user_id = $('#user_id').val()
       // Subscribe to the channel we specified in our Laravel Event
+
       var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
     $.each( oldNotifications, function( i, val ) {
         notificationsHtml(val)
@@ -102,6 +103,8 @@
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
     bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
+    var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}')
+    bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
 
     </script>
   @else

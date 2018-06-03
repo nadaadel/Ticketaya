@@ -40,6 +40,7 @@ Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketsController@acceptTic
 Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketsController@cancelTicketRequest');
 Route::post('/tickets/sold/{id}' , 'TicketsController@ticketSold');
 Route::get('/tickets/cancel/{id}','TicketsController@cancelTicketSold');
+Route::post('/tickets/request/edit/{id}','TicketsController@editRequestedTicket');
 Route::post('/tickets/request/{id}' , 'TicketsController@requestTicket');
 
 
