@@ -9,26 +9,30 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\RequestedTicket;
 
-class TicketRequested implements ShouldBroadcast
+class TicketReceived implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $ticketName;
-    public $fromUser;
     public $message;
-    public $user_id;
+    public $request_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($ticketName , $fromUser , $toUser_id)
+    public function __construct($request_id,$is_sold)
     {
-        $this->ticketName = $ticketName;
-        $this->message = "{$fromUser} request Your ticket {$ticketName}";
-        $this->user_id = $toUser_id;
+        $this->request_id = $request_id;
+        $request=RequestedTicket::find($this->request_id);
+        if($is_sold==1){
+        $this->message = "Your ticket {$request->ticket()->name} has been sold successfully to {$request->requested_user()->name}, Thank you";
+        }else
+        {
+        $this->message = "Your ticket {$request->ticket()->name} hasn't been delivered to {$request->requested_user()->name}";
+        }
     }
 
     /**
@@ -38,9 +42,7 @@ class TicketRequested implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-
-        //    return ['ticket-requested'];
-        return ['ticket-requested_'.$this->user_id];
-
+        $request=RequestedTicket::find($this->request_id);
+        return ['ticket-received_'.$request->ticket()->user->id];
     }
 }

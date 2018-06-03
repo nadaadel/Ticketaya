@@ -11,6 +11,7 @@ use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
 use App\Events\TicketRequested;
+use App\Events\TicketReceived;
 // use App\Http\Controllers\Flashy;
 use Illuminate\Http\Request;
 
@@ -84,16 +85,30 @@ class TicketsController extends Controller
        ['user_id' , '=' , $ticket->user_id]])->get();
        $requested[0]->is_sold = 1;
        $requested[0]->save();
-
        SoldTicket::create([
         'ticket_id' => $id,
         'user_id' => $ticket->user_id,
         'buyer_id' => Auth::user()->id,
         'quantity' => '2' ,
        ]);
-
+       event(new TicketReceived($requested[0]->id,1));
       return redirect('/tickets/requests');
     }
+
+    public function cancelTicketSold($id){
+        $ticket = Ticket::find($id);
+        $ticket->is_sold =0;
+        $ticket->save();
+        $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
+        ['requester_id' , '=' , Auth::user()->id] ,
+        ['user_id' , '=' , $ticket->user_id]])->get();
+        $requested[0]->is_sold = 0;
+        $requested[0]->save();
+        event(new TicketReceived($requested[0]->id,0));
+        $requested[0]->delete();
+       return redirect('/tickets/requests');
+     }
+
 
      public function view ($id){
         $ticket=Ticket::find($id);

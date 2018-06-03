@@ -53,9 +53,9 @@
       // Enable pusher logging - don't include this in production
       Pusher.logToConsole = true;
 
-      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
         encrypted: true,
-        cluster:"mt1"
+        cluster:"eu"
       });
 
       var user_id = $('#user_id').val()
@@ -90,6 +90,36 @@
         notificationsWrapper.show();
         console.log(data.message);
       });
+
+    var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
+      ticketReceivedChannel.bind('App\\Events\\TicketReceived' , function(data){
+      var existingNotifications = notifications.html();
+      var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+      var newNotificationHtml = `
+      <li class="notification active">
+        <div class="media">
+          <div class="media-left">
+            <div class="media-object">
+              <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
+            </div>
+          </div>
+          <div class="media-body">
+           <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+            <!--p class="notification-desc">Extra description can go here</p-->
+            <div class="notification-meta">
+              <small class="timestamp">about a minute ago</small>
+            </div>
+          </div>
+        </div>
+    </li>
+  `;
+  notifications.html(newNotificationHtml + existingNotifications);
+  notificationsCount += 1;
+  notificationsCountElem.attr('data-count', notificationsCount);
+  notificationsWrapper.find('.notif-count').text(notificationsCount);
+  notificationsWrapper.show();
+  console.log(data.message);
+});
 
     </script>
   @else

@@ -19,7 +19,7 @@ Route::get('/', function(){
 });
 
 Route::post('/notification/auth' , 'NotificationsController@auth');
-    
+
 
 
 /** Search For Tickets */
@@ -39,7 +39,7 @@ Route::get('/tickets/requests' , 'TicketsController@getUserRequests');
 Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketsController@acceptTicket');
 Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketsController@cancelTicketRequest');
 Route::post('/tickets/sold/{id}' , 'TicketsController@ticketSold');
-
+Route::get('/tickets/cancel/{id}','TicketsController@cancelTicketSold');
 Route::post('/tickets/request/{id}' , 'TicketsController@requestTicket');
 
 

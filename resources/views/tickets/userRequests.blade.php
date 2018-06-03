@@ -52,7 +52,7 @@
         @csrf
         <input type="submit" value="I received my ticket">
     </form>
-    <form  method="POST" action="/tickets/cancel/{{$ticket->ticket_id}}">
+    <form  method="get" action="/tickets/cancel/{{$ticket->ticket_id}}">
         @csrf
         <input type="submit" value="Cancel">
     </form>
