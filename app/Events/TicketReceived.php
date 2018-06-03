@@ -10,6 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\RequestedTicket;
+use App\Notification;
 
 class TicketReceived implements ShouldBroadcast
 {
@@ -33,6 +34,12 @@ class TicketReceived implements ShouldBroadcast
         {
         $this->message = "Your ticket {$request->ticket()->name} hasn't been delivered to {$request->requested_user()->name}";
         }
+        $id=$request->ticket()->user->id;
+        Notification::create([
+            'user_id' => $id,
+            'notify_type_id' => 2,
+            'message'=>$this->message
+        ]);
     }
 
     /**
