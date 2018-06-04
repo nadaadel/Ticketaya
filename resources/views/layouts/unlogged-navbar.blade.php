@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav navbar-right">
       <li class="nav-item active pt-1">
-        <a class="nav-link" href="#">TICKETS</a>
+        <a class="nav-link" href="tickets">TICKETS</a>
       </li>
       <li class="nav-item pt-1">
         <a class="nav-link" href="#">EVENTS</a>
@@ -26,7 +26,7 @@
 
     </ul>
   </div>
- 
+
 </div>
 </nav>
 
@@ -36,7 +36,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-      
+
         <div class="collapse navbar-collapse justify-content-end " id="navbarSupportedContent">
           <ul class="navbar-nav float-right">
             <li class="nav-item active">
@@ -45,7 +45,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">EVENTS</a>
             </li>
-            
+
             <li class="nav-item">
               <a class="nav-link" href="#">BLOG</a>
             </li>
@@ -56,10 +56,10 @@
                     <a class="nav-link" href="#">Register</a>
             </li>
           </ul>
-          
+
           <! <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form> -->
         <!-- </div>
-      </nav> --> 
+      </nav> -->

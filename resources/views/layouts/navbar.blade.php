@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">TICKETS</a>
+        <a class="nav-link" href="/tickets">TICKETS</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">EVENTS</a>
@@ -36,7 +36,7 @@
             <div class="dropdown-toolbar-actions">
               <a id="readall" href="#">Mark all as read</a>
             </div>
-            
+
           </div>
           <ul class="dropdown-menu">
           </ul>
