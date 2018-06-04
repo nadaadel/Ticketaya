@@ -19,6 +19,10 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 /**Events Routes */
 Route::get('/events/locations' , 'MapController@eventsLocation');
+Route::get('/events/{id}' , 'EventsController@show');
+Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
+// Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+
 
 
 

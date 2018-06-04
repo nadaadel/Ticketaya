@@ -170,8 +170,6 @@
                     }
                 });
            });
-
-
     var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');

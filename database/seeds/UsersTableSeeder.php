@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
             'region' => 'smouha',
             'city' => 'alexandria',
         ]);
+
         // DB::table('users')->insert([
         //     'name' => str_random(10),
         //     'email' => str_random(10).'@gmail.com',
