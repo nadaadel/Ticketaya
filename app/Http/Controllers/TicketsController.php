@@ -25,8 +25,6 @@ class TicketsController extends Controller
      }
 
     public function show($id){
-        // $userNotifications = Notification::where('user_id' , '=' , Auth::user()->id)->get();
-        // dd($userNotifications);
         $ticket = Ticket::find($id);
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
         return view('tickets.show' , compact('ticket' , 'userSpam'));
@@ -55,8 +53,7 @@ class TicketsController extends Controller
         // send request notification to ticket author
 
         event(new TicketRequested($ticket->name , Auth::user()->name , $ticket->user_id,$request));
-        // return response()->json(['response' => 'ok']);
-        return response()->json(['response' => 'success' , 'notifications' => $userNotifications]);
+        return response()->json(['response' => 'ok']);
 
 
         }

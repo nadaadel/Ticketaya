@@ -1,3 +1,5 @@
+
+             {{-- start Notification section UI --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Ticketaya</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,13 +43,11 @@
       </li>
     </ul>
   </div>
-    {{-- @foreach ($userNotifications as $notifi )
-        {{ $notifi-> message}}
+             {{-- end Notification section UI --}}
 
-    @endforeach --}}
   <script type="text/javascript">
-  $(function () {
-    var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
+    $(function () {
+      var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
       var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
       var notificationsWrapper   = $('.dropdown-notifications');
       var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
@@ -55,81 +55,37 @@
       //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
       var notificationsCount=CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
-
       Pusher.logToConsole = true;
-
-    //   var pusher = new Pusher('0fe1c9173ec82e038dd5', {
-          //nada
-      var pusher = new Pusher(' 6042cdb1e9ffa998e5be', {
-
-    //  var pusher = new Pusher('7cd2d7485f85e6da6263', {
+      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
         encrypted: true,
-        cluster:"eu"
+        cluster:"mt1"
       });
 
-      // Subscribe to the channel we specified in our Laravel Event
-      var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
 
-      var notifis= [{
-           message: 'notification 1 '
-      },{
-           message: 'notification 2 '
-      }]
-      ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
-          var existingNotifications = notifications.html();
-          console.log('typeofffffffff' + typeof(existingNotifications));
-          console.log(existingNotifications)
-          var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
 
-        //   for(var i=0 ; i< notifis ; i++){
-        //       var oldNotifications =
-        //       `
-        //   <li class="notification active">
-        //       <div class="media">
-        //         <div class="media-left">
-        //           <div class="media-object">
-        //             <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-        //           </div>
-        //         </div>
-        //         <div class="media-body">
-        //          <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+ notifis[i].message+`</strong></a>
-        //           <!--p class="notification-desc">Extra description can go here</p-->
-        //           <div class="notification-meta">
-        //             <small class="timestamp">about a minute ago</small>
-        //           </div>
-        //         </div>
-        //       </div>
-        //   </li>
-        // `;
-        // //   existingNotifications.push(oldNotifications);
-        // notifications.html(newNotificationHtml + existingNotifications);
-        // notificationsCount += 1;
-        // notificationsCountElem.attr('data-count', notificationsCount);
-        // notificationsWrapper.find('.notif-count').text(notificationsCount);
-        // notificationsWrapper.show();
-        // console.log(data.message);
-        //   }
-
-          var newNotificationHtml = `
-          <li class="notification active">
-              <div class="media">
-                <div class="media-left">
-                  <div class="media-object">
-                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-                  </div>
-                </div>
-                <div class="media-body">
-                 <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
-                  <!--p class="notification-desc">Extra description can go here</p-->
-                  <div class="notification-meta">
-                    <small class="timestamp">about a minute ago</small>
-                  </div>
-                </div>
-              </div>
-          </li>
-        `;
-        notifications.html(newNotificationHtml + existingNotifications);
-        notificationsCount += 1;
+    //   ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
+    //       var existingNotifications = notifications.html();
+    //       var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+    //       var newNotificationHtml = `
+    //       <li class="notification active">
+    //           <div class="media">
+    //             <div class="media-left">
+    //               <div class="media-object">
+    //                 <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
+    //               </div>
+    //             </div>
+    //             <div class="media-body">
+    //              <a href="/tickets/requests"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+    //               <!--p class="notification-desc">Extra description can go here</p-->
+    //               <div class="notification-meta">
+    //                 <small class="timestamp">about a minute ago</small>
+    //               </div>
+    //             </div>
+    //           </div>
+    //       </li>
+    //     `;
+    //     notifications.html(newNotificationHtml + existingNotifications);
+    //     notificationsCount += 1;
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);
@@ -145,7 +101,7 @@
                     data.is_seen=0;
                     data.id={{$nextId}};
                 }
-                var res = data.message.substring(0,20);
+               var res = data.message.substring(0,20);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
@@ -173,14 +129,11 @@
             notificationsHtml(notify,1);
             });
 }
-
-    // notification for status liked
-    var user_id = $('#user_id').val();
-
-      $.each( oldNotifications, function( i, val ) {
+      $.each(oldNotifications, function( i, val) {
         notificationsHtml(val,0);
     });
 
+     // make all is read
     $(document).on('click','#readall',function(event){
         event.preventDefault();
                 $.ajax({
@@ -197,6 +150,8 @@
                     }
                 });
            });
+
+    // change notifications status to unseen
     $(document).on('click','.notify-seen',function(event){
         event.preventDefault();
         notif_id=$(this).attr('notif-no');
@@ -214,6 +169,8 @@
                     }
                 });
            });
+
+
     var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
