@@ -73,8 +73,11 @@
                     notificationsCount += 1;
                     data.created_at=new Date(Date.now());
                     data.is_seen=0;
-                    data.id={{$nextId}};
+                    data.id=data.notification_id;
+                    console.log(data.notification_id);
+                    console.log(data);
                 }
+
                 var res = data.message.substring(0,20);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
@@ -86,7 +89,7 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
+                                <a notif-no="`+data.id+`" href="#" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
                                 <p class="notification-desc">`+data.message+`</p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
@@ -107,7 +110,7 @@
     // notification for status liked
     var user_id = $('#user_id').val();
 
-      $.each( oldNotifications, function( i, val ) {
+      $.each( oldNotifications.reverse(), function( i, val ) {
         notificationsHtml(val,0);
     });
 
@@ -140,6 +143,7 @@
                         if(response.res=='unseen'){
                             notificationsCount-=1;
                             updateNotificationCount();
+                            window.location = "/tickets/requests";
                         }
                     }
                 });
