@@ -74,6 +74,7 @@
                     data.is_seen=0;
                     data.id=data.notification_id;
                     console.log(data.notification_id);
+              }
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
@@ -152,7 +153,7 @@
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
     bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
-    var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}')
+    var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
     bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
 });
 
