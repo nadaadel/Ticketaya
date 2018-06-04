@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <form  method="post" action="/tickets/store" enctype="multipart/form-data">
 {{method_field('POST')}}
 {{csrf_field()}}
@@ -25,6 +29,8 @@
         <label for="image" class="col-md-4 col-form-label text-md-right">Ticket Image</label>
         <input type="file" class="form-control-file" name="photo"/>
 <br/>
+<label >Tags</label>
+<input type="text" name="tags" class="form-control"/>
 <label >Category</label>
 <select name="category">
         @foreach($categories as $category)
@@ -33,4 +39,6 @@
       </select>
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
+
+@endsection
 

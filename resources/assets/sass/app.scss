@@ -1,9 +1,9 @@
-body {
-  background-color: blue;
-}
-#reeed {
-color: $body-bg;
+@import 'variables';
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'navbar';
+@import 'home';
+@import 'search';
+@import 'general';
 
-}
-@import '_navbar.scss';
-@import '_variables.scss';
+
+

@@ -9,23 +9,15 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
-
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
+    public function index (){
+        $tickets=Ticket::all();
+        return view('tickets.index',compact('tickets'));
+     }
 
-
-    public function index(){
-        
-        $tickets=Ticket::All();
-     
-
-        return view('tickets.index',[
-         'tickets'=> $tickets,
-      
-        ]);
-    }
     public function show($id){
         $ticket = Ticket::find($id);
    
@@ -41,22 +33,27 @@ class TicketsController extends Controller
     }
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
-        DB::table('requested_tickets')->insert([
+        RequestedTicket::create([
             'ticket_id' => $id,
             'user_id' => $ticket->user_id,
             'requester_id' => Auth::user()->id,
             'quantity' => $request->quantity ,
         ]);
+
         return redirect('/tickets/requests');
     }
     public function getUserRequests(Request $request){
-    $userTickets = User::find(1)->tickets;
+
+
     /** User Tickets received Requests */
     $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);
     $userTicketsSold = SoldTicket::all()->where('user_id' , '=' , Auth::user()->id);
+
     /** User Tickets Send Requests */
     $userRequestsWanted = RequestedTicket::all()->where('requester_id' , '=' , Auth::user()->id);
     $userTicketsBought = SoldTicket::all()->where('buyer_id' , '=' , Auth::user()->id);
+
+
      return view('tickets.userRequests' , compact('userRequestsReceived' , 'userTicketsSold' ,
     'userRequestsWanted' , 'userTicketsBought'));
     }
@@ -75,24 +72,35 @@ class TicketsController extends Controller
     }
    public function ticketSold($id){
        $ticket = Ticket::find($id);
-        DB::table('sold_tickets')->insert([
-            'ticket_id' => $id,
-            'user_id' => $ticket->user_id,
-            'buyer_id' => Auth::user()->id,
-            'quantity' => '2' ,
-        ]);
-        $ticket->is_sold =1;
-        $ticket->save();
+       $ticket->is_sold =1;
+       $ticket->save();
+       $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
+       ['requester_id' , '=' , Auth::user()->id] ,
+       ['user_id' , '=' , $ticket->user_id]])->get();
+       $requested[0]->is_sold = 1;
+       $requested[0]->save();
+
+       SoldTicket::create([
+        'ticket_id' => $id,
+        'user_id' => $ticket->user_id,
+        'buyer_id' => Auth::user()->id,
+        'quantity' => '2' ,
+       ]);
+
       return redirect('/tickets/requests');
     }
 
-
-     public function search (){
-       // $tickets=Ticket::all();
-        return view('search.search');
+     public function view ($id){
+        $ticket=Ticket::find($id);
+        $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
+        return view('tickets.view',compact('ticket' , 'userSpam'));
      }
 
-
+     public function search (Request $request){
+        $tickets=Ticket::all()->where('name' , '=' , $request->search);
+        
+        return view('search.search',['tickets'=> $tickets] );
+     }
 
     public function create (){
         $categories=Category::all();
@@ -124,20 +132,21 @@ class TicketsController extends Controller
         $ticket->type=1;
         $ticket->is_sold= 0;
         $ticket->save();
-       /* Ticket::create([
-            'price'=>$request->price,
-            'name' => $request->name,
-            'description'=>$request->description,
-            'user_id'=> Auth::user()->id,
-            'quantity'=>$request->quantity,
-            'region'=>$request->region,
-            'city'=>$request->city,
-            'expire_date'=>$request->expire_date,
-            'category_id'=>$request->category,
-            'type'=>1,
-            'is_sold'=> 0,
-            'photo' => $filename
-        ]);*/
+        if($ticket)
+        {
+            $tagNames = explode(',' ,$request->tags);
+            $tagIds = [];
+            foreach($tagNames as $tagName)
+            {
+                $tag = Tag::firstOrCreate(['name'=>$tagName]);
+                if($tag)
+                {
+                  $tagIds[] = $tag->id;
+                }
+
+            }
+            $ticket->tags()->sync($tagIds);
+        }
        return redirect('tickets');
     }
 

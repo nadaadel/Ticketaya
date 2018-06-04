@@ -1,9 +1,17 @@
-
+@extends('layouts.app')
+@section('content')
 <div class="container">
-    <div class="row">
-  <h1>
- All Tickets
-  </h1>
+  <div class="row">
+        
+  <h1>All Tickets </h1>
+  
+  
+  <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
+    {{ csrf_field() }}
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"> 
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+  </form>
   <div class="col-sm">
       <a href={{ URL::to('tickets/create' )}} ><input type="button" class="btn btn-success" value='Create Ticket'/></div></a>
   <table class="table table-hover table-dark">
@@ -18,7 +26,6 @@
       </tr>
     </thead>
     <tbody>
-
   @foreach($tickets as $ticket)
   <tr>
         <th scope="row">{{$ticket->id}}</th>
@@ -39,5 +46,6 @@
   </div>
 </div>
   </div>
+@endsection
 
 

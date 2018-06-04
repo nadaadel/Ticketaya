@@ -1,4 +1,8 @@
-            <fieldset>
+@extends('layouts.app')
+
+@section('content')
+
+           <fieldset>
                     <legend style="background-color: gray">Ticket Info </legend>
                     <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;">
                     <p>Name : {{ $ticket->name }}</p>
@@ -9,6 +13,13 @@
                     <p>Category :{{ $ticket->category_id }}</p>
                     <p>Location:{{ $ticket->region }},{{ $ticket->city }}</p>
                     <p>Created by :{{ $ticket->user->name }} </p>
+                    @if($ticket->tags)
+                    <p>
+                        @foreach($ticket->tags as $tag)
+                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                        @endforeach
+                    </p>
+                    @endif
                    <hr>
                 </fieldset>
 @foreach ($userSpam as $spam )
@@ -41,7 +52,7 @@ Comments:
 @foreach($ticket->comments as $comment)
 {{$comment->body}}
 <button class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
-<div id="replies" style="display: none;">  
+<div id="replies" style="display: none;">
 
 <div class="card-body" style="display: none;" id="form" >
 
@@ -49,7 +60,7 @@ Comments:
          {{ csrf_field() }}
 
         <div class="form-group row">
-            
+
 
                 <div class="col-md-6">
                    <textarea rows="4" cols="50" placeholder="comment here"  name="bodyReply">
@@ -59,28 +70,29 @@ Comments:
                    <button type="submit" class="btn btn-primary">
                                     {{ __('send') }}
                     </button>
-                               
 
-                                
-                          
+
+
+
                 </div>
          </div>
     </form>
-                      
-</div>                     
-       
+
+</div>
+
 
 </div>
 <hr>
 <br>
 
+@endforeach
 
 <div class="card-body">
     <form method="POST" action="/comments" enctype="multipart/form-data" >
          {{ csrf_field() }}
 
         <div class="form-group row">
-            
+
 
                 <div class="col-md-6">
                    <textarea rows="4" cols="50" placeholder="comment here"  name="body">
@@ -89,29 +101,28 @@ Comments:
                    <button type="submit" class="btn btn-primary">
                                     {{ __('Comment') }}
                     </button>
-                               
 
-                                
-                          
+
+
+
                 </div>
          </div>
     </form>
-                      
-</div>                     
-                      
 
- <hr>   
- 
+</div>
 
-@endforeach
+
+ <hr>
 
 
 
 
 
 
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
-<script type="text/javascript"></script> 
+
+
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript"></script>
 
 <script>
  $(document).on('click','.reply', function () {
@@ -123,7 +134,7 @@ Comments:
                 data: {
                     '_token':'{{csrf_token()}}',
 
-                   
+
                 },
                 success: function (response) {
                    console.log(response.response.length)
@@ -131,19 +142,21 @@ Comments:
                        $('#replies').show();
                        $('#replies').append(response.response[i].body +'<br>')
 
-                      
+
                        console.log(response.response[i])
                    }
                    $('#form').show();
-                    
-                    
+
+
                 }
 
             });
 
-        
-       
+
+
        });
 
 
 </script>
+
+@endsection

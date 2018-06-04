@@ -1,7 +1,7 @@
 <form method="GET" action="/tags/create">
     @csrf
       <input type="submit" value="Create New Tag">
-    </form>
+</form>
 
 @foreach ($tags as $tag )
   {{ $tag->name }}

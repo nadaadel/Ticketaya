@@ -1,0 +1,23 @@
+ div.search-content {
+        margin: 0 auto;
+        padding: 20px 0px;
+     
+    }
+
+.list-group.panel > .list-group-item {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  width: 250px;
+  background: white;
+  color: #666;
+//  width: 100%;
+}
+.list-group-submenu {
+  width: 250px;
+   
+}
+ .list-group-submenu >ul {
+        padding: 0px;
+    }
+
+.strong { font-weight: bold; }

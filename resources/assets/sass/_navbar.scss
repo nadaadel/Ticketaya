@@ -1,3 +1,50 @@
-nav {
-    background-color: blue;
+
+@import 'variables';
+
+nav.navbar {
+  margin-bottom: 0px;
+  border: none;
+
+  
 }
+#logged-navbar {
+  a.nav-link , a.navbar-brand {
+    color: white;
+  }
+  
+}
+
+
+#unlogged-navbar {
+  a.nav-link {
+    color: white;
+    }
+  .navbar-brand img {
+    width: 100px;
+    margin-left: 40px;
+    margin-top: 10px;
+  }
+  
+    ul {
+      margin-right: 60px;
+      li {
+        padding:  0 5px;
+      }
+      li > a:hover {
+        color: $primary;
+      }
+      .btn {
+        margin-top: 0;
+      }
+    
+  }
+}
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 0px;
+}
+}
+
+  .homepage #unlogged-navbar{
+    background-color: red;
+  }
