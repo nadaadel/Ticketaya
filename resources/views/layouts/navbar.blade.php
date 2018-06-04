@@ -52,13 +52,16 @@
       var notificationsWrapper   = $('.dropdown-notifications');
       var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
       var notificationsCountElem = notificationsToggle.find('i[data-count]');
-      var notificationsCount = CountoldNotifications;
+      //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+      var notificationsCount=CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
       Pusher.logToConsole = true;
       var pusher = new Pusher('6042cdb1e9ffa998e5be', {
         encrypted: true,
         cluster:"mt1"
       });
+
+
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);
@@ -72,8 +75,9 @@
                     notificationsCount += 1;
                     data.created_at=new Date(Date.now());
                     data.is_seen=0;
-                    data.id=data.notification_id;
-                    console.log(data.notification_id);
+                    data.id={{$nextId}};
+                }
+               var res = data.message.substring(0,30);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
@@ -84,8 +88,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="#" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
-                                <p class="notification-desc"></p>
+                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
+                                <p class="notification-desc">`+data.message+`</p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
@@ -101,11 +105,7 @@
             notificationsHtml(notify,1);
             });
 }
-
-    // notification for status liked
-    var user_id = $('#user_id').val();
-
-      $.each( oldNotifications.reverse(), function( i, val ) {
+      $.each(oldNotifications, function( i, val) {
         notificationsHtml(val,0);
     });
 
@@ -141,7 +141,6 @@
                         if(response.res=='unseen'){
                             notificationsCount-=1;
                             updateNotificationCount();
-                            window.location = "/tickets/requests";
                         }
                     }
                 });

@@ -3,7 +3,8 @@
 
 
        {{ $event-> name}}
-      @if (sizeof($subscribers) == 1)
+      @if(sizeof($subscribers) == 1)
+
       <button id="unsubscribe" class="btn btn-danger">unsubscribe</button>
       @else
       <button id="subscribe" class="btn btn-primary">Subscribe</button>
