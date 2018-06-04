@@ -40,7 +40,8 @@ Route::get('/tickets/requests' , 'TicketsController@getUserRequests');
 Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketsController@acceptTicket');
 Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketsController@cancelTicketRequest');
 Route::post('/tickets/sold/{id}' , 'TicketsController@ticketSold');
-
+Route::get('/tickets/cancel/{id}','TicketsController@cancelTicketSold');
+Route::post('/tickets/request/edit/{id}','TicketsController@editRequestedTicket');
 Route::post('/tickets/request/{id}' , 'TicketsController@requestTicket');
 
 
@@ -81,3 +82,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');
 
+/* Notifications */
+Route::get('/notifications','NotificationsController@show');
+Route::get('/notifications/allread','NotificationsController@updateAllRead');
+Route::get('/notifications/{id}/edit','NotificationsController@edit');

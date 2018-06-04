@@ -40,16 +40,31 @@
                 {{-- end spam section --}}
 
                 {{-- Request this ticket section --}}
-
+        <div class="requestticket">
         {{-- <form method="POST" action="/tickets/request/{{$ticket->id}}"> --}}
             {{-- @csrf --}}
         @if($ticket->user_id != Auth::user()->id)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-        {{-- <input type="submit" value="i want this ticket"> --}}
-        <button  id="want" class="btn btn-primary">I Want This Ticket</button>
+   
+        <button   type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         {{-- </form> --}}
+        </div>
+
+        <div class="edit" style="display: none;">
+        {{-- <form method="POST" action="/tickets/request/edit/{{$ticket->id}}"> --}}
+            {{-- @csrf --}}
+        @if($ticket->user_id != Auth::user()->id)
+        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
+        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
+   
+        <button   type="submit" class="editticket" class="btn btn-primary">edit requested ticket</button>
+        @endif
+        {{-- </form> --}}
+        </div>
+        
+
                 {{-- Request this ticket end section --}}
 
 
@@ -117,7 +132,7 @@ Comments:
 
 <script>
 $(document).ready( function(){
-    $('#want').on('click' , function(){
+    $('.want').on('click' , function(){
             console.log('iam here');
             var quantity = $('#quantity').val();
             var ticket_id = $('#ticket-id').val();
@@ -130,12 +145,61 @@ $(document).ready( function(){
                     'quantity':quantity
                 },
                 success:function(response){
+                    console.log(response.response)
+                   if(response.response =='ok'){
+                    console.log(response.response);
                     alert('Ticket Requested Successfully');
+                   }
+                   else{
+                    console.log(response);  
+                    alert('You Cant request this ticket ,Your quantity >'+response.quantity);
+
+                   }
+
+                   $('.requestticket').hide();
+                   $('.edit').show();
                    
-                    console.log(response);
+                   
+                   
                 }
             });
  });
+
+ $('.editticket').on('click' , function(){
+            console.log('iam here');
+            var quantity = $('#editquantity').val();
+
+            var ticket_id = $('#edit-ticket-id').val();
+            console.log(quantity);
+            $.ajax({
+                url: '/tickets/request/edit/'+ticket_id,
+                type:'POST',
+                data:{
+                    '_token':'{{csrf_token()}}',
+                    'quantity':quantity,
+                    'ticket_id':ticket_id ,
+                },
+                success:function(response){
+                    console.log(response.response)
+                   if(response.response =='ok'){
+                    console.log(response.response);
+                    alert('Ticket Requested Successfully');
+                   }
+                   else{
+                    console.log(response);  
+                    alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
+
+                   }
+
+                 
+                   
+                   
+                }
+            });
+ });
+
+
+
 })
 
 
