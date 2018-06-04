@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Ticket;
 use App\RequestedTicket;
+use App\Event;
+use App\EventQuestion;
 use Actuallymab\LaravelComment\CanComment;
 
 
@@ -15,7 +17,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
-    
+
     protected $guard_name = 'web';
 
     /**
@@ -43,7 +45,7 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany(Comment::class);
     }
-    
+
     public function replies(){
         return $this->hasMany(Reply::class);
     }
@@ -55,4 +57,25 @@ class User extends Authenticatable
     public function soldTickets(){
         return  $this->belongsToMany('App\Ticket' , 'sold_tickets')->withPivot( 'buyer_id' , 'quantity');
      }
+
+
+     public function notifications(){
+        return $this->hasMany(Notification::class)->orderBy('id', 'desc');
+    }
+
+    public function events(){
+        return $this->hasMany(Event::class);
+    }
+    public function favouriteEvents(){
+
+        return $this->belongsToMnay('App\Event','event_user')->withPivot('is_follower','is_saver');
+    }
+
+    public function eventquestions(){
+
+
+        return $this->hasMany(EventQuestion::class);
+
+    }
+
 }

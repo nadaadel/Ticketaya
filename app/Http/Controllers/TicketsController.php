@@ -9,6 +9,12 @@ use Auth;
 use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
+use App\Tag;
+use App\Notification;
+use App\Events\TicketRequested;
+use App\Events\TicketReceived;
+use App\Events\StatusTicketRequested;
+
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -29,10 +35,15 @@ class TicketsController extends Controller
             'ticket_id' => $id,
             'user_id' => Auth::user()->id
         ]);
-        return redirect('/tickets/show/'.$id );
+        flashy()->error('This Ticket Spammed By You');
+        return redirect('/tickets/'.$id );
     }
+
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
+        $quantity=$request->quantity;
+        if ($quantity<=$ticket->quantity){
+
         RequestedTicket::create([
             'ticket_id' => $id,
             'user_id' => $ticket->user_id,
@@ -40,11 +51,19 @@ class TicketsController extends Controller
             'quantity' => $request->quantity ,
         ]);
 
-        return redirect('/tickets/requests');
+        // send request notification to ticket author
+
+        event(new TicketRequested($ticket->name , Auth::user()->name , $ticket->user_id,$request));
+        return response()->json(['response' => 'ok']);
+
+
+        }
+        return response()->json(['quantity' =>$ticket->quantity ]);
+
     }
+
+
     public function getUserRequests(Request $request){
-
-
     /** User Tickets received Requests */
     $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);
     $userTicketsSold = SoldTicket::all()->where('user_id' , '=' , Auth::user()->id);
@@ -57,17 +76,58 @@ class TicketsController extends Controller
      return view('tickets.userRequests' , compact('userRequestsReceived' , 'userTicketsSold' ,
     'userRequestsWanted' , 'userTicketsBought'));
     }
+
+
+    //add notification when accept aticket
+
     public function acceptTicket($id , $requester_id){
         $user = User::find(Auth::user()->id);
-        $request = $user->requestedTicket()->where('requester_id' , '=' , $requester_id)->first();
+
+        $request = $user->requestedTicket()->where('requester_id' , '=' , $requester_id)
+                                            ->where('is_accepted','=',0)->first();
         $request->pivot->is_accepted = 1;
         $request->pivot->save();
+        $requestedTicket=RequestedTicket::all()->where('requester_id' , '=' , $requester_id)->first();
+        $is_accept=true;
+        event(new StatusTicketRequested( $requestedTicket,$is_accept));
+
         return redirect('/tickets/requests');
+
+
+    }
+    //to edit quantity in ticket request
+    public function editRequestedTicket(Request $request,$id){
+
+        $ticket = Ticket::find($request->ticket_id);
+        if ($request->quantity<=$ticket->quantity){
+
+
+        $user = User::find($ticket->user_id);
+        $requestTicket = $user->requestedTicket()->where('requester_id' , '=' ,$id)->first();
+        $requestTicket->pivot->quantity =$request->quantity;
+
+        $requestTicket->pivot->save();
+        event(new TicketRequested($ticket->name , Auth::user()->name , $ticket->user_id,$request));
+
+        return response()->json(['response' => 'ok']);
+        }
+        return response()->json(['quantity' =>$ticket->quantity ]);
+
+
     }
     public function cancelTicketRequest($id , $requester_id){
         $user = User::find(Auth::user()->id);
-        $request = $user->requestedTicket()->where('requester_id' , '=' , $requester_id)->first();
-        $request->pivot->delete();
+
+        $allrequest = $user->requestedTicket()->where('requester_id' , '=' , $requester_id)
+                                              ->where('is_accepted','=',0)->first();
+
+
+
+        $is_accept=false;
+        $requestedTicket=RequestedTicket::all()->where('requester_id' , '=' , $requester_id)
+                                               ->where('is_accepted','=',0)->first();
+        event(new StatusTicketRequested( $requestedTicket,$is_accept));
+        $allrequest->pivot->delete();
         return redirect('/tickets/requests');
     }
    public function ticketSold($id){
@@ -79,16 +139,30 @@ class TicketsController extends Controller
        ['user_id' , '=' , $ticket->user_id]])->get();
        $requested[0]->is_sold = 1;
        $requested[0]->save();
-
        SoldTicket::create([
         'ticket_id' => $id,
         'user_id' => $ticket->user_id,
         'buyer_id' => Auth::user()->id,
         'quantity' => '2' ,
        ]);
-
+       event(new TicketReceived($requested[0]->id,1));
       return redirect('/tickets/requests');
     }
+
+    public function cancelTicketSold($id){
+        $ticket = Ticket::find($id);
+        $ticket->is_sold =0;
+        $ticket->save();
+        $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
+        ['requester_id' , '=' , Auth::user()->id] ,
+        ['user_id' , '=' , $ticket->user_id]])->get();
+        $requested[0]->is_sold = 0;
+        $requested[0]->save();
+        event(new TicketReceived($requested[0]->id,0));
+        $requested[0]->delete();
+       return redirect('/tickets/requests');
+     }
+
 
      public function view ($id){
         $ticket=Ticket::find($id);
@@ -98,7 +172,7 @@ class TicketsController extends Controller
 
      public function search (Request $request){
         $tickets=Ticket::all()->where('name' , '=' , $request->search);
-        
+
         return view('search.search',['tickets'=> $tickets] );
      }
 
