@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <form  method="post" action="/tickets/store" enctype="multipart/form-data">
 {{method_field('POST')}}
 {{csrf_field()}}
@@ -35,4 +37,4 @@
       </select>
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
-
+@endsection

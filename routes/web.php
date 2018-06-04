@@ -15,11 +15,12 @@ Route::get('/request', function () {
 
 
 Route::get('/', function(){
-    return view('home');
+    $userNotifications = App\Notification::where('user_id' , '=' , Auth::user()->id)->get();
+    //  dd($userNotifications);
+    return view('home' , compact('userNotifications'));
 });
 
 Route::post('/notification/auth' , 'NotificationsController@auth');
-    
 
 
 /** Search For Tickets */
