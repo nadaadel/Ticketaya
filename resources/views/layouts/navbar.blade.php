@@ -1,21 +1,25 @@
-
-             {{-- start Notification section UI --}}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Ticketaya</a>
+<nav id="logged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand" href="#">LOGOHERE</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">TICKETS</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/tickets">Tickets</a>
+        <a class="nav-link" href="#">EVENTS</a>
       </li>
       <li class="nav-item">
-            <a class="nav-link" href="/events">Events</a>
-          </li>
+        <a class="nav-link " href="#">BLOG</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#">LOG IN </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#">REGISTER</a>
+      </li>
     </ul>
   </div>
   @if (Auth::check())
@@ -32,7 +36,7 @@
             <div class="dropdown-toolbar-actions">
               <a id="readall" href="#">Mark all as read</a>
             </div>
-            <h3 class="dropdown-toolbar-title">Notifications (<span class="notif-count">0</span>)</h3>
+            
           </div>
           <ul class="dropdown-menu">
           </ul>
@@ -158,3 +162,4 @@
 
 </div>
 </nav>
+
