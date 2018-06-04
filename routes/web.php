@@ -5,21 +5,11 @@ Route::get('/test', function () {
     return "test";
 });
 
-
-Route::get('/request', function () {
-
-    event(new App\Events\TicketRequested('Tamer Hosny Ticket' , 'Nada'));
-    return "Your Ticket Request Sent!";
-});
-
-
-
 Route::get('/', function(){
-    return view('home');
+    return view('home' , compact('userNotifications'));
 });
 
 Route::post('/notification/auth' , 'NotificationsController@auth');
-
 
 
 /** Search For Tickets */
@@ -81,7 +71,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');
 
+
 /* Notifications */
 Route::get('/notifications','NotificationsController@show');
 Route::get('/notifications/allread','NotificationsController@updateAllRead');
 Route::get('/notifications/{id}/edit','NotificationsController@edit');
+

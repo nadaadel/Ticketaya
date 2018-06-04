@@ -1,12 +1,14 @@
+
+             {{-- start Notification section UI --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">Ticketaya</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/tickets">Tickets</a>
@@ -41,25 +43,22 @@
       </li>
     </ul>
   </div>
+             {{-- end Notification section UI --}}
 
   <script type="text/javascript">
-  $(function () {
-    var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
+    $(function () {
+      var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
       var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
       var notificationsWrapper   = $('.dropdown-notifications');
       var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
       var notificationsCountElem = notificationsToggle.find('i[data-count]');
-      //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-      var notificationsCount=CountoldNotifications;
+      var notificationsCount = CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
-
       Pusher.logToConsole = true;
-      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
-    //  var pusher = new Pusher('7cd2d7485f85e6da6263', {
+      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
         encrypted: true,
-        cluster:"eu"
+        cluster:"mt1"
       });
-
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);
@@ -75,10 +74,6 @@
                     data.is_seen=0;
                     data.id=data.notification_id;
                     console.log(data.notification_id);
-                    console.log(data);
-                }
-
-                var res = data.message.substring(0,20);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
@@ -89,8 +84,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="#" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
-                                <p class="notification-desc">`+data.message+`</p>
+                                <a notif-no="`+data.id+`" href="#" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                                <p class="notification-desc"></p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
@@ -114,6 +109,7 @@
         notificationsHtml(val,0);
     });
 
+     // make all is read
     $(document).on('click','#readall',function(event){
         event.preventDefault();
                 $.ajax({
@@ -130,6 +126,8 @@
                     }
                 });
            });
+
+    // change notifications status to unseen
     $(document).on('click','.notify-seen',function(event){
         event.preventDefault();
         notif_id=$(this).attr('notif-no');
@@ -148,6 +146,8 @@
                     }
                 });
            });
+
+
     var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
@@ -157,9 +157,6 @@
 });
 
     </script>
-  @else
-  //show logged out navbar
-
 @endif
 
 </div>

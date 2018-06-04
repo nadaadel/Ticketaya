@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <button id="subscribe" class="btn btn-primary">Subscribe</button>
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 <input type="hidden" id="event_id" value="{{$event->id}}">
@@ -27,3 +29,4 @@
    }
 
 </script>
+@endsection

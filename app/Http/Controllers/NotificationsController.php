@@ -37,7 +37,6 @@ class NotificationsController extends Controller
         }
         return view('notifications.show',compact('userNotifications'));
     }
-
     public function updateAllRead(){
         $user=Auth::user();
         $userNotifications=$user->notifications->where('is_seen','=',0);

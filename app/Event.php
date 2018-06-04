@@ -11,7 +11,6 @@ class Event extends Model {
         'name','user_id','photo','location','startdate','shortdate','category','avaliableticket','description'
 
     ];
-
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -20,8 +19,6 @@ class Event extends Model {
         return $this->belongsToMnay('App\User','event_user')->withPivot('is_follower','is_saver');
     }
     public function eventquestions(){
-
-
         return $this->hasMany(EventQuestion::class);
 
     }

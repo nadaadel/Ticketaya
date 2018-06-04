@@ -10,6 +10,7 @@ use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
+use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;
 use App\Events\StatusTicketRequested;
@@ -50,8 +51,10 @@ class TicketsController extends Controller
         ]);
 
         // send request notification to ticket author
+
         event(new TicketRequested($ticket->name , Auth::user()->name , $ticket->user_id,$request));
         return response()->json(['response' => 'ok']);
+
 
         }
         return response()->json(['quantity' =>$ticket->quantity ]);
