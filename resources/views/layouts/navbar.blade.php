@@ -62,7 +62,6 @@
       });
 
 
-
     //   ticketRequestChannel.bind('App\\Events\\TicketRequested' , function(data){
     //       var existingNotifications = notifications.html();
     //       var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
@@ -86,6 +85,8 @@
     //     `;
     //     notifications.html(newNotificationHtml + existingNotifications);
     //     notificationsCount += 1;
+
+
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);
@@ -101,7 +102,7 @@
                     data.is_seen=0;
                     data.id={{$nextId}};
                 }
-               var res = data.message.substring(0,20);
+               var res = data.message.substring(0,30);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
