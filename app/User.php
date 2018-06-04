@@ -17,7 +17,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
-    
+
     protected $guard_name = 'web';
 
     /**
@@ -45,7 +45,7 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany(Comment::class);
     }
-    
+
     public function replies(){
         return $this->hasMany(Reply::class);
     }
@@ -60,7 +60,7 @@ class User extends Authenticatable
 
 
      public function notifications(){
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class)->orderBy('id', 'desc');
     }
 
     public function events(){
@@ -73,9 +73,9 @@ class User extends Authenticatable
 
     public function eventquestions(){
 
-    
+
         return $this->hasMany(EventQuestion::class);
-        
+
     }
 
 }
