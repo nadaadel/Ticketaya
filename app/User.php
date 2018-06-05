@@ -79,5 +79,8 @@ class User extends Authenticatable
     {
        return $this->belongsToMany(Ticket::class,'saved_tickets_users','user_id','ticket_id');
     }
+    public function spammedTickets(){
+        return  $this->belongsToMany(Ticket::class , 'spam_tickets');
+     }
 
 }

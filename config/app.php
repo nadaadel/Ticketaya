@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        'Aloha\Twilio\Support\Laravel\ServiceProvider',
 
 
         /*
@@ -216,6 +217,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Flashy' => MercurySeries\Flashy\Flashy::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
+        'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
 
     ],
 

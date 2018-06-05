@@ -44,4 +44,7 @@ class Ticket extends Model
     public function soldTickets(){
        return  $this->belongsToMany(User::class , 'sold_tickets');
     }
+    public function spammers(){
+        return  $this->belongsToMany(User::class , 'spam_tickets');
+     }
 }

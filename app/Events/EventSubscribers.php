@@ -9,25 +9,25 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-class StatusLiked implements ShouldBroadcast
+use App\Event;
+use Auth;
+class EventSubscribers implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $username;
     public $message;
-
+    public $user_id;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct($event_id , $toUser)
     {
-        //
-        $this->username = $username;
-        $this->message  = "{$username} liked your status";
+
+      $event = Event::find($event_id);
+      $this->message = "Event {$event->name} Has New informations don't miss it";
+      $this->user_id = $toUser;
     }
 
     /**
@@ -37,6 +37,7 @@ class StatusLiked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['status-liked'];
+        return new Channel('event-subscriber_'.$this->user_id);
+
     }
 }

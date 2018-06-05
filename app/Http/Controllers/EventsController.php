@@ -1,22 +1,24 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Event;
+use App\EventInfo;
+use DB;
 use App\Category;
 use Auth;
-use DB;
+use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
     public function show($id){
         $event = Event::find($id);
+      $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
+     // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
-        // dd($subscribers);
-        return view('events.show' , compact('event' , 'subscribers'));
+        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
+        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos'));
     }
-
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
          'event_id' => $event_id,
@@ -25,15 +27,28 @@ class EventsController extends Controller
     return response()->json(['status' => 'success']);
 
     }
-    // public function unsubscribe($event_id , $user_id){
+    public function unsubscribe($event_id ){
+        $subscriber =DB::table('event_user')->where('event_id' ,'=' ,$event_id)
+                                            ->where('user_id' , '=' , Auth::user()->id);
+        $subscriber->delete();
+        return response()->json(['status' => 'success']);
 
-    //     $unsubscribe = DB::table('event_user')->where('event_id' , '=' ,$event_id)
-    //     ->where('user_id' , '=', $user_id)->get();
-    //     $unsubscribe->pivot->delete();
-    //     return response()->json(['status' => 'success']);
+        }
 
-    //     }
+    public function newInfo($event_id , Request $request){
+      EventInfo::create([
+         'event_id' => $event_id,
+         'body' => $request->description
+      ]);
+      $event = Event::find($event_id);
+      $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
+      foreach($eventSubscibers as $subscriber){
+         event(new EventSubscribers($event_id , $subscriber->user_id));
 
+      }
+      return response()->json(['status' => 'success']);
+
+    }
     public function index(){
         $events=Event::all();
         return view('events.index',compact('events'));
