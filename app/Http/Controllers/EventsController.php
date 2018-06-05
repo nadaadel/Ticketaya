@@ -27,13 +27,6 @@ class EventsController extends Controller
     return response()->json(['status' => 'success']);
 
     }
-    // public function unsubscribe($event_id , $user_id){
-
-    //     $unsubscribe = DB::table('event_user')->where('event_id' , '=' ,$event_id)
-    //     ->where('user_id' , '=', $user_id)->get();
-    //     $unsubscribe->pivot->delete();
-    //     return response()->json(['status' => 'success']);
-    //     }
 
     public function newInfo($event_id , Request $request){
       EventInfo::create([
@@ -46,7 +39,6 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
-      //fire Notification Here
       return response()->json(['status' => 'success']);
 
     }
