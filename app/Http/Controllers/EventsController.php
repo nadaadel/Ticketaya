@@ -13,7 +13,7 @@ class EventsController extends Controller
         $event = Event::find($id);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
-        // dd($subscribers);
+       
         return view('events.show' , compact('event' , 'subscribers'));
     }
 
