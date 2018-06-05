@@ -1,21 +1,25 @@
-
-             {{-- start Notification section UI --}}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Ticketaya</a>
+<nav id="logged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand" href="#">LOGOHERE</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/tickets">TICKETS</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/tickets">Tickets</a>
+        <a class="nav-link" href="#">EVENTS</a>
       </li>
       <li class="nav-item">
-            <a class="nav-link" href="/events">Events</a>
-          </li>
+        <a class="nav-link " href="#">BLOG</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#">LOG IN </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#">REGISTER</a>
+      </li>
     </ul>
   </div>
   @if (Auth::check())
@@ -32,7 +36,7 @@
             <div class="dropdown-toolbar-actions">
               <a id="readall" href="#">Mark all as read</a>
             </div>
-            <h3 class="dropdown-toolbar-title">Notifications (<span class="notif-count">0</span>)</h3>
+
           </div>
           <ul class="dropdown-menu">
           </ul>
@@ -52,7 +56,8 @@
       var notificationsWrapper   = $('.dropdown-notifications');
       var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
       var notificationsCountElem = notificationsToggle.find('i[data-count]');
-      var notificationsCount = CountoldNotifications;
+      //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+      var notificationsCount=CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
       Pusher.logToConsole = true;
 
@@ -61,6 +66,8 @@
         encrypted: true,
         cluster:"eu"
       });
+
+
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);
@@ -87,8 +94,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="#" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
-                                <p class="notification-desc"></p>
+                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
+                                <p class="notification-desc">`+data.message+`</p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
@@ -104,11 +111,7 @@
             notificationsHtml(notify,1);
             });
 }
-
-    // notification for status liked
-    var user_id = $('#user_id').val();
-
-      $.each( oldNotifications.reverse(), function( i, val ) {
+      $.each(oldNotifications, function( i, val) {
         notificationsHtml(val,0);
     });
 
@@ -144,13 +147,10 @@
                         if(response.res=='unseen'){
                             notificationsCount-=1;
                             updateNotificationCount();
-                            window.location = "/tickets/requests";
                         }
                     }
                 });
            });
-
-
     var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
@@ -164,3 +164,4 @@
 
 </div>
 </nav>
+

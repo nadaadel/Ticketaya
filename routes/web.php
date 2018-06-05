@@ -23,6 +23,8 @@ Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::get('/events' , 'EventsController@index');
+Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
+// Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 
 
 
@@ -62,7 +64,7 @@ Route::get('/tickets', 'TicketsController@index');
 Route::get('/tickets/create', 'TicketsController@create');
 Route::post('/tickets/store', 'TicketsController@store');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
-Route::get('/tickets/search' , 'TicketsController@search');
+//Route::get('/tickets/search' , 'TicketsController@search');
 Route::get('/tickets/{id}' , 'TicketsController@show');
 Route::put('/tickets/update/{id}', 'TicketsController@update');
 Route::post('/tickets/search','TicketsController@search');

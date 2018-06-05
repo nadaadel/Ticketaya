@@ -1,7 +1,8 @@
 @extends('layouts.app')
+
 @section('content')
 
-       <fieldset>
+           <fieldset>
                     <legend style="background-color: gray">Ticket Info </legend>
                     <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;">
                     <p>Name : {{ $ticket->name }}</p>
@@ -239,4 +240,5 @@ $(document).ready( function(){
 
 
 </script>
+
 @endsection

@@ -14,7 +14,7 @@ use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;
 use App\Events\StatusTicketRequested;
-// use App\Http\Controllers\Flashy;
+
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -26,6 +26,7 @@ class TicketsController extends Controller
 
     public function show($id){
         $ticket = Ticket::find($id);
+   
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
         return view('tickets.show' , compact('ticket' , 'userSpam'));
     }

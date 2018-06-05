@@ -1,105 +1,57 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <section class="search-page">
+    <section id="search-page">
         <div class="row">
                 <div class="col-md-12 col-xs-12">
-                   <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
-                   {{ csrf_field() }}
-                   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"> 
-                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-                   </form>
+                   <div class="search-content">
+                       <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="text-center">
+                              {{ csrf_field() }}
+                        <input class="search pgs-search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search"> 
+                        <button class="btn btn btn-outline-primary search-btn pgs-search-btn" type="submit">Search</button>
+                       </form>
+                   </div>
                 </div>
         </div>
     </section>
     <section>
         <div class="row">
             <div class="col-md-3">
-                <form method="GET" action="/tickets/filter">
-                    <div id="accordion">
-                            <div class="card">
-                              <div class="card-header" id="headingOne">
-                                <h5 class="mb-0">
-                                  <a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Price
-                                </a>
-                                </h5>
-                              </div>
+              <form method="GET" action="/tickets/filter">
+                  <div class="list-group panel">
+                    <a class="list-group-item list-group-item strong text-center" style="background: #009ce0; color: white;" data-toggle="collapse"> Personalize Your Search</a>
+                    <a href="#demo1" class="list-group-item list-group-item-success strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-photo"></i> Price <i class="fa fa-caret-down"></i></a>
+                    <div class="collapse list-group-submenu" id="demo1">
+                     <ul class="p-0 mb-0">
+                         <li class="list-group-item"><input type="checkbox" name="price" value="50" > 50-100</li>
+                         <li class="list-group-item"><input type="checkbox" name="price" value="150" > 150-200</li>
+                         <li class="list-group-item"><input type="checkbox" name="price" value="250"> 250-300</li>
+                         <li class="list-group-item"><input type="checkbox" name="highprice" value="300"> 300 or more</li>
+                         
+                     </ul>
+                    </div> 
+                    <a href="#demo2" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-book"></i> Category <i class="fa fa-caret-down"></i></a>
+                    <div class="collapse list-group-submenu" id="demo2">
+                      <ul class="p-0 mb-0">
+                             <li class="list-group-item"><input type="checkbox" name="category" value="sport"> Sport</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="train"> Train</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="concert"> Concert</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="travel"> Travel</li>
 
-                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                  <ul>
-                                      <li>
-                                          <input type="checkbox" name="price" value="50" > 50-100
-                                      </li>
-                                      <li>
-                                            <input type="checkbox" name="price" value="150" > 150-200
-                                      </li>
-                                      <li>
-                                            <input type="checkbox" name="price"  value="250"> 250-300
-                                      </li>
-                                      <li>
-                                            <input type="checkbox" name="highprice"  value="300"> 300 or more
-                                      </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card">
-                              <div class="card-header" id="headingTwo">
-                                <h5 class="mb-0">
-                                  <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Category
-                                </a>
-                                </h5>
-                              </div>
-                              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <div class="card-body">
-                                        <ul>
-                                           <li>
-                                                <input type="checkbox" name="category" value="sport"> Sport
-                                            </li>
-                                             <li>
-                                                <input type="checkbox" name="category" value="train"> Train
-                                            </li>
-                                            <li>
-                                               <input type="checkbox" name="category" value="concert"> Concert
-                                            </li>
-                                            <li>
-                                                 <input type="checkbox" name="category" value="travel"> Travel
-                                            </li>
-                                        </ul>
-
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card">
-                              <div class="card-header" id="headingThree">
-                                <h5 class="mb-0">
-                                  <a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Location
-                                </a>
-                                </h5>
-                              </div>
-                              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <div class="card-body">
-                                        <ul>
-                                                <li>
-                                                     <input type="checkbox" name="city" value="cairo"> Cairo
-                                                 </li>
-                                                  <li>
-                                                     <input type="checkbox" name="city" value="alexandria"> Alexandria
-                                                 </li>
-
-                                             </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <input type="submit" value="Apply">
-                    </form>
-            </div>
+                         </ul>
+                    </div>
+                    <a href="#demo5" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-cubes"></i>  Location <i class="fa fa-caret-down"></i></a>
+                    <div class="collapse list-group-submenu" id="demo5">
+                      <ul class="p-0 mb-0">
+                             <li class="list-group-item"><input type="checkbox" name="city" value="cairo"> Cairo</li>
+                             <li class="list-group-item"><input type="checkbox" name="city" value="alexandria"> Alexandria</li>
+                         </ul>
+                    </div>
+                      
+                      <input type="submit" class="list-group-item list-group-item strong text-center" value="Apply">
+                  </div>
+              </form>  
+            </div> <!-- filter  -->
             <div class="col-md-9">
                 <div class="row">
                  

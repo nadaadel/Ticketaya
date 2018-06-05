@@ -1,5 +1,8 @@
 @extends('layouts.app')
+
 @section('content')
+
+
 <h2> Requests Received</h2>
 
 @foreach ($userRequestsReceived as  $ticket)
@@ -68,4 +71,8 @@
     @endif
     <br>
 @endforeach
+
+
+<br>
+
 @endsection
