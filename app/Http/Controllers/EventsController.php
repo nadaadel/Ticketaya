@@ -3,22 +3,22 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventInfo;
 use DB;
-
 use App\Category;
-
 use Auth;
+use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
     public function show($id){
         $event = Event::find($id);
+      $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
+     // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
         return view('events.show' , compact('event' , 'subscribers' ,'eventInfos'));
     }
-
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
          'event_id' => $event_id,
@@ -33,7 +33,6 @@ class EventsController extends Controller
     //     ->where('user_id' , '=', $user_id)->get();
     //     $unsubscribe->pivot->delete();
     //     return response()->json(['status' => 'success']);
-
     //     }
 
     public function newInfo($event_id , Request $request){
@@ -41,6 +40,12 @@ class EventsController extends Controller
          'event_id' => $event_id,
          'body' => $request->description
       ]);
+      $event = Event::find($event_id);
+      $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
+      foreach($eventSubscibers as $subscriber){
+         event(new EventSubscribers($event_id , $subscriber->user_id));
+
+      }
       //fire Notification Here
       return response()->json(['status' => 'success']);
 

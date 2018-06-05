@@ -9,9 +9,12 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-class EventSubscribers implements ShouldBrodcast
+use App\Event;
+use Auth;
+class EventSubscribers implements ShouldBroadcast
 {
+    public $message;
+    public $user_id;
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -19,9 +22,12 @@ class EventSubscribers implements ShouldBrodcast
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($event_id , $toUser)
     {
-        //
+
+      $event = Event::find($event_id);
+      $this->message = "Event {$event->name} Has New informations don't miss it";
+      $this->user_id = $toUser;
     }
 
     /**
@@ -31,6 +37,7 @@ class EventSubscribers implements ShouldBrodcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('event-subscriber_'.$this->user_id);
+
     }
 }

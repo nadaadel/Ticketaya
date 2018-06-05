@@ -153,15 +153,17 @@
           bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
           var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
           bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
+          var eventSubscribers = pusher.subscribe('event-subscriber_{{Auth::user()->id}}');
+          bindChannel(eventSubscribers, 'App\\Events\\EventSubscribers');
       });
-          </script>
+    </script>
 
         @else
         <li class="nav-item pt-1 pl-5">
-                <a class="nav-link " href="#">LOG IN </a>
+                <a class="nav-link " href="{{URL::route('login')}}">LOG IN </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="#"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
+                <a class="nav-link " href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
               </li>
       @endif
       </nav>
