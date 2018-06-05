@@ -38,7 +38,7 @@
             </div>
 
           </div>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" style="width: 448px;">
           </ul>
           <div class="dropdown-footer text-center">
             <a href="/notifications">View All</a>
@@ -94,8 +94,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
-                                <p class="notification-desc">`+data.message+`</p>
+                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                                <p class="notification-desc"></p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
