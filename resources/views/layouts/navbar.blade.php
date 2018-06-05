@@ -38,7 +38,7 @@
             </div>
 
           </div>
-          <ul class="dropdown-menu" style="width: 448px;">
+          <ul class="dropdown-menu">
           </ul>
           <div class="dropdown-footer text-center">
             <a href="/notifications">View All</a>
@@ -60,11 +60,9 @@
       var notificationsCount=CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
       Pusher.logToConsole = true;
-
-      //** don't forget to change this **//
-      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
         encrypted: true,
-        cluster:"eu"
+        cluster:"mt1"
       });
 
 
@@ -81,9 +79,9 @@
                     notificationsCount += 1;
                     data.created_at=new Date(Date.now());
                     data.is_seen=0;
-                    data.id=data.notification_id;
-                    console.log(data.notification_id);
-              }
+                    data.id={{$nextId}};
+                }
+               var res = data.message.substring(0,30);
               //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
               var newNotificationHtml = `
               <li class="notification active">
@@ -94,8 +92,8 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
-                                <p class="notification-desc"></p>
+                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+res+`</strong></a>
+                                <p class="notification-desc">`+data.message+`</p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
                                     </div>
@@ -121,8 +119,8 @@
                 $.ajax({
                     type: 'get',
                     url: '/notifications/allread',
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    data:{
+                    '_token':'{{csrf_token()}}',
                     },
                     success: function (response) {
                         if(response.res=='success'){
@@ -155,7 +153,7 @@
     bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
     var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
     bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
-    var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
+    var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}')
     bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
 });
 
