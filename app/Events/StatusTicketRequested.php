@@ -23,18 +23,16 @@ class StatusTicketRequested implements ShouldBroadcast
      *
      * @return void
      */
-
      public $BuyerId;
      public $message;
-    public function __construct(  $requestedTicket,$is_accept)
+    public function __construct($requestedTicket,$is_accept)
 
     {
-        
         $this->Ticket=Ticket::find($requestedTicket->ticket_id)->first();
         $this->TicketName=$this->Ticket->name;
         $this->Quantity=$requestedTicket->quantity;
         $this->BuyerId=$requestedTicket->requester_id;
-        
+
         $this->SellerId=User::find($requestedTicket->user_id)->first();
         $this->sellerName=$this->SellerId->name;
         if ($is_accept=="true"){
