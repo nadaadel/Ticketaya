@@ -1,5 +1,4 @@
-<?php
-
+<?php   
 namespace App\Http\Controllers;
 use App\Event;
 use App\EventInfo;
@@ -8,7 +7,6 @@ use DB;
 use App\Category;
 
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
