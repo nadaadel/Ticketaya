@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
        {{ $event-> name}}
       @if(sizeof($subscribers) == 1)
 

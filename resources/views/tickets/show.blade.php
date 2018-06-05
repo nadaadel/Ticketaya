@@ -42,32 +42,22 @@
 
                 {{-- Request this ticket section --}}
         <div class="requestticket">
-        {{-- <form method="POST" action="/tickets/request/{{$ticket->id}}"> --}}
-            {{-- @csrf --}}
-        @if($ticket->user_id != Auth::user()->id)
+        @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-   
-        <button   type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
+        <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
-        {{-- </form> --}}
         </div>
 
-        <div class="edit" style="display: none;">
-        {{-- <form method="POST" action="/tickets/request/edit/{{$ticket->id}}"> --}}
-            {{-- @csrf --}}
-        @if($ticket->user_id != Auth::user()->id)
+        <div class="edit">
+        @if($ticket->user_id != Auth::user()->id && $wantStatus == false)
         <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-   
-        <button   type="submit" class="editticket" class="btn btn-primary">edit requested ticket</button>
+        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         @endif
-        {{-- </form> --}}
         </div>
-        
 
                 {{-- Request this ticket end section --}}
-
 
 <br>
 Comments:
@@ -81,7 +71,7 @@ Comments:
 
 <div class="card-body" style="display: none;" id="form" >
 
-    <form method="POST" action="/replies" enctype="multipart/form-data" class="formreply">
+      <form method="POST" action="/replies" enctype="multipart/form-data" class="formreply">
          {{ csrf_field() }}
         <div class="form-group row">
                 <div class="col-md-6">
@@ -94,10 +84,10 @@ Comments:
                     </button>
                 </div>
          </div>
-    </form>
+      </form>
     </div>
  </div>
- 
+
 <hr>
 <br>
 @endforeach
@@ -150,28 +140,23 @@ $(document).ready( function(){
                    if(response.response =='ok'){
                     console.log(response.response);
                     alert('Ticket Requested Successfully');
+                    $('.requestticket').hide();
+                    $('.editticket').show();
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant request this ticket ,Your quantity >'+response.quantity);
 
                    }
-
-                   $('.requestticket').hide();
-                   $('.edit').show();
-                   
-                   
-                   
                 }
             });
  });
 
  $('.editticket').on('click' , function(){
-            console.log('iam here');
-            var quantity = $('#editquantity').val();
-
+          //  $('#editquantity').show();
+            var quantity  = $('#editquantity').val();
+            console.log(quantity)
             var ticket_id = $('#edit-ticket-id').val();
-            console.log(quantity);
             $.ajax({
                 url: '/tickets/request/edit/'+ticket_id,
                 type:'POST',
@@ -184,28 +169,19 @@ $(document).ready( function(){
                     console.log(response.response)
                    if(response.response =='ok'){
                     console.log(response.response);
-                    alert('Ticket Requested Successfully');
+                    alert('Edit Requested Successfully');
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
 
                    }
-
-                 
-                   
-                   
-                }
-            });
- });
-
-
-
-})
-
+             }
+         });
+    });
+});
 
   $(document).on('click','.reply', function () {
-
          var elem = this;
              ticketId=$(this).attr("ticket-no");
             commentId=$(this).attr("comment-id");
@@ -219,24 +195,13 @@ $(document).ready( function(){
                    console.log(response.response.length)
                    $('.formreply').show();
                    for(var i=0;i<response.response.length;i++){
-                        $('.replies').show();                        
+                        $('.replies').show();
                         $('.replies').append(response.response[i].body +'<br>')
                        console.log(response.response[i])
                   }
-                 
-                   
                 }
-
-            })
-
-
+            });
   });
-
-
-
-           
- 
-
 </script>
 
 @endsection
