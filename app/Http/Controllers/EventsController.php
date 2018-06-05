@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Event;
+use App\EventInfo;
+
 use DB;
 use Auth;
 
@@ -13,8 +15,8 @@ class EventsController extends Controller
         $event = Event::find($id);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
-        // dd($subscribers);
-        return view('events.show' , compact('event' , 'subscribers'));
+        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
+        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos'));
     }
 
     public function subscribe($event_id , $user_id){
@@ -34,6 +36,16 @@ class EventsController extends Controller
     //     return response()->json(['status' => 'success']);
 
     //     }
+
+    public function newInfo($event_id , Request $request){
+      EventInfo::create([
+         'event_id' => $event_id,
+         'body' => $request->description
+      ]);
+      //fire Notification Here
+      return response()->json(['status' => 'success']);
+
+    }
     public function delete($id){
         $event = Event::find($id);
         $event->delete();

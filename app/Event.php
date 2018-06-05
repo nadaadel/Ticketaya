@@ -3,6 +3,7 @@
 namespace App;
 use App\User;
 use App\EventQuestion;
+use App\EventInfo;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,9 @@ class Event extends Model {
     public function eventquestions(){
         return $this->hasMany(EventQuestion::class);
 
+    }
+    public function eventInfo(){
+        return $this->hasMany(EventInfo::class);
     }
 
 }

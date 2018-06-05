@@ -28,7 +28,7 @@ Route::get('/events/locations' , 'MapController@eventsLocation')->name('eventslo
 Route::get('/events/{id}' , 'EventsController@show');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 // Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
-
+Route::post('/events/info/new/{id}', 'EventsController@newInfo');
 
 
 
