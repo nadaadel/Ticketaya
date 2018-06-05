@@ -14,6 +14,6 @@ class CommentsController extends Controller
             'user_id'=>Auth::user()->id,
             'ticket_id'=>$request->ticket_id
         ]);
-        return redirect('/tickets');
+        return redirect('/tickets/'.$request->ticket_id);
     }
 }

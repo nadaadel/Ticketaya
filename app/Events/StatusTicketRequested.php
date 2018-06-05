@@ -12,6 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 use App\User;
 use App\Ticket;
+use App\Notification;
 
 class StatusTicketRequested implements ShouldBroadcast
 {
@@ -43,6 +44,13 @@ class StatusTicketRequested implements ShouldBroadcast
 
         }
 
+        Notification::create([
+            
+                        'user_id' => $BuyerId,
+                        'notify_type_id' => 2,
+                        'message'=>$this->message
+                   ]);
+        
     }
 
     /**

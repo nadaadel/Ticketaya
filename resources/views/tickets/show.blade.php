@@ -61,23 +61,27 @@
 
                 {{-- Request this ticket end section --}}
 
+
+{{-- comments and replies section --}}
 <br>
 Comments:
 <br>
+<br>
 @foreach($ticket->comments as $comment)
-{{$comment->body}}
+{{$comment->user->name}}
+<div>{{$comment->body}} created at :{{$comment->created_at}} </div>
 
-<button  id="ticket" class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
+<button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
 
-<div class="replies" style="display: none;">
+<div id="{{$comment->id}}" style="display: none;">
 
-<div class="card-body" style="display: none;" id="form" >
+    <div class="card-body"  >
 
-      <form method="POST" action="/replies" enctype="multipart/form-data" class="formreply">
+        <form method="POST" action="/replies" enctype="multipart/form-data" >
          {{ csrf_field() }}
-        <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-md-6">
-                   <textarea rows="4" cols="50" placeholder="comment here"  name="bodyReply">
+                   <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
                    </textarea>
                    <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
                    <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
@@ -85,11 +89,11 @@ Comments:
                                     {{ __('send') }}
                     </button>
                 </div>
-         </div>
-      </form>
+            </div>
+        </form>
     </div>
- </div>
-
+</div>
+ 
 <hr>
 <br>
 @endforeach
@@ -176,32 +180,62 @@ $(document).ready( function(){
                     console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
                    }
-             }
-         });
-    });
-});
 
-  $(document).on('click','.reply', function () {
-         var elem = this;
-             ticketId=$(this).attr("ticket-no");
-            commentId=$(this).attr("comment-id");
-            $.ajax({
-                url: '/replies/'+commentId,
-                 type: 'GET',
-                 data: {
-                    '_token':'{{csrf_token()}}',
-                },
-                success: function (response) {
-                   console.log(response.response.length)
-                   $('.formreply').show();
-                   for(var i=0;i<response.response.length;i++){
-                        $('.replies').show();
-                        $('.replies').append(response.response[i].body +'<br>')
-                       console.log(response.response[i])
-                  }
+
+
+
                 }
             });
+ });
+
+
+
+
+$('.reply').on('click',function(){
+
+ 
+
+    var elem = this;
+    var ticketId=$(this).attr("ticket-no");
+    var commentId=$(this).attr("comment-id");
+    $.ajax({
+            url: '/replies/'+commentId,
+            type: 'GET',
+            data: {
+                '_token':'{{csrf_token()}}',
+                 },
+            success: function (response) {
+            //console.log(response.replies)
+            console.log(response.names);
+            $('#'+commentId).show();    
+            
+            for(var i=0;i<response.replies.length;i++){
+                
+               for (var j=0;j<response.names.length;j++){
+                if (i==j){
+                    $('#'+commentId).append('<div>'+response.names[j]+'</div>')     
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')          
+                
+               }
+              
+            }
+            }
+                 
+
+                   
+            }
+
+            })
+
+            $(this).hide();
+
   });
+
+
+
+           
+});
+
 </script>
 
 @endsection
