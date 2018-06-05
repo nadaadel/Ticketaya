@@ -27,6 +27,13 @@ class EventsController extends Controller
     return response()->json(['status' => 'success']);
 
     }
+    public function unsubscribe($event_id ){
+        $subscriber =DB::table('event_user')->where('event_id' ,'=' ,$event_id)
+                                            ->where('user_id' , '=' , Auth::user()->id);
+        $subscriber->delete();
+        return response()->json(['status' => 'success']);
+
+        }
 
     public function newInfo($event_id , Request $request){
       EventInfo::create([

@@ -1,5 +1,6 @@
 <?php
 
+
 Route::get('/test', function () {
     event(new App\Events\StatusLiked('Someone'));
     return "test";
@@ -20,7 +21,6 @@ Route::get('/twilio' , 'TwilioController@sendVerifications');
 
 
 
-
 /**Events Routes */
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/locations' , 'MapController@eventsLocation')->name('eventslocation');
@@ -28,7 +28,7 @@ Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
-// Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 Route::post('/events/info/new/{id}', 'EventsController@newInfo');
 
 
@@ -56,9 +56,9 @@ Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
 
 
 /** Ticket Comments */
-Route::post('/comments','CommentsController@store');
+Route::post('/comments','CommentsController@store')->middleware('auth');
 Route::get('/replies/{id}','RepliesController@show');
-Route::post('/replies','RepliesController@store');
+Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
@@ -67,7 +67,7 @@ Route::get('/tickets', 'TicketsController@index')->name('alltickets');
 Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
-//Route::get('/tickets/search' , 'TicketsController@search');
+
 Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
@@ -78,6 +78,8 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'Auth\LoginController@logout');
+
 
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');

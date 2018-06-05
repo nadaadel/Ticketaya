@@ -24,9 +24,9 @@
     @if(Auth::user()->id != $event->user_id)
       @if(sizeof($subscribers) == 1)
 
-      <button id="unsubscribe" class="btn btn-danger">unsubscribe</button>
+     <button id="subscribe" class="btn btn-danger" >unsubscribe</button>
       @else
-      <button id="subscribe" class="btn btn-primary">Subscribe</button>
+      <button id="subscribe" class="btn btn-primary " >subscribe</button>
       @endif
     @endif
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
@@ -37,22 +37,71 @@
 
          var user_id = $('#user_id').val();
          var event_id = $('#event_id').val();
-         $.ajax({
-             url: '/events/subscribe/'+event_id+'/'+user_id,
-             type: 'GET' ,
-             data:{
-                 '_token':'@csrf'
-             },
-        success:function(response){
-            console.log(response);
+         console.log($(this).html())
+         if ($(this).html()=="subscribe"){
+             console.log("hiii")
+             $.ajax({
+               url: '/events/subscribe/'+event_id+'/'+user_id,
+               type: 'GET' ,
+               data:{
+                '_token':'@csrf'
+                },
+
+            
+            success:function(response){
+             console.log(response);
+       
             if(response.status == 'success'){
-                $('#subscribe').html('unsubscribe');
-                console.log('success');
-                $('#subscribe').attr('class' , 'btn btn-danger');
-            }
-        }
+               $('#subscribe').html('unsubscribe');
+               console.log('success');
+              $('#subscribe').attr('class' , 'btn btn-danger');
+             }
+         }
+
+
+
          });
-       })
+    }
+    else{
+
+         $.ajax({
+               url: '/events/unsubscribe/'+event_id+'/'+user_id,
+               type: 'GET' ,
+               data:{
+                '_token':'@csrf'
+                },
+
+            
+            success:function(response){
+             console.log(response);
+       
+            if(response.status == 'success'){
+               $('#subscribe').html('subscribe');
+               console.log('success');
+              $('#subscribe').attr('class' , 'btn btn-primary');
+             }
+         }
+
+
+
+         });
+        
+    }
+
+
+
+
+        });
+
+         
+         
+
+         
+
+       
+
+
+   
     $('#showModel').on('click' , function(){
         $('.info-area').show();
         $(this).hide();

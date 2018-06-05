@@ -24,6 +24,9 @@
                 </fieldset>
                   {{-- spam section --}}
                   @if(Auth::user())
+                  @role('admin')
+                  Numbers of Spam :{{$numberofspams}}
+                  @endrole
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -43,6 +46,7 @@
                 @endif
 
                 {{-- Request this ticket section --}}
+        @if(Auth::user())       
         <div class="requestticket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -58,6 +62,7 @@
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         @endif
         </div>
+        @endif
 
                 {{-- Request this ticket end section --}}
 
@@ -86,7 +91,7 @@ Comments:
                    <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
                    <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
                    <button type="submit" class="btn btn-primary">
-                                    {{ __('send') }}
+                                    {{ __('Reply') }}
                     </button>
                 </div>
             </div>
@@ -106,7 +111,7 @@ Comments:
                    </textarea>
                    <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
                    <button type="submit" class="btn btn-primary">
-                                    {{ __('Comment') }}
+                                    {{ __('New Comment') }}
                     </button>
                 </div>
          </div>

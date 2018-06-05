@@ -12,9 +12,21 @@
             <li class="nav-item pt-1">
               <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
             </li>
+
+
             <li class="nav-item pt-1">
               <a class="nav-link " href="#">BLOG</a>
             </li>
+            @role('admin')
+            <li class="nav-item active pt-1">
+              <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
+            </li>
+           @endrole
+           @if(Auth::user())
+           <li class="nav-item pt-1">
+              <a class="nav-link " href="/logout">LOG OUT</a>
+            </li>
+            @endif
             <li class="nav-item">
                   @if (Auth::check())
                   <input id="user_id" type="hidden" value="{{Auth::user()->id}}">

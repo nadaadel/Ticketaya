@@ -25,18 +25,22 @@ class TicketsController extends Controller
 
     public function show($id){
         $ticket = Ticket::find($id);
+        if(Auth::user()){
         $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
         $requestStatus = RequestedTicket::where([
         ['requester_id' , '=' , Auth::user()->id],
         ['ticket_id' , '=' , $id]
         ])->get();
+        
 
         $wantStatus = true;
         if(sizeof($requestStatus) == 1){
           $wantStatus = false;
         }
+    }
+        $numberofspams=$ticket->spammers->count();
         // dd($wantStatus);
-        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus'));
+        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','numberofspams'));
     }
     public function spamTicket($id){
         DB::table('spam_tickets')->insert([
