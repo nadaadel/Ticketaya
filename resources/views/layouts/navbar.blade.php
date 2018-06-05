@@ -55,9 +55,11 @@
       var notificationsCount = CountoldNotifications;
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
       Pusher.logToConsole = true;
-      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+
+      //** don't forget to change this **//
+      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
         encrypted: true,
-        cluster:"mt1"
+        cluster:"eu"
       });
       function updateNotificationCount(){
         notificationsCountElem.attr('data-count', notificationsCount);
@@ -116,8 +118,8 @@
                 $.ajax({
                     type: 'get',
                     url: '/notifications/allread',
-                    data:{
-                    '_token':'{{csrf_token()}}',
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
                         if(response.res=='success'){

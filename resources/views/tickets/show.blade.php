@@ -22,6 +22,7 @@
                    <hr>
                 </fieldset>
                   {{-- spam section --}}
+                  @if(Auth::user())
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -38,6 +39,7 @@
                 @endif
             @endif
                 {{-- end spam section --}}
+                @endif
 
                 {{-- Request this ticket section --}}
         <div class="requestticket">
@@ -46,7 +48,7 @@
         @if($ticket->user_id != Auth::user()->id)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-   
+
         <button   type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         {{-- </form> --}}
@@ -58,12 +60,12 @@
         @if($ticket->user_id != Auth::user()->id)
         <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-   
+
         <button   type="submit" class="editticket" class="btn btn-primary">edit requested ticket</button>
         @endif
         {{-- </form> --}}
         </div>
-        
+
 
                 {{-- Request this ticket end section --}}
 
@@ -96,7 +98,7 @@ Comments:
     </form>
     </div>
  </div>
- 
+
 <hr>
 <br>
 @endforeach
@@ -151,16 +153,16 @@ $(document).ready( function(){
                     alert('Ticket Requested Successfully');
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant request this ticket ,Your quantity >'+response.quantity);
 
                    }
 
                    $('.requestticket').hide();
                    $('.edit').show();
-                   
-                   
-                   
+
+
+
                 }
             });
  });
@@ -186,14 +188,14 @@ $(document).ready( function(){
                     alert('Ticket Requested Successfully');
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
 
                    }
 
-                 
-                   
-                   
+
+
+
                 }
             });
  });
@@ -218,12 +220,12 @@ $(document).ready( function(){
                    console.log(response.response.length)
                    $('.formreply').show();
                    for(var i=0;i<response.response.length;i++){
-                        $('.replies').show();                        
+                        $('.replies').show();
                         $('.replies').append(response.response[i].body +'<br>')
                        console.log(response.response[i])
                   }
-                 
-                   
+
+
                 }
 
             })
@@ -233,8 +235,8 @@ $(document).ready( function(){
 
 
 
-           
- 
+
+
 
 </script>
 @endsection
