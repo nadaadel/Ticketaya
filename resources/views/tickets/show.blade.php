@@ -23,24 +23,31 @@
                    <hr>
                 </fieldset>
                   {{-- spam section --}}
-                  @if(Auth::user())
-            @if(count($userSpam))
-                @foreach ($userSpam as $spam)
+            @if(Auth::check())
+                @if(count($userSpam))
+                   @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
                                 <p style="color:red">  You Spammed This Ticket </p>
                                 <br>
                         @endif
-                @endforeach
-            @else
-                @if($ticket->id != Auth::user()->id)
+                    @endforeach
+                @else
+                 @if($ticket->user_id != Auth::user()->id)
                 <form method="POST" action="/tickets/spam/{{$ticket->id}}">
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
+                  @endif
+                @endif
+                {{-- end spam section --}}
+                {{-- save ticket--}}
+                @if($userSavedTicket)
+                <button id="save_ticket" class="btn btn-danger">unsave</button>
+                @else
+                <button id="save_ticket" class="btn btn-primary">save</button>
                 @endif
             @endif
-                {{-- end spam section --}}
-                @endif
+                {{-- end save ticket--}}
 
                 {{-- Request this ticket section --}}
         <div class="requestticket">
@@ -156,14 +163,9 @@ $(document).ready( function(){
                    else{
                     console.log(response);
                     alert('You Cant request this ticket ,Your quantity >'+response.quantity);
-
                    }
-
                    $('.requestticket').hide();
                    $('.edit').show();
-
-
-
                 }
             });
  });
@@ -171,7 +173,6 @@ $(document).ready( function(){
  $('.editticket').on('click' , function(){
             console.log('iam here');
             var quantity = $('#editquantity').val();
-
             var ticket_id = $('#edit-ticket-id').val();
             console.log(quantity);
             $.ajax({
@@ -191,23 +192,48 @@ $(document).ready( function(){
                    else{
                     console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
-
                    }
-
-
-
-
                 }
             });
  });
-
-
-
-})
-
+       $('#save_ticket').on('click' , function(){
+           console.log($(this).html());
+           if($(this).html()=='save'){
+         $.ajax({
+             url: '/tickets/save/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            console.log(response);
+            if(response.res == 'success'){
+                $('#save_ticket').html('unsave');
+                $("#save_ticket").attr('class', 'btn btn-danger');
+            }
+        }
+         });
+           }
+           else
+           if($(this).html()=='unsave'){
+            $.ajax({
+             url: '/tickets/unsave/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            console.log(response);
+            if(response.res == 'success'){
+                $('#save_ticket').html('save');
+                $("#save_ticket").attr('class', 'btn btn-primary');
+            }
+            }
+         });
+        }
+    });
 
   $(document).on('click','.reply', function () {
-
          var elem = this;
              ticketId=$(this).attr("ticket-no");
             commentId=$(this).attr("comment-id");
@@ -225,19 +251,10 @@ $(document).ready( function(){
                         $('.replies').append(response.response[i].body +'<br>')
                        console.log(response.response[i])
                   }
-
-
                 }
-
             })
-
-
+        });
   });
-
-
-
-
-
 
 </script>
 

@@ -72,10 +72,12 @@ class User extends Authenticatable
     }
 
     public function eventquestions(){
-
-
         return $this->hasMany(EventQuestion::class);
+    }
 
+    public function savedTickets()
+    {
+       return $this->belongsToMany(Ticket::class,'saved_tickets_users','user_id','ticket_id');
     }
 
 }

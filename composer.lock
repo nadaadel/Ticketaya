@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c4d3336a5cabefabd17ca97526f08c6",
+    "content-hash": "073037b86fa0f2dfb285290491b49c12",
     "packages": [
         {
             "name": "actuallymab/laravel-comment",

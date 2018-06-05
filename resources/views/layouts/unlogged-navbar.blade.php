@@ -7,10 +7,10 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav navbar-right">
       <li class="nav-item active pt-1">
-        <a class="nav-link" href="/tickets">TICKETS</a>
+        <a class="nav-link" href="{{ URL::to('tickets/' ) }}">TICKETS</a>
       </li>
       <li class="nav-item pt-1">
-        <a class="nav-link" href="#">EVENTS</a>
+        <a class="nav-link" href="{{ URL::to('events/' ) }}">EVENTS</a>
       </li>
       <li class="nav-item pt-1">
         <a class="nav-link " href="#">BLOG</a>
@@ -42,6 +42,8 @@
               </ul>
             </div>
                        {{-- end Notification section UI --}}
+                       @else
+
     </li>
       <li class="nav-item pt-1 pl-5">
         <a class="nav-link " href="#">LOG IN </a>
@@ -49,6 +51,7 @@
       <li class="nav-item">
         <a class="nav-link " href="#"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
       </li>
+      @endif
     </ul>
     <ul class="navbar-nav navbar-right">
 
@@ -56,8 +59,11 @@
   </div>
 
 </div>
+</nav>
+
 <script type="text/javascript">
     $(function () {
+        @if(Auth::check())
       var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
       var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
       var notificationsWrapper   = $('.dropdown-notifications');
@@ -101,7 +107,7 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`" href="/tickets/requests" class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                                <a notif-no="`+data.id+`"  class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
                                 <p class="notification-desc"></p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
@@ -118,7 +124,7 @@
             notificationsHtml(notify,1);
             });
 }
-      $.each(oldNotifications, function( i, val) {
+      $.each(oldNotifications.reverse(), function( i, val) {
         notificationsHtml(val,0);
     });
 
@@ -154,6 +160,7 @@
                         if(response.res=='unseen'){
                             notificationsCount-=1;
                             updateNotificationCount();
+                            window.location = "/tickets/requests";
                         }
                     }
                 });
@@ -165,10 +172,8 @@
     var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
     bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
 });
-
-    </script>
 @endif
-</nav>
+    </script>
 
 
  <!-- <nav  id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">

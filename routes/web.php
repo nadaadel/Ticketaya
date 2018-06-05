@@ -68,6 +68,8 @@ Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 Route::get('/tickets/{id}' , 'TicketsController@show');
 Route::put('/tickets/update/{id}', 'TicketsController@update');
 Route::post('/tickets/search','TicketsController@search');
+Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
+Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 
 
 

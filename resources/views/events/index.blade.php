@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
 
-  <h1>All Tickets </h1>
+  <h1>All Events </h1>
 
 
   <form method="POST" action="/events/search" enctype="multipart/form-data" class="form-inline">
@@ -13,7 +13,7 @@
 
   </form>
   <div class="col-sm">
-      <a href={{ URL::to('events/create' )}} ><input type="button" class="btn btn-success" value='Create Ticket'/></div></a>
+      <a href={{ URL::to('events/create' )}} ><input type="button" class="btn btn-success" value='Create Event'/></div></a>
   <table class="table table-hover table-dark">
     <thead>
       <tr>
