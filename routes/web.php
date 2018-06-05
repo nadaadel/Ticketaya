@@ -1,5 +1,5 @@
 <?php
-Auth::routes();
+
 
 Route::get('/test', function () {
     event(new App\Events\StatusLiked('Someone'));
@@ -17,7 +17,6 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
-
 
 
 
@@ -57,9 +56,9 @@ Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
 
 
 /** Ticket Comments */
-Route::post('/comments','CommentsController@store');
+Route::post('/comments','CommentsController@store')->middleware('auth');
 Route::get('/replies/{id}','RepliesController@show');
-Route::post('/replies','RepliesController@store');
+Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
@@ -79,6 +78,8 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'Auth\LoginController@logout');
+
 
 /** Admin  */
 Route::get('/admin', 'AdminsController@index')->name('admin');

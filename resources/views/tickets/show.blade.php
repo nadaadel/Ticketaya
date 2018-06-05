@@ -46,6 +46,7 @@
                 @endif
 
                 {{-- Request this ticket section --}}
+        @if(Auth::user())       
         <div class="requestticket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -61,6 +62,7 @@
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         @endif
         </div>
+        @endif
 
                 {{-- Request this ticket end section --}}
 

@@ -12,14 +12,7 @@
             <li class="nav-item pt-1">
               <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
             </li>
-            @if(!Auth::user())
-            <li class="nav-item pt-1">
-              <a class="nav-link" href="/login">LOGIN</a>
-            </li>
-            <li class="nav-item pt-1">
-              <a class="nav-link" href="/register">REGISTER</a>
-            </li>
-            @endif
+           
            
             <li class="nav-item pt-1">
               <a class="nav-link " href="#">BLOG</a>
@@ -29,6 +22,11 @@
               <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
             </li>
            @endrole
+           @if(Auth::user())
+           <li class="nav-item pt-1">
+              <a class="nav-link " href="/logout">LOG OUT</a>
+            </li>
+            @endif
             <li class="nav-item">
                   @if (Auth::check())
                   <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
@@ -172,10 +170,10 @@
 
         @else
         <li class="nav-item pt-1 pl-5">
-                <a class="nav-link " href="#">LOG IN </a>
+                <a class="nav-link " href="/login">LOG IN </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="#"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
+                <a class="nav-link " href="register"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
               </li>
       @endif
       </nav>
