@@ -19,10 +19,12 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 /**Events Routes */
 Route::get('/events/locations' , 'MapController@eventsLocation');
+Route::get('/events/create' , 'EventsController@create');
+Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
+Route::get('/events' , 'EventsController@index');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 // Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
-
 
 
 
@@ -80,4 +82,3 @@ Route::get('/admin', 'AdminsController@index')->name('admin');
 Route::get('/notifications','NotificationsController@show');
 Route::get('/notifications/allread','NotificationsController@updateAllRead');
 Route::get('/notifications/{id}/edit','NotificationsController@edit');
-

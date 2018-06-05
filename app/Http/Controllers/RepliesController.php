@@ -11,10 +11,17 @@ class RepliesController extends Controller
 {
     public function show($id)
     {
+        $names=[];
         $replies=Comment::find($id)->replies;
+        foreach ($replies as $reply){
+            $name=$reply->user->name;
+            $names[]=$name;
+
+
+        }
         
        
-        return response()->json(['replies' => $replies]);
+        return response()->json(['replies' => $replies ,'names' => $names]);
     }
 
     public function store(Request $request){

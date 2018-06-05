@@ -23,6 +23,7 @@
                    <hr>
                 </fieldset>
                   {{-- spam section --}}
+                  @if(Auth::user())
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -39,6 +40,7 @@
                 @endif
             @endif
                 {{-- end spam section --}}
+                @endif
 
                 {{-- Request this ticket section --}}
         <div class="requestticket">
@@ -47,7 +49,7 @@
         @if($ticket->user_id != Auth::user()->id)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-   
+
         <button   type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         {{-- </form> --}}
@@ -59,17 +61,17 @@
         @if($ticket->user_id != Auth::user()->id)
         <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-   
+
         <button   type="submit" class="editticket" class="btn btn-primary">edit requested ticket</button>
         @endif
         {{-- </form> --}}
         </div>
-        
+
 
                 {{-- Request this ticket end section --}}
 
 
-{{-- comment and replies section --}}
+{{-- comments and replies section --}}
 <br>
 Comments:
 <br>
@@ -78,11 +80,11 @@ Comments:
 {{$comment->user->name}}
 <div>{{$comment->body}} created at :{{$comment->created_at}} </div>
 
-<button  id="ticket" class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
+<button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
 
 <div id="{{$comment->id}}" style="display: none;">
 
-    <div class="card-body" id=""  >
+    <div class="card-body"  >
 
         <form method="POST" action="/replies" enctype="multipart/form-data" >
          {{ csrf_field() }}
@@ -155,16 +157,16 @@ $(document).ready( function(){
                     alert('Ticket Requested Successfully');
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant request this ticket ,Your quantity >'+response.quantity);
 
                    }
 
                    $('.requestticket').hide();
                    $('.edit').show();
-                   
-                   
-                   
+
+
+
                 }
             });
  });
@@ -190,14 +192,14 @@ $(document).ready( function(){
                     alert('Ticket Requested Successfully');
                    }
                    else{
-                    console.log(response);  
+                    console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
 
                    }
 
-                 
-                   
-                   
+
+
+
                 }
             });
  });
@@ -219,21 +221,29 @@ $('.reply').on('click',function(){
                 '_token':'{{csrf_token()}}',
                  },
             success: function (response) {
-            console.log(response.replies)
+            //console.log(response.replies)
+            console.log(response.names);
             $('#'+commentId).show();    
             
             for(var i=0;i<response.replies.length;i++){
-                                  
-                $('#'+commentId).append('<div>'+'{{'+response.replies[i]+'->user->name}}'+response.replies[i].body+'</div>' +'<br>')
-                console.log(response.replies[i])
+                
+               for (var j=0;j<response.names.length;j++){
+                if (i==j){
+                    $('#'+commentId).append('<div>'+response.names[j]+'</div>')     
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')          
+                
+               }
+              
             }
-            $('.reply').hide();
+            }
                  
+
                    
             }
 
             })
 
+            $(this).hide();
 
   });
 
