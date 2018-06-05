@@ -7,10 +7,10 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav navbar-right">
       <li class="nav-item active pt-1">
-        <a class="nav-link" href="{{ URL::route('alltickets')}}">TICKETS</a>
+        <a class="nav-link" href="">TICKETS</a>
       </li>
       <li class="nav-item pt-1">
-        <a class="nav-link" href="{{ URL::route('allevents') }}">EVENTS</a>
+        <a class="nav-link" href="">EVENTS</a>
       </li>
       <li class="nav-item pt-1">
         <a class="nav-link " href="/blog">BLOG</a>

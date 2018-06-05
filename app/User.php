@@ -77,5 +77,8 @@ class User extends Authenticatable
         return $this->hasMany(EventQuestion::class);
 
     }
+    public function spammedTickets(){
+        return  $this->belongsToMany(Ticket::class , 'spam_tickets');
+     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+Auth::routes();
 
 Route::get('/test', function () {
     event(new App\Events\StatusLiked('Someone'));
@@ -32,7 +33,7 @@ Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::get('/events' , 'EventsController@index');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
-// Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 Route::post('/events/info/new/{id}', 'EventsController@newInfo');
 
 

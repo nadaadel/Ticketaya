@@ -17,8 +17,6 @@ class CreateEventUserTable extends Migration
             $table->increments('id');
             $table->integer('event_id');
             $table->integer('user_id');
-            $table->boolean('is_follower')->default(0); ;
-           
             $table->timestamps();
         });
     }
