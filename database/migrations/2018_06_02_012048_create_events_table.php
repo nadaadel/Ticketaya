@@ -18,13 +18,12 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('location');
-            $table->string('photo');
-            $table->string('category_id');
+            $table->string('photo')->default('default.jpg');;
+            $table->string('category');
             $table->integer('avaliabletickets');
             $table->DateTime('startdate');
             $table->DateTime('enddate');
             $table->integer('user_id');
-
             $table->timestamps();
         });
     }

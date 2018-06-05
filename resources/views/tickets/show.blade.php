@@ -23,6 +23,7 @@
                    <hr>
                 </fieldset>
                   {{-- spam section --}}
+                  @if(Auth::user())
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -39,6 +40,7 @@
                 @endif
             @endif
                 {{-- end spam section --}}
+                @endif
 
                 {{-- Request this ticket section --}}
         <div class="requestticket">
@@ -146,7 +148,6 @@ $(document).ready( function(){
                    else{
                     console.log(response);
                     alert('You Cant request this ticket ,Your quantity >'+response.quantity);
-
                    }
                 }
             });
@@ -174,7 +175,6 @@ $(document).ready( function(){
                    else{
                     console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
-
                    }
              }
          });

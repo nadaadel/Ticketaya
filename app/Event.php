@@ -2,6 +2,7 @@
 
 namespace App;
 use App\User;
+use App\Category;
 use App\EventQuestion;
 use App\EventInfo;
 
@@ -9,11 +10,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model {
     protected $fillable = [
-        'name','user_id','photo','location','startdate','shortdate','category','avaliableticket','description'
+        'name','user_id','photo','location','startdate','enddate','category_id','avaliableticket','description'
 
     ];
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 
     public function users(){

@@ -32,8 +32,7 @@
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 <input type="hidden" id="event_id" value="{{$event->id}}">
 <script>
-
-   $(document).ready(function(){
+    $(document).ready(function(){
     $('#subscribe').on('click' , function(){
          var user_id = $('#user_id').val();
          var event_id = $('#event_id').val();
@@ -45,7 +44,6 @@
              },
         success:function(response){
             console.log(response);
-
             if(response.status == 'success'){
                 $('#subscribe').html('unsubscribe');
                 console.log('success');
