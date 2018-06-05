@@ -24,6 +24,9 @@
                 </fieldset>
                   {{-- spam section --}}
                   @if(Auth::user())
+                  @role('admin')
+                  Numbers of Spam :{{$numberofspams}}
+                  @endrole
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -86,7 +89,7 @@ Comments:
                    <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
                    <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
                    <button type="submit" class="btn btn-primary">
-                                    {{ __('send') }}
+                                    {{ __('Reply') }}
                     </button>
                 </div>
             </div>
@@ -106,7 +109,7 @@ Comments:
                    </textarea>
                    <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
                    <button type="submit" class="btn btn-primary">
-                                    {{ __('Comment') }}
+                                    {{ __('New Comment') }}
                     </button>
                 </div>
          </div>

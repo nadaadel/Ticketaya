@@ -35,8 +35,9 @@ class TicketsController extends Controller
         if(sizeof($requestStatus) == 1){
           $wantStatus = false;
         }
+        $numberofspams=$ticket->spammers->count();
         // dd($wantStatus);
-        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus'));
+        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','numberofspams'));
     }
     public function spamTicket($id){
         DB::table('spam_tickets')->insert([
