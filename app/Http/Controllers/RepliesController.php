@@ -12,8 +12,9 @@ class RepliesController extends Controller
     public function show($id)
     {
         $replies=Comment::find($id)->replies;
+        
        
-        return response()->json(['response' => $replies]);
+        return response()->json(['replies' => $replies]);
     }
 
     public function store(Request $request){
@@ -24,6 +25,6 @@ class RepliesController extends Controller
             'ticket_id'=>$request->ticket_id,
             'comment_id'=>$request->comment_id
         ]);
-        return redirect('/tickets');
+        return redirect('/tickets/'.$request->ticket_id);
     }
 }

@@ -21,6 +21,11 @@
       <li class="nav-item">
         <a class="nav-link " href="#"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
       </li>
+      <li class="nav-item">
+        @role('admin')
+        <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
+        @endrole
+      </li>
     </ul>
     <ul class="navbar-nav navbar-right">
 
