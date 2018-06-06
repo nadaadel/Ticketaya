@@ -1,8 +1,18 @@
 <?php
 
 
+Route::get('/users' , 'UsersController@index')->name('allusers');
+Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
-Route::get('/admin/index' , 'AdminsController@index');
+
+/** Admin Category Route */
+Route::get('/admin/categories' , 'CategoriesController@index');
+Route::post('/admin/categories' , 'CategoriesController@create');
+Route::get('/admin/categories/edit/{id}' , 'CategoriesController@edit');
+Route::put('/admin/categories/{id}' , 'CategoriesController@update');
+Route::delete('/admin/categories/{id}' , 'CategoriesController@delete');
+
+
 
 Route::get('/test', function () {
     event(new App\Events\StatusLiked('Someone'));
@@ -47,9 +57,11 @@ Route::get('/tickets/cancel/{id}','TicketRequestsController@cancelTicketSold');
 Route::post('/tickets/request/edit/{id}','TicketRequestsController@editRequestedTicket');
 Route::post('/tickets/request/{id}' , 'TicketRequestsController@requestTicket');
 
+Route::get('/categories' , 'CategoriesController@index')->name('allcategories');
+
 
 /** Tag CRUD Operations */
-Route::get('/tags' , 'TagsController@allTags');
+Route::get('/tags' , 'TagsController@allTags')->name('alltags');
 Route::get('/tags/create' , 'TagsController@create');
 Route::post('/tags/store' , 'TagsController@store');
 Route::get('/tags/show/{id}' , 'TagsController@show');
