@@ -29,6 +29,8 @@ Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
+Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{id}', 'EventsController@newInfo');
 
 
@@ -68,7 +70,7 @@ Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
-Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
+Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket')->middleware('auth');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
