@@ -148,23 +148,25 @@ $(document).on('click','#readall',function(event){
             });
        });
 
-// change notifications status to unseen
-$(document).on('click','.notify-seen',function(event){
-    event.preventDefault();
-    notif_id=$(this).attr('notif-no');
-            $.ajax({
-                type: 'get',
-                url: '/notifications/'+notif_id+'/edit',
-                data:{
-                '_token':'{{csrf_token()}}',
-                },
-                success: function (response) {
-                    if(response.res=='unseen'){
-                        notificationsCount-=1;
-                        updateNotificationCount();
+    // change notifications status to unseen
+    $(document).on('click','.notify-seen',function(event){
+        event.preventDefault();
+        notif_id=$(this).attr('notif-no');
+                $.ajax({
+                    type: 'get',
+                    url: '/notifications/'+notif_id+'/edit',
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    },
+                    success: function (response) {
+                        if(response.res=='unseen'){
+                            console.log(res)
+                            notificationsCount-=1;
+                            updateNotificationCount();
+                        }
                         window.location = "/tickets/requests";
                     }
-                }
+
             });
        });
 var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');

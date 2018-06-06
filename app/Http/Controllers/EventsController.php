@@ -18,8 +18,8 @@ class EventsController extends Controller
      // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
-        
-        
+
+
         }
         $questions=EventQuestion::all()->where('event_id',$id);
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
@@ -38,7 +38,7 @@ class EventsController extends Controller
 
         ]);
         }
-    
+
         return response()->json(['questions' => $eventQuestion]);
     }
     public function updateQuestion(Request $request){
@@ -51,8 +51,8 @@ class EventsController extends Controller
         $eventanswer->event_id=$request->event_id;
         $eventanswer->user_id=$request->user_id;
         $eventanswer->pivot->save();
-        
-    
+
+
         return response()->json(['answer' => $eventanswer]);
     }
     public function subscribe($event_id , $user_id){
@@ -77,6 +77,7 @@ class EventsController extends Controller
          'body' => $request->description
       ]);
       $event = Event::find($event_id);
+      
       $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
       foreach($eventSubscibers as $subscriber){
          event(new EventSubscribers($event_id , $subscriber->user_id));

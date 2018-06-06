@@ -40,7 +40,8 @@
    <td>
      <form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
       {!! csrf_field() !!}
-      {{method_field('Delete')}}</form>
+      {{method_field('Delete')}}
+    </form>
     </td>
     @endif
   </tr>

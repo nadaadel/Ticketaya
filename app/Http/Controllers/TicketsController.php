@@ -87,7 +87,7 @@ class TicketsController extends Controller
             'name'=>'required|min:3',
             'price'=>'required|numeric',
             'quantity'=>'required|integer|digits_between: 1,10',
-            'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'photo'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'expire_date' => 'required|date|after_or_equal:'.Carbon::now(),
             'user_id' => 'exists:users,id',
             'category' => 'exists:categories,id',
@@ -105,8 +105,8 @@ class TicketsController extends Controller
         $ticket->description=$request->description;
         $ticket->user_id= Auth::user()->id;
         $ticket->quantity=$request->quantity;
-        $ticket->region=$request->region;
-        $ticket->city=$request->city;
+        $ticket->region_id=$request->region;
+        $ticket->city_id=$request->city;
         $ticket->expire_date=$request->expire_date;
         $ticket->category_id=$request->category;
         $ticket->type=1;

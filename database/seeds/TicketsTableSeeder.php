@@ -21,8 +21,8 @@ class TicketsTableSeeder extends Seeder
            'type' => '1',
            'is_sold' => '0',
            'category_id' => '1',
-           'region' => 'smouha',
-           'city' => 'alexandria',
+           'region_id' => 680007,
+           'city_id' => 926 ,
            'user_id' => '1',
            'expire_date' => '1995-3-3',
        ]);

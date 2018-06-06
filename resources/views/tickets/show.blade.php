@@ -10,8 +10,8 @@
                     <p>Description:{{ $ticket->description }}</p>
                     <p>Price :{{ $ticket->price }}</p>
                     <p>Date :{{ $ticket->expire_date }}</p>
-                    <p>Category :{{ $ticket->category_id }}</p>
-                    <p>Location:{{ $ticket->region }},{{ $ticket->city }}</p>
+                    <p>Category :{{ $ticket->category->name }}</p>
+                    <p>Location:{{ $ticket->region->name }},{{ $ticket->city->name }}</p>
                     <p>Created by :{{ $ticket->user->name }} </p>
                     @if($ticket->tags)
                     <p>

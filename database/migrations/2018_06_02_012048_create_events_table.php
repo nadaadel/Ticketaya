@@ -20,11 +20,11 @@ class CreateEventsTable extends Migration
             $table->string('region');
             $table->string('city');
             $table->string('photo')->default('default.jpg');;
-            $table->string('category');
+            $table->integer('category_id')->unsigned()->index()->nullable();
             $table->integer('avaliabletickets');
             $table->DateTime('startdate');
             $table->DateTime('enddate');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });
     }
