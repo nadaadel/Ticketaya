@@ -87,9 +87,9 @@
       Pusher.logToConsole = true;
 
       //** don't forget to change this **//
-      var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+      var pusher = new Pusher('6042cdb1e9ffa998e5be', {
         encrypted: true,
-        cluster:"eu"
+        cluster:"mt1"
       });
 
 
@@ -119,7 +119,7 @@
                             </div>
                             </div>
                             <div class="media-body">
-                                <a notif-no="`+data.id+`"  class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                                <a notif-no="`+data.id+`"class="notify-seen" href="#"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
                                 <p class="notification-desc"></p>
                                 <div class="notification-meta">
                                     <small class="timestamp">`+data.created_at+`</small>
@@ -170,10 +170,12 @@
                     },
                     success: function (response) {
                         if(response.res=='unseen'){
+                            console.log(res)
                             notificationsCount-=1;
                             updateNotificationCount();
-                            window.location = "/tickets/requests";
                         }
+                        window.location = "/tickets/requests";
+
                     }
                 });
            });

@@ -12,11 +12,12 @@ class EventsTableSeeder extends Seeder
     public function run()
     {
         Event::create([
-            'name' => 'Tamer Honsy Concert' ,
-            'description' => 'Tamer concert at Golf porto Marina',
+            'name' => 'Tamer Hosny Concert' ,
+            'description' => 'SUPER STAR KARIM MOHSEN',
             'photo' => 'photo',
-            'category' => '1',
-            'location' => 'El-Hamam',
+            'category_id' => '1',
+            'region' => 'smouha',
+            'city' => 'alexandria',
             'avaliabletickets' => '20',
             'startdate' => '2018-5-1',
             'enddate' => '2018-6-6',
