@@ -109,3 +109,9 @@ Route::get('/admin', 'AdminsController@index')->name('admin');
 Route::get('/notifications','NotificationsController@show');
 Route::get('/notifications/allread','NotificationsController@updateAllRead');
 Route::get('/notifications/{id}/edit','NotificationsController@edit');
+
+
+
+
+/* Cities */
+Route::get('/cities/{id}','CitiesController@show');

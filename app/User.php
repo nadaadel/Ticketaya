@@ -10,6 +10,8 @@ use App\RequestedTicket;
 use App\Event;
 use App\EventQuestion;
 use Actuallymab\LaravelComment\CanComment;
+use App\City;
+use App\Region;
 
 
 
@@ -82,5 +84,11 @@ class User extends Authenticatable
     public function spammedTickets(){
         return  $this->belongsToMany(Ticket::class , 'spam_tickets');
      }
+     public function City(){
+        return $this->belongsTo(City::class);
+    }
+    public function Region(){
+        return $this->belongsTo(Region::class);
+    }
 
 }

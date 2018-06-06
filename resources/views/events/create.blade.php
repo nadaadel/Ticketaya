@@ -21,8 +21,8 @@
 <label >Quantity </label>
 <input type="number" name="avaliabletickets"/>
 <br/>
-<label >Location </label>
-<input type="text" name="location"/>
+<label >Region </label>
+<input type="text" name="region"/>
 <br/>
 <label >Start Date </label>
 <input type="datetime-local" name="startdate"/>
