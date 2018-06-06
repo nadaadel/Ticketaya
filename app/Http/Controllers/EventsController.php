@@ -8,17 +8,52 @@ use App\Category;
 
 use Auth;
 use Illuminate\Http\Request;
+use App\EventQuestion;
 
 class EventsController extends Controller
 {
     public function show($id){
         $event = Event::find($id);
+        if(Auth::user()){
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
+        
+        
+        }
+        $questions=EventQuestion::all()->where('event_id',$id);
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
-        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos'));
+        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
+    public function storeQuestion(Request $request){
+        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
+       // dd($questionfound==null);
+        if (!$questionfound){
 
+        $eventQuestion=EventQuestion::create([
+            'event_id'=>$request->event_id,
+            'user_id'=>$request->user_id,
+            'question'=>$request->question,
+            'answer'=>"waiting"
+
+        ]);
+        }
+    
+        return response()->json(['questions' => $eventQuestion]);
+    }
+    public function updateQuestion(Request $request){
+
+        $eventanswer=EventQuestion::all()->where('question','=',$request->question)
+                   ->where('event_id','=',$request->event_id)->first();
+        //dd($eventanswer);
+        $eventanswer->pivot->answer=$request->answer;
+        $eventanswer->pivot->question=$request->question;
+        $eventanswer->event_id=$request->event_id;
+        $eventanswer->user_id=$request->user_id;
+        $eventanswer->pivot->save();
+        
+    
+        return response()->json(['answer' => $eventanswer]);
+    }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
          'event_id' => $event_id,

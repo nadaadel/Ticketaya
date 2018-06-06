@@ -74,7 +74,7 @@ Comments:
 <br>
 @foreach($ticket->comments as $comment)
 {{$comment->user->name}}
-<div>{{$comment->body}} created at :{{$comment->created_at}} </div>
+<div>{{$comment->body}} created at :{{$comment->created_at->diffForHumans()}} </div>
 
 <button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
 

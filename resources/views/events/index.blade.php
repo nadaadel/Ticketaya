@@ -13,7 +13,7 @@
 
   </form>
   <div class="col-sm">
-      <a href={{ URL::to('events/create' )}} ><input type="button" class="btn btn-success" value='Create Ticket'/></div></a>
+      <a href={{ URL::to('events/create' )}} ><input type="button" class="btn btn-success" value='Create Event'/></div></a>
   <table class="table table-hover table-dark">
     <thead>
       <tr>
@@ -32,7 +32,7 @@
         <td>{{$event->name}}</td>
         <td>{{$event->user->name}}</td>
         <td><img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:150px; height:150px;"></td>
-        <td> {{ $event->created_at }} </td>
+        <td> {{$event->created_at->diffForHumans()}} </td>
         <td><a href={{ URL::to('events/' . $event->id ) }} type="button" class="btn btn-success" >View</a></td>
       {!! csrf_field() !!}
       {{method_field('Delete')}}</form></td>

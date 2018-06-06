@@ -23,7 +23,7 @@
             </li>
            @endrole
            @if(Auth::user())
-           <li class="nav-item pt-1">
+            <li class="nav-item pt-1">
               <a class="nav-link " href="/logout">LOG OUT</a>
             </li>
             @endif
