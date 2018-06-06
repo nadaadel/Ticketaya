@@ -15,8 +15,8 @@ class CreateSpamTicketsTable extends Migration
     {
         Schema::create('spam_tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ticket_id');
-            $table->string('user_id');
+            $table->string('ticket_id')->unsigned()->index()->nullable();
+            $table->string('user_id')->unsigned()->index()->nullable();
         });
     }
 
