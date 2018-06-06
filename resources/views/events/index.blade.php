@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
 
-  <h1>All Tickets </h1>
+  <h1>All Events </h1>
 
 
   <form method="POST" action="/events/search" enctype="multipart/form-data" class="form-inline">

@@ -3,10 +3,9 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventInfo;
 use DB;
-
 use App\Category;
-
 use Auth;
+use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 
@@ -15,6 +14,8 @@ class EventsController extends Controller
     public function show($id){
         $event = Event::find($id);
         if(Auth::user()){
+        $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
+     // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
         
@@ -75,7 +76,12 @@ class EventsController extends Controller
          'event_id' => $event_id,
          'body' => $request->description
       ]);
-      //fire Notification Here
+      $event = Event::find($event_id);
+      $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
+      foreach($eventSubscibers as $subscriber){
+         event(new EventSubscribers($event_id , $subscriber->user_id));
+
+      }
       return response()->json(['status' => 'success']);
 
     }

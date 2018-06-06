@@ -14,6 +14,7 @@ use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;
 use App\Events\StatusTicketRequested;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -25,22 +26,22 @@ class TicketsController extends Controller
 
     public function show($id){
         $ticket = Ticket::find($id);
-        if(Auth::user()){
-        $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
-        $requestStatus = RequestedTicket::where([
-        ['requester_id' , '=' , Auth::user()->id],
-        ['ticket_id' , '=' , $id]
-        ])->get();
-        
-
-        $wantStatus = true;
-        if(sizeof($requestStatus) == 1){
-          $wantStatus = false;
-        }
-    }
+        if(Auth::check()){
+                $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
+                $requestStatus = RequestedTicket::where([
+                ['requester_id' , '=' , Auth::user()->id],
+                ['ticket_id' , '=' , $id]
+                ])->get();
+                $wantStatus = true;
+                if(sizeof($requestStatus) == 1){
+                  $wantStatus = false;
+                }
         $numberofspams=$ticket->spammers->count();
-        // dd($wantStatus);
-        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','numberofspams'));
+        $userSavedTicket=Auth::user()->savedTickets->contains($id);
+        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','numberofspams','userSavedTicket'));
+        }
+        return view('tickets.show' , compact('ticket'));
+
     }
     public function spamTicket($id){
         DB::table('spam_tickets')->insert([
@@ -66,11 +67,31 @@ class TicketsController extends Controller
         return view('tickets.create',compact('categories'));
     }
 
-    public function store(Request $request){
+    public function saveTicket($id){
+        $user=Auth::user();
+        if(!$user->savedTickets->contains($id)){
+            $user->savedTickets()->attach($id);
+        }
+        return response()->json(['res' => 'success']);
+    }
+    public function unsaveTicket($id){
+        $user=Auth::user();
+        if($user->savedTickets->contains($id)){
+            $user->savedTickets()->detach($id);
+        }
+        return response()->json(['res' => 'success']);
+    }
 
+    public function store(Request $request){
         $request->validate([
             'name'=>'required|min:3',
-            'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024'
+            'price'=>'required|numeric',
+            'quantity'=>'required|integer|digits_between: 1,10',
+            'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'expire_date' => 'required|date|after_or_equal:'.Carbon::now(),
+            'user_id' => 'exists:users,id',
+            'category' => 'exists:categories,id',
+
         ]);
         $ticket=new Ticket;
         if($request->hasFile('photo')){
@@ -116,7 +137,6 @@ class TicketsController extends Controller
     }
 
     public function update($id, Request $request){
-
         $ticket= Ticket::find($id);
         $ticket->price =$request->price;
         $ticket->name = $request->name;

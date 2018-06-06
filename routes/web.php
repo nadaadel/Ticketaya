@@ -73,7 +73,10 @@ Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket')->middleware('auth');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
+Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
+Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
+
 
 
 

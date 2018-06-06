@@ -33,20 +33,27 @@
                                 <p style="color:red">  You Spammed This Ticket </p>
                                 <br>
                         @endif
-                @endforeach
-            @else
-                @if($ticket->id != Auth::user()->id)
+                    @endforeach
+                @else
+                 @if($ticket->user_id != Auth::user()->id)
                 <form method="POST" action="/tickets/spam/{{$ticket->id}}">
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
+                  @endif
+                @endif
+                {{-- end spam section --}}
+                {{-- save ticket--}}
+                @if($userSavedTicket)
+                <button id="save_ticket" class="btn btn-danger">unsave</button>
+                @else
+                <button id="save_ticket" class="btn btn-primary">save</button>
                 @endif
             @endif
-                {{-- end spam section --}}
-                @endif
+                {{-- end save ticket--}}
 
                 {{-- Request this ticket section --}}
-        @if(Auth::user())       
+        @if(Auth::user())
         <div class="requestticket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -98,7 +105,7 @@ Comments:
         </form>
     </div>
 </div>
- 
+
 <hr>
 <br>
 @endforeach
@@ -133,7 +140,7 @@ Comments:
 @endif
 
 <script>
-$(document).ready( function(){
+    $(document).ready( function(){
     $('.want').on('click' , function(){
             console.log('iam here');
             var quantity = $('#quantity').val();
@@ -161,7 +168,6 @@ $(document).ready( function(){
                 }
             });
  });
-
  $('.editticket').on('click' , function(){
           //  $('#editquantity').show();
             var quantity  = $('#editquantity').val();
@@ -185,20 +191,10 @@ $(document).ready( function(){
                     console.log(response);
                     alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
                    }
-
-
-
-
                 }
             });
  });
-
-
-
-
 $('.reply').on('click',function(){
-
- 
 
     var elem = this;
     var ticketId=$(this).attr("ticket-no");
@@ -212,33 +208,61 @@ $('.reply').on('click',function(){
             success: function (response) {
             //console.log(response.replies)
             console.log(response.names);
-            $('#'+commentId).show();    
-            
+            $('#'+commentId).show();
+
             for(var i=0;i<response.replies.length;i++){
-                
+
                for (var j=0;j<response.names.length;j++){
                 if (i==j){
-                    $('#'+commentId).append('<div>'+response.names[j]+'</div>')     
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')          
-                
+                    $('#'+commentId).append('<div>'+response.names[j]+'</div>')
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')
+
                }
-              
-            }
-            }
-                 
 
-                   
+            }
             }
 
+
+            }
             })
-
             $(this).hide();
-
   });
-
-
-
-           
+       $('#save_ticket').on('click' , function(){
+           console.log($(this).html());
+           if($(this).html()=='save'){
+         $.ajax({
+             url: '/tickets/save/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            console.log(response);
+            if(response.res == 'success'){
+                $('#save_ticket').html('unsave');
+                $("#save_ticket").attr('class', 'btn btn-danger');
+            }
+        }
+         });
+           }
+           else
+           if($(this).html()=='unsave'){
+            $.ajax({
+             url: '/tickets/unsave/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            console.log(response);
+            if(response.res == 'success'){
+                $('#save_ticket').html('save');
+                $("#save_ticket").attr('class', 'btn btn-primary');
+            }
+            }
+         });
+        }
+    });
 });
 
 </script>

@@ -137,7 +137,7 @@
   })
 
     $('#subscribe').on('click' , function(){
-        
+
          var user_id = $('#user_id').val();
          var event_id = $('#event_id').val();
          console.log($(this).html())

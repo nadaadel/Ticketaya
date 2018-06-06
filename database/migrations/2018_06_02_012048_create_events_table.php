@@ -17,7 +17,8 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
-            $table->string('location');
+            $table->string('region');
+            $table->string('city');
             $table->string('photo')->default('default.jpg');;
             $table->string('category');
             $table->integer('avaliabletickets');

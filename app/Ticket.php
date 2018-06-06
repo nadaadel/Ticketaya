@@ -12,6 +12,14 @@ use Actuallymab\LaravelComment\Commentable;
 
 class Ticket extends Model
 {
+    protected $fillable = [
+        'name', 'photo', 'description','price','region','city',
+        'quantity','is_sold','type','expire_date'
+    ];
+    public function savedBy()
+    {
+       return $this->belongsToMany(User::class,'saved_tickets_users','ticket_id','user_id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
