@@ -36,7 +36,10 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
-
+/**Users route */
+Route::get('/users/{id}','UsersController@show');
+Route::get('/users/edit/{id}','UsersController@edit');
+Route::put('/users/{id}','UsersController@update');
 
 /**Events Routes */
 Route::get('/events' ,'EventsController@index')->name('allevents');

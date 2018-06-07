@@ -62,7 +62,7 @@
 <label >Category</label>
 <select name="category">
         @foreach($categories as $category)
-          <option value="{{ $event->category->id }}" >{{ $category->name }}</option>
+          <option value="{{ $category->id }}" >{{ $category->name }}</option>
         @endforeach
 </select>
 @if ($errors->has('category'))

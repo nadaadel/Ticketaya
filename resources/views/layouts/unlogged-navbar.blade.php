@@ -40,6 +40,9 @@
               </div>
                          {{-- end Notification section UI --}}
       </li>
+      <li class="nav-item active pt-1">
+        <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>
+      </li>
       @role('admin')
       <li class="nav-item active pt-1">
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
