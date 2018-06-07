@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-
+use Carbon\carbon;
 class TicketsTableSeeder extends Seeder
 {
     /**
@@ -25,6 +25,7 @@ class TicketsTableSeeder extends Seeder
            'city_id' => 926 ,
            'user_id' => '1',
            'expire_date' => '1995-3-3',
+           'created_at'=>Carbon::now(),
        ]);
     }
 }

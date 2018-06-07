@@ -45,6 +45,9 @@ Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
+Route::get('/events/edit/{id}','EventsController@edit');
+Route::put('/events/{id}','EventsController@update');
+
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');

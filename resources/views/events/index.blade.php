@@ -35,6 +35,7 @@
         <td> {{$event->created_at->diffForHumans()}} </td>
         <td><a href={{ URL::to('events/' . $event->id ) }} type="button" class="btn btn-success" >View</a></td>
        @if(Auth::user()->id == $event->user_id)
+       
         <td><a href={{ URL::to('events/edit/' . $event->id ) }} type="button" class="btn btn-primary" >Edit</a></td>
         <td>
         <form action="{{URL::to('events/delete/'. $event->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
