@@ -29,9 +29,9 @@
     @foreach($questions as $question)
     <div id="allquestion">
      Question<div class="question" ques-id="{{$question->id}}">{{$question->question}} </div>
-     wait for answer<div class="answer"  >{{$question->answer}} </div>
-     @role('admin')
-     <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" class="btn btn-info">Answer</button>
+     <div class="answer"  >{{$question->answer}} </div>
+     @if(Auth::user() && Auth::user()->id == $event->user_id)
+     <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
@@ -41,7 +41,7 @@
       <input type="hidden" id="event_id" value="{{$event->id}}">
 
     </div>
-      @endrole
+      @endif
       <hr>
 
     @endforeach
@@ -106,11 +106,15 @@
     $('.answer-submit').on('click',function(){
      var quesId=$(this).attr('question-id');
      var question=$(this).attr('question');
+     var questioner=$(this).attr('questioner');
       var body=$('#'+quesId).val();
-      var user_id = $('#user_id').val();
+     // var user_id = $('#user_id').val();
       var event_id = $('#event_id').val();
       console.log(question);
       console.log(event_id);
+      console.log(quesId);
+      console.log(questioner);
+
     
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
@@ -119,7 +123,7 @@
                 '_token':'@csrf',
                 'question':question,
                 'event_id':event_id,
-                'user_id':user_id,
+                'user_id':questioner,
                 'answer':body,
                 'quesId':quesId,
                 },

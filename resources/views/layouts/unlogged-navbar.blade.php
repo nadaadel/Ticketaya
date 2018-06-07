@@ -61,7 +61,7 @@
 
       </ul>
   </div>
-  </nav>
+</nav>
 
 <script type="text/javascript">
 $(function () {

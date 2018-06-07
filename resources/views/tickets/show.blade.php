@@ -23,7 +23,7 @@
                    <hr>
                 </fieldset>
                   {{-- spam section --}}
-                  @if(Auth::user())
+        @if(Auth::user())
                   @role('admin')
                   Numbers of Spam :{{$numberofspams}}
                   @endrole
@@ -33,23 +33,25 @@
                                 <p style="color:red">  You Spammed This Ticket </p>
                                 <br>
                         @endif
-                    @endforeach
-                @else
-                 @if($ticket->user_id != Auth::user()->id)
+                @endforeach
+            @else
+            @if($ticket->user_id != Auth::user()->id)
                 <form method="POST" action="/tickets/spam/{{$ticket->id}}">
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
-                  @endif
-                @endif
+            @endif
+            @endif
                 {{-- end spam section --}}
                 {{-- save ticket--}}
+            @if($ticket->user_id != Auth::user()->id)
                 @if($userSavedTicket)
                 <button id="save_ticket" class="btn btn-danger">unsave</button>
                 @else
                 <button id="save_ticket" class="btn btn-primary">save</button>
                 @endif
             @endif
+        @endif
                 {{-- end save ticket--}}
 
                 {{-- Request this ticket section --}}

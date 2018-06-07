@@ -1,0 +1,60 @@
+@import 'variables';
+
+.ticket-card-parent {
+//    padding: 10px 0px;
+    padding-bottom: 20px;
+    
+    .card {
+        border: none;
+        box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.16);
+        .card-img{
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            background-position: top;
+            
+        }
+        .card-body {
+            .h3 {
+                position: relative;
+                display: block;
+                text-transform: uppercase;
+                
+            }
+            .card-title > span {
+                    position: absolute;
+                    right: 10px;
+                    font-weight: 600;
+                    
+            }
+            .ticket-qty {
+//                position: relative;
+                display: inline-block;
+//                text-transform: uppercase;
+                .ticket-qty-num {
+                    margin-left: 30px;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: #BAE1F2;
+                    border-radius: 50px;
+                    text-align: center;
+                    span {
+                        margin: 0 auto;
+                    }
+                }
+            }
+            .ticket-btn {
+                padding: 10px 0;
+                
+                
+            }
+//         
+        }
+        
+    }
+    .card:hover {
+        border: none;
+        box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.16);
+    }
+}

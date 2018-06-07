@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.index')
 @section('content')
 @if (count($errors) > 0)
     <div class="alert alert-danger">
@@ -53,6 +53,7 @@
       </select>
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
+<script src="{{ asset('assets/js/lib/jquery/jquery.min.js') }}"></script>
 <script>
 $(document).ready( function(){
     $('#city').on('change',function(){

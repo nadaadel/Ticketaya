@@ -54,34 +54,31 @@
             </div> <!-- filter  -->
             <div class="col-md-9">
                 <div class="row">
-                 
-                    <div class="col-md-4 col-xs-12 tick-search">
-                                            
+                                                             
                         @foreach($tickets as $ticket)
-                   
-                        <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="http://via.placeholder.com/350x150" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">{{$ticket->name}}</p>
-                            <p class="card-text">{{$ticket->user->name}}</p>
-                            <p class="card-text">{{$ticket->quantity}}</p>
-                            <p class="card-text">{{$ticket->expire_date}}</p>
-                            <p>{{$ticket->category->name}}</p>
-                            <p>price:{{$ticket->price}}</p>
-
-                            <p>{{ $ticket->region }},{{ $ticket->city }}</p>
-                        </div>
-                        </div>
                         
-                       
+                        <div class="col-md-4 col-xs-12 tick-search ticket-card-parent">
+                            <div class="card ticket-card">
+                                <div class="card-img"  style=" background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});">
+
+                                </div>
+
+                                <div class="card-body">
+                                    <h3 class="card-title">{{$ticket->name}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
+                                    <p class="ticket-des">{{substr($ticket->description,0,70)}}</p>
+                                    <div class="ticket-qty d-flex">
+                                        <h4 class="">Available Quantity</h4>
+                                        <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
+                                    </div>
+                                    <div class="ticket-btn text-center">
+                                        <a type="button" href="/tickets/{{$ticket->id}}" type="button" class="btn btn-primary">Request This Ticket</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                        
                         @endforeach
-
-                     
-                        
-
-                    </div>
 
                 </div>
             </div>
