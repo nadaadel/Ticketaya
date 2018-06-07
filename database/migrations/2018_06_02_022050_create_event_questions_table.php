@@ -16,7 +16,7 @@ class CreateEventQuestionsTable extends Migration
         Schema::create('event_questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('question');
-            $table->string('answer');
+            $table->string('answer')->nullable();
             $table->integer('event_id');
             $table->integer('user_id');
             $table->timestamps();

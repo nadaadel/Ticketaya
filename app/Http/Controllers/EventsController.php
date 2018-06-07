@@ -5,6 +5,7 @@ use App\EventInfo;
 use DB;
 use App\Category;
 use Auth;
+use App\User;
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
@@ -34,7 +35,7 @@ class EventsController extends Controller
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
-            'answer'=>"waiting"
+
 
         ]);
         }
@@ -42,18 +43,17 @@ class EventsController extends Controller
         return response()->json(['questions' => $eventQuestion]);
     }
     public function updateQuestion(Request $request){
-
-        $eventanswer=EventQuestion::all()->where('question','=',$request->question)
-                   ->where('event_id','=',$request->event_id)->first();
-        //dd($eventanswer);
-        $eventanswer->pivot->answer=$request->answer;
-        $eventanswer->pivot->question=$request->question;
-        $eventanswer->event_id=$request->event_id;
-        $eventanswer->user_id=$request->user_id;
-        $eventanswer->pivot->save();
+        $user = User::find($request->user_id);
+        
+        $question=$user->eventquestions()->where('question','=',$request->question)->first();
+        //dd($question);
+        $question->pivot->answer=$request->answer;
+        $question->pivot->save();
+        
+       
         
     
-        return response()->json(['answer' => $eventanswer]);
+        return response()->json(['answer' => $eventQuestion]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([

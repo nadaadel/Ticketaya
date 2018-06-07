@@ -47,4 +47,5 @@ class Ticket extends Model
     public function spammers(){
         return  $this->belongsToMany(User::class , 'spam_tickets');
      }
+
 }

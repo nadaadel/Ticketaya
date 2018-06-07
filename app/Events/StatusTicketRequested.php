@@ -46,7 +46,7 @@ class StatusTicketRequested implements ShouldBroadcast
 
         Notification::create([
             
-                        'user_id' => $BuyerId,
+                        'user_id' => $this->BuyerId,
                         'notify_type_id' => 2,
                         'message'=>$this->message
                    ]);
