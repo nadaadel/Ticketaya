@@ -16,8 +16,8 @@ class CreateRequestedTicketsTable extends Migration
         Schema::create('requested_tickets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ticket_id');
-            $table->integer('user_id');
-            $table->integer('requester_id');
+            $table->integer('user_id')->unsigned()->index()->nullable();
+            $table->integer('requester_id')->unsigned()->index()->nullable();
             $table->boolean('is_accepted')->default(0); // true
             $table->boolean('is_sold')->default(0); // true
             $table->string('quantity');

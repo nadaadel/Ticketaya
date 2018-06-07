@@ -31,7 +31,8 @@ class TicketReceived implements ShouldBroadcast
         $request=RequestedTicket::find($this->request_id);
         if($is_sold==1){
         $this->message = "Your ticket {$request->ticket()->name} has been sold successfully to {$request->requested_user()->name}, Thank you";
-        }else
+        }
+        else
         {
         $this->message = "Your ticket {$request->ticket()->name} hasn't been delivered to {$request->requested_user()->name}";
         }
@@ -43,7 +44,6 @@ class TicketReceived implements ShouldBroadcast
         ]);
         $this->notification_id=$notification->id;
     }
-
     /**
      * Get the channels the event should broadcast on.
      *

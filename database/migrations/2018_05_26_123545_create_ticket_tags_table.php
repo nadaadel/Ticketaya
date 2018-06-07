@@ -15,8 +15,8 @@ class CreateTicketTagsTable extends Migration
     {
         Schema::create('ticket_tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ticket_id');
-            $table->integer('tag_id');
+            $table->integer('ticket_id')->unsigned()->index()->nullable();
+            $table->integer('tag_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });
     }

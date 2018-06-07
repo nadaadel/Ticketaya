@@ -15,10 +15,8 @@ class CreateEventUserTable extends Migration
     {
         Schema::create('event_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('event_id');
-            $table->integer('user_id');
-            $table->boolean('is_follower')->default(0); ;
-           
+            $table->integer('event_id')->unsigned()->index()->nullable();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });
     }

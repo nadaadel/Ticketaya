@@ -9,9 +9,19 @@ use App\User;
 use App\RequestedTicket;
 use App\Category;
 use Actuallymab\LaravelComment\Commentable;
+use App\City;
+use App\Region;
 
 class Ticket extends Model
 {
+    protected $fillable = [
+        'name', 'photo', 'description','price','region','city',
+        'quantity','is_sold','type','expire_date'
+    ];
+    public function savedBy()
+    {
+       return $this->belongsToMany(User::class,'saved_tickets_users','ticket_id','user_id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -31,9 +41,20 @@ class Ticket extends Model
     }
 
     public function requestedTicket(){
-       return  $this->belongsToMany(User::class , 'requested_tickets')->using('App\RequestedTicket');
+       return $this->belongsToMany(User::class , 'requested_tickets')->using('App\RequestedTicket');
     }
     public function soldTickets(){
        return  $this->belongsToMany(User::class , 'sold_tickets');
+    }
+    public function spammers(){
+        return  $this->belongsToMany(User::class , 'spam_tickets');
+     }
+
+     public function Region(){
+        return $this->belongsTo(Region::class);
+    }
+
+    public function City(){
+        return $this->belongsTo(City::class);
     }
 }

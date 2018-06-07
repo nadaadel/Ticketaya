@@ -17,8 +17,8 @@ class CreateEventQuestionsTable extends Migration
             $table->increments('id');
             $table->string('question');
             $table->string('answer');
-            $table->integer('event_id');
-            $table->integer('user_id');
+            $table->integer('event_id')->unsigned()->index()->nullable();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });
     }

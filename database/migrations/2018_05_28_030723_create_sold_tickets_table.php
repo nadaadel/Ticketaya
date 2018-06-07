@@ -15,14 +15,13 @@ class CreateSoldTicketsTable extends Migration
     {
         Schema::create('sold_tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ticket_id');
-            $table->integer('user_id');
-            $table->integer('buyer_id');
+            $table->integer('ticket_id')->unsigned()->index()->nullable();
+            $table->integer('user_id')->unsigned()->index()->nullable();
+            $table->integer('buyer_id')->unsigned()->index()->nullable();
             $table->string('quantity');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
