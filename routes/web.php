@@ -5,12 +5,18 @@ Route::get('/users' , 'UsersController@index')->name('allusers');
 Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
-/** Admin Category Route */
+/** Admin Category Routes */
 Route::get('/admin/categories' , 'CategoriesController@index');
-Route::post('/admin/categories' , 'CategoriesController@create');
+Route::get('/admin/categories/create' , 'CategoriesController@create');
+Route::post('/admin/categories' , 'CategoriesController@store');
+Route::get('/admin/categories/{id}' , 'CategoriesController@show');
 Route::get('/admin/categories/edit/{id}' , 'CategoriesController@edit');
 Route::put('/admin/categories/{id}' , 'CategoriesController@update');
 Route::delete('/admin/categories/{id}' , 'CategoriesController@delete');
+
+/** Admin Map Routes */
+Route::get('/admin/events/locations' , 'MapController@adminEventLocations')->name('admineventslocation');
+Route::get('/admin/tickets/locations' , 'MapController@adminTicketLocations')->name('adminticketslocation');
 
 
 
