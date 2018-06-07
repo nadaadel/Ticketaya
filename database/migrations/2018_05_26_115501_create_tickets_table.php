@@ -22,10 +22,10 @@ class CreateTicketsTable extends Migration
             $table->boolean('is_sold');   //sold or unsold
             $table->string('type');  // wanted or requested
             $table->integer('quantity');
-            $table->integer('category_id');
-            $table->integer('user_id');
-            $table->string('region');
-            $table->string('city');
+            $table->integer('category_id')->unsigned()->index()->nullable();
+            $table->integer('user_id')->unsigned()->index()->nullable();
+            $table->integer('region_id')->unsigned()->index()->nullable();
+            $table->integer('city_id')->unsigned()->index()->nullable();
             $table->date('expire_date');
             $table->timestamps();
         });

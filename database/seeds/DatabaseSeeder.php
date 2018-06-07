@@ -16,8 +16,14 @@ class DatabaseSeeder extends Seeder
              UsersTableSeeder::class,
              TicketsTableSeeder::class,
              RolesTableSeeder::class,
+<<<<<<< HEAD
              CategoriesTableSeeder::class,
+=======
+>>>>>>> 19dfdb867a66b8ed9159907abe842327f90f436b
              ModelHasRolesTableSeeder::class,
+             EventsTableSeeder::class,
+             CategoriesTableSeeder::class,
+
 
 
              ]);
