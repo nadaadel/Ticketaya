@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+@role('admin')
 @include('admin.header')
 <body class="fix-header fix-sidebar">
 
@@ -37,9 +37,7 @@
             <!-- End Container fluid  -->
 
 
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>
-            <!-- End footer -->
+           
         </div>
 
         <!-- End Page wrapper  -->
@@ -47,4 +45,5 @@
          @include('admin.footer')
 
 </body>
+@endrole
 </html>

@@ -64,8 +64,14 @@ class TicketsController extends Controller
 
      public function search (Request $request){
         $tickets=Ticket::all()->where('name' , '=' , $request->search);
+        if(Auth::user()->hasRole('admin')){
 
-        return view('search.search',['tickets'=> $tickets] );
+        return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
+        }
+        
+        return view('search.Ticketsearch',['tickets'=> $tickets] );
+
+
      }
 
     public function create (){

@@ -13,20 +13,7 @@ use App\EventQuestion;
 
 class EventsController extends Controller
 {
-    public function show($id){
-        $event = Event::find($id);
-        if(Auth::user()){
-        $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-     // dd($eventSubscibers);
-        $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
-        ->where('user_id' , '=' , Auth::user()->id)->get();
-
-
-        }
-        $questions=EventQuestion::all()->where('event_id',$id);
-        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
-        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos','questions'));
-    }
+    
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
        // dd($questionfound==null);
@@ -87,14 +74,56 @@ class EventsController extends Controller
       return response()->json(['status' => 'success']);
 
     }
+    public function search (Request $request){
+        $events=Event::all()->where('name' , '=' , $request->search);
+        if(Auth::user()->hasRole('admin')){
+
+        return view('admin.search.Eventsearch',['events'=> $events] );
+        }
+        return view('search.Eventsearch',['events'=> $events] );
+
+
+     }
+
     public function index(){
         $events=Event::all();
-        return view('events.index',compact('events'));
+        $view='events.index';
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.index';
+        }
+        
+        return view($view,compact('events'));
     }
 
     public function create(){
         $categories=Category::all();
-        return view('events.create',compact('categories'));
+        $view='events.create';
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.create';
+        }
+        return view($view,compact('categories'));
+    }
+    public function show($id){
+        $event = Event::find($id);
+        $view='events.show';
+        if(Auth::user()){
+        $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
+        // dd($eventSubscibers);
+        $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
+        ->where('user_id' , '=' , Auth::user()->id)->get();
+
+
+        }
+        $questions=EventQuestion::all()->where('event_id',$id);
+        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.show';
+        }
+  
+        return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
 
     public function store(Request $request){

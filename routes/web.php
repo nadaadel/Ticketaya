@@ -50,6 +50,7 @@ Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
+Route::post('/events/search','EventsController@search');
 
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
