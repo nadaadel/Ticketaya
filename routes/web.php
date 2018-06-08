@@ -40,6 +40,10 @@ Route::get('/twilio' , 'TwilioController@sendVerifications');
 Route::get('/users/{id}','UsersController@show');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
+Route::post('/users/{id}','UsersController@store');
+Route::delete('/users/{id}' , 'UsersController@delete');
+Route::get('/users','UsersController@index')->name('allusers');
+Route::get('/users/create','UsersController@create');
 
 /**Events Routes */
 Route::get('/events' ,'EventsController@index')->name('allevents');
