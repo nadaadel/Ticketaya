@@ -105,6 +105,17 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/admin', 'AdminsController@index')->name('admin');
 
 
+
+/* Admin Tickets */
+Route::get('/admin/tickets', 'TicketsController@index')->name('AdminAlltickets');
+Route::get('/admin/tickets/create', 'TicketsController@create')->name('AdminCreateticket');
+Route::post('/admin/tickets/', 'TicketsController@store');
+Route::get('/admin/tickets/{id}', 'TicketsController@show');
+Route::get('/admin/tickets/edit/{id}', 'TicketsController@edit');
+Route::put('/admin/tickets/{id}', 'TicketsController@update');
+Route::delete('/admin/tickets/{id}', 'TicketsController@destroy');
+
+
 /* Notifications */
 Route::get('/notifications','NotificationsController@show');
 Route::get('/notifications/allread','NotificationsController@updateAllRead');

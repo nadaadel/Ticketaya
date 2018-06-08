@@ -1,7 +1,7 @@
 @extends('admin.index')
 @section('content')
-<a href={{ URL::to('floors/create' )}} >
-    <input type="button" class="btn btn-success" value='Create Floor '/></a>
+<a href={{ URL::to('categories/create' )}} >
+    <input type="button" class="btn btn-success" value='Create Category '/></a>
   <br/>
   <div class="container">
         <table class="table table-striped">
