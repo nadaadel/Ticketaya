@@ -34,6 +34,14 @@
                     </div>
                 </div>
               </div>
+              
+              <div class="container">
+                  <div class="row">
+                      
+                    
+                  </div>
+              </div>
+              
 
         </section> <!-- End of header in home page -->
         <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->

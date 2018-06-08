@@ -31,8 +31,8 @@
 
                 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Maps</span></a>
                     <ul aria-expanded="false" class="collapse">
-                    <li><a href="{{URL::route('eventslocation')}}">Events</a></li>
-                        <li><a href="map-vector.html">Tickets</a></li>
+                    <li><a href="{{URL::route('admineventslocation')}}">Events</a></li>
+                        <li><a href="{{URL::route('adminticketslocation')}}">Tickets</a></li>
                     </ul>
                 </li>
                 <li> <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">Multi level dd</span></a>
