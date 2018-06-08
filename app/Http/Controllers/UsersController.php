@@ -12,26 +12,27 @@ class UsersController extends Controller
 
     public function index (){
         $users=User::all();
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             return view('admin.users.index',compact('users'));
         }
+        return view('notfound');
        
     }
     public function create(){
-       
-        if(Auth::user()->hasRole('admin'))
+        $cities=City::all();
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
-            return view('admin.users.create');
+            return view('admin.users.create',compact('cities'));
         }
        
-       
+        return view('notfound');
 
     }
     public function destroy($id){
         $user=User::find($id);
         $user->delete();
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             return redirect('admin/users');
         }
@@ -40,7 +41,7 @@ class UsersController extends Controller
     public function show(Request $request){
         $user=User::find($request->id);
         $view='users.show';
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             $view='admin.users.show';
         }
@@ -52,7 +53,7 @@ class UsersController extends Controller
         $user=User::find($request->id);
         $cities=City::all();
         $view='users.edit';
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             $view='admin.users.edit';
         }
@@ -83,11 +84,7 @@ class UsersController extends Controller
 
     }
     public function update (Request $request){
-        $request->validate([
-            'name'=>'required|min:4|max:200',
-            'avatar'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'email'=>'required|email|unique:users',
-        ]);
+       
         $user=User::find($request->id);
         if($request->hasFile('avatar'))
         {

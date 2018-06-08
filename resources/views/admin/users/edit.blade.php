@@ -113,34 +113,6 @@
 </div>
 </div>
 </div>
-<script>
-$(document).ready(function(){
-    $('#city').on('change',function(){
-        var cityId=$(this).val();
-        console.log(cityId)
-        $.ajax({
-            url: '/cities/'+cityId,
-            type: 'GET' ,
-            data:{
-                 '_token':'@csrf'
-             },
-            success:function(response){
-                if(response.res == 'success'){
-                $.each(response.cityRegions, function(index,region){
-                var option=`<option value="`+region.id+`">`+region.name+`</option>`;
-                $('#region').append(option);
-            });
-            $('#toggleRegion').show();
-            }
 
-             }
-        })
-      
-
-    });
-});
-
-
-</script>
 @endsection
 

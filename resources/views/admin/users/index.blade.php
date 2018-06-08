@@ -1,14 +1,7 @@
 @extends('admin.index')
 @section('content')
 <div class="container">
-  <div class="row">
-      <div class="col-sm">
-        <form method="POST" action="/users/search" enctype="multipart/form-data" class="form-inline">
-            {{ csrf_field() }}
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></form>
-      </div>
-    </div>
+ 
       <div class="row">
       <div class="col-sm">
             <a href={{ URL::to ('/users/create')}} ><input type="button" class="btn btn-success" value='Create User'/></a>

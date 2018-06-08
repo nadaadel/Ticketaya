@@ -6,13 +6,13 @@
 <div class="card">
 <div class="card-body">
 
-<form  method="post" action="/users/{{$user->id}}" enctype="multipart/form-data">
+<form  method="post" action="/users" enctype="multipart/form-data">
 {{method_field('POST')}}
 {{csrf_field()}}
 <div class="form-group row">
   <label class="col-md-4 col-form-label text-md-right" >Name </label>
     <div class="col-md-6">
-        <input type="text" name="name"  value={{$user->name}} />
+        <input type="text" name="name"   />
         @if ($errors->has('name'))
              <span class="alert alert-danger">
                 <strong>{{ $errors->first('name') }}</strong>
@@ -24,7 +24,7 @@
 <div class="form-group row">
     <label class="col-md-4 col-form-label text-md-right" >Email </label>
         <div class="col-md-6">
-            <input type="text" name=email value={{$user->email}} />
+            <input type="text" name=email  />
             @if ($errors->has('email'))
                  <span class="alert alert-danger">
                     <strong>{{ $errors->first('email') }}</strong>
@@ -69,7 +69,7 @@
 <div class="form-group row">
 <label for="image" class="col-md-4 col-form-label text-md-right">Avatar</label>
 <div class="col-md-6">
-<input type="file" class="form-control-file" name="avatar" value={{$user->avatar}}/>
+<input type="file" class="form-control-file" name="avatar" />
 @if ($errors->has('avatar'))
     <span class="alert alert-danger">
     <strong>{{ $errors->first('avatar') }}</strong>
@@ -85,7 +85,7 @@
      <label for="password" class="col-md-4 col-form-label text-md-right" >{{ __('Password') }}</label>
 
     <div class="col-md-6">
-       <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value={{$user->password}} required>
+       <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"  required>
 
         @if ($errors->has('password'))
         <span class="invalid-feedback">
@@ -99,7 +99,7 @@
     <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
         <div class="col-md-6">
-           <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value={{$user->password_confirmation}} required>
+           <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  required>
         </div>
 </div>
 
@@ -113,34 +113,6 @@
 </div>
 </div>
 </div>
-<script>
-$(document).ready(function(){
-    $('#city').on('change',function(){
-        var cityId=$(this).val();
-        console.log(cityId)
-        $.ajax({
-            url: '/cities/'+cityId,
-            type: 'GET' ,
-            data:{
-                 '_token':'@csrf'
-             },
-            success:function(response){
-                if(response.res == 'success'){
-                $.each(response.cityRegions, function(index,region){
-                var option=`<option value="`+region.id+`">`+region.name+`</option>`;
-                $('#region').append(option);
-            });
-            $('#toggleRegion').show();
-            }
 
-             }
-        })
-      
-
-    });
-});
-
-
-</script>
 @endsection
 
