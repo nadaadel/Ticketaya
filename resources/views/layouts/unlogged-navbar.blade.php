@@ -61,13 +61,7 @@
 
       </ul>
   </div>
-<<<<<<< HEAD
- 
-
 </nav>
-=======
-  </nav>
->>>>>>> adadc7538e248e7660a3315031587a6992523df8
 
 <script type="text/javascript">
 $(function () {
