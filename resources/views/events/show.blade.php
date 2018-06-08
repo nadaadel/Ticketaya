@@ -54,8 +54,7 @@
       @else
       <button id="subscribe" class="btn btn-primary " >subscribe</button>
       @endif
-      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-      <input type="hidden" id="event_id" value="{{$event->id}}">
+    
 
       <button id="questionbtn" class="btn btn-primary" >Question !</button>
       <div class="question-area" style="display:none;">
@@ -66,7 +65,8 @@
 
     @endif
 
-   
+     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+     <input type="hidden" id="event_id" value="{{$event->id}}">
 
 <script>
     $(document).ready(function(){
@@ -216,8 +216,10 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
+       alert("helllo");
        console.log(description);
        var event_id = $('#event_id').val();
+       console.log(event_id);
        $.ajax({
            url: '/events/info/new/'+event_id,
            type:'POST',

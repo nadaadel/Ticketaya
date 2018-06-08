@@ -10,7 +10,7 @@ use App\User;
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
-
+use Illuminate\Support\Str;
 class EventsController extends Controller
 {
     
@@ -27,6 +27,7 @@ class EventsController extends Controller
 
         ]);
         }
+        
 
         return response()->json(['questions' => $eventQuestion]);
     }
@@ -71,11 +72,16 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
+      $eventInfos=EventInfo::all();
+      if(Auth::user()->hasRole('admin')){
+        return view('admin.events.show',['eventInfos'=> $eventInfos] ); 
+      }
       return response()->json(['status' => 'success']);
 
     }
     public function search (Request $request){
-        $events=Event::all()->where('name' , '=' , $request->search);
+        //ucfirst(trans('messages.welcome'))
+        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get(); 
         if(Auth::user()->hasRole('admin')){
 
         return view('admin.search.Eventsearch',['events'=> $events] );
@@ -139,7 +145,7 @@ class EventsController extends Controller
             $file_name = $request->file('photo')->hashName();
             $event->photo= $file_name;
         }
-        $event->name = $request->name;
+        $event->name = Str::lower($request->name);
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
         $event->city=$request->city;

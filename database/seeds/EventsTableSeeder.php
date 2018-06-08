@@ -12,7 +12,7 @@ class EventsTableSeeder extends Seeder
     public function run()
     {
         Event::create([
-            'name' => 'Tamer Hosny Concert' ,
+            'name' => 'tamer hosny concert' ,
             'description' => 'SUPER STAR KARIM MOHSEN',
             'photo' => 'photo',
             'category_id' => '1',

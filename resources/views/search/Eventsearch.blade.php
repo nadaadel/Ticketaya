@@ -64,7 +64,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <h3 class="card-title">{{$event->name}} 
+                                    <h3 class="card-title">{{ucwords($event->name)}}
                                     <p class="event-des">{{substr($event->description,0,70)}}</p>
                                     <p class="event-startdate">{{$event->startdate}}</p>
                                     <p class="event-startdate">{{$event->enddate}}</p>
