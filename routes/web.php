@@ -36,7 +36,10 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
-
+/**Users route */
+Route::get('/users/{id}','UsersController@show');
+Route::get('/users/edit/{id}','UsersController@edit');
+Route::put('/users/{id}','UsersController@update');
 
 /**Events Routes */
 Route::get('/events' ,'EventsController@index')->name('allevents');
@@ -45,6 +48,9 @@ Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
+Route::get('/events/edit/{id}','EventsController@edit');
+Route::put('/events/{id}','EventsController@update');
+
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');

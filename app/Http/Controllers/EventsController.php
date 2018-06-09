@@ -5,6 +5,8 @@ use App\EventInfo;
 use DB;
 use App\Category;
 use Auth;
+use App\User;
+
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
@@ -34,7 +36,7 @@ class EventsController extends Controller
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
-            'answer'=>"waiting"
+
 
         ]);
         }
@@ -42,18 +44,17 @@ class EventsController extends Controller
         return response()->json(['questions' => $eventQuestion]);
     }
     public function updateQuestion(Request $request){
-
-        $eventanswer=EventQuestion::all()->where('question','=',$request->question)
-                   ->where('event_id','=',$request->event_id)->first();
-        //dd($eventanswer);
-        $eventanswer->pivot->answer=$request->answer;
-        $eventanswer->pivot->question=$request->question;
-        $eventanswer->event_id=$request->event_id;
-        $eventanswer->user_id=$request->user_id;
-        $eventanswer->pivot->save();
-
-
-        return response()->json(['answer' => $eventanswer]);
+        $user = User::find($request->user_id);
+        
+        $question=$user->eventquestions()->where('question','=',$request->question)->first();
+        //dd($question);
+        $question->pivot->answer=$request->answer;
+        $question->pivot->save();
+        
+       
+        
+    
+        return response()->json(['answer' => $eventQuestion]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
@@ -112,7 +113,8 @@ class EventsController extends Controller
         $event->name = $request->name;
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
-        $event->location=$request->location;
+        $event->city=$request->city;
+        $event->region=$request->region;
         $event->startdate=$request->startdate;
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;
@@ -120,6 +122,42 @@ class EventsController extends Controller
         $event->save();
        return redirect('events');
     }
+    public function edit(Request $request){
+        $event=Event::find($request->id);
+        $categories=Category::all();
+        return view('events.edit',[
+            
+            'event' => $event,
+            'categories'=>$categories,
+          
+            
+        ]);
+
+    }
+    public function update(Request $request){
+        $event=Event::find($request->id);
+
+       if($request->hasFile('photo'))
+        {
+        $request->file('photo')->store('public/images/events');
+        $file_name = $request->file('photo')->hashName();
+        $event->photo= $file_name;
+        }
+        $event->photo=$event->photo;
+        $event->name = $request->name;
+        $event->description=$request->description;
+        $event->user_id= Auth::user()->id;
+        $event->city=$request->city;
+        $event->region=$request->region;
+        $event->startdate=$request->startdate;
+        $event->enddate=$request->enddate;
+        $event->category_id=$request->category;
+        $event->avaliabletickets=$request->avaliabletickets;
+        $event->save();
+        return redirect('events');
+
+     }
+
 
     public function delete($id){
         $event = Event::find($id);

@@ -24,6 +24,10 @@
 <label >Region </label>
 <input type="text" name="region"/>
 <br/>
+<label >City</label>
+<input type="text" name="city"/>
+<br/>
+
 <label >Start Date </label>
 <input type="datetime-local" name="startdate"/>
 <br/>
