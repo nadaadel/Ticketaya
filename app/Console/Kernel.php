@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Ticket;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\CheckDateTicket',
     ];
 
     /**
@@ -24,8 +27,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // Here Run Command to check expire date for tickets
+
+        // $schedule->job(CheckDateTicket::class)->everyMinute();
+        $schedule->command('check:date-ticket')->everyMinute();
+
+        // $schedule->call(function(){
+        //     $tickets = Ticket::where('expire_date' ,'<=', Carbon::now()->toDateTimeString())->get();
+        //     foreach($tickets as $ticket){
+        //             $ticket->delete();
+        //     }
+        // })->everyMinute();
+
     }
 
     /**
