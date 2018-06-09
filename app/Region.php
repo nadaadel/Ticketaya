@@ -21,4 +21,9 @@ class Region extends Model
     public function users(){
         return $this->hasMany(User::class);
     }
+
+    public function events(){
+        return $this->hasMany(Ticket::class);
+    }
+
 }

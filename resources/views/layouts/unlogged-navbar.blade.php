@@ -14,27 +14,54 @@
         <li class="nav-item pt-1">
           <a class="nav-link " href="#">BLOG</a>
         </li>
+         {{-- <!-- Comment -->
+         <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-muted text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bell"></i>
+                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
+                    <ul>
+                        <li>
+                            <div class="drop-title">Notifications</div>
+                        </li>
+                        <li>
+                            <div class="message-center">
+                                <!-- Message -->
+                                        <li class="dropdown dropdown-notifications">
+                                          <div class="dropdown-container">
+                                            <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">
+                                            </ul>
+                                          </div>
+                                        </li>
+                                        <li><a class="nav-link text-center" href="/notifications"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                            </li>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- End Comment --> --}}
        @if (Auth::check())
         <li class="nav-item">
-              <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
               <div class="collapse navbar-collapse">
+                    <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
                 <ul class="nav navbar-nav">
                   <li class="dropdown dropdown-notifications">
                     <a href="#notifications-panel" class="dropdown-toggle" data-toggle="dropdown">
-                      <i data-count="0" class="glyphicon glyphicon-bell notification-icon"></i>
+                      <i data-count="0" class="notification-icon">notificatons</i>
                     </a>
                     <div class="dropdown-container">
-                      <div class="dropdown-toolbar">
-                        <div class="dropdown-toolbar-actions">
-                          <a id="readall" href="#">Mark all as read</a>
-                        </div>
-                      </div>
                       <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">
+                            <div class="dropdown-toolbar">
+                                    <div class="dropdown-toolbar-actions">
+                                      <a id="readall" href="#">Mark all as read</a>
+                                    </div>
+                                  </div>
+                            <div class="dropdown-footer text-center">
+                                    <a href="/notifications">View All</a>
+                            </div>
                       </ul>
-                      <div class="dropdown-footer text-center">
-                        <a href="/notifications">View All</a>
-                      </div>
-                    </div>
+
                   </li>
                 </ul>
               </div>
@@ -62,6 +89,7 @@
       </ul>
   </div>
 </nav>
+
 
 <script type="text/javascript">
 $(function () {

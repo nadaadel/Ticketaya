@@ -25,6 +25,8 @@ class CreateEventsTable extends Migration
             $table->DateTime('startdate');
             $table->DateTime('enddate');
             $table->integer('user_id')->unsigned()->index()->nullable();
+            $table->integer('region_id')->unsigned()->index()->nullable();
+            $table->integer('city_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });
     }
