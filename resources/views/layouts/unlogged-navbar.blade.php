@@ -15,21 +15,26 @@
           <a class="nav-link " href="#">BLOG</a>
         </li>
        @if (Auth::check())
-       <li class="nav-item dropdown dropdown-notifications open">
+       <li class="nav-item dropdown dropdown-notifications">
             <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                    <i data-count="0" class="notification-icon"></i>
+                    <i data-count="0" class="glyphicon glyphicon-bell notification-icon">
+                        <img src="https://cdn3.iconfinder.com/data/icons/line-icons-medium-version/64/bell-512.png" width=30px height=30px/></i>
             </a>
             <div class="dropdown-container">
-                <div class="dropdown-toolbar">
-                    <div class="dropdown-toolbar-actions">
-                        <a id="readall" href="#">Mark all as read</a>
+                <ul class="dropdown-menu">
+                        <div class="dropdown-toolbar">
+                        <div class="dropdown-toolbar-actions">
+                            <a id="readall" href="#">Mark all as read</a>
+                        </div>
+                        <div>
+                        <ul id="dropdownmenu"></ul>
+                        </div>
                     </div>
-                </div>
-                <ul class="dropdown-menu" id="dropdownmenu">
+                        <div class="dropdown-footer text-center">
+                                <a href="/notifications">View All</a>
+                     </div>
                 </ul>
-                <div class="dropdown-footer text-center">
-                    <a href="/notifications">View All</a>
-                </div>
+
             </div>
         </li>
       <li class="nav-item active pt-1">
@@ -60,7 +65,7 @@
 
 
 <script type="text/javascript">
-$(document.ready(function () {
+$(function () {
     @if(Auth::check())
   var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
   var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
@@ -88,7 +93,6 @@ function notificationsHtml(data,realtime){
           var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
           if(realtime){
-            {{$nextId = DB::table('notifications')->max('id') + 1}};
                 notificationsCount += 1;
                 data.created_at=new Date(Date.now());
                 data.is_seen=0;
@@ -105,7 +109,7 @@ function notificationsHtml(data,realtime){
                         </div>
                         </div>
                         <div class="media-body">
-                            <a notif-no="`+data.id+`"  class="notify-seen"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                            <a notif-no="`+data.id+`"  class="notify-seen" style="cursor: pointer;"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
                             <p class="notification-desc"></p>
                             <div class="notification-meta">
                                 <small class="timestamp">`+data.created_at+`</small>
@@ -144,9 +148,9 @@ $(document).on('click','#readall',function(event){
             });
        });
 
-    // change notifications status to unseen
+    // change notifications status that was unseen to be seen
     $(document).on('click','.notify-seen',function(event){
-        event.preventDefault();
+        //event.preventDefault();
         notif_id=$(this).attr('notif-no');
                 $.ajax({
                     type: 'get',
