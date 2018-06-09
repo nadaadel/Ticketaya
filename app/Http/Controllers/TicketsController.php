@@ -21,10 +21,12 @@ class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::all();
+        if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
             return view('admin.tickets.index',compact('tickets'));
         }
+    }
         return view('tickets.index',compact('tickets'));
      }
 
@@ -41,17 +43,17 @@ class TicketsController extends Controller
                 if(sizeof($requestStatus) == 1){
                   $wantStatus = false;
                 }
-        $userSavedTicket=Auth::user()->savedTickets->contains($id);
-        if(Auth::user()->hasRole('admin'))
-        {
-            $numberofspams=$ticket->spammers->count();
-            return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
+                $userSavedTicket=Auth::user()->savedTickets->contains($id);
+                if(Auth::user()->hasRole('admin'))
+                {
+                    $numberofspams=$ticket->spammers->count();
+                    return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
+                }
+                return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','userSavedTicket'));
+            }
+            return view('tickets.show' , compact('ticket'));
         }
-        return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','userSavedTicket'));
-        }
-        return view('tickets.show' , compact('ticket'));
-    }
-    return view('notfound');
+        return view('notfound');
     }
     public function spamTicket($id){
         DB::table('spam_tickets')->insert([
@@ -64,33 +66,48 @@ class TicketsController extends Controller
 
      public function search (Request $request){
         $tickets=Ticket::all()->where('name' , '=' , $request->search);
-
-        return view('search.search',['tickets'=> $tickets] );
+        $view='search.search';
+        if(Auth::check()){
+            if(Auth::user()->hasRole('admin'))
+            {
+                $view='admin.tickets.search';
+            }
+        }
+        return view($view,['tickets'=> $tickets] );
      }
 
     public function create (){
         $categories=Category::all();
         $view='tickets.create';
+        if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
             $view='admin.tickets.create';
         }
         return view($view,compact('categories'));
     }
+    else{
+        return redirect('login');
+    }
+    }
 
     public function saveTicket($id){
         $user=Auth::user();
+        if($user !== null){
         if(!$user->savedTickets->contains($id)){
             $user->savedTickets()->attach($id);
         }
         return response()->json(['res' => 'success']);
     }
+    }
     public function unsaveTicket($id){
         $user=Auth::user();
+        if($user !== null){
         if($user->savedTickets->contains($id)){
             $user->savedTickets()->detach($id);
         }
         return response()->json(['res' => 'success']);
+    }
     }
 
     public function store(Request $request){
@@ -104,13 +121,13 @@ class TicketsController extends Controller
             'category' => 'exists:categories,id',
 
         ]);
+        if(Auth::check() || Auth::user()->hasRole('admin') ){
         $ticket=new Ticket;
         if($request->hasFile('photo')){
             $request->file('photo')->store('public/images/tickets');
             $file_name = $request->file('photo')->hashName();
             $ticket->photo= $file_name;
         }
-
         $ticket->price =$request->price;
         $ticket->name = $request->name;
         $ticket->description=$request->description;
@@ -138,10 +155,7 @@ class TicketsController extends Controller
             }
             $ticket->tags()->sync($tagIds);
         }
-        if(Auth::user()->hasRole('admin'))
-        {
-            return redirect('admin/tickets');
-        }
+    }
        return redirect('tickets');
     }
 
@@ -149,18 +163,24 @@ class TicketsController extends Controller
         $ticket=Ticket::find($id);
         $categories=Category::all();
         $view='tickets.update';
-        if(Auth::user()->hasRole('admin')){
-            $view='admin.tickets.update';
+        if($ticket !== null){
+            if(Auth::check()&& Auth::user()->id == $ticket->user_id ){
+                if(Auth::user()->hasRole('admin')){
+                     $view='admin.tickets.update';
+                    }
+                return view($view,['ticket'=> $ticket,'categories'=>$categories] );
+            }
         }
-        return view($view,['ticket'=> $ticket,'categories'=>$categories] );
+    return view('notfound');
     }
 
     public function update($id, Request $request){
         $ticket= Ticket::find($id);
         $user=Auth::user();
-        if($ticket !== null && $ticket->user_id == $user->id ){
-                 $ticket->price =$request->price;
-                 $ticket->name = $request->name;
+        if($ticket !== null && Auth::check() ){
+            if($ticket->user_id == $user->id || $user->hasRole('admin') ){
+                $ticket->price =$request->price;
+                $ticket->name = $request->name;
                 $ticket->description=$request->description;
                 $ticket->user_id= Auth::user()->id;
                 $ticket->quantity=$request->quantity;
@@ -174,21 +194,21 @@ class TicketsController extends Controller
                     $ticket->photo= $file_name;
                     }
                 $ticket->save();
-                if($user->hasRole('admin')){
-                    return redirect('admin/tickets');
-            }
         }
+    }
         return redirect('tickets');
      }
 
      public function destroy($id){
         $ticket=Ticket::find($id);
-        $ticket->delete();
-        if(Auth::user()->hasRole('admin'))
-        {
-            return redirect('admin/tickets');
-        }
+        $user=Auth::user();
+        if($ticket !== null && Auth::check() ){
+            if($ticket->user_id == $user->id || $user->hasRole('admin') ){
+                $ticket->delete();
+            }
         return redirect('tickets');
+        }
+        return view('notfound');
     }
 
 }

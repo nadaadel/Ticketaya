@@ -48,7 +48,7 @@
                 <ul class="nav navbar-nav">
                   <li class="dropdown dropdown-notifications">
                     <a href="#notifications-panel" class="dropdown-toggle" data-toggle="dropdown">
-                      <i data-count="0" class="notification-icon">notificatons</i>
+                      <i data-count="0" class="glyphicon glyphicon-bell notification-icon">notificatons</i>
                     </a>
                     <div class="dropdown-container">
                       <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">

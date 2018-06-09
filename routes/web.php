@@ -97,7 +97,7 @@ Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
-Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket')->middleware('auth');
+Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
@@ -120,12 +120,7 @@ Route::get('/admin', 'AdminsController@index')->name('admin');
 
 /* Admin Tickets */
 Route::get('/admin/tickets', 'TicketsController@index')->name('AdminAlltickets');
-Route::get('/admin/tickets/create', 'TicketsController@create')->name('AdminCreateticket');
-Route::post('/admin/tickets/', 'TicketsController@store');
-Route::get('/admin/tickets/{id}', 'TicketsController@show');
-Route::get('/admin/tickets/edit/{id}', 'TicketsController@edit');
-Route::put('/admin/tickets/{id}', 'TicketsController@update');
-Route::delete('/admin/tickets/{id}', 'TicketsController@destroy');
+
 
 
 /* Notifications */
