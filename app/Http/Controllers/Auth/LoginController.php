@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\ValidationException;
+
 class LoginController extends Controller
 {
     /*
@@ -42,4 +44,36 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/home');
       }
+
+      public function username()
+    {
+        $identity  = request()->get('identity');
+        $fieldName = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        request()->merge([$fieldName => $identity]);
+        return $fieldName;
+    }
+    protected function validateLogin(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'identity' => 'required|string',
+                'password' => 'required|string',
+            ],
+            [
+                'identity.required' => 'phone or email is required',
+                'password.required' => 'Password is required',
+            ]
+        );
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $request->session()->put('login_error', trans('auth.failed'));
+        throw ValidationException::withMessages(
+            [
+                'error' => [trans('auth.failed')],
+            ]
+        );
+    }
+
 }

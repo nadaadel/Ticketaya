@@ -82,15 +82,17 @@ class UsersController extends Controller
         }
         $user->name = Str::lower($request->name);
         $user->email=$request->email;
-        $user->password=$request->password;
+        $user->password=Hash::make($request->password);
         $user->city_id=$request->city;
         $user->region_id=$request->region;
+        $user->phone=$request->phone;
        
         $user->save();
        return redirect('userss');
 
     }
     public function update (Request $request){
+     
        
         $user=User::find($request->id);
         if($request->hasFile('avatar'))
@@ -107,6 +109,7 @@ class UsersController extends Controller
         $user->email=$request->email;
         $user->city_id=$request->city;
         $user->region_id=$user->region_id;
+        $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
        
         $user->save();
