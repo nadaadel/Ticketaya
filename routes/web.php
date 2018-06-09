@@ -44,7 +44,8 @@ Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
 Route::delete('/users/{id}' , 'UsersController@delete');
 Route::get('/users','UsersController@index')->name('allusers');
-
+Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
+Route::post('tickets/report','TicketsController@report');
 
 /**Events Routes */
 Route::get('/events' ,'EventsController@index')->name('allevents');
@@ -103,7 +104,7 @@ Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
-Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket')->middleware('auth');
+Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');

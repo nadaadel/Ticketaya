@@ -14,7 +14,7 @@
   </form>
   <div class="col-sm">
       <a href={{ URL::to('events/create' )}} ><input type="button" class="btn btn-success" value='Create Event'/></div></a>
-  <table class="table table-hover table-dark">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>

@@ -17,12 +17,15 @@ use App\Events\StatusTicketRequested;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Notifications\SpamNotification;
 
 class TicketsController extends Controller
 {
     public function index (){
+       // $admin=DB::table('roles')->where('name','=','admin')->first();
+       // dd($admin->name);
         $tickets=Ticket::all();
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             return view('admin.tickets.index',compact('tickets'));
         }
@@ -43,7 +46,7 @@ class TicketsController extends Controller
                   $wantStatus = false;
                 }
         $userSavedTicket=Auth::user()->savedTickets->contains($id);
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             $numberofspams=$ticket->spammers->count();
             return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
@@ -59,14 +62,29 @@ class TicketsController extends Controller
             'ticket_id' => $id,
             'user_id' => Auth::user()->id
         ]);
+        $ticket=Ticket::find($id);
         flashy()->error('This Ticket Spammed By You');
         return redirect('/tickets/'.$id );
+    }
+    public function reportview(Request $request){
+        $ticket=Ticket::find($request->id);
+        return view('tickets.report' , compact('ticket'));
+
+    }
+    public function report(Request $request){
+        $message=$request->msg;
+        $ticket=Ticket::find($request->ticket_id);
+        $admin=DB::table('model_has_roles')->where('role_id','=',1)->first();
+        $user=User::find($admin->model_id); 
+        $user->notify(new SpamNotification($ticket,$message,$user));
+        flashy()->error('your message is sent ,Thank uou !');
+        return redirect('/tickets/'.$request->ticket_id);
     }
 
      public function search (Request $request){
         $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get(); 
         //dd($tickets);
-        if(Auth::user()->hasRole('admin')){
+        if(Auth::user()&&Auth::user()->hasRole('admin')){
 
         return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
         }
@@ -79,7 +97,7 @@ class TicketsController extends Controller
     public function create (){
         $categories=Category::all();
         $view='tickets.create';
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             $view='admin.tickets.create';
         }
@@ -157,7 +175,7 @@ class TicketsController extends Controller
         $ticket=Ticket::find($id);
         $categories=Category::all();
         $view='tickets.update';
-        if(Auth::user()->hasRole('admin')){
+        if(Auth::user()&&Auth::user()->hasRole('admin')){
             $view='admin.tickets.update';
         }
         return view($view,['ticket'=> $ticket,'categories'=>$categories] );

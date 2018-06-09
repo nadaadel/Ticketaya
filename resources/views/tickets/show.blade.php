@@ -40,6 +40,9 @@
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
+               
+                
+
             @endif
             @endif
                 {{-- end spam section --}}
@@ -56,6 +59,7 @@
 
                 {{-- Request this ticket section --}}
         @if(Auth::user())
+        <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
         <div class="requestticket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -71,7 +75,7 @@
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         @endif
         </div>
-        @endif
+        
 
                 {{-- Request this ticket end section --}}
 
@@ -111,6 +115,7 @@ Comments:
 <hr>
 <br>
 @endforeach
+
 <div class="card-body">
     <form method="POST" action="/comments" enctype="multipart/form-data" >
          {{ csrf_field() }}
@@ -127,6 +132,7 @@ Comments:
     </form>
 
 </div>
+@endif
 <script src="//code.jquery.com/jquery.js"></script>
 @include('flashy::message')
 @if(Session::has('flashy_notification.message'))

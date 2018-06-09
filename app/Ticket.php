@@ -8,12 +8,14 @@ use App\Comment;
 use App\User;
 use App\RequestedTicket;
 use App\Category;
-use Actuallymab\LaravelComment\Commentable;
+use Illuminate\Notifications\Notifiable;
 use App\City;
 use App\Region;
 
 class Ticket extends Model
+
 {
+    use Notifiable;
     protected $fillable = [
         'name', 'photo', 'description','price','region','city',
         'quantity','is_sold','type','expire_date'
