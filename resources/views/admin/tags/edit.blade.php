@@ -5,6 +5,6 @@
     {{method_field('PUT')}}
     <label>Tag Name</label>
 <input type="text" name="name" value="{{$tag->name}}">
-    <input type="submit" value="Update">
+    <input type="submit" value="Update" class="btn btn-warning">
 </form>
 @endsection

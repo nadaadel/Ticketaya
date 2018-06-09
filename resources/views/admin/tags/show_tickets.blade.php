@@ -4,9 +4,8 @@
         <div class="row">
       <h1>
      All Tickets related to {{$tag->name}}
-      </h1>
-      <br/>
-      <div class="col-sm">
+      </h1></div>
+      <div class="row">
       <table class="table table-hover table-dark">
         <thead>
           <tr>
@@ -30,7 +29,7 @@
       @endforeach
       </tbody>
       </table>
-      </div>
+
     </div>
       </div>
     @endsection

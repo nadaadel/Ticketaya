@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav navbar-right">
+      <ul class="navbar-nav navbar-left">
         <li class="nav-item active pt-1">
         <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
         </li>
@@ -15,31 +15,23 @@
           <a class="nav-link " href="#">BLOG</a>
         </li>
        @if (Auth::check())
-        <li class="nav-item">
-              <div class="collapse navbar-collapse">
-                    <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
-                <ul class="nav navbar-nav">
-                  <li class="dropdown dropdown-notifications">
-                    <a href="#notifications-panel" class="dropdown-toggle" data-toggle="dropdown">
-                      <i data-count="0" class="glyphicon glyphicon-bell notification-icon">notificatons</i>
-                    </a>
-                    <div class="dropdown-container">
-                      <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">
-                            <div class="dropdown-toolbar">
-                                    <div class="dropdown-toolbar-actions">
-                                      <a id="readall" href="#">Mark all as read</a>
-                                    </div>
-                                  </div>
-                            <div class="dropdown-footer text-center">
-                                    <a href="/notifications">View All</a>
-                            </div>
-                      </ul>
-
-                  </li>
+       <li class="nav-item dropdown dropdown-notifications open">
+            <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                    <i data-count="0" class="notification-icon"></i>
+            </a>
+            <div class="dropdown-container">
+                <div class="dropdown-toolbar">
+                    <div class="dropdown-toolbar-actions">
+                        <a id="readall" href="#">Mark all as read</a>
+                    </div>
+                </div>
+                <ul class="dropdown-menu" id="dropdownmenu">
                 </ul>
-              </div>
-                         {{-- end Notification section UI --}}
-      </li>
+                <div class="dropdown-footer text-center">
+                    <a href="/notifications">View All</a>
+                </div>
+            </div>
+        </li>
       <li class="nav-item active pt-1">
         <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>
       </li>
@@ -60,7 +52,7 @@
             </li>
     @endif
   </ul>
-      <ul class="navbar-nav navbar-right">
+      <ul class="navbar-nav navbar-left">
 
       </ul>
   </div>
@@ -68,7 +60,7 @@
 
 
 <script type="text/javascript">
-$(function () {
+$(document.ready(function () {
     @if(Auth::check())
   var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
   var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
@@ -78,7 +70,7 @@ $(function () {
   //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
   var notificationsCount=CountoldNotifications;
   var notifications          = notificationsWrapper.find('ul.dropdown-menu');
-  Pusher.logToConsole = true;
+  //Pusher.logToConsole = true;
 
   //** don't forget to change this **//
   var pusher = new Pusher('0fe1c9173ec82e038dd5', {
@@ -93,7 +85,7 @@ $(function () {
     notificationsWrapper.show();
   }
 function notificationsHtml(data,realtime){
-          var existingNotifications = notifications.html();
+          var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
           if(realtime){
             {{$nextId = DB::table('notifications')->max('id') + 1}};
@@ -121,7 +113,7 @@ function notificationsHtml(data,realtime){
                                 </div>
                                 </div>
                                 </li>`;
-            notifications.html(newNotificationHtml + existingNotifications);
+            $('#dropdownmenu').html(newNotificationHtml + existingNotifications);
             updateNotificationCount();
 
   }

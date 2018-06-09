@@ -10,9 +10,8 @@
         <link rel="apple-touch-icon" href="apple-icon.png">
         <link rel="shortcut icon" href="favicon.ico">
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-        {{-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}}
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
-        {{-- <link rel="stylesheet" type="text/css"  href="{{ asset('assets/css/bootstrap-notifications.min.css') }}"> --}}
+        <link rel="stylesheet" type="text/css"  href="{{ asset('assets/css/bootstrap-notifications.css') }}">
         <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
 
@@ -31,6 +30,5 @@
       crossorigin="anonymous"></script>
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
-    {{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> --}}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     </head>
