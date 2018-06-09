@@ -6,7 +6,7 @@ use DB;
 use App\Category;
 use Auth;
 use App\User;
-
+use App\City;
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
@@ -17,11 +17,8 @@ class EventsController extends Controller
         $event = Event::find($id);
         if(Auth::user()){
         $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-     // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
-
-
         }
         $questions=EventQuestion::all()->where('event_id',$id);
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
@@ -45,15 +42,15 @@ class EventsController extends Controller
     }
     public function updateQuestion(Request $request){
         $user = User::find($request->user_id);
-        
+
         $question=$user->eventquestions()->where('question','=',$request->question)->first();
         //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
-        
-       
-        
-    
+
+
+
+
         return response()->json(['answer' => $eventQuestion]);
     }
     public function subscribe($event_id , $user_id){
@@ -78,7 +75,7 @@ class EventsController extends Controller
          'body' => $request->description
       ]);
       $event = Event::find($event_id);
-      
+
       $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
       foreach($eventSubscibers as $subscriber){
          event(new EventSubscribers($event_id , $subscriber->user_id));
@@ -103,6 +100,10 @@ class EventsController extends Controller
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'startdate' => 'required|date|before_or_equal:enddate',
             'enddate'  => 'required|date|date_format:Y-m-d|after_or_equal:startdate',
+            'user_id' => 'exists:users,id',
+            'category' => 'exists:categories,id',
+            'city' => 'exists:cities,id',
+            'region' => 'exists:regions,id',
         ]);
         $event=new Event;
         if($request->hasFile('photo')){
@@ -113,8 +114,8 @@ class EventsController extends Controller
         $event->name = $request->name;
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
-        $event->city=$request->city;
-        $event->region=$request->region;
+        $event->city_id=$request->city;
+        $event->region_id=$request->region;
         $event->startdate=$request->startdate;
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;
@@ -126,11 +127,11 @@ class EventsController extends Controller
         $event=Event::find($request->id);
         $categories=Category::all();
         return view('events.edit',[
-            
+
             'event' => $event,
             'categories'=>$categories,
-          
-            
+
+
         ]);
 
     }
@@ -164,4 +165,18 @@ class EventsController extends Controller
         $event->delete();
         return redirect('/events');
     }
+
+    public function search (Request $request){
+        $events=Event::where('name', 'LIKE', '%'. $request->search .'%')->get();
+        $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
+        $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
+        $view='events.search';
+        // if(Auth::check()){
+        //     if(Auth::user()->hasRole('admin'))
+        //     {
+        //         $view='admin.events.search';
+        //     }
+        // }
+        return view($view,compact('events','categories','cities'));
+     }
 }

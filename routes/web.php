@@ -35,6 +35,8 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
+
+
 Route::get('/twilio' , 'TwilioController@sendVerifications');
 /**Users route */
 Route::get('/users/{id}','UsersController@show');
@@ -42,6 +44,7 @@ Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
 
 /**Events Routes */
+Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/locations' , 'MapController@eventsLocation')->name('eventslocation');
 Route::get('/events/create' , 'EventsController@create');
@@ -50,6 +53,9 @@ Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
+Route::post('/events/search' , 'EventsController@search');
+
+
 
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');

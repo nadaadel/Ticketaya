@@ -116,9 +116,11 @@ class TicketsController extends Controller
             'price'=>'required|numeric',
             'quantity'=>'required|integer|digits_between: 1,10',
             'photo'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'expire_date' => 'required|date|after_or_equal:'.Carbon::now(),
+            'expire_date' => 'required|date|after:'.Carbon::now(),
             'user_id' => 'exists:users,id',
             'category' => 'exists:categories,id',
+            'city' => 'exists:cities,id',
+            'region' => 'exists:regions,id',
 
         ]);
         if(Auth::check() || Auth::user()->hasRole('admin') ){

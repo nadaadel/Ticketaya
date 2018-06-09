@@ -2,7 +2,20 @@
 @section('content')
 
      {{ $event-> name}} EVENT <br>
-    
+     <fieldset>
+            <legend style="background-color: gray">Event Info </legend>
+            <img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:150px; height:150px;">
+            <p>Name : {{ $event->name }}</p>
+            <p>Quantity:{{ $event->avaliabletickets }}</p>
+            <p>Description:{{ $event->description }}</p>
+            <p>Start Date :{{ $event->startdate }}</p>
+            <p>End Date :{{ $event->enddate }}</p>
+            <p>Category :{{ $event->category->name }}</p>
+            <p>Location:{{ $event->region->name }},{{ $event->city->name }}</p>
+            <p>Created by :{{ $event->user->name }} </p>
+           <hr>
+        </fieldset>
+
     @if(Auth::user() && Auth::user()->id == $event->user_id)
      <button id="showModel" class="btn btn-primary"> Add New Info </button>
      <div class="info-area" style="display:none;">
@@ -18,7 +31,7 @@
         <div class="event-info" style="display:block;">
             Post of Event<p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-            
+
 
         <div>
        @endforeach
@@ -35,7 +48,7 @@
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
-            
+
       </div>
       <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
       <input type="hidden" id="event_id" value="{{$event->id}}">
@@ -45,7 +58,7 @@
       <hr>
 
     @endforeach
-   @endif 
+   @endif
 
     @if(Auth::user() && Auth::user()->id != $event->user_id)
       @if(sizeof($subscribers) == 1)
@@ -66,7 +79,7 @@
 
     @endif
 
-   
+
 
 <script>
     $(document).ready(function(){
@@ -76,7 +89,7 @@
     });
 
     $('#question-submit').on('click',function(){
-      
+
         var body=$('#ques-body').val();
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
@@ -95,7 +108,7 @@
 
                   console.log(response);
                  //$('#'+quesId).append('<div>'+response.question.question+'</div>');
-                 
+
 
                 }
 
@@ -115,7 +128,7 @@
       console.log(quesId);
       console.log(questioner);
 
-    
+
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -131,13 +144,13 @@
 
                   console.log(response);
                  //$('#'+quesId).append('<div>'+response.question.question+'</div>');
-                 
+
 
                 }
 
         })
-     
-      
+
+
   })
 
     $('#subscribe').on('click' , function(){
@@ -154,10 +167,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('unsubscribe');
                console.log('success');
@@ -178,10 +191,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('subscribe');
                console.log('success');
@@ -192,7 +205,7 @@
 
 
          });
-        
+
     }
 
 
@@ -200,15 +213,15 @@
 
         });
 
-         
-         
-
-         
-
-       
 
 
-   
+
+
+
+
+
+
+
     $('#showModel').on('click' , function(){
         $('.info-area').show();
         $(this).hide();
