@@ -14,33 +14,6 @@
         <li class="nav-item pt-1">
           <a class="nav-link " href="#">BLOG</a>
         </li>
-         {{-- <!-- Comment -->
-         <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-muted text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bell"></i>
-                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
-                    <ul>
-                        <li>
-                            <div class="drop-title">Notifications</div>
-                        </li>
-                        <li>
-                            <div class="message-center">
-                                <!-- Message -->
-                                        <li class="dropdown dropdown-notifications">
-                                          <div class="dropdown-container">
-                                            <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">
-                                            </ul>
-                                          </div>
-                                        </li>
-                                        <li><a class="nav-link text-center" href="/notifications"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                            </li>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <!-- End Comment --> --}}
        @if (Auth::check())
         <li class="nav-item">
               <div class="collapse navbar-collapse">
