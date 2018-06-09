@@ -32,8 +32,7 @@
         <td>{{ucwords($ticket->name)}}</td>
         <td>{{$ticket->user->name}}</td>
         <td><img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"></td>
-        <td> {{ $ticket->created_at->diffForHumans() }} </td>
-<td>
+        <td> {{ $ticket->created_at->diffForHumans() }} </td><td>
     <a href={{ URL::to('tickets/' . $ticket->id ) }} type="button" class="btn btn-success" >View</a></td>
 
 @if(Auth::user()&&Auth::user()->id == $ticket->user_id)
@@ -44,6 +43,7 @@
       {{method_field('Delete')}}
     </form>
     </td>
+    @endif
     @endif
   </tr>
   @endforeach

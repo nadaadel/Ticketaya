@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('layouts.app')
 @section('content')
 <div class="container">
     <section id="search-page">

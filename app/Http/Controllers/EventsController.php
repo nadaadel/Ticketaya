@@ -6,14 +6,14 @@ use DB;
 use App\Category;
 use Auth;
 use App\User;
-
+use App\City;
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
 class EventsController extends Controller
 {
-    
+
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
        // dd($questionfound==null);
@@ -27,13 +27,13 @@ class EventsController extends Controller
 
         ]);
         }
-        
+
 
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
     }
     public function updateQuestion(Request $request){
         $user = User::find($request->user_id);
-        
+
         $question=$user->eventquestions()->where('question','=',$request->question)->first();
         //dd($question);
         $question->pivot->answer=$request->answer;
@@ -66,7 +66,7 @@ class EventsController extends Controller
          'body' => $request->description
       ]);
       $event = Event::find($event_id);
-      
+
       $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
       foreach($eventSubscibers as $subscriber){
          event(new EventSubscribers($event_id , $subscriber->user_id));
@@ -74,21 +74,20 @@ class EventsController extends Controller
       }
       $eventInfos=EventInfo::all();
       if(Auth::user()->hasRole('admin')){
-        return view('admin.events.show',['eventInfos'=> $eventInfos] ); 
+        return view('admin.events.show',['eventInfos'=> $eventInfos] );
       }
       return response()->json(['status' => 'success']);
 
     }
     public function search (Request $request){
-        //ucfirst(trans('messages.welcome'))
-        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get(); 
+        $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
+        $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
+        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
+        $view='events.search';
         if(Auth::user()->hasRole('admin')){
-
-        return view('admin.search.Eventsearch',['events'=> $events] );
+        $view='admin.search.Eventsearch';
         }
-        return view('search.Eventsearch',['events'=> $events] );
-
-
+        return view($view,compact('events','categories','cities'));
      }
 
     public function index(){
@@ -98,7 +97,7 @@ class EventsController extends Controller
         {
             $view='admin.events.index';
         }
-        
+
         return view($view,compact('events'));
     }
 
@@ -128,7 +127,7 @@ class EventsController extends Controller
         {
             $view='admin.events.show';
         }
-  
+
         return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
 
@@ -138,6 +137,10 @@ class EventsController extends Controller
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'startdate' => 'required|date|before_or_equal:enddate',
             'enddate'  => 'required|date|date_format:Y-m-d|after_or_equal:startdate',
+            'user_id' => 'exists:users,id',
+            'category' => 'exists:categories,id',
+            'city' => 'exists:cities,id',
+            'region' => 'exists:regions,id',
         ]);
         $event=new Event;
         if($request->hasFile('photo')){
@@ -148,8 +151,8 @@ class EventsController extends Controller
         $event->name = Str::lower($request->name);
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
-        $event->city=$request->city;
-        $event->region=$request->region;
+        $event->city_id=$request->city;
+        $event->region_id=$request->region;
         $event->startdate=$request->startdate;
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;
@@ -161,11 +164,11 @@ class EventsController extends Controller
         $event=Event::find($request->id);
         $categories=Category::all();
         return view('events.edit',[
-            
+
             'event' => $event,
             'categories'=>$categories,
-          
-            
+
+
         ]);
 
     }
@@ -199,4 +202,5 @@ class EventsController extends Controller
         $event->delete();
         return redirect('/events');
     }
+
 }

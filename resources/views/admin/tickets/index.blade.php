@@ -11,8 +11,8 @@
     </div>
       <div class="row">
       <div class="col-sm">
-            <a href="{{URL::route('AdminCreateticket')}}" ><input type="button" class="btn btn-success" value='Create Ticket'/></a>
-  <table class="table table-hover">
+            <a href="{{URL::route('createticket')}}" ><input type="button" class="btn btn-success" value='Create Ticket'/></a>
+  <table class="table table-hover table-dark">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -36,9 +36,17 @@
         <td>{{$ticket->spammers->count()}}</td>
         <td><img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"></td>
         <td> {{ $ticket->created_at->diffForHumans() }} </td>
+<<<<<<< HEAD
         <td><a href={{ URL::to('admin/tickets/' . $ticket->id ) }} type="button" class="btn btn-success" >View</a></td>
         <td><a href={{ URL::to('admin/tickets/edit/' . $ticket->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
         <td> <form action="{{URL::to('admin/tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
+=======
+<td>
+    <a href={{ URL::to('tickets/' . $ticket->id ) }} type="button" class="btn btn-success" >View</a></td>
+        <td><a href={{ URL::to('tickets/edit/' . $ticket->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
+   <td>
+     <form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
       {!! csrf_field() !!}
       {{method_field('Delete')}}
     </form>

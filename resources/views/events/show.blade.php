@@ -2,7 +2,20 @@
 @section('content')
 
      {{ $event-> name}} EVENT <br>
-    
+     <fieldset>
+            <legend style="background-color: gray">Event Info </legend>
+            <img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:150px; height:150px;">
+            <p>Name : {{ $event->name }}</p>
+            <p>Quantity:{{ $event->avaliabletickets }}</p>
+            <p>Description:{{ $event->description }}</p>
+            <p>Start Date :{{ $event->startdate }}</p>
+            <p>End Date :{{ $event->enddate }}</p>
+            <p>Category :{{ $event->category->name }}</p>
+            <p>Location:{{ $event->region->name }},{{ $event->city->name }}</p>
+            <p>Created by :{{ $event->user->name }} </p>
+           <hr>
+        </fieldset>
+
     @if(Auth::user() && Auth::user()->id == $event->user_id)
      <button id="showModel" class="btn btn-primary"> Add New Info </button>
      <div class="info-area" style="display:none;">
@@ -18,7 +31,7 @@
         <div class="event-info" style="display:block;">
             Post of Event<p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-            
+
 
         <div>
        @endforeach
@@ -42,6 +55,13 @@
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
+<<<<<<< HEAD
+=======
+
+      </div>
+      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+      <input type="hidden" id="event_id" value="{{$event->id}}">
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
      </div>
         <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
@@ -55,7 +75,7 @@
     <hr>
 
     @endforeach
-   @endif 
+   @endif
 
     @if(Auth::user() && Auth::user()->id != $event->user_id)
       @if(sizeof($subscribers) == 1)
@@ -64,7 +84,7 @@
       @else
       <button id="subscribe" class="btn btn-primary " >subscribe</button>
       @endif
-    
+
 
       <button id="questionbtn" class="btn btn-primary" >Question !</button>
       <div class="question-area" style="display:none;">
@@ -74,6 +94,7 @@
       </div>
      
     @endif
+
 
      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
      <input type="hidden" id="event_id" value="{{$event->id}}">
@@ -89,7 +110,7 @@
     });
 
     $('#question-submit').on('click',function(){
-      
+
         var body=$('#ques-body').val();
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
@@ -106,6 +127,7 @@
                 'user_id':user_id,
                 },
                 success:function(response){
+<<<<<<< HEAD
                  if(response.response== 'success'){
                   console.log(response.questions.id);
                   
@@ -114,6 +136,13 @@
                
                  }
                
+=======
+
+                  console.log(response);
+                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
+
+
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
                 }
 
         })
@@ -132,7 +161,7 @@
       console.log(quesId);
       console.log(questioner);
 
-    
+
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -147,14 +176,19 @@
                 success:function(response){
 
                   console.log(response);
+<<<<<<< HEAD
                  // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
                  
+=======
+                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
+
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
                 }
 
         })
-     
-      
+
+
   })
 
     $('#subscribe').on('click' , function(){
@@ -171,10 +205,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('unsubscribe');
                console.log('success');
@@ -195,10 +229,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('subscribe');
                console.log('success');
@@ -209,7 +243,7 @@
 
 
          });
-        
+
     }
 
 
@@ -217,15 +251,15 @@
 
         });
 
-         
-         
-
-         
-
-       
 
 
-   
+
+
+
+
+
+
+
     $('#showModel').on('click' , function(){
         $('.info-area').show();
         $(this).hide();

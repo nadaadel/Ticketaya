@@ -16,7 +16,7 @@ class TicketsTableSeeder extends Seeder
            'name' => 'tamer honsy yaaaa' ,
            'price' => '500',
            'description' => 'i want to sell this tickets',
-           'photo' => 'photo',
+           'photo' => 'default.jpg',
            'quantity' => '6',
            'type' => '1',
            'is_sold' => '0',

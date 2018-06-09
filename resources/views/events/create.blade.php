@@ -21,11 +21,18 @@
 <label >Quantity </label>
 <input type="number" name="avaliabletickets"/>
 <br/>
-<label >Region </label>
-<input type="text" name="region"/>
+<label >City </label>
+<select name="city" id="city">
+    @foreach(App\City::all() as $city)
+      <option value="{{$city->id}}">{{$city->name}}</option>
+    @endforeach
+</select>
 <br/>
-<label >City</label>
-<input type="text" name="city"/>
+<div id="toggleRegion" style="display: none;">
+    <label >Region </label>
+    <select name="region" id="region">
+    </select>
+</div>
 <br/>
 
 <label >Start Date </label>
@@ -46,4 +53,28 @@
       <br/>
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
+
+<script>
+        $(document).ready( function(){
+            $('#city').on('change',function(){
+            var city_id = $(this).val();
+            $.ajax({
+                     url: '/cities/'+city_id,
+                     type: 'GET' ,
+                     data:{
+                         '_token':'@csrf'
+                     },
+                success:function(response){
+                    if(response.res == 'success'){
+                        $.each(response.cityRegions, function(index,region){
+                        var option=`<option value="`+region.id+`">`+region.name+`</option>`;
+                        $('#region').append(option);
+                    });
+                    $('#toggleRegion').show();
+                    }
+                }
+                 });
+            });
+            });
+        </script>
 @endsection

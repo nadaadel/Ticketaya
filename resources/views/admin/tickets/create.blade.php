@@ -51,6 +51,7 @@
           <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
       </select>
+      <br/>
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
 <script src="{{ asset('assets/js/lib/jquery/jquery.min.js') }}"></script>

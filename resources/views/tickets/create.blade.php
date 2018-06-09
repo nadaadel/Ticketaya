@@ -43,7 +43,7 @@
 <label for="image">Ticket Image</label>
 <input type="file" class="form-control-file" name="photo"/>
 <br/>
-<label >Tags</label>
+<label >Tags</label>    
 <input type="text" name="tags" class="form-control"/>
 <label >Category</label>
 <select name="category">

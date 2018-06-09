@@ -5,6 +5,7 @@ namespace App;
 use App\City;
 use App\Region;
 use App\Ticket;
+use App\Event;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,9 @@ class City extends Model
     public function users(){
         return $this->hasMany(User::class);
     }
+
+    public function events(){
+        return $this->hasMany(Event::class);
+    }
+
 }

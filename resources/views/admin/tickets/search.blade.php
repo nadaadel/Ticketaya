@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.index')
 @section('content')
 <div class="container">
     <section id="search-page">
@@ -33,10 +33,10 @@
                     <a href="#demo2" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-book"></i> Category <i class="fa fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo2">
                       <ul class="p-0 mb-0">
-                             <li class="list-group-item"><input type="checkbox" name="category[]" value="sport"> Sport</li>
-                             <li class="list-group-item"><input type="checkbox" name="category[]" value="train"> Train</li>
-                             <li class="list-group-item"><input type="checkbox" name="category[]" value="concert"> Concert</li>
-                             <li class="list-group-item"><input type="checkbox" name="category[]" value="Travel"> Travel</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="sport"> Sport</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="train"> Train</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="concert"> Concert</li>
+                             <li class="list-group-item"><input type="checkbox" name="category" value="travel"> Travel</li>
 
                          </ul>
                     </div>
@@ -64,7 +64,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <h3 class="card-title">{{ucwords($ticket->name)}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
+                                    <h3 class="card-title">{{$ticket->name}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
                                     <p class="ticket-des">{{substr($ticket->description,0,70)}}</p>
                                     <div class="ticket-qty d-flex">
                                         <h4 class="">Available Quantity</h4>
