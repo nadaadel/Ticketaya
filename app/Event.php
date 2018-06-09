@@ -33,11 +33,11 @@ class Event extends Model {
         return $this->hasMany(EventInfo::class);
     }
 
-    public function Region(){
+    public function region(){
         return $this->belongsTo(Region::class);
     }
 
-    public function City(){
+    public function city(){
         return $this->belongsTo(City::class);
     }
 

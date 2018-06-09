@@ -52,11 +52,11 @@ class Ticket extends Model
         return  $this->belongsToMany(User::class , 'spam_tickets');
      }
 
-     public function Region(){
+     public function region(){
         return $this->belongsTo(Region::class);
     }
 
-    public function City(){
+    public function city(){
         return $this->belongsTo(City::class);
     }
 }

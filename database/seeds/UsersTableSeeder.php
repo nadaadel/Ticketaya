@@ -17,8 +17,6 @@ class UsersTableSeeder extends Seeder
             'email' => 'nada@gmail.com',
             'password' => bcrypt('123456'),
             'phone'=>'123456'
-            
-           
         ]);
 
     }
