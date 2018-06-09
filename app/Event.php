@@ -5,12 +5,14 @@ use App\User;
 use App\Category;
 use App\EventQuestion;
 use App\EventInfo;
+use App\Region;
+use App\City;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model {
     protected $fillable = [
-        'name','user_id','photo','location','startdate','enddate','category_id','avaliableticket','description'
+        'name','user_id','photo','city_id','region_id','startdate','enddate','category_id','avaliableticket','description'
 
     ];
     public function user(){
@@ -29,6 +31,14 @@ class Event extends Model {
     }
     public function eventInfo(){
         return $this->hasMany(EventInfo::class);
+    }
+
+    public function Region(){
+        return $this->belongsTo(Region::class);
+    }
+
+    public function City(){
+        return $this->belongsTo(City::class);
     }
 
 }

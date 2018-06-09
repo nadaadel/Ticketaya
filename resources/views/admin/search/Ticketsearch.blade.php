@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.index')
 @section('content')
 <div class="container">
     <section id="search-page">
@@ -64,7 +64,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <h3 class="card-title">{{$ticket->name}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
+                                    <h3 class="card-title">{{ucwords($ticket->name)}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
                                     <p class="ticket-des">{{substr($ticket->description,0,70)}}</p>
                                     <div class="ticket-qty d-flex">
                                         <h4 class="">Available Quantity</h4>

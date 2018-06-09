@@ -16,29 +16,32 @@
         </li>
        @if (Auth::check())
         <li class="nav-item">
-              <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
               <div class="collapse navbar-collapse">
+                    <input id="user_id" type="hidden" value="{{Auth::user()->id}}">
                 <ul class="nav navbar-nav">
                   <li class="dropdown dropdown-notifications">
                     <a href="#notifications-panel" class="dropdown-toggle" data-toggle="dropdown">
-                      <i data-count="0" class="glyphicon glyphicon-bell notification-icon"></i>
+                      <i data-count="0" class="glyphicon glyphicon-bell notification-icon">notificatons</i>
                     </a>
                     <div class="dropdown-container">
-                      <div class="dropdown-toolbar">
-                        <div class="dropdown-toolbar-actions">
-                          <a id="readall" href="#">Mark all as read</a>
-                        </div>
-                      </div>
                       <ul class="dropdown-menu " style="width: 448px;margin-right: 0px;">
+                            <div class="dropdown-toolbar">
+                                    <div class="dropdown-toolbar-actions">
+                                      <a id="readall" href="#">Mark all as read</a>
+                                    </div>
+                                  </div>
+                            <div class="dropdown-footer text-center">
+                                    <a href="/notifications">View All</a>
+                            </div>
                       </ul>
-                      <div class="dropdown-footer text-center">
-                        <a href="/notifications">View All</a>
-                      </div>
-                    </div>
+
                   </li>
                 </ul>
               </div>
                          {{-- end Notification section UI --}}
+      </li>
+      <li class="nav-item active pt-1">
+        <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>
       </li>
       @role('admin')
       <li class="nav-item active pt-1">
@@ -62,6 +65,7 @@
       </ul>
   </div>
 </nav>
+
 
 <script type="text/javascript">
 $(function () {

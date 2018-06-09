@@ -27,7 +27,7 @@
 <label >City </label>
 <select name="city" id="city">
     @foreach(App\City::all() as $city)
-      <option value="{{ $city->id }}">{{ $city->name }}</option>
+      <option value="{{$city->id}}">{{$city->name}}</option>
     @endforeach
 </select>
 <br/>
