@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('admin.index')
 @section('content')
 
-{{$user->name}} Profile <br>
+{{ $user->name}} Profile <br>
    
 
   Email<div>{{$user->email}}</div>

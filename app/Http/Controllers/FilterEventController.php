@@ -7,6 +7,7 @@ use App\Event;
 use App\Category;
 use App\City;
 use App\Region;
+use Auth;
 
 class FilterEventController extends Controller
 {
@@ -43,6 +44,10 @@ class FilterEventController extends Controller
          }
         $events = Event::whereIn('category_id' ,  $categoryIds)->get();
 
+    }
+    if(Auth::check() && Auth::user()->hasRole('admin')){
+
+        return view('admin.search.Eventsearch' , compact('events','categories','cities'));
     }
     return view('events.search' , compact('events','categories','cities'));
     }

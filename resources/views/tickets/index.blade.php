@@ -29,7 +29,7 @@
   @foreach($tickets as $ticket)
   <tr>
         <th scope="row">{{$ticket->id}}</th>
-        <td>{{$ticket->name}}</td>
+        <td>{{ucwords($ticket->name)}}</td>
         <td>{{$ticket->user->name}}</td>
         <td><img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"></td>
         <td> {{ $ticket->created_at->diffForHumans() }} </td><td>

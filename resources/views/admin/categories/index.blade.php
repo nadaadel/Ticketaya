@@ -1,10 +1,6 @@
 @extends('admin.index')
 @section('content')
-<<<<<<< HEAD
-<a href={{ URL::to('categories/create' )}} >
-=======
 <a href={{ URL::to('admin/categories/create' )}} >
->>>>>>> d995c8ee0430c39fff653a91028bd2b1cd129797
     <input type="button" class="btn btn-success" value='Create Category '/></a>
   <br/>
   <div class="container">

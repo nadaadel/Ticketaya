@@ -10,20 +10,10 @@ use App\City;
 use App\Events\EventSubscribers;
 use Illuminate\Http\Request;
 use App\EventQuestion;
-
+use Illuminate\Support\Str;
 class EventsController extends Controller
 {
-    public function show($id){
-        $event = Event::find($id);
-        if(Auth::user()){
-        $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-        $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
-        ->where('user_id' , '=' , Auth::user()->id)->get();
-        }
-        $questions=EventQuestion::all()->where('event_id',$id);
-        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
-        return view('events.show' , compact('event' , 'subscribers' ,'eventInfos','questions'));
-    }
+
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
        // dd($questionfound==null);
@@ -37,6 +27,7 @@ class EventsController extends Controller
 
         ]);
         }
+
 
         return response()->json(['questions' => $eventQuestion]);
     }
@@ -81,17 +72,63 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
+      $eventInfos=EventInfo::all();
+      if(Auth::user()->hasRole('admin')){
+        return view('admin.events.show',['eventInfos'=> $eventInfos] );
+      }
       return response()->json(['status' => 'success']);
 
     }
+    public function search (Request $request){
+        $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
+        $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
+        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
+        $view='events.search';
+        if(Auth::user()->hasRole('admin')){
+        $view='admin.search.Eventsearch';
+        }
+        return view($view,compact('events','categories','cities'));
+     }
+
     public function index(){
         $events=Event::all();
-        return view('events.index',compact('events'));
+        $view='events.index';
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.index';
+        }
+
+        return view($view,compact('events'));
     }
 
     public function create(){
         $categories=Category::all();
-        return view('events.create',compact('categories'));
+        $view='events.create';
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.create';
+        }
+        return view($view,compact('categories'));
+    }
+    public function show($id){
+        $event = Event::find($id);
+        $view='events.show';
+        if(Auth::user()){
+        $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
+        // dd($eventSubscibers);
+        $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
+        ->where('user_id' , '=' , Auth::user()->id)->get();
+
+
+        }
+        $questions=EventQuestion::all()->where('event_id',$id);
+        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
+        if(Auth::user()&& Auth::user()->hasRole('admin'))
+        {
+            $view='admin.events.show';
+        }
+
+        return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
 
     public function store(Request $request){
@@ -111,7 +148,7 @@ class EventsController extends Controller
             $file_name = $request->file('photo')->hashName();
             $event->photo= $file_name;
         }
-        $event->name = $request->name;
+        $event->name = Str::lower($request->name);
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
         $event->city_id=$request->city;
@@ -166,17 +203,4 @@ class EventsController extends Controller
         return redirect('/events');
     }
 
-    public function search (Request $request){
-        $events=Event::where('name', 'LIKE', '%'. $request->search .'%')->get();
-        $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
-        $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
-        $view='events.search';
-        // if(Auth::check()){
-        //     if(Auth::user()->hasRole('admin'))
-        //     {
-        //         $view='admin.events.search';
-        //     }
-        // }
-        return view($view,compact('events','categories','cities'));
-     }
 }

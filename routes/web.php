@@ -1,7 +1,7 @@
 <?php
 
 
-Route::get('/users' , 'UsersController@index')->name('allusers');
+
 Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
@@ -39,9 +39,14 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
 /**Users route */
+Route::get('/users/create','UsersController@create');
 Route::get('/users/{id}','UsersController@show');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
+Route::post('/users','UsersController@store');
+Route::delete('/users/{id}' , 'UsersController@delete');
+Route::get('/users','UsersController@index')->name('allusers');
+
 
 /**Events Routes */
 Route::get('/events/filter' , 'FilterEventController@filter');

@@ -16,6 +16,7 @@ use App\Events\TicketReceived;
 use App\Events\StatusTicketRequested;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TicketsController extends Controller
 {
@@ -65,15 +66,14 @@ class TicketsController extends Controller
     }
 
      public function search (Request $request){
-        $tickets=Ticket::all()->where('name' , '=' , $request->search);
-        $view='search.search';
-        if(Auth::check()){
-            if(Auth::user()->hasRole('admin'))
-            {
-                $view='admin.tickets.search';
-            }
+        $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
+        //dd($tickets);
+        if(Auth::user()->hasRole('admin')){
+
+        return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
         }
-        return view($view,['tickets'=> $tickets] );
+
+        return view('search.Ticketsearch',['tickets'=> $tickets] );
      }
 
     public function create (){
@@ -131,7 +131,7 @@ class TicketsController extends Controller
             $ticket->photo= $file_name;
         }
         $ticket->price =$request->price;
-        $ticket->name = $request->name;
+        $ticket->name = Str::lower($request->name);
         $ticket->description=$request->description;
         $ticket->user_id= Auth::user()->id;
         $ticket->quantity=$request->quantity;
