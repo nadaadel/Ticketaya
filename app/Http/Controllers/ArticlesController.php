@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Article;
 use Illuminate\Http\Request;
-use Article;
 class ArticlesController extends Controller
 {
       public function index(){

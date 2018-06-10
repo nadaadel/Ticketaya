@@ -6,7 +6,7 @@ Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
 /** Admin Articles Routes */
-Route::get('/articles' , 'ArticlesController@index')->name('allarticleps');
+Route::get('/articles' , 'ArticlesController@index')->name('allarticles');
 
 
 
