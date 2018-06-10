@@ -11,20 +11,20 @@
 -->
 
        <ul class="navbar-nav navbar-left">
-           
-        <li class="nav-item active pt-3"> 
+
+        <li class="nav-item active pt-3">
             <a class="nav-link" href="{{URL::route('home')}}">HOME</a>
         </li>
-        <li class="nav-item active pt-3"> 
+        <li class="nav-item active pt-3">
             <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
         </li>
         <li class="nav-item pt-3">
             <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
         </li>
         <li class="nav-item pt-3">
-            <a class="nav-link " href="#">BLOG</a>
+            <a class="nav-link " href="{{URL::route('allarticles')}}">BLOG</a>
         </li>
-        
+
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
             <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">

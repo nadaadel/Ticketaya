@@ -6,8 +6,13 @@ Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
 /** Admin Articles Routes */
+Route::get('/articles/create' , 'ArticlesController@create')->name('createarticle');
 Route::get('/articles' , 'ArticlesController@index')->name('allarticles');
-
+Route::get('/articles/{id}' , 'ArticlesController@show')->name('showarticle');
+Route::get('/articles/edit/{id}' , 'ArticlesController@edit')->name('editarticle');
+Route::post('/articles/store' , 'ArticlesController@store')->name('storearticle');
+Route::put('/articles/{id}' , 'ArticlesController@update')->name('updatearticle');
+Route::delete('/articles/{id}' , 'ArticlesController@delete')->name('deletearticle');
 
 
 /** Admin Category Routes */
