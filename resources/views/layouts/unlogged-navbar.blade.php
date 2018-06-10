@@ -4,15 +4,25 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav navbar-left">
-        <li class="nav-item active pt-1">
-        <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
+
+<!--
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item active pt-3">
+-->
+
+       <ul class="navbar-nav navbar-left">
+           
+        <li class="nav-item active pt-3"> 
+            <a class="nav-link" href="{{URL::route('home')}}">HOME</a>
         </li>
-        <li class="nav-item pt-1">
-          <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
+        <li class="nav-item active pt-3"> 
+            <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
         </li>
-        <li class="nav-item pt-1">
-          <a class="nav-link " href="#">BLOG</a>
+        <li class="nav-item pt-3">
+            <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
+        </li>
+        <li class="nav-item pt-3">
+            <a class="nav-link " href="#">BLOG</a>
         </li>
         
        @if (Auth::check())
@@ -42,19 +52,19 @@
         <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>
       </li>
       @role('admin')
-      <li class="nav-item active pt-1">
+      <li class="nav-item active pt-3">
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-      <li class="nav-item pt-1">
+      <li class="nav-item pt-3">
         <a class="nav-link " href="/logout">LOG OUT</a>
       </li>
       @else
-      <li class="nav-item pt-1 pl-5">
-              <a class="nav-link " href="{{URL::route('login')}}">LOG IN </a>
+      <li class="nav-item pt-3 pl-5">
+              <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link " href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-primary">REGISTER</button></a>
+            <li class="nav-item ">
+              <a class="nav-link mt-1" href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-light">REGISTER</button></a>
             </li>
     @endif
   </ul>

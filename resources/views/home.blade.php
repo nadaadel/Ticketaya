@@ -27,7 +27,7 @@
                           <form method="POST" action="/tickets/search" enctype="multipart/form-data">
                               {{ csrf_field() }}
                             <input class="search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search"> 
-                            <button class="btn btn btn-outline-primary search-btn" type="submit">Search</button>
+                            <button class="btn btn btn-primary search-btn" type="submit">Search</button>
                             </form>
                           </div>
                         </div>

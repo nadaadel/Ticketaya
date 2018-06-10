@@ -1,0 +1,105 @@
+@import 'variables';
+
+.login {
+    // ----- silder -----
+    .slider {
+        width: 100%;
+        height: calc(100vh - 63.9px);
+        margin: 0px 0px;
+        position: relative;
+
+        .content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            .card {
+//                background-color: $light;    
+                height: 80%;
+                width: 60%;
+                margin: 0 auto;
+                box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.16);
+// Small devices (landscape phones, 576px and up)
+        @media (max-width: 576px) { 
+                     height: 80%;
+                     width: 95%;
+                }
+
+// Medium devices (tablets, 768px and up)
+        @media (max-width: 768px) { 
+                    height: 80%;
+                     width: 95%;
+                }
+                h2 {
+                    margin: 55px auto;
+                    
+                }
+                .row div{
+                    margin: 0 auto;
+                }
+                ul {
+                    list-style: none;
+                    padding-left: 0px;
+                }
+                button {
+                    width: 215px;
+                }
+
+            }
+        }
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: rgba($color: #000000, $alpha: 0.8);
+        }
+      }
+      .slide1,.slide2,.slide3,.slide4,.slide5 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+          
+      }
+      .slide1 {
+        background: url(../images/home/1-silder.jpg)no-repeat center;
+            background-size: cover;
+          animation:fade 8s infinite;
+      -webkit-animation:fade 8s infinite;
+      
+      } 
+      .slide2 {
+        background: url(../images/home/2-silder.jpg)no-repeat center;
+            background-size: cover;
+          animation:fade2 8s infinite;
+      -webkit-animation:fade2 8s infinite;
+      }
+      .slide3 {
+          background: url(../images/home/3-silder.jpg)no-repeat center;
+            background-size: cover;
+          animation:fade3 8s infinite;
+      -webkit-animation:fade3 8s infinite;
+      }
+      @keyframes fade
+      {
+        0%   {opacity:1}
+        33.333% { opacity: 0}
+        66.666% { opacity: 0}
+        100% { opacity: 1}
+      }
+      @keyframes fade2
+      {
+        0%   {opacity:0}
+        33.333% { opacity: 1}
+        66.666% { opacity: 0 }
+        100% { opacity: 0}
+      }
+      @keyframes fade3
+      {
+        0%   {opacity:0}
+        33.333% { opacity: 0}
+        66.666% { opacity: 1}
+        100% { opacity: 0}
+      }
+      // ----- end ofsilder -----
+}
