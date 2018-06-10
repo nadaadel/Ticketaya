@@ -1,6 +1,136 @@
 @extends('layouts.app')
 
 @section('content')
+           
+           
+           <section id="ticket-view">
+               <div class="container">
+                   <div class="row ">
+                       <div class="col-md-3 col-xs-12 text-center"><!--User profile-->
+                           <div class="user-img">
+                               <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
+                           </div>
+                           <h4 class="user-name pt-4">Adam Smith</h4>
+                           <div class="user-loc d-flex justify-content-center">
+<!--                               <i class="fas fa-map-marker gray"></i>-->
+                               <p class="gray">Alexandria</p>
+                           </div>
+                           <button class="btn btn-info"> Chat with Seller</button>
+                       </div><!--End of User profile-->
+                       <div class="col-md-9 pb-5"><!--Ticket data-->
+                           <div class="row">
+                               <div class="col-md-8 col-xs-12 ticket-details">
+                                   <div class="ticket-img" style="background-image: url(../images/home/1-silder.jpg);"></div>
+                                   <div class="tick-name-price pt-5 d-flex justify-content-between  ">
+                                       <h3>Ticket Name Here</h3>
+                                       <h3 class="price">120 L.E</h3>
+                                   </div>
+                                   <div class="ticket-info">
+                                       <ul>
+                                           <li><i class="fas fa-th-large"></i> Sport</li>
+                                           <li><i class="far fa-calendar-alt"></i> Sat, 18 Jul 2018 </li>
+                                           <li><i class="fas fa-map-marker"></i>City Center, Alexandria</li>
+                                       </ul>
+                                   </div>
+                                   <div class="ticket-actions row">
+                                       <div class="col-md-6 d-flex">
+                                           <h4>Quantity</h4>
+                                           <select>
+                                                <option selected value="1">1</option>
+                                                <option  value="2">2</option>
+                                                <option  value="3">3</option>
+                                                <option  value="4">4</option>
+                                            </select>
+                                       </div>
+                                       <div class="col-md-6">
+                                           <a  href="#" class="btn btn-primary">REQUST THIS TICKET</a>
+                                       </div>
+                                   </div>
+                                   
+                               </div>
+                               <div class="col-md-4 col-xs-12 pr-2">
+                                   <h3 class="mb-3">Ticket Details</h3>
+                                   <p class="mb-5">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas.
+                                   </p>
+                                   <h3 class="mb-3">You Should Know</h3>
+                                   <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                    </p>
+                               </div>
+                           </div>
+                       </div><!--end of Ticket data-->
+                   </div>
+               </div>
+               <div class="container">
+                   <div class="row comments"><!--comments section -->
+                       <div class="col-md-12">
+                          <h2>Visitors Comments</h2>
+                           <div class="col-md-12">
+                              <form>
+                               <div class="row">
+                                  
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <input type="text" placeholder="Leave comment Here ....">
+                                   </div>
+                                   <div class=" col-sm-12 col-md-3  pt-3">
+                                       <input type="submit" value="NEW COMMENT" class="btn btn-secondary">
+                                   </div>
+                               </div>
+                               </form>
+                           </div>
+                           <div class="col-md-12 users-comment">
+                              <div class="row"> <!--every comment here -->
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <div class="comment-content">
+                                           <h4>Adam Smith</h4>
+                                           <p class="gray">3 hours ago</p>
+                                           <p>
+                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                           </p>
+                                           <a href="#" class="info">REPLAY</a>
+                                       </div>
+                                   </div>
+                               </div> <!-- end of every comment -->
+                               <div class="row"> <!--every comment here -->
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img  -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <div class="comment-content">
+                                           <h4>Adam Smith</h4>
+                                           <p class="gray">3 hours ago</p>
+                                           <p>
+                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                           </p>
+                                           <a href="#" class="info">REPLAY</a>
+                                           <div class="row mt-5">
+                                                <div class="col-sm-4 col-md-2">
+                                                   <div class="usr-img-cmnt" style="background-image: url(../images/icons/avatar.jpg);"></div><!--user logged img -->
+                                               </div>
+                                               <div class="col-sm-12 col-md-10">
+                                                   <input type="text" placeholder="Leave comment Here ....">
+                                                   <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
+                                               </div>
+                                               <div class=" col-sm-12 col-md-3  pt-3">
+                                                   
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div> <!-- end of every comment -->
+                            </div>
+
+                       </div>
+                   </div><!--end of comments section -->
+               </div>
+           </section>
 
            <fieldset>
                     <legend style="background-color: gray">Ticket Info </legend>
@@ -127,6 +257,46 @@ Comments:
     </form>
 
 </div>
+<!-- quantity dropdown script-->
+<script>
+    $(".custom-select").each(function() {
+      var classes = $(this).attr("class"),
+          id      = $(this).attr("id"),
+          name    = $(this).attr("name");
+      var template =  '<div class="' + classes + '">';
+          template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+          template += '<div class="custom-options">';
+          $(this).find("option").each(function() {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+          });
+      template += '</div></div>';
+
+      $(this).wrap('<div class="custom-select-wrapper"></div>');
+      $(this).hide();
+      $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function() {
+      $(this).parents(".custom-options").addClass("option-hover");
+    }, function() {
+      $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function() {
+      $('html').one('click',function() {
+        $(".custom-select").removeClass("opened");
+      });
+      $(this).parents(".custom-select").toggleClass("opened");
+      event.stopPropagation();
+    });
+    $(".custom-option").on("click", function() {
+      $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+      $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+      $(this).addClass("selection");
+      $(this).parents(".custom-select").removeClass("opened");
+      $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    });
+</script>
+<!-- end of quantity dropdown script-->
+
 <script src="//code.jquery.com/jquery.js"></script>
 @include('flashy::message')
 @if(Session::has('flashy_notification.message'))

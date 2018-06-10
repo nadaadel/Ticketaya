@@ -1,0 +1,128 @@
+@import 'variables';
+
+#ticket-view {
+    margin-top: 40px;
+    .container:first-child {
+            border-bottom: 1px solid #a7a7a77a;
+        margin-bottom: 40px;
+        .text-center {
+            border-right: 1px solid #a7a7a77a;
+        }
+            }
+    .user-img {
+        
+        div {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+            border-radius: 100px;
+            background-size: cover;
+            ba
+        }
+        .user-loc {
+            i {
+                font-size: 10px;
+            }
+        }
+    }
+    
+    .ticket-details {
+        padding: 0 50px;
+        
+        .ticket-img {
+            width: 100%;
+            height: 260px;
+            background-color: aquamarine;
+            background-size: cover;
+        }
+        
+        .ticket-info {
+            ul {
+                padding-left: 0px;
+                list-style-type: none;
+                li {
+                    padding: 5px 0px;
+                    i {
+                        padding-right: 10px;
+                        color: $gray;
+                    }
+                }
+                li:last-child {
+                    i {
+                        padding-right: 14px;
+                    }
+                }
+            }
+        }
+        
+
+        .ticket-actions {
+            h4 {
+                padding-top: 10px;
+            }
+            a {
+                width: 215px;
+            }
+            select {
+                margin-left: 50px;
+                border-radius: 50px;
+                width: 100px;
+                padding: 8px 25px 5px 23px;
+                font-size: 16px;
+                font-weight: 700;
+                border: 1px solid #707070;
+                height: 41px;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background: url(../images/icons/sort-down.svg) 64px 8px no-repeat #FFF;
+                background-size: 12px;
+
+            }
+
+            /* CAUTION: IE hackery ahead */
+            select::-ms-expand { 
+                display: none; /* remove default arrow on ie10 and ie11 */
+            }
+
+            /* target Internet Explorer 9 to undo the custom arrow */
+            @media screen and (min-width:0\0) {
+                select {
+                    background:none\9;
+                    padding: 5px\9;
+                } 
+            }
+        }
+    }
+    
+    
+    
+    
+    //comments
+    .comments {
+         input[type="text"]{
+                height: 60px;
+                width: 100%;
+                border: 1px solid #707070;
+                border-radius: 50px;
+                padding-left: 17px;
+                font-size: 14px;
+                
+            }
+        .users-comment {
+            margin-top: 40px;
+            .row {
+                
+                
+                margin-bottom: 20px;
+            }
+            p {
+            }
+            .comment-content {
+                border-bottom: 1px solid #a7a7a77a;
+                padding-bottom: 10px;
+            }
+        }
+    }
+}

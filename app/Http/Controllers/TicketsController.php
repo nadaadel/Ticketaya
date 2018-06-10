@@ -21,7 +21,7 @@ class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::all();
-        if(Auth::user()->role('admin'))
+        if(Auth::user()->hasRole('admin'))
         {
             return view('admin.tickets.index',compact('tickets'));
         }
@@ -42,7 +42,7 @@ class TicketsController extends Controller
                   $wantStatus = false;
                 }
         $userSavedTicket=Auth::user()->savedTickets->contains($id);
-        if(Auth::user()->role('admin'))
+        if(Auth::user()->hasRole('admin'))
         {
             $numberofspams=$ticket->spammers->count();
             return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
@@ -71,7 +71,7 @@ class TicketsController extends Controller
     public function create (){
         $categories=Category::all();
         $view='tickets.create';
-        if(Auth::user()->role('admin'))
+        if(Auth::user()->hasRole('admin'))
         {
             $view='admin.tickets.create';
         }
@@ -138,7 +138,7 @@ class TicketsController extends Controller
             }
             $ticket->tags()->sync($tagIds);
         }
-        if(Auth::user()->role('admin'))
+        if(Auth::user()->hasRole('admin'))
         {
             return redirect('admin/tickets');
         }
@@ -149,7 +149,7 @@ class TicketsController extends Controller
         $ticket=Ticket::find($id);
         $categories=Category::all();
         $view='tickets.update';
-        if(Auth::user()->role('admin')){
+        if(Auth::user()->hasRole('admin')){
             $view='admin.tickets.update';
         }
         return view($view,['ticket'=> $ticket,'categories'=>$categories] );
@@ -174,7 +174,7 @@ class TicketsController extends Controller
                     $ticket->photo= $file_name;
                     }
                 $ticket->save();
-                if($user->role('admin')){
+                if($user->hasRole('admin')){
                     return redirect('admin/tickets');
             }
         }
@@ -184,7 +184,7 @@ class TicketsController extends Controller
      public function destroy($id){
         $ticket=Ticket::find($id);
         $ticket->delete();
-        if(Auth::user()->role('admin'))
+        if(Auth::user()->hasRole('admin'))
         {
             return redirect('admin/tickets');
         }
