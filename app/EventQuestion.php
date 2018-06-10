@@ -13,13 +13,13 @@ class EventQuestion extends Pivot
         'user_id','question','event_id','answer'
     ];
 
-    public function user(){
+  /*  public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function event(){
         return $this->belongsTo(Event::class);
-    }
+    }*/
 
 
 

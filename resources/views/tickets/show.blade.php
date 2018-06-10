@@ -170,6 +170,9 @@
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
+               
+                
+
             @endif
             @endif
                 {{-- end spam section --}}
@@ -186,6 +189,7 @@
 
                 {{-- Request this ticket section --}}
         @if(Auth::user())
+        <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
         <div class="requestticket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -201,7 +205,7 @@
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         @endif
         </div>
-        @endif
+        
 
                 {{-- Request this ticket end section --}}
 
@@ -241,6 +245,7 @@ Comments:
 <hr>
 <br>
 @endforeach
+
 <div class="card-body">
     <form method="POST" action="/comments" enctype="multipart/form-data" >
          {{ csrf_field() }}
@@ -257,46 +262,7 @@ Comments:
     </form>
 
 </div>
-<!-- quantity dropdown script-->
-<script>
-    $(".custom-select").each(function() {
-      var classes = $(this).attr("class"),
-          id      = $(this).attr("id"),
-          name    = $(this).attr("name");
-      var template =  '<div class="' + classes + '">';
-          template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
-          template += '<div class="custom-options">';
-          $(this).find("option").each(function() {
-            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
-          });
-      template += '</div></div>';
-
-      $(this).wrap('<div class="custom-select-wrapper"></div>');
-      $(this).hide();
-      $(this).after(template);
-    });
-    $(".custom-option:first-of-type").hover(function() {
-      $(this).parents(".custom-options").addClass("option-hover");
-    }, function() {
-      $(this).parents(".custom-options").removeClass("option-hover");
-    });
-    $(".custom-select-trigger").on("click", function() {
-      $('html').one('click',function() {
-        $(".custom-select").removeClass("opened");
-      });
-      $(this).parents(".custom-select").toggleClass("opened");
-      event.stopPropagation();
-    });
-    $(".custom-option").on("click", function() {
-      $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
-      $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-      $(this).addClass("selection");
-      $(this).parents(".custom-select").removeClass("opened");
-      $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-    });
-</script>
-<!-- end of quantity dropdown script-->
-
+@endif
 <script src="//code.jquery.com/jquery.js"></script>
 @include('flashy::message')
 @if(Session::has('flashy_notification.message'))

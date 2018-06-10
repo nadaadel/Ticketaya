@@ -1,23 +1,28 @@
 <?php
 
 
-Route::get('/users' , 'UsersController@index')->name('allusers');
+
 Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
+/** Admin Articles Routes */
+Route::get('/articles' , 'ArticlesController@index')->name('allarticleps');
+
+
+
 /** Admin Category Routes */
-Route::get('/admin/categories' , 'CategoriesController@index');
-Route::get('/admin/categories/create' , 'CategoriesController@create');
-Route::post('/admin/categories' , 'CategoriesController@store');
-Route::get('/admin/categories/{id}' , 'CategoriesController@show');
-Route::get('/admin/categories/edit/{id}' , 'CategoriesController@edit');
-Route::put('/admin/categories/{id}' , 'CategoriesController@update');
-Route::delete('/admin/categories/{id}' , 'CategoriesController@delete');
+Route::get('/categories' , 'CategoriesController@index')->name('allcategories');
+Route::get('/categories/create' , 'CategoriesController@create')->name('createcategory');
+Route::get('/categories/{id}' , 'CategoriesController@show')->name('showcategory');
+Route::get('/categories/edit/{id}' , 'CategoriesController@edit')->name('editcategory');
+Route::post('/categories' , 'CategoriesController@store')->name('storecategory');
+Route::put('/categories/{id}' , 'CategoriesController@update')->name('updatecategory');
+Route::delete('/categories/{id}' , 'CategoriesController@delete')->name('deletecategory');
 
-/** Admin Map Routes */
-Route::get('/admin/events/locations' , 'MapController@adminEventLocations')->name('admineventslocation');
-Route::get('/admin/tickets/locations' , 'MapController@adminTicketLocations')->name('adminticketslocation');
 
+/** Map Routes */
+Route::get('/tickets/locations' , 'MapController@ticketLocations')->name('ticketslocation');
+Route::get('/events/locations' , 'MapController@eventsLocation')->name('eventslocation');
 
 
 Route::get('/test', function () {
@@ -35,16 +40,33 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
-Route::get('/twilio' , 'TwilioController@sendVerifications');
 
+
+Route::get('/twilio' , 'TwilioController@sendVerifications');
+/**Users route */
+Route::get('/users/create','UsersController@create');
+Route::get('/users/{id}','UsersController@show');
+Route::get('/users/edit/{id}','UsersController@edit');
+Route::put('/users/{id}','UsersController@update');
+Route::post('/users','UsersController@store');
+Route::delete('/users/{id}' , 'UsersController@delete');
+Route::get('/users','UsersController@index')->name('allusers');
+Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
+Route::post('tickets/report','TicketsController@report');
 
 /**Events Routes */
+Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
-Route::get('/events/locations' , 'MapController@eventsLocation')->name('eventslocation');
 Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
+Route::get('/events/edit/{id}','EventsController@edit');
+Route::put('/events/{id}','EventsController@update');
+Route::post('/events/search' , 'EventsController@search');
+
+
+
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
@@ -91,15 +113,12 @@ Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
-Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket')->middleware('auth');
+Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
 Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
 Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
-
-
-
 
 
 Auth::routes();
@@ -114,12 +133,7 @@ Route::get('/admin', 'AdminsController@index')->name('admin');
 
 /* Admin Tickets */
 Route::get('/admin/tickets', 'TicketsController@index')->name('AdminAlltickets');
-Route::get('/admin/tickets/create', 'TicketsController@create')->name('AdminCreateticket');
-Route::post('/admin/tickets/', 'TicketsController@store');
-Route::get('/admin/tickets/{id}', 'TicketsController@show');
-Route::get('/admin/tickets/edit/{id}', 'TicketsController@edit');
-Route::put('/admin/tickets/{id}', 'TicketsController@update');
-Route::delete('/admin/tickets/{id}', 'TicketsController@destroy');
+
 
 
 /* Notifications */

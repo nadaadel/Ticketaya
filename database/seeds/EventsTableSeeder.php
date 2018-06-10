@@ -12,12 +12,12 @@ class EventsTableSeeder extends Seeder
     public function run()
     {
         Event::create([
-            'name' => 'Tamer Hosny Concert' ,
+            'name' => 'tamer hosny concert' ,
             'description' => 'SUPER STAR KARIM MOHSEN',
             'photo' => 'photo',
             'category_id' => '1',
-            'region' => 'smouha',
-            'city' => 'alexandria',
+            'region_id' => '680057',
+            'city_id' => '935',
             'avaliabletickets' => '20',
             'startdate' => '2018-5-1',
             'enddate' => '2018-6-6',

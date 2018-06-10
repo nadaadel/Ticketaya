@@ -12,6 +12,7 @@ use App\EventQuestion;
 use Actuallymab\LaravelComment\CanComment;
 use App\City;
 use App\Region;
+use App\Article;
 
 
 
@@ -70,11 +71,11 @@ class User extends Authenticatable
     }
     public function favouriteEvents(){
 
-        return $this->belongsToMnay('App\Event','event_user')->withPivot('is_follower','is_saver');
+        return $this->belongsToMany('App\Event','event_user')->withPivot('is_follower','is_saver');
     }
 
     public function eventquestions(){
-        return $this->hasMany(EventQuestion::class);
+        return $this->belongsToMany(Event::class,'event_questions')->withPivot('question','answer');
     }
 
     public function savedTickets()
@@ -84,11 +85,15 @@ class User extends Authenticatable
     public function spammedTickets(){
         return  $this->belongsToMany(Ticket::class , 'spam_tickets');
      }
-     public function City(){
+     public function city(){
         return $this->belongsTo(City::class);
     }
-    public function Region(){
+    public function region(){
         return $this->belongsTo(Region::class);
+    }
+
+    public function articles(){
+        return $this->hasMany(Article::class);
     }
 
 }

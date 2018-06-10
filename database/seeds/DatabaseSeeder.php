@@ -16,11 +16,10 @@ class DatabaseSeeder extends Seeder
              UsersTableSeeder::class,
              TicketsTableSeeder::class,
              RolesTableSeeder::class,
+             CategoriesTableSeeder::class,
              ModelHasRolesTableSeeder::class,
              EventsTableSeeder::class,
              CategoriesTableSeeder::class,
-
-
 
              ]);
     }

@@ -3,7 +3,7 @@
 
 <section class="editing-forms">
     <div class="container">
-        <div class="row mt-5 mb-5">
+        <div class="row mt-4 mb-2">
             <div class="col-md-12 text-center">
                 <h2>Add Ticket for Sale</h2>
             </div>
@@ -61,6 +61,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-md-6 " >
+                        <label >Region </label>
+                        <select name="city" id="city" class="w-100">
+                            @foreach(App\City::all() as $city)
+                              <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -87,51 +96,11 @@
                     </div>
                 </div>
                 
-
-<!--
-            <br/>
-            <label >description</label>
-            <textarea name="description" class="form-control"></textarea>
-            <br/>
-            <label >Quantity </label>
-            <input type="number" name="quantity" class="form-control"/>
-            <br/>
-            <label >City </label>
-            <select name="city" id="city">
-                @foreach(App\City::all() as $city)
-                  <option value="{{ $city->id }}">{{ $city->name }}</option>
-                @endforeach
-            </select>
-            <br/>
-            <div id="toggleRegion" style="display: none;">
-                <label >Region </label>
-                <select name="region" id="region">
-                </select>
-            </div>
-            <br/>
-            <label >Expire Date </label>
-            <input type="datetime-local" name="expire_date" class="form-control"/>
-            <br/>
-            <label for="image">Ticket Image</label>
-            <input type="file" class="form-control-file" name="photo"/>
-            <br/>
-            <label >Tags</label>
-            <input type="text" name="tags" class="form-control"/>
-            <label >Category</label>
-            <select name="category">
-                    @foreach($categories as $category)
-                      <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                  </select>
--->
-            
             </form>
             </div>
         </div>
     </div>
 </section>
-
-
 <script>
 $(document).ready( function(){
     $('#city').on('change',function(){

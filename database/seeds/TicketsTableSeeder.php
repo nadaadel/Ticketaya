@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-
+use Carbon\carbon;
 class TicketsTableSeeder extends Seeder
 {
     /**
@@ -13,10 +13,10 @@ class TicketsTableSeeder extends Seeder
     public function run()
     {
        DB::table('tickets')->insert([
-           'name' => 'Tamer Honsy Yaaaa' ,
+           'name' => 'tamer honsy yaaaa' ,
            'price' => '500',
            'description' => 'i want to sell this tickets',
-           'photo' => 'photo',
+           'photo' => 'default.jpg',
            'quantity' => '6',
            'type' => '1',
            'is_sold' => '0',
@@ -25,6 +25,7 @@ class TicketsTableSeeder extends Seeder
            'city_id' => 926 ,
            'user_id' => '1',
            'expire_date' => '1995-3-3',
+           'created_at'=>Carbon::now(),
        ]);
     }
 }

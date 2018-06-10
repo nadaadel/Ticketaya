@@ -16,7 +16,8 @@
         "nesbot/carbon": "1.25.*",
         "pragmarx/countries": "^0.5.8",
         "pusher/pusher-php-server": "^3.0",
-        "spatie/laravel-permission": "^2.12"
+        "spatie/laravel-permission": "^2.12",
+        "serverfireteam/blog": "2.*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

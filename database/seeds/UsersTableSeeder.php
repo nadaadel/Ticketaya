@@ -16,10 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Nada',
             'email' => 'nada@gmail.com',
             'password' => bcrypt('123456'),
-            'avatar' => 'avatar',
-            'street' => 'el horia st',
-            'region' => 'smouha',
-            'city' => 'alexandria',
+            'phone'=>'123456'
         ]);
 
     }

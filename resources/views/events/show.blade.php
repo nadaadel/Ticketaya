@@ -2,7 +2,20 @@
 @section('content')
 
      {{ $event-> name}} EVENT <br>
-    
+     <fieldset>
+            <legend style="background-color: gray">Event Info </legend>
+            <img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:150px; height:150px;">
+            <p>Name : {{ $event->name }}</p>
+            <p>Quantity:{{ $event->avaliabletickets }}</p>
+            <p>Description:{{ $event->description }}</p>
+            <p>Start Date :{{ $event->startdate }}</p>
+            <p>End Date :{{ $event->enddate }}</p>
+            <p>Category :{{ $event->category->name }}</p>
+            <p>Location:{{ $event->region->name }},{{ $event->city->name }}</p>
+            <p>Created by :{{ $event->user->name }} </p>
+           <hr>
+        </fieldset>
+
     @if(Auth::user() && Auth::user()->id == $event->user_id)
      <button id="showModel" class="btn btn-primary"> Add New Info </button>
      <div class="info-area" style="display:none;">
@@ -18,7 +31,7 @@
         <div class="event-info" style="display:block;">
             Post of Event<p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-            
+
 
         <div>
        @endforeach
@@ -27,25 +40,42 @@
   {{-- questions and answer --}}
   @if($questions)
     @foreach($questions as $question)
-    <div id="allquestion">
-     Question<div class="question" ques-id="{{$question->id}}">{{$question->question}} </div>
-     wait for answer<div class="answer"  >{{$question->answer}} </div>
-     @role('admin')
-     <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" class="btn btn-info">Answer</button>
+    <div qid="{{$question->id}}">
+    Question<div class="question">{{$question->question}} </div>
+    Answer: <div class="answer"  >{{$question->answer}} </div>
+    
+  
+    
+   
+   
+    
+    @if(Auth::user() && Auth::user()->id == $event->user_id)
+       
+     <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
-            
+<<<<<<< HEAD
+=======
+
       </div>
       <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
       <input type="hidden" id="event_id" value="{{$event->id}}">
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
+     </div>
+        <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+        <input type="hidden" id="event_id" value="{{$event->id}}">
+     
+      
+
+ 
+    @endif
     </div>
-      @endrole
-      <hr>
+    <hr>
 
     @endforeach
-   @endif 
+   @endif
 
     @if(Auth::user() && Auth::user()->id != $event->user_id)
       @if(sizeof($subscribers) == 1)
@@ -54,8 +84,7 @@
       @else
       <button id="subscribe" class="btn btn-primary " >subscribe</button>
       @endif
-      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-      <input type="hidden" id="event_id" value="{{$event->id}}">
+
 
       <button id="questionbtn" class="btn btn-primary" >Question !</button>
       <div class="question-area" style="display:none;">
@@ -63,10 +92,15 @@
             </textarea>
             <button id="question-submit" class="btn btn-info">Post</button>
       </div>
-
+     
     @endif
 
-   
+
+     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+     <input type="hidden" id="event_id" value="{{$event->id}}">
+    
+     
+    
 
 <script>
     $(document).ready(function(){
@@ -76,11 +110,12 @@
     });
 
     $('#question-submit').on('click',function(){
-      
+
         var body=$('#ques-body').val();
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
-        var quesId=$('.question').attr('ques-id');
+        var no=$('.allquestion').attr('question-no');
+       
         $('.question-area').hide();
         $.ajax({
             url: '/events/question/'+event_id+'/'+user_id,
@@ -92,11 +127,22 @@
                 'user_id':user_id,
                 },
                 success:function(response){
+<<<<<<< HEAD
+                 if(response.response== 'success'){
+                  console.log(response.questions.id);
+                  
+                  
+                  //$( "<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('#'+no);
+               
+                 }
+               
+=======
 
                   console.log(response);
                  //$('#'+quesId).append('<div>'+response.question.question+'</div>');
-                 
 
+
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
                 }
 
         })
@@ -106,12 +152,16 @@
     $('.answer-submit').on('click',function(){
      var quesId=$(this).attr('question-id');
      var question=$(this).attr('question');
+     var questioner=$(this).attr('questioner');
       var body=$('#'+quesId).val();
-      var user_id = $('#user_id').val();
+   
       var event_id = $('#event_id').val();
       console.log(question);
       console.log(event_id);
-    
+      console.log(quesId);
+      console.log(questioner);
+
+
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -119,21 +169,26 @@
                 '_token':'@csrf',
                 'question':question,
                 'event_id':event_id,
-                'user_id':user_id,
+                'user_id':questioner,
                 'answer':body,
                 'quesId':quesId,
                 },
                 success:function(response){
 
                   console.log(response);
-                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
+<<<<<<< HEAD
+                 // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
                  
+=======
+                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
+
+>>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
                 }
 
         })
-     
-      
+
+
   })
 
     $('#subscribe').on('click' , function(){
@@ -150,10 +205,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('unsubscribe');
                console.log('success');
@@ -174,10 +229,10 @@
                 '_token':'@csrf'
                 },
 
-            
+
             success:function(response){
              console.log(response);
-       
+
             if(response.status == 'success'){
                $('#subscribe').html('subscribe');
                console.log('success');
@@ -188,7 +243,7 @@
 
 
          });
-        
+
     }
 
 
@@ -196,15 +251,15 @@
 
         });
 
-         
-         
-
-         
-
-       
 
 
-   
+
+
+
+
+
+
+
     $('#showModel').on('click' , function(){
         $('.info-area').show();
         $(this).hide();
@@ -212,8 +267,10 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
+       alert("helllo");
        console.log(description);
        var event_id = $('#event_id').val();
+       console.log(event_id);
        $.ajax({
            url: '/events/info/new/'+event_id,
            type:'POST',

@@ -26,7 +26,7 @@ class CreateTicketsTable extends Migration
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->integer('region_id')->unsigned()->index()->nullable();
             $table->integer('city_id')->unsigned()->index()->nullable();
-            $table->date('expire_date');
+            $table->dateTime('expire_date');
             $table->timestamps();
         });
     }
