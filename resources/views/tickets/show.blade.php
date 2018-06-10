@@ -53,30 +53,43 @@
                 @else
                 <button id="save_ticket" class="btn btn-primary">save</button>
                 @endif
+                <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
             @endif
         @endif
                 {{-- end save ticket--}}
 
                 {{-- Request this ticket section --}}
         @if(Auth::user())
-        <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
-        <div class="requestticket">
+       
+        <div class="requestticket" id="RequestTicket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
         <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         </div>
-
-        <div class="edit">
-        @if($ticket->user_id != Auth::user()->id && $wantStatus == false)
-        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
+       
+       @if($request&&$request->is_accepted==0)
+        <div id="loginuser">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
+       
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-        @endif
         </div>
+       @endif
+ 
         
+        <div class="edit" id="edit" style="display: none;">
+        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
 
+        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
+       
+        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
+      
+       </div>
+      
+       
+        
+        
                 {{-- Request this ticket end section --}}
 
 
@@ -167,7 +180,8 @@ Comments:
                     console.log(response.response);
                     alert('Ticket Requested Successfully');
                     $('.requestticket').hide();
-                    $('.editticket').show();
+                    $('#edit').show();
+                    //console.log( $('#edit'));
                    }
                    else{
                     console.log(response);
@@ -175,11 +189,12 @@ Comments:
                    }
                 }
             });
+            
  });
  $('.editticket').on('click' , function(){
           //  $('#editquantity').show();
             var quantity  = $('#editquantity').val();
-            console.log(quantity)
+            //console.log(quantity)
             var ticket_id = $('#edit-ticket-id').val();
             $.ajax({
                 url: '/tickets/request/edit/'+ticket_id,
@@ -190,9 +205,11 @@ Comments:
                     'ticket_id':ticket_id ,
                 },
                 success:function(response){
-                    console.log(response.response)
+                    //console.log(response.response)
                    if(response.response =='ok'){
-                    console.log(response.response);
+                   // console.log(response.response);
+                    console.log(response.ticket )
+                   
                     alert('Edit Requested Successfully');
                    }
                    else{

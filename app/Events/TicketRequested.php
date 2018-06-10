@@ -22,6 +22,7 @@ class TicketRequested implements ShouldBroadcast
     public $user_id;
     public $notification_id;
 
+
     /**
      * Create a new event instance.
      *
@@ -34,7 +35,7 @@ class TicketRequested implements ShouldBroadcast
         $this->fromUser =   Auth::user()->name;
         $this->user_id  =  $ticket->user_id;
         $this->message  = "{$this->fromUser} request Your ticket { $this->ticketName}";
-
+       
         $notification = Notification::create([
            'user_id' => $this->user_id,
            'message' => "{$this->fromUser} request Your ticket {$this->ticketName}",

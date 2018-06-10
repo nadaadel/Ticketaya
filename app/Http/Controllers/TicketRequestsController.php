@@ -29,6 +29,7 @@ class TicketRequestsController extends Controller
             'requester_id' => Auth::user()->id,
             'quantity' => $request->quantity ,
         ]);
+        $request="true";
 
         // send request notification to ticket author
         event(new TicketRequested($id));
@@ -69,17 +70,17 @@ class TicketRequestsController extends Controller
     }
         //to edit quantity in ticket request
         public function editRequestedTicket(Request $request,$id){
-            $ticket = Ticket::where($request->ticket_id);
+            $ticket = Ticket::find($request->ticket_id);
             if ($request->quantity<=$ticket->quantity){
-
             $user = User::find($ticket->user_id);
-            $requestTicket = $user->requestedTicket()->where('requester_id' , '=' ,$id)->first();
+            $requestTicket = $user->requestedTicket()->where('requester_id' , '=' ,Auth::user()->id)->first();
             $requestTicket->pivot->quantity =$request->quantity;
             $requestTicket->pivot->save();
 
             event(new TicketRequested($request->ticket_id));
 
             return response()->json(['response' => 'ok']);
+            
             }
             return response()->json(['quantity' =>$ticket->quantity ]);
 
@@ -104,18 +105,23 @@ class TicketRequestsController extends Controller
             $ticket = Ticket::find($id);
             $ticket->is_sold =1;
             $ticket->save();
+            $user=User::find(Auth::user()->id);
             $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
             ['requester_id' , '=' , Auth::user()->id] ,
-            ['user_id' , '=' , $ticket->user_id]])->get();
-            $requested[0]->is_sold = 1;
-            $requested[0]->save();
+            ['user_id' , '=' , $ticket->user_id]])->first();
+          
+
+            $requested->is_sold = 1;
+            $requested->save();
+            
+        
             SoldTicket::create([
              'ticket_id' => $id,
              'user_id' => $ticket->user_id,
              'buyer_id' => Auth::user()->id,
              'quantity' => '2' ,
             ]);
-            event(new TicketReceived($requested[0]->id,1));
+            event(new TicketReceived($requested->id,1));
            return redirect('/tickets/requests');
          }
 
@@ -129,6 +135,7 @@ class TicketRequestsController extends Controller
             ['user_id' , '=' , $ticket->user_id]])->get();
             $requested[0]->is_sold = 0;
             $requested[0]->save();
+            
             event(new TicketReceived($requested[0]->id,0));
             $requested[0]->delete();
            return redirect('/tickets/requests');

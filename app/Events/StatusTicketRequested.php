@@ -25,6 +25,8 @@ class StatusTicketRequested implements ShouldBroadcast
      */
      public $BuyerId;
      public $message;
+     public $notification_id;
+     public $is_accept;
     public function __construct($requestedTicket,$is_accept)
 
     {
@@ -32,6 +34,7 @@ class StatusTicketRequested implements ShouldBroadcast
         $this->TicketName=$this->Ticket->name;
         $this->Quantity=$requestedTicket->quantity;
         $this->BuyerId=$requestedTicket->requester_id;
+        $this->is_accept=$is_accept;
 
         $this->SellerId=User::find($requestedTicket->user_id)->first();
         $this->sellerName=$this->SellerId->name;
@@ -43,13 +46,13 @@ class StatusTicketRequested implements ShouldBroadcast
             $this->message = "{$this->sellerName} cancel Your ticket {$this->TicketName} with quantity= {$this->Quantity}";
 
         }
-
-        Notification::create([
+        
+        $notification=  Notification::create([
                         'user_id' => $this->BuyerId,
                         'notify_type_id' => 2,
                         'message'=>$this->message
                    ]);
-
+        $this->notification_id=$notification->id;
     }
 
     /**

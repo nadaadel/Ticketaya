@@ -44,7 +44,7 @@
     </form>
     </td>
     @endif
-    @endif
+ 
   </tr>
   @endforeach
   </tbody>

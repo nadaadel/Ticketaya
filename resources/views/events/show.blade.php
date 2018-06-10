@@ -55,13 +55,6 @@
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
-<<<<<<< HEAD
-=======
-
-      </div>
-      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-      <input type="hidden" id="event_id" value="{{$event->id}}">
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
      </div>
         <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
@@ -127,7 +120,6 @@
                 'user_id':user_id,
                 },
                 success:function(response){
-<<<<<<< HEAD
                  if(response.response== 'success'){
                   console.log(response.questions.id);
                   
@@ -136,13 +128,6 @@
                
                  }
                
-=======
-
-                  console.log(response);
-                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
-
-
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
                 }
 
         })
@@ -176,13 +161,8 @@
                 success:function(response){
 
                   console.log(response);
-<<<<<<< HEAD
                  // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
                  
-=======
-                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
-
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
                 }
 

@@ -48,12 +48,17 @@ class TicketsController extends Controller
                   $wantStatus = false;
                 }
                 $userSavedTicket=Auth::user()->savedTickets->contains($id);
+                $request= RequestedTicket::where([
+                    ['requester_id' , '=' , Auth::user()->id],
+                    ['ticket_id' , '=' , $id]
+                    ])->first();
+                
                 if(Auth::user()->hasRole('admin'))
                 {
                     $numberofspams=$ticket->spammers->count();
                     return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
                 }
-                return view('tickets.show' , compact('ticket' , 'userSpam' , 'wantStatus','userSavedTicket'));
+                return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket'));
             }
             return view('tickets.show' , compact('ticket'));
         }
@@ -78,7 +83,8 @@ class TicketsController extends Controller
         $ticket=Ticket::find($request->ticket_id);
         $admin=DB::table('model_has_roles')->where('role_id','=',1)->first();
         $user=User::find($admin->model_id); 
-        $user->notify(new SpamNotification($ticket,$message,$user));
+        $authuser=Auth::user();
+        $user->notify(new SpamNotification($ticket,$message,$authuser));
         flashy()->error('your message is sent ,Thank uou !');
         return redirect('/tickets/'.$request->ticket_id);
     }

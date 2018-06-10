@@ -78,9 +78,9 @@ $(function () {
   //Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+  var pusher = new Pusher('7cd2d7485f85e6da6263', {
     encrypted: true,
-    cluster:"eu"
+    cluster:"mt1"
   });
 
 
@@ -124,6 +124,19 @@ function notificationsHtml(data,realtime){
   function bindChannel(channel,event) {
       channel.bind(event , function(notify){
         notificationsHtml(notify,1);
+        console.log(notify.is_accept)
+        if(notify.is_accept == true){
+            $('#edit').hide();
+            $('#loginuser').hide();
+            
+        }
+        else{
+        $('#edit').hide();
+        $('#loginuser').hide();
+        $('#RequestTicket').show();
+       
+        }
+    
         });
 }
   $.each(oldNotifications.reverse(), function( i, val) {

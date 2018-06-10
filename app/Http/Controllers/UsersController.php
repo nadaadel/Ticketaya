@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\City;
+use App\Region;
 use Auth;
 use DB;
 use Illuminate\Support\Facades\Hash;
@@ -54,15 +55,23 @@ class UsersController extends Controller
 }
     public function edit(Request $request){
         $user=User::find($request->id);
+    
         $cities=City::all();
+         if($user->city_id){
+            $cityUser=City::find($user->city_id);
+            $regions=$cityUser->regions;
+            // dd($regions);
+        }
+        $regions=Region::all();
+      
         $view='users.edit';
         if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             $view='admin.users.edit';
         }
-        if(Auth::user()->id==$request->id){
+        if(Auth::user()&&Auth::user()->id==$request->id){
         return view($view,['user'=> $user,
-        'cities'=>$cities] );
+        'cities'=>$cities,'regions'=>$regions] );
         }
         return view('notfound');
 
