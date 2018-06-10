@@ -34,8 +34,8 @@
         <td><img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"></td>
         <td> {{ $ticket->created_at->diffForHumans() }} </td><td>
     <a href={{ URL::to('tickets/' . $ticket->id ) }} type="button" class="btn btn-success" >View</a></td>
-@if(Auth::check())
-        @if(Auth::user()->id == $ticket->user_id || Auth::user()->hasRole('admin') )
+
+@if(Auth::user()&&Auth::user()->id == $ticket->user_id)
         <td><a href={{ URL::to('tickets/edit/' . $ticket->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
    <td>
      <form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
@@ -43,7 +43,6 @@
       {{method_field('Delete')}}
     </form>
     </td>
-    @endif
     @endif
   </tr>
   @endforeach

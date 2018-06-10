@@ -13,14 +13,23 @@
 //$secondary-text-color: #757575
 //$divider-color:        #BDBDBD
 
+$light: #F9F9FF;
+$dark: #060919;
+$secondary: #1617FF;
+$primary: #E81F58;
+$info: #599DE8;
+$gray: #707070;
 
-$primary:       #FFC107;
-$light:         #B2DFDB;
-$dark:          #00796B ;
+
+//
+//$primary:       #FFC107;
+//$light:         #B2DFDB;
+//$dark:          #00796B ;
 // Typography
 $font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$font: 'Lato', sans-serif;
+//$font-size-base: 0.9rem;
+//$line-height-base: 1.6;
 
 $heading-font:  'Scada', sans-serif;
 $text-font: 'Source Sans Pro', sans-serif;

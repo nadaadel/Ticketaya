@@ -17,11 +17,14 @@ use App\Events\StatusTicketRequested;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Notifications\SpamNotification;
 
 class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::paginate(9);
+       // $admin=DB::table('roles')->where('name','=','admin')->first();
+       // dd($admin->name);
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
@@ -61,8 +64,23 @@ class TicketsController extends Controller
             'ticket_id' => $id,
             'user_id' => Auth::user()->id
         ]);
+        $ticket=Ticket::find($id);
         flashy()->error('This Ticket Spammed By You');
         return redirect('/tickets/'.$id );
+    }
+    public function reportview(Request $request){
+        $ticket=Ticket::find($request->id);
+        return view('tickets.report' , compact('ticket'));
+
+    }
+    public function report(Request $request){
+        $message=$request->msg;
+        $ticket=Ticket::find($request->ticket_id);
+        $admin=DB::table('model_has_roles')->where('role_id','=',1)->first();
+        $user=User::find($admin->model_id);
+        $user->notify(new SpamNotification($ticket,$message,$user));
+        flashy()->error('your message is sent ,Thank uou !');
+        return redirect('/tickets/'.$request->ticket_id);
     }
 
      public function search (Request $request){
@@ -74,7 +92,8 @@ class TicketsController extends Controller
              ->setpath('');
             $tickets->appends(['search'=> $request->search]);
          }
-        if(Auth::user()->hasRole('admin')){
+        if(Auth:: check() && Auth::user()->hasRole('admin')){
+
 
         return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
         }

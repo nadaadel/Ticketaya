@@ -5,6 +5,16 @@
 Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
+/** Admin Articles Routes */
+Route::get('/articles/create' , 'ArticlesController@create')->name('createarticle');
+Route::get('/articles' , 'ArticlesController@index')->name('allarticles');
+Route::get('/articles/{id}' , 'ArticlesController@show')->name('showarticle');
+Route::get('/articles/edit/{id}' , 'ArticlesController@edit')->name('editarticle');
+Route::post('/articles/store' , 'ArticlesController@store')->name('storearticle');
+Route::put('/articles/{id}' , 'ArticlesController@update')->name('updatearticle');
+Route::delete('/articles/{id}' , 'ArticlesController@delete')->name('deletearticle');
+
+
 /** Admin Category Routes */
 Route::get('/categories' , 'CategoriesController@index')->name('allcategories');
 Route::get('/categories/create' , 'CategoriesController@create')->name('createcategory');
@@ -46,7 +56,8 @@ Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
 Route::delete('/users/{id}' , 'UsersController@delete');
 Route::get('/users','UsersController@index')->name('allusers');
-
+Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
+Route::post('tickets/report','TicketsController@report');
 
 /**Events Routes */
 Route::get('/events/search' , 'EventsController@search');

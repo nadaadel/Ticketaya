@@ -1,37 +1,66 @@
 @import 'variables';
 
+//colors
+
+.gray {
+    color: $gray;
+    font-size: 11px;
+}
+.price {
+    color: #64C2EC;
+}
+
+body {
+    background-color: $light;
+}
+//all elements
+*:hover{
+    transition: 0.3s;
+}
+* {
+    font-family: $font;
+}
+
 //btn custome
-.btn {
+a.btn, .btn {
     border-radius: 50px;
     padding-left: 15px;
     padding-right: 15px;
 //    font-weight: 600;
+    box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.16);
+//    height: 40px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    
+    
 }
-*:hover{
-    transition: 0.3s;
-}
+
 button.search-btn {
-    padding: 7px 20px;
+//    padding: 7px 20px;
     margin-left: 10px;
     font-weight: 800;
     text-transform: uppercase;
 }
-button.btn-primary {
-    padding: 7px 20px;
-    margin-left: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
+.btn-outline-light {
+    padding: 5px 15px;
+}
+.btn-outline-light:hover {
+    background-color: $primary;
+    color: $light;
+    border-color: $primary;
 }
 .search {
     border: none;
     border-radius: 50px;
-    width: 300px;
+    width: 350px;
   
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    padding: 7px 10px;
-    font-size: 0.9rem;
+    padding: 10px 15px;
+    font-size: 14px;
+    
     line-height: 1.6;
 }
 
@@ -44,3 +73,113 @@ h1 {
     color: white;
     font-weight: 600;
 }
+//fonts 
+i {
+    font-size: 12px;
+}
+p {
+    font-size: 14px;
+    font-weight: 100;
+    
+    font-weight: 400;
+}
+
+li {
+    font-size: 13px;
+    
+}
+h1 {
+    font-size: 50px;
+    
+    font-weight: 700;
+}
+h2 {
+    font-weight: 700;
+    font-size: 25px;
+}
+h3 {
+    font-weight: 700;
+}
+h4 {
+    font-weight: 700;
+}
+label {
+    display: block;
+    font-size: 14;
+    font-family: $font;
+    font-weight: 600;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+//user imgs
+.usr-img-cmnt {
+//     margin: 0 auto;
+     width: 60px;
+     height: 60px;
+     background-color: aqua;
+     border-radius: 100px;
+    background-position: center;
+    background-size: 100%;
+}
+
+//input feilds 
+
+
+input[type="datetime-local"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"]{
+     height: 40px;
+//     width: 350;
+     border: 1px solid $gray;
+     border-radius: 50px;
+     padding-left: 17px;
+     font-size: 14px;
+                
+}
+
+.txt-area {
+//     height: 40px;
+//     width: 350;
+     border: 1px solid $gray;
+     border-radius: 50px;
+     padding-left: 17px;
+    padding-top: 10px;
+     font-size: 14px;
+}
+select {
+//                margin-left: 50px;
+    border-radius: 50px;
+//                width: 100px;
+//                padding: 10px 25px 5px 17px;
+    padding-left: 17px;
+    font-size: 14px;
+    border: 1px solid $gray;
+    height: 40px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url(../images/icons/sort-down.svg) 90% 8px no-repeat #FFF;
+    background-size: 12px;
+
+            }
+
+            /* CAUTION: IE hackery ahead */
+        select::-ms-expand { 
+                display: none; /* remove default arrow on ie10 and ie11 */
+            }
+
+            /* target Internet Explorer 9 to undo the custom arrow */
+         @media screen and (min-width:0\0) {
+                select {
+                    background:none\9;
+                    padding: 5px\9;
+                } 
+            }
+
+//.editing-forms {
+//    .select {
+//        background: url(../images/icons/sort-down.svg) 90% 8px no-repeat #FFF;
+//        background-size: 12px;
+//    }
+//}
+
+

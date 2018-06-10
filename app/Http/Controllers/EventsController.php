@@ -29,7 +29,7 @@ class EventsController extends Controller
         }
 
 
-        return response()->json(['questions' => $eventQuestion]);
+        return response()->json(['questions' => $eventQuestion,'response'=>'success']);
     }
     public function updateQuestion(Request $request){
         $user = User::find($request->user_id);
@@ -38,9 +38,11 @@ class EventsController extends Controller
         //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
-
-
-        return response()->json(['answer' => $eventQuestion]);
+        //dd( $question->pivot->answer);
+       
+        
+    
+        return response()->json(['answer' => $question->pivot->answer]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([

@@ -8,12 +8,14 @@ use App\Comment;
 use App\User;
 use App\RequestedTicket;
 use App\Category;
-use Actuallymab\LaravelComment\Commentable;
+use Illuminate\Notifications\Notifiable;
 use App\City;
 use App\Region;
 
 class Ticket extends Model
+
 {
+    use Notifiable;
     protected $fillable = [
         'name', 'photo', 'description','price','region_id','city_id',
         'quantity','is_sold','type','expire_date'
@@ -50,11 +52,11 @@ class Ticket extends Model
         return  $this->belongsToMany(User::class , 'spam_tickets');
      }
 
-     public function Region(){
+     public function region(){
         return $this->belongsTo(Region::class);
     }
 
-    public function City(){
+    public function city(){
         return $this->belongsTo(City::class);
     }
 }

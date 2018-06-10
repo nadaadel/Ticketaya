@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
              CategoriesTableSeeder::class,
              ModelHasRolesTableSeeder::class,
              EventsTableSeeder::class,
-             CategoriesTableSeeder::class,
+             ArticlesTableSeeder::class,
 
              ]);
     }

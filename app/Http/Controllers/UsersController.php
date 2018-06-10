@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\User;
 use App\City;
 use Auth;
+use DB;
 use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
 
     public function index (){
         $users=User::all();
+       
         if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             return view('admin.users.index',compact('users'));
@@ -45,10 +47,11 @@ class UsersController extends Controller
         {
             $view='admin.users.show';
         }
-       
+        if(Auth::user()->id==$request->id){
         return view($view,['user'=> $user] );
 
     }
+}
     public function edit(Request $request){
         $user=User::find($request->id);
         $cities=City::all();
@@ -57,8 +60,12 @@ class UsersController extends Controller
         {
             $view='admin.users.edit';
         }
+        if(Auth::user()->id==$request->id){
         return view($view,['user'=> $user,
         'cities'=>$cities] );
+        }
+        return view('notfound');
+
 
     }
     public function store (Request $request){
@@ -75,15 +82,17 @@ class UsersController extends Controller
         }
         $user->name = Str::lower($request->name);
         $user->email=$request->email;
-        $user->password=$request->password;
+        $user->password=Hash::make($request->password);
         $user->city_id=$request->city;
         $user->region_id=$request->region;
+        $user->phone=$request->phone;
        
         $user->save();
        return redirect('userss');
 
     }
     public function update (Request $request){
+     
        
         $user=User::find($request->id);
         if($request->hasFile('avatar'))
@@ -100,6 +109,7 @@ class UsersController extends Controller
         $user->email=$request->email;
         $user->city_id=$request->city;
         $user->region_id=$user->region_id;
+        $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
        
         $user->save();

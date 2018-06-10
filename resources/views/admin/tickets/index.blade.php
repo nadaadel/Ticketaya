@@ -18,6 +18,7 @@
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Posted By</th>
+        <th scope="col">No of spammers</th>
         <th scope="col">Photo</th>
         <th scope="col">Created At</th>
         <th scope="col" colspan='3'>Actions</th>
@@ -25,10 +26,14 @@
     </thead>
     <tbody>
   @foreach($tickets as $ticket)
-  <tr>
+
+  <tr class="danger">
+
+
         <th scope="row">{{$ticket->id}}</th>
         <td>{{ucwords($ticket->name)}}</td>
         <td>{{$ticket->user->name}}</td>
+        <td>{{$ticket->spammers->count()}}</td>
         <td><img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"></td>
         <td> {{ $ticket->created_at->diffForHumans() }} </td>
 <td>
@@ -41,6 +46,7 @@
     </form>
     </td>
   </tr>
+
   @endforeach
   </tbody>
   </table>

@@ -18,7 +18,7 @@ class CategoriesController extends Controller
     return view('not-authorize');
 
     }
-
+    
   public function create(){
     if(Auth::user()->hasrole('admin')){
     return view('admin.categories.create');
@@ -58,14 +58,14 @@ public function edit($id){
         $getCategory = Category::find($id);
         $getCategory->name = $request->name;
         $getCategory->save();
-        return redirect('/admin/categories');
+        return redirect('/categories');
     }
         return view('not-authorize');
     }
     public function delete($id){
         if(Auth::user()->hasrole('admin')){
             Category::find($id)->delete();
-            return redirect('/admin/categories');
+            return redirect('/categories');
         }
         return view('not-authorize');
 

@@ -11,6 +11,7 @@
     <strong>{{ $errors->first('name') }}</strong>
     </span>
 @endif
+
 <br/>
 <label >description</label>
 <textarea name="description" value={{$event->description}} >{{$event->description}}</textarea>
@@ -70,6 +71,6 @@
     <strong>{{ $errors->first('category') }}</strong>
     </span>
 @endif
-<input type="submit" value="Submit" class="btn btn-primary">
+<input type="submit" value="Submit" class="btn btn-success">
 </form>
 @endsection

@@ -5,7 +5,7 @@
       <div class="row">
       <div class="col-sm">
             <a href={{ URL::to ('/users/create')}} ><input type="button" class="btn btn-success" value='Create User'/></a>
-  <table class="table table-hover table-dark">
+  <table class="table table-hover ">
     <thead>
       <tr>
         <th scope="col">#</th>
