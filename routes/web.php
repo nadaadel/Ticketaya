@@ -49,6 +49,7 @@ Route::get('/users','UsersController@index')->name('allusers');
 
 
 /**Events Routes */
+Route::get('/events/search' , 'EventsController@search');
 Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/create' , 'EventsController@create');
@@ -57,7 +58,7 @@ Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
-Route::post('/events/search' , 'EventsController@search');
+
 
 
 
@@ -101,6 +102,7 @@ Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
+Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');
 Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
@@ -109,7 +111,6 @@ Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
 Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
-Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
 Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');

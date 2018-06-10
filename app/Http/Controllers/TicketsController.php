@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 class TicketsController extends Controller
 {
     public function index (){
-        $tickets=Ticket::all();
+        $tickets=Ticket::paginate(9);
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
@@ -66,8 +66,14 @@ class TicketsController extends Controller
     }
 
      public function search (Request $request){
-        $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
-        //dd($tickets);
+        $tickets=Ticket::latest()->paginate(3);
+         if($request->search !== null){
+             $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
+             ->latest()
+             ->paginate(3)
+             ->setpath('');
+            $tickets->appends(['search'=> $request->search]);
+         }
         if(Auth::user()->hasRole('admin')){
 
         return view('admin.search.Ticketsearch',['tickets'=> $tickets] );

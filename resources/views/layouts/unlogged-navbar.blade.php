@@ -21,13 +21,23 @@
                         <img src="https://cdn3.iconfinder.com/data/icons/line-icons-medium-version/64/bell-512.png" width=30px height=30px/></i>
             </a>
             <div class="dropdown-container">
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" style="
+                width: 301px;
+                height: 260px;
+                border-width: 0 0 1px 0;
+                margin-right: 0px;
+            ">
                         <div class="dropdown-toolbar">
-                        <div class="dropdown-toolbar-actions">
-                            <a id="readall" href="#">Mark all as read</a>
+                        <div class="dropdown-toolbar-actions" style="text-align:right;height:24px;padding-right: 3px;">
+                            <a id="readall" href="#">Mark all as read </a>
                         </div>
                         <div>
-                        <ul id="dropdownmenu"></ul>
+                        <ul id="dropdownmenu" style="
+                        height: 200px;
+                        overflow: auto;
+                        padding-left: 0px;
+                        margin-right: 0px;
+                    "></ul>
                         </div>
                     </div>
                         <div class="dropdown-footer text-center">
@@ -63,10 +73,9 @@
   </div>
 </nav>
 
-
+@if(Auth::check())
 <script type="text/javascript">
 $(function () {
-    @if(Auth::check())
   var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
   var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
   var notificationsWrapper   = $('.dropdown-notifications');
@@ -160,7 +169,6 @@ $(document).on('click','#readall',function(event){
                     },
                     success: function (response) {
                         if(response.res=='unseen'){
-                            console.log(res)
                             notificationsCount-=1;
                             updateNotificationCount();
                         }
@@ -176,5 +184,6 @@ bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
 bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
 });
-@endif
+
 </script>
+@endif

@@ -78,18 +78,27 @@ class EventsController extends Controller
 
     }
     public function search (Request $request){
+        $events=Event::latest()->paginate(3);
         $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
         $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
-        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
         $view='events.search';
-        if(Auth::user()->hasRole('admin')){
+        if($request->search !== null){
+            $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
+            ->latest()
+            ->paginate(3)
+            ->setpath('');
+           $events->appends(['search'=> $request->search]);
+        }
+        if( Auth::check() && Auth::user()->hasRole('admin')){
         $view='admin.search.Eventsearch';
         }
         return view($view,compact('events','categories','cities'));
-     }
+    }
+
+
 
     public function index(){
-        $events=Event::all();
+        $events=Event::paginate(3);
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {

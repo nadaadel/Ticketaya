@@ -113,7 +113,7 @@ class TicketRequestsController extends Controller
              'ticket_id' => $id,
              'user_id' => $ticket->user_id,
              'buyer_id' => Auth::user()->id,
-             'quantity' => '2' ,
+             'quantity' => $requested[0]->quantity ,
             ]);
             event(new TicketReceived($requested[0]->id,1));
            return redirect('/tickets/requests');
