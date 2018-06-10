@@ -14,6 +14,7 @@
         <li class="nav-item pt-1">
           <a class="nav-link " href="#">BLOG</a>
         </li>
+        
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
             <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">
