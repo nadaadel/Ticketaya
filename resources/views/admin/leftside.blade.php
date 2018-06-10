@@ -13,7 +13,7 @@
                 <li> <a class="has-arrow" href="{{URL::route('allusers')}}" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Users</span></a>
                 <li> <a class="has-arrow" href="{{URL::route('alltags')}}" aria-expanded="false"><i class="fa fa-hashtag"></i><span class="hide-menu">Tags</span></a>
                 <li> <a  href="{{URL::route('allcategories')}}" aria-expanded="false"><i class="	fa fa-cube"></i><span class="hide-menu">Categories</span></a>
-                <li> <a  href="#" aria-expanded="false"><i class="fa fa-exclamation-circle"></i><span class="hide-menu">Reports</span></a>
+                <li> <a  href="{{URL::route('allarticles')}}" aria-expanded="false"><i class="fa fa-exclamation-circle"></i><span class="hide-menu">Articles</span></a>
 
                 </li>
                 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Charts</span></a>

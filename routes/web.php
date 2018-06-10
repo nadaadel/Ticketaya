@@ -5,6 +5,11 @@
 Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
+/** Admin Articles Routes */
+Route::get('/articles' , 'ArticlesController@index')->name('allarticleps');
+
+
+
 /** Admin Category Routes */
 Route::get('/categories' , 'CategoriesController@index')->name('allcategories');
 Route::get('/categories/create' , 'CategoriesController@create')->name('createcategory');
