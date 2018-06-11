@@ -45,14 +45,14 @@
     <div qid="{{$question->id}}">
     Question<div class="question">{{$question->question}} </div>
     Answer: <div class="answer"  >{{$question->answer}} </div>
-    
-  
-    
-   
-   
-    
+
+
+
+
+
+
     @if(Auth::user() && Auth::user()->id == $event->user_id)
-       
+
      <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
@@ -61,10 +61,10 @@
      </div>
         <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
         <input type="hidden" id="event_id" value="{{$event->id}}">
-     
-      
 
- 
+
+
+
     @endif
     </div>
     <hr>
@@ -87,15 +87,15 @@
             </textarea>
             <button id="question-submit" class="btn btn-info">Post</button>
       </div>
-     
+
     @endif
 
 
      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
      <input type="hidden" id="event_id" value="{{$event->id}}">
-    
-     
-    
+
+
+
 
 <script>
     $(document).ready(function(){
@@ -110,7 +110,7 @@
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
         var no=$('.allquestion').attr('question-no');
-       
+
         $('.question-area').hide();
         $.ajax({
             url: '/events/question/'+event_id+'/'+user_id,
@@ -124,17 +124,17 @@
                 success:function(response){
                  if(response.response== 'success'){
                   console.log(response.questions.id);
-                  
-                  
+
+
                   //$( "<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('#'+no);
-               
+
                  }
                  if(response.response== 'false'){
                   console.log("you create this question before");
-                
+
                  }
 
-               
+
                 }
 
         })
@@ -146,7 +146,7 @@
      var question=$(this).attr('question');
      var questioner=$(this).attr('questioner');
       var body=$('#'+quesId).val();
-   
+
       var event_id = $('#event_id').val();
      /* console.log(question);
       console.log(event_id);
@@ -169,7 +169,7 @@
 
                   console.log(response);
                  // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
-                 
+
 
                 }
 
@@ -237,13 +237,6 @@
 
 
         });
-
-
-
-
-
-
-
 
 
 

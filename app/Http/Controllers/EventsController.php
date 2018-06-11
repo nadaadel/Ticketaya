@@ -19,9 +19,9 @@ class EventsController extends Controller
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
         //dd($questionfound==null);
-     
+
         if ($questionfound==null){
-       
+
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
@@ -31,31 +31,29 @@ class EventsController extends Controller
         ]);
         $asker=User::find($request->user_id);
         $event=Event::find($request->event_id);
-     
-          
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
         }
         else{
             return response()->json(['response'=>'false']);
         }
-        
-       
 
-        
+
+
+
     }
     public function updateQuestion(Request $request){
         $asker= User::find($request->user_id);
         dd($asker);
         $event=Event::find($request->event_id);
-       
+
         $question=$asker->eventquestions()->where('question','=',$request->question)->first();
         //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
         //dd( $question->pivot->answer);
-       
-       
+
+
         event(new Answer($asker, $event));
         return response()->json(['answer' => $question->pivot->answer]);
     }
@@ -81,7 +79,6 @@ class EventsController extends Controller
          'body' => $request->description
       ]);
       $event = Event::find($event_id);
-
       $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
       foreach($eventSubscibers as $subscriber){
          event(new EventSubscribers($event_id , $subscriber->user_id));

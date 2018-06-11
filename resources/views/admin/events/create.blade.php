@@ -21,12 +21,20 @@
 <label >Quantity </label>
 <input type="number" name="avaliabletickets"/>
 <br/>
-<label >Region </label>
-<input type="text" name="region"/>
+
 <br/>
 <label >City</label>
-<input type="text" name="city"/>
+<select name="city" id="city">
+    @foreach(App\City::all() as $city)
+      <option value="{{$city->id}}">{{$city->name}}</option>
+    @endforeach
+</select>
 <br/>
+<div id="toggleRegion" style="display: none;">
+    <label >Region </label>
+    <select name="region" id="region">
+    </select>
+</div>
 
 <label >Start Date </label>
 <input type="datetime-local" name="startdate"/>

@@ -78,7 +78,7 @@ Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscrib
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
-Route::post('/events/info/new/{id}', 'EventsController@newInfo');
+Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 
 
 /** Search For Tickets */
