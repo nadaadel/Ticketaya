@@ -47,7 +47,7 @@
         <section>
 
                    {{-- HOT TICKETS --}}
-        @if($hotTickets)
+        {{-- @if($hotTickets)
             <div class="row">
             <h3 class="text-center">Hot Tickests</h3>
              @foreach ($hotTickets as $ticket)
@@ -73,10 +73,10 @@
                 </div>
              @endforeach
             </div>
-       @endif
+       @endif --}}
             <hr>
                                   {{-- HOT EVENTS --}}
-            @if($hotEvents)
+            {{-- @if($hotEvents)
             <div class="row">
                     <h3 class="text-center">Hot Events</h3>
                      @foreach ($hotEvents as $event)
@@ -100,7 +100,7 @@
                         </div>
                      @endforeach
                     </div>
-                @endif
+                @endif --}}
         </section>
 
 
