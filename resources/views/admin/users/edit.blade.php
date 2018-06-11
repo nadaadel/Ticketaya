@@ -67,7 +67,7 @@
 <div class="form-group row" id="toggleRegion"  >
        <label class="col-md-4 col-form-label text-md-right">Region </label>
             <div class="col-md-6" >
-           
+
                 <select name="region" id="region">
                 @if($user->region_id)
                 @foreach($regions as $region)
@@ -122,9 +122,6 @@
            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value={{$user->password_confirmation}} required>
         </div>
 </div>
-
-
-
 
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>

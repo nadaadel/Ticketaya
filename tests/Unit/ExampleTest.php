@@ -14,6 +14,10 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $this->assertTrue(true);
+        $user = new User();
+        // $user-> =
+
+
+        $this->assertTrue($user->isEnabled());
     }
 }

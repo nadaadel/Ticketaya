@@ -28,10 +28,7 @@
     </span>
 @endif
 <br/>
-
-
-<label >City </label>
-
+         <label >City </label>
            <select name="city" id="city">
                @foreach($cities as $city)
                    <option value="{{$city->id}}" {{ ($event->city_id == $city->id ) ? "selected" : "" }}>{{$city->name}}</option>
@@ -41,14 +38,8 @@
                 <span class="alert alert-danger">
                     <strong>{{ $errors->first('city') }}</strong>
                 </span>
-
-
-<br/>
-
-
+      <br/>
       <label >Region </label>
-
-
                <select name="region" id="region">
                @if($event>region_id)
                @foreach($regions as $region)
@@ -61,9 +52,6 @@
                      <strong>{{ $errors->first('region') }}</strong>
                 </span>
            @endif
-
-
-
 <label >Start Date </label>
 <input type="date" name="startdate" value={{$event->startdate}}/>
 <br/>

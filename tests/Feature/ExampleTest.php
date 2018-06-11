@@ -18,4 +18,24 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /**
+     * Test login page fail
+     *
+     */
+    public function testLoginFailTest(){
+        $response = $this->get('/login');
+        $response->find();
+    }
+
+
+    /**
+     * Test login page success
+     *
+     */
+    public function testSuccessTest(){
+        $response = $this->get('/login');
+
+    }
+
 }
