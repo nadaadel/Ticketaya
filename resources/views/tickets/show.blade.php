@@ -1,27 +1,150 @@
 @extends('layouts.app')
-
 @section('content')
 
-           <fieldset>
-                    <legend style="background-color: gray">Ticket Info </legend>
-                    <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;">
-                    <p>Name : {{ $ticket->name }}</p>
-                    <p>Quantity:{{ $ticket->quantity }}</p>
-                    <p>Description:{{ $ticket->description }}</p>
-                    <p>Price :{{ $ticket->price }}</p>
-                    <p>Date :{{ $ticket->expire_date }}</p>
-                    <p>Category :{{ $ticket->category->name }}</p>
-                    <p>Location:{{ $ticket->region->name }},{{ $ticket->city->name }}</p>
-                    <p>Created by :{{ $ticket->user->name }} </p>
-                    @if($ticket->tags)
-                    <p>
-                        @foreach($ticket->tags as $tag)
-                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
-                        @endforeach
-                    </p>
-                    @endif
-                   <hr>
-                </fieldset>
+           <section id="ticket-view">
+               <div class="container">
+                   <div class="row ">
+                       <div class="col-md-3 col-xs-12 text-center"><!--User profile-->
+                           <div class="user-img">
+                               <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
+
+                            </div>
+                           <h4 class="user-name pt-4">{{ $ticket->user->name }}</h4>
+                           <div class="user-loc d-flex justify-content-center">
+<!--                               <i class="fas fa-map-marker gray"></i>-->
+                               <p class="gray">{{ $ticket->city->name }}</p>
+                           </div>
+                           <button class="btn btn-info"> Chat with Seller</button>
+                       </div><!--End of User profile-->
+                       <div class="col-md-9 pb-5"><!--Ticket data-->
+                           <div class="row">
+                               <div class="col-md-8 col-xs-12 ticket-details">
+                                   <div class="ticket-img" style="background-image: url(../images/home/1-silder.jpg);"></div>
+                                   <div class="tick-name-price pt-5 d-flex justify-content-between  ">
+                                       <h3>{{ $ticket->name }}</h3>
+                                       <h3 class="price">{{ $ticket->price }} L.E</h3>
+                                   </div>
+                                   <div class="ticket-info">
+                                       <ul>
+
+                                           <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
+
+                                           <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
+                                           <li><i class="far fa-calendar-alt"></i>{{ $ticket->created_at->diffForHumans() }} </li>
+                                           <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
+
+                                           <li><i class="fas fa-map-marker"></i>{{ $ticket->region->name }},{{ $ticket->city->name }}</li>
+                                       </ul>
+                                   </div>
+                                   <div class="ticket-actions row">
+                                       <div class="col-md-6 d-flex">
+                                           <h4>Quantity</h4>
+                                           <select>
+                                                <option selected value="1">1</option>
+                                                <option  value="2">2</option>
+                                                <option  value="3">3</option>
+                                                <option  value="4">4</option>
+                                            </select>
+                                       </div>
+                                       <div class="col-md-6">
+                                           <a  href="#" class="btn btn-primary">REQUST THIS TICKET</a>
+                                       </div>
+                                   </div>
+
+                               </div>
+                               <div class="col-md-4 col-xs-12 pr-2">
+                                   <h3 class="mb-3">Ticket Details</h3>
+                                   <p class="mb-5">
+                                    {{$ticket->description}}
+                                   </p>
+                                   <h3 class="mb-3">You Should Know</h3>
+                                   <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                </p>
+                             @if($ticket->tags)
+                                <h3 class="mb-3">Tags</h3>
+                                    <p>
+                                        @foreach($ticket->tags as $tag)
+                                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                                        @endforeach
+                                    </p>
+                             @endif
+                               </div>
+                           </div>
+                       </div><!--end of Ticket data-->
+                   </div>
+               </div>
+               <div class="container">
+                   <div class="row comments"><!--comments section -->
+                       <div class="col-md-12">
+                          <h2>Visitors Comments</h2>
+                           <div class="col-md-12">
+                              <form>
+                               <div class="row">
+
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <input type="text" placeholder="Leave comment Here ....">
+                                   </div>
+                                   <div class=" col-sm-12 col-md-3  pt-3">
+                                       <input type="submit" value="NEW COMMENT" class="btn btn-secondary">
+                                   </div>
+                               </div>
+                               </form>
+                           </div>
+                           <div class="col-md-12 users-comment">
+                              <div class="row"> <!--every comment here -->
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <div class="comment-content">
+                                           <h4>Adam Smith</h4>
+                                           <p class="gray">3 hours ago</p>
+                                           <p>
+                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                           </p>
+                                           <a href="#" class="info">REPLAY</a>
+                                       </div>
+                                   </div>
+                               </div> <!-- end of every comment -->
+                               <div class="row"> <!--every comment here -->
+                                   <div class="col-sm-4 col-md-3">
+                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img  -->
+                                   </div>
+                                   <div class="col-sm-8 col-md-6 col-sm-8">
+                                       <div class="comment-content">
+                                           <h4>Adam Smith</h4>
+                                           <p class="gray">3 hours ago</p>
+                                           <p>
+                                                {{ $ticket->description }}
+                                           </p>
+                                           <a href="#" class="info">REPLAY</a>
+                                           <div class="row mt-5">
+                                                <div class="col-sm-4 col-md-2">
+                                                   <div class="usr-img-cmnt" style="background-image: url(../images/icons/avatar.jpg);"></div><!--user logged img -->
+                                               </div>
+                                               <div class="col-sm-12 col-md-10">
+                                                   <input type="text" placeholder="Leave comment Here ....">
+                                                   <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
+                                               </div>
+                                               <div class=" col-sm-12 col-md-3  pt-3">
+
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div> <!-- end of every comment -->
+                            </div>
+
+                       </div>
+                   </div><!--end of comments section -->
+               </div>
+           </section>
+
+
                   {{-- spam section --}}
         @if(Auth::user())
                   @role('admin')
@@ -40,8 +163,8 @@
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
-               
-                
+
+
 
             @endif
             @endif
@@ -160,6 +283,13 @@ Comments:
 </script>
 @endif
 
+
+
+
+
+
+
+
 <script>
     $(document).ready( function(){
     $('.want').on('click' , function(){
@@ -244,10 +374,8 @@ $('.reply').on('click',function(){
 
                }
 
+               }
             }
-            }
-
-
             }
             })
             $(this).hide();

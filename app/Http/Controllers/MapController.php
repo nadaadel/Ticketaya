@@ -14,9 +14,7 @@ class MapController extends Controller
     $events = Event::all();
     Mapper::map(31.210786, 29.919482);
     foreach ($events as $event) {
-
-        $location =  Mapper::location($event->region);
-        Mapper::marker($location->getLatitude(), $location->getlongitude());
+        Mapper::marker($event->region->latitude, $event->region->longitude);
     }
     if(Auth::user()->hasrole('admin')){
         return view('admin.maps.events');
@@ -29,8 +27,7 @@ class MapController extends Controller
     Mapper::map(31.210786, 29.919482);
     foreach ($tickets as $ticket) {
 
-        $location =  Mapper::location($ticket->region);
-        Mapper::marker($location->getLatitude(), $location->getlongitude());
+        Mapper::marker($ticket->region->latitude, $ticket->region->longitude);
     }
     if(Auth::user()->hasrole('admin')){
         return view('admin.maps.tickets');

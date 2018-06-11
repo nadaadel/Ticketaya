@@ -28,8 +28,8 @@
   @foreach($tickets as $ticket)
 
   <tr class="danger">
- 
-  
+
+
         <th scope="row">{{$ticket->id}}</th>
         <td>{{ucwords($ticket->name)}}</td>
         <td>{{$ticket->user->name}}</td>
@@ -46,7 +46,7 @@
     </form>
     </td>
   </tr>
- 
+
   @endforeach
   </tbody>
   </table>

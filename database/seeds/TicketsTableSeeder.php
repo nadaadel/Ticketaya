@@ -13,7 +13,7 @@ class TicketsTableSeeder extends Seeder
     public function run()
     {
        DB::table('tickets')->insert([
-           'name' => 'tamer honsy yaaaa' ,
+           'name' => ' Tefa and Nada' ,
            'price' => '500',
            'description' => 'i want to sell this tickets',
            'photo' => 'default.jpg',
