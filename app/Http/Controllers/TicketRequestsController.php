@@ -50,8 +50,7 @@ class TicketRequestsController extends Controller
         /** User Tickets Send Requests */
         $userRequestsWanted = RequestedTicket::all()->where('requester_id' , '=' , Auth::user()->id);
         $userTicketsBought = SoldTicket::all()->where('buyer_id' , '=' , Auth::user()->id);
-
-
+    
          return view('tickets.userRequests' , compact('userRequestsReceived' , 'userTicketsSold' ,
         'userRequestsWanted' , 'userTicketsBought'));
         }
@@ -107,26 +106,26 @@ class TicketRequestsController extends Controller
             return redirect('/tickets/requests');
         }
         public function ticketSold($id){
+            //ticke will not be sold if its quntity =0  beacuse 
+            //one ticket can be requested by one more user with different quantity 
             $ticket = Ticket::find($id);
-            $ticket->is_sold =1;
-            $ticket->save();
             $user=User::find(Auth::user()->id);
             $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
             ['requester_id' , '=' , Auth::user()->id] ,
             ['user_id' , '=' , $ticket->user_id]])->first();
             $requested->is_sold=1;
             $requested->save();
-            dd($requested->save());
 
-            /*$requested=$user->requestedTicket->where('ticket_id' , '=' , $id);
-            dd($requested);*/
-            
-        
-            SoldTicket::create([
+            $ticket->quantity=$ticket->quantity-$requested->pivot->quantity;
+            if($tiket->quantity==0){
+                $ticket->is_sold =1;
+            }
+            $ticket->save();
+             SoldTicket::create([
              'ticket_id' => $id,
              'user_id' => $ticket->user_id,
              'buyer_id' => Auth::user()->id,
-             'quantity' => '2' ,
+             'quantity' => $requested->pivot->quantity ,
             ]);
             event(new TicketReceived($requested->id,1));
            return redirect('/tickets/requests');

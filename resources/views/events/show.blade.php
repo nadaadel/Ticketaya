@@ -11,7 +11,9 @@
             <p>Start Date :{{ $event->startdate }}</p>
             <p>End Date :{{ $event->enddate }}</p>
             <p>Category :{{ $event->category->name }}</p>
+            @if($event->city_id)
             <p>Location:{{ $event->region->name }},{{ $event->city->name }}</p>
+            @endif
             <p>Created by :{{ $event->user->name }} </p>
            <hr>
         </fieldset>
@@ -127,6 +129,11 @@
                   //$( "<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('#'+no);
                
                  }
+                 if(response.response== 'false'){
+                  console.log("you create this question before");
+                
+                 }
+
                
                 }
 
@@ -141,10 +148,10 @@
       var body=$('#'+quesId).val();
    
       var event_id = $('#event_id').val();
-      console.log(question);
+     /* console.log(question);
       console.log(event_id);
       console.log(quesId);
-      console.log(questioner);
+      console.log(questioner);*/
 
 
       $.ajax({

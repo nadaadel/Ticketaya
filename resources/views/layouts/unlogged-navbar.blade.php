@@ -188,6 +188,10 @@ var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
 bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
+var questionNotification=pusher.subscribe('question_{{ Auth::user()->id }}');
+bindChannel(questionNotification,'App\\Events\\Question');
+var answerNotification=pusher.subscribe('answer_{{ Auth::user()->id }}');
+bindChannel(answerNotification,'App\\Events\\Answer');
 });
 @endif
 </script>
