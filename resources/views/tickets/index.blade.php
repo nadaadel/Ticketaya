@@ -6,7 +6,7 @@
   <h1>All Tickets </h1>
 
 
-  <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
+  <form method="get" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
     {{ csrf_field() }}
   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -49,6 +49,7 @@
   @endforeach
   </tbody>
   </table>
+  {{ $tickets->links() }}
   </div>
 </div>
   </div>

@@ -27,18 +27,28 @@
 
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
-            <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                    <i data-count="0" class="glyphicon glyphicon-bell notification-icon">
-                        <img src="https://cdn3.iconfinder.com/data/icons/line-icons-medium-version/64/bell-512.png" width=30px height=30px/></i>
+            <a href="#notifications-panel" class="dropdown-toggle nav-link pt-4" data-toggle="dropdown">
+                    <i data-count="0" class="notification-icon ">
+                            <i class="far fa-bell light" style="font-size: 20px;"></i></i>
             </a>
             <div class="dropdown-container">
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" style="
+                width: 301px;
+                height: 260px;
+                border-width: 0 0 1px 0;
+                margin-right: 0px;
+            ">
                         <div class="dropdown-toolbar">
-                        <div class="dropdown-toolbar-actions">
-                            <a id="readall" href="#">Mark all as read</a>
+                        <div class="dropdown-toolbar-actions" style="text-align:right;height:24px;padding-right: 3px;">
+                            <a id="readall" href="#">Mark all as read </a>
                         </div>
                         <div>
-                        <ul id="dropdownmenu"></ul>
+                        <ul id="dropdownmenu" style="
+                        height: 200px;
+                        overflow: auto;
+                        padding-left: 0px;
+                        margin-right: 0px;
+                    "></ul>
                         </div>
                     </div>
                         <div class="dropdown-footer text-center">
@@ -74,10 +84,9 @@
   </div>
 </nav>
 
-
+@if(Auth::check())
 <script type="text/javascript">
 $(function () {
-    @if(Auth::check())
   var oldNotifications = {!! json_encode(Auth::user()->notifications->toArray()) !!};
   var CountoldNotifications = {!! json_encode(Auth::user()->notifications->where('is_seen','=',0)->count()) !!};
   var notificationsWrapper   = $('.dropdown-notifications');
@@ -86,12 +95,12 @@ $(function () {
   //var notificationsCount     = parseInt(notificationsCountElem.data('count'));
   var notificationsCount=CountoldNotifications;
   var notifications          = notificationsWrapper.find('ul.dropdown-menu');
-  //Pusher.logToConsole = true;
+  Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('7cd2d7485f85e6da6263', {
+  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
     encrypted: true,
-    cluster:"mt1"
+    cluster:"eu"
   });
 
 
@@ -134,20 +143,21 @@ function notificationsHtml(data,realtime){
   }
   function bindChannel(channel,event) {
       channel.bind(event , function(notify){
+          console.log(notify);
         notificationsHtml(notify,1);
         console.log(notify.is_accept)
         if(notify.is_accept == true){
             $('#edit').hide();
             $('#loginuser').hide();
-            
+
         }
         else{
         $('#edit').hide();
         $('#loginuser').hide();
         $('#RequestTicket').show();
-       
+
         }
-    
+
         });
 }
   $.each(oldNotifications.reverse(), function( i, val) {
@@ -184,7 +194,6 @@ $(document).on('click','#readall',function(event){
                     },
                     success: function (response) {
                         if(response.res=='unseen'){
-                            console.log(res)
                             notificationsCount-=1;
                             updateNotificationCount();
                         }
@@ -199,10 +208,11 @@ var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
 bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
-var questionNotification=pusher.subscribe('question_{{ Auth::user()->id }}');
+var questionNotification=pusher.subscribe('question-notification_{{ Auth::user()->id }}');
 bindChannel(questionNotification,'App\\Events\\Question');
-var answerNotification=pusher.subscribe('answer_{{ Auth::user()->id }}');
+var answerNotification=pusher.subscribe('answer-notification_{{ Auth::user()->id }}');
 bindChannel(answerNotification,'App\\Events\\Answer');
 });
-@endif
+
 </script>
+@endif

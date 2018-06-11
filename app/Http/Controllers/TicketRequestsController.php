@@ -50,7 +50,7 @@ class TicketRequestsController extends Controller
         /** User Tickets Send Requests */
         $userRequestsWanted = RequestedTicket::all()->where('requester_id' , '=' , Auth::user()->id);
         $userTicketsBought = SoldTicket::all()->where('buyer_id' , '=' , Auth::user()->id);
-    
+
          return view('tickets.userRequests' , compact('userRequestsReceived' , 'userTicketsSold' ,
         'userRequestsWanted' , 'userTicketsBought'));
         }
@@ -83,7 +83,7 @@ class TicketRequestsController extends Controller
 
             return response()->json(['response' => 'ok']);
             //flashy()->error('your request is sent');
-            
+
             }
             return response()->json(['quantity' =>$ticket->quantity ]);
             //flashy()->error('your request must be <'.$ticket->quantity .'and >0');
@@ -106,8 +106,8 @@ class TicketRequestsController extends Controller
             return redirect('/tickets/requests');
         }
         public function ticketSold($id){
-            //ticke will not be sold if its quntity =0  beacuse 
-            //one ticket can be requested by one more user with different quantity 
+            //ticke will not be sold if its quntity =0  beacuse
+            //one ticket can be requested by one more user with different quantity
             $ticket = Ticket::find($id);
             $user=User::find(Auth::user()->id);
             $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
@@ -141,7 +141,7 @@ class TicketRequestsController extends Controller
             ['user_id' , '=' , $ticket->user_id]])->get();
             $requested[0]->is_sold = 0;
             $requested[0]->save();
-            
+
             event(new TicketReceived($requested[0]->id,0));
             $requested[0]->delete();
            return redirect('/tickets/requests');

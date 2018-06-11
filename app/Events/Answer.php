@@ -37,7 +37,7 @@ class Answer
         ]);
         $this->notification_id=$notification->id;
 
-       
+
     }
 
     /**
@@ -47,7 +47,7 @@ class Answer
      */
     public function broadcastOn()
     {
-        return ['answer_'.$this->user];
+        return ['answer-notification_'.$this->user];
     }
 
 }

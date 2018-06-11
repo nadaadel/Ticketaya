@@ -29,22 +29,29 @@
     </span>
 @endif
 <br/>
-<label >Region </label>
-<input type="text" name="region" value={{$event->region}}/>
-@if ($errors->has('region'))
-    <span class="alert alert-danger">
-    <strong>{{ $errors->first('region') }}</strong>
-    </span>
-@endif
-<br/>
+
 <label >City </label>
-<input type="text" name="city" value={{$event->city}}/>
-@if ($errors->has('city'))
-    <span class="alert alert-danger">
-    <strong>{{ $errors->first('city') }}</strong>
-    </span>
-@endif
+
+<select name="city" id="city">
+    @foreach(App\City::all() as $city)
+      <option value="{{ $city->id }}"  {{ ($event->city_id == $city->id ) ? "selected" : "" }}>{{ $city->name }}</option>
+    @endforeach
+</select>
+
+
 <br/>
+
+
+      <div id="toggleRegion">
+        <label >Region </label>
+        <select name="region" id="region">
+            @foreach(App\City::find($event->city_id)->regions as $region)
+          <option value="{{ $region->id }}"  {{ ($event->region_id == $region->id ) ? "selected" : "" }}>{{ $region->name }}</option>
+           @endforeach
+        </select>
+    </div>
+
+ </br>
 
 <label >Start Date </label>
 <input type="date" name="startdate" value={{$event->startdate}}/>

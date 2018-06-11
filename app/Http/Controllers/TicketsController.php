@@ -22,9 +22,9 @@ use App\Notifications\SpamNotification;
 class TicketsController extends Controller
 {
     public function index (){
+        $tickets=Ticket::paginate(9);
        // $admin=DB::table('roles')->where('name','=','admin')->first();
        // dd($admin->name);
-        $tickets=Ticket::all();
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
@@ -52,7 +52,7 @@ class TicketsController extends Controller
                     ['requester_id' , '=' , Auth::user()->id],
                     ['ticket_id' , '=' , $id]
                     ])->first();
-                
+
                 if(Auth::user()->hasRole('admin'))
                 {
                     $numberofspams=$ticket->spammers->count();
@@ -82,7 +82,7 @@ class TicketsController extends Controller
         $message=$request->msg;
         $ticket=Ticket::find($request->ticket_id);
         $admin=DB::table('model_has_roles')->where('role_id','=',1)->first();
-        $user=User::find($admin->model_id); 
+        $user=User::find($admin->model_id);
         $authuser=Auth::user();
         $user->notify(new SpamNotification($ticket,$message,$authuser));
         flashy()->error('your message is sent ,Thank uou !');
@@ -90,9 +90,16 @@ class TicketsController extends Controller
     }
 
      public function search (Request $request){
-        $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
-        //dd($tickets);
-        if(Auth::user()&&Auth::user()->hasRole('admin')){
+        $tickets=Ticket::latest()->paginate(3);
+         if($request->search !== null){
+             $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
+             ->latest()
+             ->paginate(3)
+             ->setpath('');
+            $tickets->appends(['search'=> $request->search]);
+         }
+        if(Auth:: check() && Auth::user()->hasRole('admin')){
+
 
         return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
         }

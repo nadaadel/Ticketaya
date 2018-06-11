@@ -21,24 +21,22 @@ class Question
      */
 
     public $user;
-    public $creator;
+    public $creator_id;
     public $eventname;
     public $message;
     public $notification_id;
     public function __construct($asker,$event)
     {
         $this->user=$asker;
-        $this->creator=$event->user_id;
+        $this->creator_id=$event->user_id;
         $this->eventname=$event->name;
         $this->message=$this->user->name." ask a question to ".$this->eventname."event ";
         $notification=Notification::create([
-            'user_id' => $this->user->id,
+            'user_id' => $this->creator_id,
             'notify_type_id' => 1,
             'message'=>$this->message
         ]);
         $this->notification_id=$notification->id;
-
-       
     }
 
     /**
@@ -48,7 +46,7 @@ class Question
      */
     public function broadcastOn()
     {
-        return ['question_'.$this->creator];
+        return ['question-notification_'.$this->creator_id];
     }
 
 
