@@ -30,6 +30,7 @@
 $(document).ready(function(){
     $('#city').on('change',function(){
         var cityId=$(this).val();
+        $('#region').empty();
         console.log(cityId)
         $.ajax({
             url: '/cities/'+cityId,

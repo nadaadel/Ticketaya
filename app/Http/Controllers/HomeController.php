@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Ticket;
+use App\Event;
+
 
 
 class HomeController extends Controller
@@ -24,6 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $hotTickets  = Ticket::orderBy('created_at' , 'desc')->take(6)->get();
+        $hotEvents   = Event::orderBy('created_at' , 'desc')->take(6)->get();
+        return view('home' , compact('hotTickets' , 'hotEvents'));
     }
 }

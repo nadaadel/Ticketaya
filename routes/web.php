@@ -36,7 +36,7 @@ Route::get('/test', function () {
 });
 
 Route::get('/', function(){
-    return view('home' , compact('userNotifications'));
+    return view('home');
 });
 
 Route::post('/notification/auth' , 'NotificationsController@auth');

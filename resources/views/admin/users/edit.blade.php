@@ -51,7 +51,7 @@
         <div class="col-md-6">
             <select name="city" id="city">
                 @foreach($cities as $city)
-                    <option value={{$city->id}}>{{$city->name}}</option>
+                    <option value="{{$city->id}}" {{ ($user->city_id == $city->id ) ? "selected" : "" }}>{{$city->name}}</option>
                 @endforeach
             </select>
            @if ($errors->has('city'))
@@ -63,10 +63,18 @@
 </div>
 <br/>
 
-<div class="form-group row" id="toggleRegion" style="display: none;" >
+
+<div class="form-group row" id="toggleRegion"  >
        <label class="col-md-4 col-form-label text-md-right">Region </label>
             <div class="col-md-6" >
-                <select name="region" id="region"></select>
+           
+                <select name="region" id="region">
+                @if($user->region_id)
+                @foreach($regions as $region)
+                    <option value="{{$region->id}}" {{ ($user->region_id == $region->id ) ? "selected" : "" }}>{{$region->name}}</option>
+                @endforeach
+                @endif
+                </select>
             @if ($errors->has('region'))
                  <span class="alert alert-danger">
                       <strong>{{ $errors->first('region') }}</strong>
@@ -74,6 +82,7 @@
             @endif
             </div>
 </div>
+
 <br/>
 
 

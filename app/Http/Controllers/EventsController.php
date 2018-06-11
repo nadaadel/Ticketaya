@@ -8,6 +8,8 @@ use Auth;
 use App\User;
 use App\City;
 use App\Events\EventSubscribers;
+use App\Events\Question;
+use App\Events\Answer;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
@@ -15,10 +17,11 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
-       // dd($questionfound==null);
-        if (!$questionfound){
-
+        $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
+        //dd($questionfound==null);
+     
+        if ($questionfound==null){
+       
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
@@ -26,22 +29,34 @@ class EventsController extends Controller
 
 
         ]);
-        }
-
-
+        $asker=User::find($request->user_id);
+        $event=Event::find($request->event_id);
+     
+          
+        event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
+        }
+        else{
+            return response()->json(['response'=>'false']);
+        }
+        
+       
+
+        
     }
     public function updateQuestion(Request $request){
-        $user = User::find($request->user_id);
-
-        $question=$user->eventquestions()->where('question','=',$request->question)->first();
+        $asker= User::find($request->user_id);
+        dd($asker);
+        $event=Event::find($request->event_id);
+       
+        $question=$asker->eventquestions()->where('question','=',$request->question)->first();
         //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
         //dd( $question->pivot->answer);
        
-        
-    
+       
+        event(new Answer($asker, $event));
         return response()->json(['answer' => $question->pivot->answer]);
     }
     public function subscribe($event_id , $user_id){

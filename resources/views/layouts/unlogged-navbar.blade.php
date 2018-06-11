@@ -144,6 +144,19 @@ function notificationsHtml(data,realtime){
   function bindChannel(channel,event) {
       channel.bind(event , function(notify){
         notificationsHtml(notify,1);
+        console.log(notify.is_accept)
+        if(notify.is_accept == true){
+            $('#edit').hide();
+            $('#loginuser').hide();
+
+        }
+        else{
+        $('#edit').hide();
+        $('#loginuser').hide();
+        $('#RequestTicket').show();
+
+        }
+
         });
 }
   $.each(oldNotifications.reverse(), function( i, val) {
@@ -194,6 +207,10 @@ var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
 bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
+var questionNotification=pusher.subscribe('question_{{ Auth::user()->id }}');
+bindChannel(questionNotification,'App\\Events\\Question');
+var answerNotification=pusher.subscribe('answer_{{ Auth::user()->id }}');
+bindChannel(answerNotification,'App\\Events\\Answer');
 });
 
 </script>

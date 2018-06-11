@@ -1,19 +1,18 @@
 @extends('layouts.app')
-
 @section('content')
-           
-           
+
            <section id="ticket-view">
                <div class="container">
                    <div class="row ">
                        <div class="col-md-3 col-xs-12 text-center"><!--User profile-->
                            <div class="user-img">
                                <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
-                           </div>
-                           <h4 class="user-name pt-4">Adam Smith</h4>
+
+                            </div>
+                           <h4 class="user-name pt-4">{{ $ticket->user->name }}</h4>
                            <div class="user-loc d-flex justify-content-center">
 <!--                               <i class="fas fa-map-marker gray"></i>-->
-                               <p class="gray">Alexandria</p>
+                               <p class="gray">{{ $ticket->city->name }}</p>
                            </div>
                            <button class="btn btn-info"> Chat with Seller</button>
                        </div><!--End of User profile-->
@@ -22,14 +21,19 @@
                                <div class="col-md-8 col-xs-12 ticket-details">
                                    <div class="ticket-img" style="background-image: url(../images/home/1-silder.jpg);"></div>
                                    <div class="tick-name-price pt-5 d-flex justify-content-between  ">
-                                       <h3>Ticket Name Here</h3>
-                                       <h3 class="price">120 L.E</h3>
+                                       <h3>{{ $ticket->name }}</h3>
+                                       <h3 class="price">{{ $ticket->price }} L.E</h3>
                                    </div>
                                    <div class="ticket-info">
                                        <ul>
-                                           <li><i class="fas fa-th-large"></i> Sport</li>
-                                           <li><i class="far fa-calendar-alt"></i> Sat, 18 Jul 2018 </li>
-                                           <li><i class="fas fa-map-marker"></i>City Center, Alexandria</li>
+
+                                           <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
+
+                                           <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
+                                           <li><i class="far fa-calendar-alt"></i>{{ $ticket->created_at->diffForHumans() }} </li>
+                                           <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
+
+                                           <li><i class="fas fa-map-marker"></i>{{ $ticket->region->name }},{{ $ticket->city->name }}</li>
                                        </ul>
                                    </div>
                                    <div class="ticket-actions row">
@@ -46,17 +50,25 @@
                                            <a  href="#" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
-                                   
+
                                </div>
                                <div class="col-md-4 col-xs-12 pr-2">
                                    <h3 class="mb-3">Ticket Details</h3>
                                    <p class="mb-5">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas.
+                                    {{$ticket->description}}
                                    </p>
                                    <h3 class="mb-3">You Should Know</h3>
                                    <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                </p>
+                             @if($ticket->tags)
+                                <h3 class="mb-3">Tags</h3>
+                                    <p>
+                                        @foreach($ticket->tags as $tag)
+                                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                                        @endforeach
                                     </p>
+                             @endif
                                </div>
                            </div>
                        </div><!--end of Ticket data-->
@@ -69,7 +81,7 @@
                            <div class="col-md-12">
                               <form>
                                <div class="row">
-                                  
+
                                    <div class="col-sm-4 col-md-3">
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
                                    </div>
@@ -107,7 +119,7 @@
                                            <h4>Adam Smith</h4>
                                            <p class="gray">3 hours ago</p>
                                            <p>
-                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                                {{ $ticket->description }}
                                            </p>
                                            <a href="#" class="info">REPLAY</a>
                                            <div class="row mt-5">
@@ -119,7 +131,7 @@
                                                    <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
                                                </div>
                                                <div class=" col-sm-12 col-md-3  pt-3">
-                                                   
+
                                                </div>
                                            </div>
                                        </div>
@@ -132,26 +144,7 @@
                </div>
            </section>
 
-           <fieldset>
-                    <legend style="background-color: gray">Ticket Info </legend>
-                    <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;">
-                    <p>Name : {{ $ticket->name }}</p>
-                    <p>Quantity:{{ $ticket->quantity }}</p>
-                    <p>Description:{{ $ticket->description }}</p>
-                    <p>Price :{{ $ticket->price }}</p>
-                    <p>Date :{{ $ticket->expire_date }}</p>
-                    <p>Category :{{ $ticket->category->name }}</p>
-                    <p>Location:{{ $ticket->region->name }},{{ $ticket->city->name }}</p>
-                    <p>Created by :{{ $ticket->user->name }} </p>
-                    @if($ticket->tags)
-                    <p>
-                        @foreach($ticket->tags as $tag)
-                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
-                        @endforeach
-                    </p>
-                    @endif
-                   <hr>
-                </fieldset>
+
                   {{-- spam section --}}
         @if(Auth::user())
                   @role('admin')
@@ -170,8 +163,8 @@
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
-               
-                
+
+
 
             @endif
             @endif
@@ -183,30 +176,43 @@
                 @else
                 <button id="save_ticket" class="btn btn-primary">save</button>
                 @endif
+                <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
             @endif
         @endif
                 {{-- end save ticket--}}
 
                 {{-- Request this ticket section --}}
         @if(Auth::user())
-        <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
-        <div class="requestticket">
+       
+        <div class="requestticket" id="RequestTicket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
         <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
         <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         </div>
-
-        <div class="edit">
-        @if($ticket->user_id != Auth::user()->id && $wantStatus == false)
-        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
+       
+       @if($request&&$request->is_accepted==0)
+        <div id="loginuser">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
+       
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-        @endif
         </div>
+       @endif
+ 
         
+        <div class="edit" id="edit" style="display: none;">
+        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
 
+        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
+       
+        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
+      
+       </div>
+      
+       
+        
+        
                 {{-- Request this ticket end section --}}
 
 
@@ -277,6 +283,13 @@ Comments:
 </script>
 @endif
 
+
+
+
+
+
+
+
 <script>
     $(document).ready( function(){
     $('.want').on('click' , function(){
@@ -297,19 +310,21 @@ Comments:
                     console.log(response.response);
                     alert('Ticket Requested Successfully');
                     $('.requestticket').hide();
-                    $('.editticket').show();
+                    $('#edit').show();
+                    //console.log( $('#edit'));
                    }
                    else{
                     console.log(response);
-                    alert('You Cant request this ticket ,Your quantity >'+response.quantity);
+                    alert('You Cant request this ticket ,Your quantity must be >'+response.quantity+' and >0');
                    }
                 }
             });
+            
  });
  $('.editticket').on('click' , function(){
           //  $('#editquantity').show();
             var quantity  = $('#editquantity').val();
-            console.log(quantity)
+            //console.log(quantity)
             var ticket_id = $('#edit-ticket-id').val();
             $.ajax({
                 url: '/tickets/request/edit/'+ticket_id,
@@ -320,14 +335,16 @@ Comments:
                     'ticket_id':ticket_id ,
                 },
                 success:function(response){
-                    console.log(response.response)
+                    //console.log(response.response)
                    if(response.response =='ok'){
-                    console.log(response.response);
+                   // console.log(response.response);
+                    console.log(response.ticket )
+                   
                     alert('Edit Requested Successfully');
                    }
                    else{
                     console.log(response);
-                    alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
+                   alert('You Cant edit requested ticket ,Your quantity must be >'+response.quantity+'and >0');
                    }
                 }
             });
@@ -357,10 +374,8 @@ $('.reply').on('click',function(){
 
                }
 
+               }
             }
-            }
-
-
             }
             })
             $(this).hide();
