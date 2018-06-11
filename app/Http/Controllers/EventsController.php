@@ -44,7 +44,7 @@ class EventsController extends Controller
     }
     public function updateQuestion(Request $request){
         $asker= User::find($request->user_id);
-        dd($asker);
+        
         $event=Event::find($request->event_id);
 
         $question=$asker->eventquestions()->where('question','=',$request->question)->first();
