@@ -27,9 +27,9 @@
 
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
-            <a href="#notifications-panel" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                    <i data-count="0" class="glyphicon glyphicon-bell notification-icon">
-                        <img src="https://cdn3.iconfinder.com/data/icons/line-icons-medium-version/64/bell-512.png" width=30px height=30px/></i>
+            <a href="#notifications-panel" class="dropdown-toggle nav-link pt-4" data-toggle="dropdown">
+                    <i data-count="0" class="notification-icon ">
+                            <i class="far fa-bell light" style="font-size: 20px;"></i></i>
             </a>
             <div class="dropdown-container">
                 <ul class="dropdown-menu" style="

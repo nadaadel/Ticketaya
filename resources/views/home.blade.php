@@ -24,9 +24,9 @@
                         </div>
                         <div class="row">
                           <div class="col-md-6 offset-md-3 text-center">
-                          <form method="POST" action="/tickets/search" enctype="multipart/form-data">
+                          <form method="GET" action="/tickets/search" enctype="multipart/form-data">
                               {{ csrf_field() }}
-                            <input class="search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search"> 
+                            <input class="search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search">
                             <button class="btn btn btn-primary search-btn" type="submit">Search</button>
                             </form>
                           </div>
@@ -34,14 +34,14 @@
                     </div>
                 </div>
               </div>
-              
+
               <div class="container">
                   <div class="row">
-                      
-                    
+
+
                   </div>
               </div>
-              
+
 
         </section> <!-- End of header in home page -->
         <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->

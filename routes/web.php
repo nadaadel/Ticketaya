@@ -152,3 +152,9 @@ Route::get('/notifications/{id}/edit','NotificationsController@edit');
 
 /* Cities */
 Route::get('/cities/{id}','CitiesController@show');
+
+
+/* article comments and replies*/
+Route::post('article/comments','ArticleCommentsController@store');
+Route::post('articles/replies','ArticleCommentRepliesController@store');
+Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');
