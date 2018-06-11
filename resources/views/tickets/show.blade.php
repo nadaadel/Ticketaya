@@ -185,7 +185,7 @@ Comments:
                    }
                    else{
                     console.log(response);
-                    alert('You Cant request this ticket ,Your quantity >'+response.quantity);
+                    alert('You Cant request this ticket ,Your quantity must be >'+response.quantity+' and >0');
                    }
                 }
             });
@@ -214,7 +214,7 @@ Comments:
                    }
                    else{
                     console.log(response);
-                    alert('You Cant edit requested ticket ,Your quantity >'+response.quantity);
+                   alert('You Cant edit requested ticket ,Your quantity must be >'+response.quantity+'and >0');
                    }
                 }
             });

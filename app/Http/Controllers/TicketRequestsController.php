@@ -21,7 +21,7 @@ class TicketRequestsController extends Controller
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
         $quantity=$request->quantity;
-        if ($quantity<=$ticket->quantity){
+        if ($quantity<=$ticket->quantity && $quantity!=0){
 
         RequestedTicket::create([
             'ticket_id' => $id,
@@ -35,8 +35,11 @@ class TicketRequestsController extends Controller
         event(new TicketRequested($id));
 
         return response()->json(['response' => 'ok']);
+        //flashy()->error('your request is sent');
         }
         return response()->json(['quantity' =>$ticket->quantity ]);
+        //flashy()->error('your request must be < $ticket->quantity .and >0');
+
 
     }
     public function getUserRequests(Request $request){
@@ -71,7 +74,7 @@ class TicketRequestsController extends Controller
         //to edit quantity in ticket request
         public function editRequestedTicket(Request $request,$id){
             $ticket = Ticket::find($request->ticket_id);
-            if ($request->quantity<=$ticket->quantity){
+            if ($request->quantity<=$ticket->quantity && $request->quantity!=0){
             $user = User::find($ticket->user_id);
             $requestTicket = $user->requestedTicket()->where('requester_id' , '=' ,Auth::user()->id)->first();
             $requestTicket->pivot->quantity =$request->quantity;
@@ -80,9 +83,11 @@ class TicketRequestsController extends Controller
             event(new TicketRequested($request->ticket_id));
 
             return response()->json(['response' => 'ok']);
+            //flashy()->error('your request is sent');
             
             }
             return response()->json(['quantity' =>$ticket->quantity ]);
+            //flashy()->error('your request must be <'.$ticket->quantity .'and >0');
 
 
         }
@@ -109,10 +114,12 @@ class TicketRequestsController extends Controller
             $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
             ['requester_id' , '=' , Auth::user()->id] ,
             ['user_id' , '=' , $ticket->user_id]])->first();
-          
-
-            $requested->is_sold = 1;
+            $requested->is_sold=1;
             $requested->save();
+            dd($requested->save());
+
+            /*$requested=$user->requestedTicket->where('ticket_id' , '=' , $id);
+            dd($requested);*/
             
         
             SoldTicket::create([
