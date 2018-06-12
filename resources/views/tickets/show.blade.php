@@ -172,6 +172,7 @@
            </section>
 
 
+
                   {{-- spam section --}}
         @if(Auth::user())
                   @role('admin')
@@ -264,6 +265,35 @@ Comments:
 
 </div>
 @endif
+</hr>
+@if(sizeof($recommendedArticles) > 0)
+<section class="recommended-articles">
+        <div class="container">
+                <h2>Recommended Articles</h2>
+                <div class="row  mt-5 mb-5">
+                        @foreach($recommendedArticles as $article)
+                                <div class="col-md-6 col-12 mb-6"><!--event card starts here-->
+                                   <a href="{{ URL::to('articles/' . $article->id ) }}">
+                                        <div class="event-card">
+                                            <div href="{{ URL::to('articles/' . $article->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/articles/'. $article->photo) }});">
+                                            </div>
+                                            <div class="event-content">
+                                                <a href="{{ URL::to('articles/' . $article->id ) }}"><h3>{{ucwords($article->title)}}</h3></a>
+                                                <p>{{substr($article->description,0,200)}}.</p>
+                                            </div>
+                                            <div class="follow text-center">
+                                                    <a class="btn btn-primary" href="{{ URL::to('articles/' . $article->id ) }}">Read More</a>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div><!--event card starts here-->
+                        @endforeach
+                        </div>
+        </div>
+</section>
+@endif
+
 <script src="//code.jquery.com/jquery.js"></script>
 @include('flashy::message')
 @if(Session::has('flashy_notification.message'))
@@ -277,10 +307,6 @@ Comments:
     flashy("{{ Session::get('flashy_notification.message') }}", "{{ Session::get('flashy_notification.link') }}");
 </script>
 @endif
-
-
-
-
 
 
 
@@ -307,7 +333,6 @@ Comments:
                     alert('Ticket Requested Successfully');
                     $('.requestticket').hide();
                     $('#loginuser').show();
-                    // $('#editshow').show();
 
                    }
                    else{
@@ -324,7 +349,6 @@ Comments:
         $('#editrequest').show();
         $(this).hide();
  });
-
 
  $('#editticket').on('click' , function(){
             var quantity  = $('#editquantity').val();
