@@ -28,23 +28,30 @@
     </span>
 @endif
 <br/>
-<label >Region </label>
-<input type="text" name="region" value={{$event->region}}/>
-@if ($errors->has('region'))
-    <span class="alert alert-danger">
-    <strong>{{ $errors->first('region') }}</strong>
-    </span>
-@endif
-<br/>
-<label >City </label>
-<input type="text" name="city" value={{$event->city}}/>
-@if ($errors->has('city'))
-    <span class="alert alert-danger">
-    <strong>{{ $errors->first('city') }}</strong>
-    </span>
-@endif
-<br/>
-
+         <label >City </label>
+           <select name="city" id="city">
+               @foreach($cities as $city)
+                   <option value="{{$city->id}}" {{ ($event->city_id == $city->id ) ? "selected" : "" }}>{{$city->name}}</option>
+               @endforeach
+           </select>
+          @if ($errors->has('city'))
+                <span class="alert alert-danger">
+                    <strong>{{ $errors->first('city') }}</strong>
+                </span>
+      <br/>
+      <label >Region </label>
+               <select name="region" id="region">
+               @if($event>region_id)
+               @foreach($regions as $region)
+                   <option value="{{$region->id}}" {{ ($event->region_id == $region->id ) ? "selected" : "" }}>{{$region->name}}</option>
+               @endforeach
+               @endif
+               </select>
+           @if ($errors->has('region'))
+                <span class="alert alert-danger">
+                     <strong>{{ $errors->first('region') }}</strong>
+                </span>
+           @endif
 <label >Start Date </label>
 <input type="date" name="startdate" value={{$event->startdate}}/>
 <br/>
@@ -72,4 +79,35 @@
 @endif
 <input type="submit" value="Submit" class="btn btn-primary">
 </form>
+<script>
+$(document).ready(function(){
+    $('#city').on('change',function(){
+
+        var cityId=$(this).val();
+        console.log(cityId)
+        $('#region').empty();
+        $.ajax({
+            url: '/cities/'+cityId,
+            type: 'GET' ,
+            data:{
+                 '_token':'@csrf'
+             },
+            success:function(response){
+                if(response.res == 'success'){
+                $.each(response.cityRegions, function(index,region){
+                var option=`<option value="`+region.id+`">`+region.name+`</option>`;
+                $('#region').append(option);
+            });
+            $('#toggleRegion').show();
+            }
+
+             }
+        })
+      
+
+    });
+});
+
+
+</script>
 @endsection

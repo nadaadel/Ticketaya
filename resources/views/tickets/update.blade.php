@@ -10,7 +10,7 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="col-md-6">
-               
+
             <form  method="post" action="/tickets/update/{{$ticket->id}}" enctype="multipart/form-data">
                 {{method_field('PUT')}}
                 {{csrf_field()}}
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-6">
                         <label >Ticket Expire Date </label>
-                        <input type="date" value="{{$ticket->expire_date}}" name="expire_date" class="form-control">
+                        <input type="datetime" value="{{$ticket->expire_date}}" name="expire_date" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -53,10 +53,22 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="col-md-6 " >
+                        <label >Region</label>
+                        <select name="region" id="region" class="w-100">
+                            {{-- @foreach(App\City::all() as $city) --}}
+                              <option value="{{$ticket->region->id}}">{{$ticket->region->name}}</option>
+                            {{-- @endforeach --}}
+                        </select>
+                    </div>
+
+
+{{--
                     <div class="col-md-6">
                         <label >Region </label>
-                        <input type="text" value="{{$ticket->region}}" name="region" class="form-control">
-                    </div>
+                        <input type="text" value="{{$ticket->region->name}}" name="region" class="form-control">
+                    </div> --}}
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -72,7 +84,7 @@
                     </div>
                 </div>
 -->
-                
+
                 <div class="row">
                     <div class="col-md-6">
                        <label for="image">Ticket Image</label>
@@ -85,49 +97,10 @@
                         <input type="submit" value="SUBMIT" class="btn btn-primary pl-5 pr-5">
                     </div>
                 </div>
-            
+
             </form>
             </div>
         </div>
     </div>
 </section>
-<!--
-<form  method="post" action="/tickets/update/{{$ticket->id}}" enctype="multipart/form-data">
-{{method_field('PUT')}}
-{{csrf_field()}}
-<label >Name </label>
-<input type="text" value="{{$ticket->name}}" name="name"/>
-<br/>
-<label >Price </label>
-<input type="number" value="{{$ticket->price}}" name="price"/>
-<br/>
-<label >description</label>
-<textarea name="description">{{$ticket->description}}</textarea>
-<br/>
-<label >Quantity </label>
-<input type="number" value="{{$ticket->quantity}}" name="quantity"/>
-<br/>
-<label >Region </label>
-<input type="text" value="{{$ticket->region}}" name="region"/>
-<br/>
-<label >City </label>
-<input type="text" value="{{$ticket->city}}" name="city"/>
-<br/>
-<label >Expire date </label>
-<input type="date" value="{{$ticket->expire_date}}" name="expire_date"/>
-<br/>
-        <label for="image" class="col-md-4 col-form-label text-md-right">Ticket Image</label>
-        <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style="width:150px; height:150px;"/>
-        <input value="{{$ticket->photo}}" type="file" class="form-control-file"  name="photo">
-<br/>
-<label >Category</label>
-<select name="category">
-        @foreach($categories as $category)
-          <option value="{{ $category->id }}" {{ ($ticket->category_id == $category->id ) ? "selected" : "" }}>{{ $category->name }}</option>
-        @endforeach
-      </select>
-<input type="submit" value="Submit" class="btn btn-primary">
-</form>
--->
-
 @endsection

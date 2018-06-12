@@ -11,7 +11,9 @@
             <p>Start Date :{{ $event->startdate }}</p>
             <p>End Date :{{ $event->enddate }}</p>
             <p>Category :{{ $event->category->name }}</p>
+            @if($event->city_id)
             <p>Location:{{ $event->region->name }},{{ $event->city->name }}</p>
+            @endif
             <p>Created by :{{ $event->user->name }} </p>
            <hr>
         </fieldset>
@@ -43,33 +45,26 @@
     <div qid="{{$question->id}}">
     Question<div class="question">{{$question->question}} </div>
     Answer: <div class="answer"  >{{$question->answer}} </div>
-    
-  
-    
-   
-   
-    
+
+
+
+
+
+
     @if(Auth::user() && Auth::user()->id == $event->user_id)
-       
+
      <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
      <div class="answer-area" >
             <textarea class="ans-body" id="{{$question->id}}"  cols="12">
             </textarea>
-<<<<<<< HEAD
-=======
-
-      </div>
-      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-      <input type="hidden" id="event_id" value="{{$event->id}}">
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
      </div>
         <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
         <input type="hidden" id="event_id" value="{{$event->id}}">
-     
-      
 
- 
+
+
+
     @endif
     </div>
     <hr>
@@ -92,15 +87,15 @@
             </textarea>
             <button id="question-submit" class="btn btn-info">Post</button>
       </div>
-     
+
     @endif
 
 
      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
      <input type="hidden" id="event_id" value="{{$event->id}}">
-    
-     
-    
+
+
+
 
 <script>
     $(document).ready(function(){
@@ -115,7 +110,7 @@
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
         var no=$('.allquestion').attr('question-no');
-       
+
         $('.question-area').hide();
         $.ajax({
             url: '/events/question/'+event_id+'/'+user_id,
@@ -127,22 +122,19 @@
                 'user_id':user_id,
                 },
                 success:function(response){
-<<<<<<< HEAD
                  if(response.response== 'success'){
                   console.log(response.questions.id);
-                  
-                  
+
+
                   //$( "<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('#'+no);
-               
+
                  }
-               
-=======
+                 if(response.response== 'false'){
+                  console.log("you create this question before");
 
-                  console.log(response);
-                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
+                 }
 
 
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
                 }
 
         })
@@ -154,12 +146,12 @@
      var question=$(this).attr('question');
      var questioner=$(this).attr('questioner');
       var body=$('#'+quesId).val();
-   
+
       var event_id = $('#event_id').val();
-      console.log(question);
+     /* console.log(question);
       console.log(event_id);
       console.log(quesId);
-      console.log(questioner);
+      console.log(questioner);*/
 
 
       $.ajax({
@@ -176,13 +168,8 @@
                 success:function(response){
 
                   console.log(response);
-<<<<<<< HEAD
                  // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
-                 
-=======
-                 //$('#'+quesId).append('<div>'+response.question.question+'</div>');
 
->>>>>>> df70f64b819a8af61618a20efd2376be5f9aaa5c
 
                 }
 
@@ -250,13 +237,6 @@
 
 
         });
-
-
-
-
-
-
-
 
 
 

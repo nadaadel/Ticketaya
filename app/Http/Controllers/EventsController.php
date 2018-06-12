@@ -8,6 +8,8 @@ use Auth;
 use App\User;
 use App\City;
 use App\Events\EventSubscribers;
+use App\Events\Question;
+use App\Events\Answer;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
@@ -15,9 +17,10 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
-       // dd($questionfound==null);
-        if (!$questionfound){
+        $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
+        //dd($questionfound==null);
+
+        if ($questionfound==null){
 
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
@@ -26,22 +29,32 @@ class EventsController extends Controller
 
 
         ]);
+        $asker=User::find($request->user_id);
+        $event=Event::find($request->event_id);
+        event(new Question($asker, $event));
+        return response()->json(['questions' => $eventQuestion,'response'=>'success']);
+        }
+        else{
+            return response()->json(['response'=>'false']);
         }
 
 
-        return response()->json(['questions' => $eventQuestion,'response'=>'success']);
+
+
     }
     public function updateQuestion(Request $request){
-        $user = User::find($request->user_id);
+        $asker= User::find($request->user_id);
+        
+        $event=Event::find($request->event_id);
 
-        $question=$user->eventquestions()->where('question','=',$request->question)->first();
+        $question=$asker->eventquestions()->where('question','=',$request->question)->first();
         //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
         //dd( $question->pivot->answer);
-       
-        
-    
+
+
+        event(new Answer($asker, $event));
         return response()->json(['answer' => $question->pivot->answer]);
     }
     public function subscribe($event_id , $user_id){
@@ -66,7 +79,6 @@ class EventsController extends Controller
          'body' => $request->description
       ]);
       $event = Event::find($event_id);
-
       $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $event_id)->get();
       foreach($eventSubscibers as $subscriber){
          event(new EventSubscribers($event_id , $subscriber->user_id));
@@ -80,18 +92,27 @@ class EventsController extends Controller
 
     }
     public function search (Request $request){
+        $events=Event::latest()->paginate(3);
         $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
         $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
-        $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')->get();
         $view='events.search';
-        if(Auth::user()->hasRole('admin')){
+        if($request->search !== null){
+            $events=Event::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
+            ->latest()
+            ->paginate(3)
+            ->setpath('');
+           $events->appends(['search'=> $request->search]);
+        }
+        if( Auth::check() && Auth::user()->hasRole('admin')){
         $view='admin.search.Eventsearch';
         }
         return view($view,compact('events','categories','cities'));
-     }
+    }
+
+
 
     public function index(){
-        $events=Event::all();
+        $events=Event::paginate(3);
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {

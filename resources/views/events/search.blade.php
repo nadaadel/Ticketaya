@@ -5,9 +5,10 @@
         <div class="row">
                 <div class="col-md-12 col-xs-12">
                    <div class="search-content">
-                       <form method="POST" action="/events/search" enctype="multipart/form-data" class="text-center">
+                       <form method="get" action="/events/search" enctype="multipart/form-data" class="text-center">
                               {{ csrf_field() }}
-                        <input class="search pgs-search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search">
+                              {{-- value={{ ($search !== null ) ? $search : "" }} --}}
+                        <input class="search pgs-search" type="search"  placeholder="Search Tickets, events or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-outline-primary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
                    </div>
@@ -68,9 +69,9 @@
                         </div>
 
                         @endforeach
-
                 </div>
             </div>
+            {{ $events->links() }}
         </div>
     </section>
 </div>

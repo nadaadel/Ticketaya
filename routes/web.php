@@ -6,8 +6,13 @@ Route::get('/admin/index' , 'AdminsController@index')->name('admin-index');
 
 
 /** Admin Articles Routes */
-Route::get('/articles' , 'ArticlesController@index')->name('allarticleps');
-
+Route::get('/articles/create' , 'ArticlesController@create')->name('createarticle');
+Route::get('/articles' , 'ArticlesController@index')->name('allarticles');
+Route::get('/articles/{id}' , 'ArticlesController@show')->name('showarticle');
+Route::get('/articles/edit/{id}' , 'ArticlesController@edit')->name('editarticle');
+Route::post('/articles/store' , 'ArticlesController@store')->name('storearticle');
+Route::put('/articles/{id}' , 'ArticlesController@update')->name('updatearticle');
+Route::delete('/articles/{id}' , 'ArticlesController@delete')->name('deletearticle');
 
 
 /** Admin Category Routes */
@@ -31,7 +36,7 @@ Route::get('/test', function () {
 });
 
 Route::get('/', function(){
-    return view('home' , compact('userNotifications'));
+    return view('home');
 });
 
 Route::post('/notification/auth' , 'NotificationsController@auth');
@@ -55,6 +60,7 @@ Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('a
 Route::post('tickets/report','TicketsController@report');
 
 /**Events Routes */
+Route::get('/events/search' , 'EventsController@search');
 Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/create' , 'EventsController@create');
@@ -63,7 +69,7 @@ Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
-Route::post('/events/search' , 'EventsController@search');
+
 
 
 
@@ -72,7 +78,7 @@ Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscrib
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
-Route::post('/events/info/new/{id}', 'EventsController@newInfo');
+Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 
 
 /** Search For Tickets */
@@ -107,6 +113,7 @@ Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
+Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');
 Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
@@ -115,7 +122,6 @@ Route::get('/tickets/edit/{id}', 'TicketsController@edit');
 
 Route::get('/tickets/{id}' , 'TicketsController@show')->name('showticket');
 Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updateticket');
-Route::post('/tickets/search','TicketsController@search');
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
 Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
@@ -146,3 +152,9 @@ Route::get('/notifications/{id}/edit','NotificationsController@edit');
 
 /* Cities */
 Route::get('/cities/{id}','CitiesController@show');
+
+
+/* article comments and replies*/
+Route::post('article/comments','ArticleCommentsController@store');
+Route::post('articles/replies','ArticleCommentRepliesController@store');
+Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');

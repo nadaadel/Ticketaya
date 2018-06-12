@@ -9,16 +9,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Event;
-use Auth;
 use App\Notification;
-
-class EventSubscribers implements ShouldBroadcast
+class Question
 {
-    public $message;
-    public $user_id;
-    public $notification_id;
-
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -26,18 +19,24 @@ class EventSubscribers implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($event_id , $toUser)
-    {
 
-      $event = Event::find($event_id);
-      $this->message = "Event {$event->name} Has New informations don't miss it";
-      $this->user_id = $toUser;
-      $notification=  Notification::create([
-        'user_id' => $this->user_id,
-        'notify_type_id' => 2,
-        'message'=>$this->message
-   ]);
-       $this->notification_id=$notification->id;
+    public $user;
+    public $creator_id;
+    public $eventname;
+    public $message;
+    public $notification_id;
+    public function __construct($asker,$event)
+    {
+        $this->user=$asker;
+        $this->creator_id=$event->user_id;
+        $this->eventname=$event->name;
+        $this->message=$this->user->name." ask a question to ".$this->eventname."event ";
+        $notification=Notification::create([
+            'user_id' => $this->creator_id,
+            'notify_type_id' => 1,
+            'message'=>$this->message
+        ]);
+        $this->notification_id=$notification->id;
     }
 
     /**
@@ -47,7 +46,8 @@ class EventSubscribers implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('event-subscriber_'.$this->user_id);
-
+        return ['question-notification_'.$this->creator_id];
     }
+
+
 }

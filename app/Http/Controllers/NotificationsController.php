@@ -52,10 +52,10 @@ class NotificationsController extends Controller
         if($notification->is_seen==0){
         $notification->is_seen=1;
         $notification->save();
-        return response()->json(['res' => 'unseen']);
+        return ['res' => 'unseen'];
         }
         else
-        return response()->json(['res' => 'seen']);
+        return ['res' => 'seen'];
     }
 
 

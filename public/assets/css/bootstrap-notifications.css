@@ -1,4 +1,4 @@
-.notifications {
+/*.notifications {
   list-style: none;
   padding: 0; }
 
@@ -63,7 +63,7 @@
 overflow-y: auto;
 
   position: static; }
-
+*/
 .notification-icon {
   margin-right: 0.49125rem;
   vertical-align: middle; }

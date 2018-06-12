@@ -15,6 +15,7 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group row">
+<<<<<<< HEAD
                                     <div class="col-sm-12 col-md-6 align-self-center">
                                          <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity"
                                              value="{{ old('identity') }}" autofocus placeholder="Enter Email Address or Phone Number">
@@ -24,8 +25,23 @@
                                                     <strong>{{ $errors->first('identity') }}</strong>
                                                 </span>
                                             @endif
+=======
+                      
+                        
+                                  <label for="identity" class="col-md-4 col-form-label text-md-right">Email or phone</label>
+   
+                                  <div class="col-md-6">
+                                 <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity"
+                                 value="{{ old('identity') }}" autofocus>
+
+                                @if ($errors->has('identity'))
+                                <span class="help-block">
+                                     <strong>{{ $errors->first('identity') }}</strong>
+                                 </span>
+                                 @endif
+>>>>>>> 2c1c6405a12b2ab5176dbfe8972b723f4c8bee80
                                     </div>
-                                </div>
+                                  </div>
                                 <div class="form-group row">
                                     <div class=" col-sm-12 col-md-6 align-self-center">
                                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="Password">

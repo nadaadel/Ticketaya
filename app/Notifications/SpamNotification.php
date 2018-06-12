@@ -20,14 +20,14 @@ class SpamNotification extends Notification
     protected $name;
     protected $message;
     protected $user;
-    public function __construct($ticket,$message,$user)
+    public function __construct($ticket,$message,$authuser)
     {
         $this->userofTicket=$ticket->user->name;
         $this->name=$ticket->name;
         $this->message=$message;
         //dd($message);
 
-        $this->user=$user->name;
+        $this->user=$authuser->name;
     }
 
     /**

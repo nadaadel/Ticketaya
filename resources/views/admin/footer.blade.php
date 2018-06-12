@@ -30,6 +30,7 @@
 $(document).ready(function(){
     $('#city').on('change',function(){
         var cityId=$(this).val();
+        $('#region').empty();
         console.log(cityId)
         $.ajax({
             url: '/cities/'+cityId,
@@ -48,9 +49,77 @@ $(document).ready(function(){
 
              }
         })
-      
+
 
     });
+
+    $('.answer-submit').on('click',function(){
+     var quesId=$(this).attr('question-id');
+     var question=$(this).attr('question');
+     var questioner=$(this).attr('questioner');
+      var body=$('#'+quesId).val();
+
+      var event_id = $('#event_id').val();
+     /* console.log(question);
+      console.log(event_id);
+      console.log(quesId);
+      console.log(questioner);*/
+
+
+      $.ajax({
+            url: '/events/answer/'+event_id+'/'+user_id,
+               type: 'GET' ,
+               data:{
+                '_token':'@csrf',
+                'question':question,
+                'event_id':event_id,
+                'user_id':questioner,
+                'answer':body,
+                'quesId':quesId,
+                },
+                success:function(response){
+
+                  console.log(response);
+                 // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
+
+
+                }
+
+        })
+})
+$('#showModel').on('click' , function(){
+        $('.info-area').show();
+        $(this).hide();
+    });
+
+
+  $('#info-submit').on('click' , function(event){
+      event.preventDefault();
+       var description = $('.info-body').val();
+       console.log(description);
+       var event_id = $('#event_id').val();
+       console.log(event_id);
+       $.ajax({
+           url: '/events/info/new/'+event_id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               'description':description
+           },
+        success:function(response){
+            if(response.status == 'success'){
+                $( "<div id='event-info'><p class='event-time'>about minute ago</p></div>" ).prependTo(".info-parent" );
+                $( "<div id='event-info'><p class='event-body'>"+description+"</p></div>" ).prependTo(".info-parent" );
+                $('.info-area').hide();
+                $('#showModel').show();
+            }else{
+             alert('error');
+            }
+
+        }
+       })
+    });
+
 });
 
 

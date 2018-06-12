@@ -58,6 +58,7 @@
         $(document).ready( function(){
             $('#city').on('change',function(){
             var city_id = $(this).val();
+            $('#region').empty();
             $.ajax({
                      url: '/cities/'+city_id,
                      type: 'GET' ,
