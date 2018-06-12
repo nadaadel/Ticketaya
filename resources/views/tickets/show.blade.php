@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
            <section id="ticket-view">
                <div class="container">
                    <div class="row ">
@@ -30,26 +29,54 @@
                                            <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
 
                                            <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
-                                           <li><i class="far fa-calendar-alt"></i>{{ $ticket->created_at->diffForHumans() }} </li>
+                                           <li><i class="far fa-calendar-alt"></i>Posted at : {{ $ticket->created_at->diffForHumans() }} </li>
                                            <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
 
                                            <li><i class="fas fa-map-marker"></i>{{ $ticket->region->name }},{{ $ticket->city->name }}</li>
                                        </ul>
                                    </div>
+
+
+                {{-- Request this ticket end section --}}
+        @if(Auth::user())
+           @if($ticket->user_id != Auth::user()->id  && $wantStatus == true && $ticket->is_sold == 0)
+                <div class="requestticket" id="RequestTicket">
                                    <div class="ticket-actions row">
                                        <div class="col-md-6 d-flex">
                                            <h4>Quantity</h4>
-                                           <select>
-                                                <option selected value="1">1</option>
-                                                <option  value="2">2</option>
-                                                <option  value="3">3</option>
-                                                <option  value="4">4</option>
+                                           <select name="quantity" id="quantity">
+                                               @for($i =1 ; $i<= $ticket->quantity ; $i++)
+                                           <option  value="{{$i}}">{{$i}}</option>
+                                               @endfor
                                             </select>
                                        </div>
+                                <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
                                        <div class="col-md-6">
-                                           <a  href="#" class="btn btn-primary">REQUST THIS TICKET</a>
+                                           <a  href="#"   id="want" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
+                </div>
+            @endif
+
+                {{-- Request this ticket end section --}}
+                @if($request&&$request->is_accepted==0)
+                <div id="loginuser">
+                <a  href="#" id="editshow"  class="btn btn-primary">Edit My Request</a>
+                </div>
+               @endif
+
+                <div class="editrequest" id="editrequest" style="display: none;">
+                <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
+                <h4>Quantity</h4>
+                <select class="w-25" name="editquantity" id="editquantity">
+                    @for($i =1 ; $i<= $ticket->quantity ; $i++)
+                <option  value="{{$i}}">{{$i}}</option>
+                    @endfor
+                 </select>
+                <button href="#" id="editticket" class="btn btn-success">Edit</button>
+               </div>
+
+                {{-- Edit Request this ticket end section --}}
 
                                </div>
                                <div class="col-md-4 col-xs-12 pr-2">
@@ -181,39 +208,7 @@
         @endif
                 {{-- end save ticket--}}
 
-                {{-- Request this ticket section --}}
-        @if(Auth::user())
-       
-        <div class="requestticket" id="RequestTicket">
-        @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
-        <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
-        <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-        <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
-        @endif
-        </div>
-       
-       @if($request&&$request->is_accepted==0)
-        <div id="loginuser">
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-        </div>
-       @endif
- 
-        
-        <div class="edit" id="edit" style="display: none;">
-        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
 
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-      
-       </div>
-      
-       
-        
-        
-                {{-- Request this ticket end section --}}
 
 
 {{-- comments and replies section --}}
@@ -292,9 +287,10 @@ Comments:
 
 <script>
     $(document).ready( function(){
-    $('.want').on('click' , function(){
-            console.log('iam here');
+    $('#want').on('click' , function(){
             var quantity = $('#quantity').val();
+            console.log(quantity);
+
             var ticket_id = $('#ticket-id').val();
             console.log(quantity);
             $.ajax({
@@ -310,8 +306,9 @@ Comments:
                     console.log(response.response);
                     alert('Ticket Requested Successfully');
                     $('.requestticket').hide();
-                    $('#edit').show();
-                    //console.log( $('#edit'));
+                    $('#loginuser').show();
+                    // $('#editshow').show();
+
                    }
                    else{
                     console.log(response);
@@ -319,12 +316,18 @@ Comments:
                    }
                 }
             });
-            
+
  });
- $('.editticket').on('click' , function(){
-          //  $('#editquantity').show();
+
+
+ $('#editshow').on('click' , function(){
+        $('#editrequest').show();
+        $(this).hide();
+ });
+
+
+ $('#editticket').on('click' , function(){
             var quantity  = $('#editquantity').val();
-            //console.log(quantity)
             var ticket_id = $('#edit-ticket-id').val();
             $.ajax({
                 url: '/tickets/request/edit/'+ticket_id,
@@ -339,7 +342,7 @@ Comments:
                    if(response.response =='ok'){
                    // console.log(response.response);
                     console.log(response.ticket )
-                   
+
                     alert('Edit Requested Successfully');
                    }
                    else{
@@ -361,7 +364,6 @@ $('.reply').on('click',function(){
                 '_token':'{{csrf_token()}}',
                  },
             success: function (response) {
-            //console.log(response.replies)
             console.log(response.names);
             $('#'+commentId).show();
 

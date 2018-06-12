@@ -33,12 +33,9 @@ class TicketRequestsController extends Controller
 
         // send request notification to ticket author
         event(new TicketRequested($id));
-
         return response()->json(['response' => 'ok']);
-        //flashy()->error('your request is sent');
         }
         return response()->json(['quantity' =>$ticket->quantity ]);
-        //flashy()->error('your request must be < $ticket->quantity .and >0');
 
 
     }
@@ -55,7 +52,6 @@ class TicketRequestsController extends Controller
         'userRequestsWanted' , 'userTicketsBought'));
         }
 
-            //add notification when accept aticket
 
     public function acceptTicket($id , $requester_id){
         $user = User::find(Auth::user()->id);
@@ -70,7 +66,7 @@ class TicketRequestsController extends Controller
 
         return redirect('/tickets/requests');
     }
-        //to edit quantity in ticket request
+
         public function editRequestedTicket(Request $request,$id){
             $ticket = Ticket::find($request->ticket_id);
             if ($request->quantity<=$ticket->quantity && $request->quantity!=0){
@@ -82,11 +78,9 @@ class TicketRequestsController extends Controller
             event(new TicketRequested($request->ticket_id));
 
             return response()->json(['response' => 'ok']);
-            //flashy()->error('your request is sent');
 
             }
             return response()->json(['quantity' =>$ticket->quantity ]);
-            //flashy()->error('your request must be <'.$ticket->quantity .'and >0');
 
 
         }
@@ -113,19 +107,28 @@ class TicketRequestsController extends Controller
             $requested =  RequestedTicket::where([['ticket_id' , '=' , $id] ,
             ['requester_id' , '=' , Auth::user()->id] ,
             ['user_id' , '=' , $ticket->user_id]])->first();
+
             $requested->is_sold=1;
             $requested->save();
+            $avaliableTickets = $ticket->quantity - $requested->quantity;
 
-            $ticket->quantity=$ticket->quantity-$requested->pivot->quantity;
-            if($tiket->quantity==0){
-                $ticket->is_sold =1;
+            if($avaliableTickets == 0){
+
+                $ticket->is_sold = 1;
+                $ticket->save();
+                $ticket->quantity = 0;
+                $ticket->save();
+            }else{
+                $ticket->quantity = $avaliableTickets;
+                $ticket->save();
             }
+
             $ticket->save();
              SoldTicket::create([
              'ticket_id' => $id,
              'user_id' => $ticket->user_id,
              'buyer_id' => Auth::user()->id,
-             'quantity' => $requested->pivot->quantity ,
+             'quantity' => $requested->quantity ,
             ]);
             event(new TicketReceived($requested->id,1));
            return redirect('/tickets/requests');
