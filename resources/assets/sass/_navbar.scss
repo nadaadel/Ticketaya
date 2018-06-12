@@ -29,6 +29,8 @@ nav.navbar {
       margin-right: 60px;
       li {
         padding:  0 5px;
+          font-weight: 600;
+          font-size: 13px;
       }
       li > a:hover {
         color: $primary;
