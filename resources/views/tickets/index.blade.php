@@ -95,10 +95,16 @@
 
                         <a type="submit" class="btn ctrl-btn delete-btn"><i class="far fa-trash-alt"></i></a>
                             <a href="{{ URL::to('tickets/edit/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
-                    @endif
-                            <a class="btn ctrl-btn like-btn"><i class="far fa-heart"></i></a>
+                    @elseif(Auth::check())
+                    <a class="btn ctrl-btn like-btn container">
+                            @if(user saved it)
+                            <i class='fas fa-heart heart'></i>
+                            @else
+                            <i class='far fa-heart heart'></i>
+                            @endif
+                        </a>
                             <a class="btn btn-primary ml-3" href="{{ URL::to('tickets/' . $ticket->id ) }}">REQUEST THIS TICKET</a>
-
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -124,7 +130,20 @@
   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
 
-
+  <script>
+        $(document).on('click','.heart',callFunction);
+    //    var click = ;
+         function callFunction() {
+            var element=$(this);
+           if (!click) {
+            element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
+             click = true;
+           } else {
+            element.parent().empty().append("<i class='far fa-heart heart'></i>");
+             click = false;
+           }
+         }
+       </script>
 @endsection
 
 
