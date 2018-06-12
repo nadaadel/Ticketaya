@@ -18,6 +18,7 @@
                        <div class="col-md-9 pb-5"><!--Ticket data-->
                            <div class="row">
                                <div class="col-md-8 col-xs-12 ticket-details">
+
                                    <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});"></div>
                                    <div class="tick-name-price pt-5 d-flex justify-content-between  ">
                                        <h3>{{ $ticket->name }}</h3>
@@ -158,7 +159,6 @@
                                                    <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
                                                </div>
                                                <div class=" col-sm-12 col-md-3  pt-3">
-
                                                </div>
                                            </div>
                                        </div>
@@ -186,6 +186,7 @@
                         @endif
                 @endforeach
             @else
+
             @if($ticket->user_id != Auth::user()->id)
                 <form method="POST" action="/tickets/spam/{{$ticket->id}}">
                     @csrf
@@ -253,7 +254,6 @@ Comments:
 <button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
 
 <div id="{{$comment->id}}" style="display: none;">
-
     <div class="card-body"  >
 
         <form method="POST" action="/replies" enctype="multipart/form-data" >
@@ -373,10 +373,10 @@ Comments:
  });
 
 
-//  $('#editshow').on('click' , function(){
-//         $('#editrequest').show();
-//         $(this).hide();
-//  });
+ $('#editshow').on('click' , function(){
+        $('#editrequest').show();
+        $(this).hide();
+ });
 
  $('#editticket').on('click' , function(){
             var quantity  = $('#editquantity').val();

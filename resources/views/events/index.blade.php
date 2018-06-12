@@ -75,7 +75,7 @@
            <a href="{{ URL::to('events/' . $event->id ) }}">
                 <div class="event-card">
                     <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
-                        <a class="btn ctrl-btn like-btn"><i class="far fa-heart"></i></a>
+                        <a class="btn ctrl-btn like-btn"><div id='container'></div></a>
                     </div>
                     <div class="event-content">
                         <a href="{{ URL::to('events/' . $event->id ) }}"><h3>{{ucwords($event->name)}}</h3></a>
@@ -107,6 +107,22 @@
             {{method_field('Delete')}}
         </form>
 
+        <script>
+            $("#container").append("<i id='heart' class='far fa-heart'></i>");
+            $("#heart").attr('onClick', 'callFunction(this)');
+            var click = false;
+             function callFunction(el) {
+               if (!click) {
+                 $("#container").empty().append("<i id='heart' class='fas fa-heart'></i>");
+                 $("#heart").attr('onClick', 'callFunction(this)');
+                 click = true;
+               } else {
+                 $("#container").empty().append("<i id='heart' class='far fa-heart'></i>");
+                 $("#heart").attr('onClick', 'callFunction(this)');
+                 click = false;
+               }
+             }
+           </script>
 
 @endsection
 

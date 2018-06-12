@@ -37,9 +37,9 @@ class TicketsController extends Controller
 
     public function show($id){
         $ticket = Ticket::find($id);
-        $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->get();
         if($ticket !== null){
-        if(Auth::check()){
+            $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->inRandomOrder()->get();
+            if(Auth::check()){
                 $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
                 $requestStatus = RequestedTicket::where([
                 ['requester_id' , '=' , Auth::user()->id],
@@ -62,7 +62,7 @@ class TicketsController extends Controller
                 }
                 return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket' ,'recommendedArticles'));
             }
-            return view('tickets.show' , compact('ticket'));
+            return view('tickets.show' , compact('ticket','recommendedArticles'));
         }
         return view('notfound');
     }
