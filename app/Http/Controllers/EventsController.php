@@ -4,6 +4,7 @@ use App\Event;
 use App\EventInfo;
 use DB;
 use App\Category;
+use App\Region;
 use Auth;
 use App\User;
 use App\City;
@@ -184,10 +185,16 @@ class EventsController extends Controller
     public function edit(Request $request){
         $event=Event::find($request->id);
         $categories=Category::all();
+        $regions = Region::all();
+        $cities = City::all();
+
         return view('events.edit',[
 
             'event' => $event,
             'categories'=>$categories,
+            'cities' => $cities,
+            'regions' => $regions
+
 
 
         ]);
@@ -195,7 +202,6 @@ class EventsController extends Controller
     }
     public function update(Request $request){
         $event=Event::find($request->id);
-
        if($request->hasFile('photo'))
         {
         $request->file('photo')->store('public/images/events');
@@ -206,8 +212,8 @@ class EventsController extends Controller
         $event->name = $request->name;
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
-        $event->city=$request->city;
-        $event->region=$request->region;
+        $event->city_id=$request->city;
+        $event->region_id=$request->region;
         $event->startdate=$request->startdate;
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;

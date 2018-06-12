@@ -6300,7 +6300,9 @@ nav.navbar {
 #unlogged-navbar ul {
   margin-right: 60px; }
   #unlogged-navbar ul li {
-    padding: 0 5px; }
+    padding: 0 5px;
+    font-weight: 600;
+    font-size: 13px; }
   #unlogged-navbar ul li > a:hover {
     color: #E81F58; }
   #unlogged-navbar ul .btn {
@@ -6432,16 +6434,44 @@ div.search-content {
         display: block;
         width: 20px;
         height: 20px;
-        background-color: #BAE1F2;
+        background-color: #599DE8;
         border-radius: 50px;
         text-align: center; }
         .ticket-card-parent .card .card-body .ticket-qty .ticket-qty-num span {
-          margin: 0 auto; }
+          margin: 0 auto;
+          font-size: 12px;
+          font-weight: 600; }
     .ticket-card-parent .card .card-body .ticket-btn {
       padding: 10px 0; }
   .ticket-card-parent .card:hover {
     border: none;
     box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16); }
+
+.ticket-list {
+  padding-left: 0px;
+  height: 153.711px; }
+  .ticket-list .row {
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16);
+    background-color: white; }
+  .ticket-list .ticket-img {
+    height: 100%;
+    width: 100%;
+    background-size: cover; }
+  .ticket-list .ticket-qty {
+    display: inline-block;
+    width: 100%; }
+    .ticket-list .ticket-qty .ticket-qty-num {
+      margin-left: 30px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background-color: #599DE8;
+      border-radius: 50px;
+      text-align: center; }
+      .ticket-list .ticket-qty .ticket-qty-num span {
+        margin: 0 auto;
+        font-size: 12px;
+        font-weight: 600; }
 
 #ticket-view {
   margin-top: 40px; }
@@ -6455,7 +6485,8 @@ div.search-content {
     width: 100px;
     height: 100px;
     background-color: aqua;
-    border-radius: 100px; }
+    border-radius: 100px;
+    background-size: cover; }
   #ticket-view .user-img .user-loc i {
     font-size: 10px; }
   #ticket-view .ticket-details {
@@ -6542,7 +6573,7 @@ div.search-content {
           height: 80%;
           width: 95%; } }
       .login .slider .content .card h2 {
-        margin: 55px auto; }
+        margin: 30px auto; }
       .login .slider .content .card .row div {
         margin: 0 auto; }
       .login .slider .content .card ul {
@@ -6610,6 +6641,75 @@ div.search-content {
   100% {
     opacity: 0; } }
 
+.category-tabs a {
+  text-decoration: none; }
+
+.category-tabs div.catg-tab {
+  background-color: #E81F58;
+  text-align: center;
+  height: 100px;
+  border-radius: 10px;
+  background-size: cover;
+  position: relative;
+  color: white; }
+  .category-tabs div.catg-tab .overlay {
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0px;
+    left: 0px;
+    transition: 0.3s; }
+  .category-tabs div.catg-tab h3 {
+    z-index: 1; }
+
+.category-tabs div.catg-tab:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.3s; }
+
+.category-tabs div.tab-img-1 {
+  background-image: url(../images/imgsTabs/1-alltickets.jpg); }
+
+.category-tabs div.tab-img-2 {
+  background-image: url(../images/imgsTabs/2-sports.jpg); }
+
+.category-tabs div.tab-img-3 {
+  background-image: url(../images/imgsTabs/3-music.jpeg); }
+
+.category-tabs div.tab-img-4 {
+  background-image: url(../images/imgsTabs/4-festival.jpg); }
+
+.category-tabs div.tab-img-5 {
+  background-image: url(../images/imgsTabs/5-train.jpg); }
+
+.category-tabs div.tab-img-6 {
+  background-image: url(../images/imgsTabs/6-fashion.jpg); }
+
+.events-tabs div.tab-img-1 {
+  background-image: url(../images/imgsTabs/events.jpg); }
+
+.event-card {
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16);
+  background-color: white;
+  border-radius: 5px;
+  padding-bottom: 15px; }
+  .event-card .event-img {
+    height: 200px;
+    background-size: cover;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    position: relative; }
+    .event-card .event-img .like-btn {
+      position: absolute;
+      bottom: -17px;
+      right: 20px; }
+  .event-card .event-content {
+    padding: 25px 20px 10px 20px; }
+
+.event-card:hover {
+  box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16); }
+
 .gray {
   color: #707070;
   font-size: 11px; }
@@ -6624,7 +6724,8 @@ body {
   transition: 0.3s; }
 
 * {
-  font-family: "Lato", sans-serif; }
+  font-family: "Lato", sans-serif;
+  transition: 0.3s; }
 
 a.btn, .btn {
   border-radius: 50px;
@@ -6637,7 +6738,6 @@ a.btn, .btn {
 
 button.search-btn {
   margin-left: 10px;
-  font-weight: 800;
   text-transform: uppercase; }
 
 .btn-outline-light {
@@ -6648,10 +6748,32 @@ button.search-btn {
   color: #F9F9FF;
   border-color: #E81F58; }
 
+.ctrl-btn {
+  height: 40px;
+  width: 42px; }
+  .ctrl-btn i {
+    font-size: 16px; }
+
+.ctrl-btn:hover {
+  background-color: #1617FF; }
+  .ctrl-btn:hover i {
+    color: #F9F9FF; }
+
+a.ctrl-btn {
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: #F9F9FF; }
+
+.like-btn i {
+  padding-top: 2px; }
+
+.like-btn:hover {
+  background-color: #E81F58; }
+
 .search {
   border: none;
   border-radius: 50px;
-  width: 350px;
+  width: 400px;
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
@@ -6671,12 +6793,13 @@ i {
   font-size: 12px; }
 
 p {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 100;
   font-weight: 400; }
 
 li {
-  font-size: 13px; }
+  font-size: 12px;
+  font-family: "Lato", sans-serif; }
 
 h1 {
   font-size: 50px;
@@ -6687,10 +6810,12 @@ h2 {
   font-size: 25px; }
 
 h3 {
-  font-weight: 700; }
+  font-weight: 700;
+  font-size: 20px; }
 
 h4 {
-  font-weight: 700; }
+  font-weight: 700;
+  font-size: 16px; }
 
 label {
   display: block;
@@ -6704,9 +6829,21 @@ label {
   width: 60px;
   height: 60px;
   background-color: aqua;
-  border-radius: 100px; }
+  border-radius: 100px;
+  background-position: center;
+  background-size: 100%; }
 
-input[type="datetime-local"], input[type="date"], input[type="number"], input[type="password"], input[type="email"], input[type="text"] {
+form {
+  width: 100%; }
+
+input[type="datetimelocal"], input[type="date"], input[type="number"], input[type="password"], input[type="email"], input[type="text"] {
+  height: 40px;
+  border: 1px solid #707070;
+  border-radius: 50px;
+  padding-left: 17px;
+  font-size: 14px; }
+
+input[type="identity"] {
   height: 40px;
   border: 1px solid #707070;
   border-radius: 50px;

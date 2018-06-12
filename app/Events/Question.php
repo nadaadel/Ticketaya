@@ -34,7 +34,7 @@ class Question
         $this->message=$this->user->name." ask a question to ".$this->eventname."event ";
         $notification=Notification::create([
             'user_id' => $this->creator_id,
-            'notify_type_id' => 1,
+            'notify_type_id' => 2,
             'message'=>$this->message
         ]);
         $this->notification_id=$notification->id;
@@ -47,7 +47,8 @@ class Question
      */
     public function broadcastOn()
     {
-        return ('question-notification_'.$this->creator_id);
+
+        return new Channel ('question-notification_'.$this->creator_id);
     }
 
 

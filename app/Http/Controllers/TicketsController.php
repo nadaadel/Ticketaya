@@ -10,6 +10,7 @@ use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
+use App\Article;
 use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;
@@ -36,6 +37,7 @@ class TicketsController extends Controller
 
     public function show($id){
         $ticket = Ticket::find($id);
+        $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->get();
         if($ticket !== null){
         if(Auth::check()){
                 $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
@@ -58,7 +60,7 @@ class TicketsController extends Controller
                     $numberofspams=$ticket->spammers->count();
                     return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
                 }
-                return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket'));
+                return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket' ,'recommendedArticles'));
             }
             return view('tickets.show' , compact('ticket'));
         }

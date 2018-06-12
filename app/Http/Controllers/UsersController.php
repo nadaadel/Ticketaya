@@ -48,7 +48,7 @@ class UsersController extends Controller
         {
             $view='admin.users.show';
         }
-        if(Auth::user()->id==$request->id){
+        if(Auth::user()&&Auth::user()->id==$request->id){
         return view($view,['user'=> $user] );
 
     }

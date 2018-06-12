@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label >description</label>
-                        <textarea name="description" class="form-control txt-area"  name="description" value={{$article->description}}></textarea>
+                        <textarea name="description" class="form-control txt-area"  name="description" value={{$article->description}}>{{$article->description}}</textarea>
                     </div>
                 </div>
 

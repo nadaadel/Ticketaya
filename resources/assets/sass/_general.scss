@@ -19,6 +19,7 @@ body {
 }
 * {
     font-family: $font;
+    transition: 0.3s;
 }
 
 //btn custome
@@ -39,7 +40,7 @@ a.btn, .btn {
 button.search-btn {
 //    padding: 7px 20px;
     margin-left: 10px;
-    font-weight: 800;
+//    font-weight: 800;
     text-transform: uppercase;
 }
 .btn-outline-light {
@@ -50,11 +51,37 @@ button.search-btn {
     color: $light;
     border-color: $primary;
 }
+.ctrl-btn {
+    height: 40px;
+    width: 42px;
+    i {
+        font-size: 16px;
+    }
+}
+.ctrl-btn:hover {
+    background-color: $secondary;
+    i {
+        color: $light;
+    }
+}
+a.ctrl-btn {
+     padding-left: 0px;
+     padding-right: 0px;
+    background-color: $light;
+}
+.like-btn {
+    i {
+        padding-top: 2px;
+    }
+}
+.like-btn:hover {
+     background-color: $primary;
+}
+
 .search {
     border: none;
     border-radius: 50px;
-    width: 350px;
-  
+    width: 400px;
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
@@ -73,19 +100,21 @@ h1 {
     color: white;
     font-weight: 600;
 }
+
 //fonts 
 i {
     font-size: 12px;
 }
 p {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 100;
     
     font-weight: 400;
 }
 
 li {
-    font-size: 13px;
+    font-size: 12px;
+    font-family: $font;
     
 }
 h1 {
@@ -99,9 +128,11 @@ h2 {
 }
 h3 {
     font-weight: 700;
+    font-size: 20px;
 }
 h4 {
     font-weight: 700;
+    font-size: 16px;
 }
 label {
     display: block;
@@ -114,19 +145,33 @@ label {
 
 //user imgs
 .usr-img-cmnt {
-//     margin: 0 auto;
-     width: 60px;
-     height: 60px;
-     background-color: aqua;
-     border-radius: 100px;
+    width: 60px;
+    height: 60px;
+    background-color: aqua;
+    border-radius: 100px;
     background-position: center;
     background-size: 100%;
+}
+
+//form 
+form {
+    width: 100%;
 }
 
 //input feilds 
 
 
-input[type="datetime-local"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"]{
+input[type="datetimelocal"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"]{
+     height: 40px;
+//     width: 350;
+     border: 1px solid $gray;
+     border-radius: 50px;
+     padding-left: 17px;
+     font-size: 14px;
+                
+}
+
+input[type="identity"]{
      height: 40px;
 //     width: 350;
      border: 1px solid $gray;
