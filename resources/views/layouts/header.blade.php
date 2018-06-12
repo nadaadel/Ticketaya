@@ -8,6 +8,16 @@
         <meta name="_token" content="{{csrf_token()}}" />
 
         <link rel="apple-touch-icon" href="apple-icon.png">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/icomoon.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/animate-blog.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/style-blog.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/simple-line-icons.css') }}">
+
         <link rel="shortcut icon" href="favicon.ico">
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
@@ -18,6 +28,10 @@
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Scada:400,400i,700,700i|Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/themify-icons.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/flag-icon.min.css') }}">
