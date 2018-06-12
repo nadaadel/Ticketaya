@@ -10,6 +10,7 @@ use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
+use App\Article;
 use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;

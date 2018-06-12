@@ -28,13 +28,8 @@
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
             <a href="#notifications-panel" class="dropdown-toggle nav-link pt-4" data-toggle="dropdown">
-<<<<<<< HEAD
-                    <i data-count="0" class=" notification-icon">
-                        <i class="far fa-bell light" style="font-size: 20px;"></i></i>
-=======
                     <i data-count="0" class="notification-icon ">
                             <i class="far fa-bell light" style="font-size: 20px;"></i></i>
->>>>>>> 2c1c6405a12b2ab5176dbfe8972b723f4c8bee80
             </a>
             <div class="dropdown-container">
                 <ul class="dropdown-menu" style="
