@@ -34,8 +34,11 @@
 
 .dropdown-notifications > .dropdown-container,
 .dropdown-notifications > .dropdown-menu {
+/*
   width: 450px;
-  max-width: 450px; }
+  max-width: 450px;
+*/
+}
 
 .dropdown-notifications > .dropdown-container {
   margin-top: 0.6rem; }

@@ -8,7 +8,7 @@
                        <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="text-center">
                               {{ csrf_field() }}
                         <input class="search pgs-search" type="search" placeholder="Search Tickets, events or more..." aria-label="Search" name="search">
-                        <button class="btn btn btn-outline-primary search-btn pgs-search-btn" type="submit">Search</button>
+                        <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
                    </div>
                 </div>

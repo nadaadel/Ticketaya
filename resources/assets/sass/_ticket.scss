@@ -1,5 +1,5 @@
 @import 'variables';
-
+//ticket card view
 .ticket-card-parent {
 //    padding: 10px 0px;
     padding-bottom: 20px;
@@ -36,11 +36,13 @@
                     display: block;
                     width: 20px;
                     height: 20px;
-                    background-color: #BAE1F2;
+                    background-color: $info;
                     border-radius: 50px;
                     text-align: center;
                     span {
                         margin: 0 auto;
+                        font-size: 12px;
+                        font-weight: 600;
                     }
                 }
             }
@@ -58,3 +60,43 @@
         box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.16);
     }
 }
+
+
+//ticket list view
+
+.ticket-list {
+    padding-left: 0px;
+    height: 153.711px;
+    .row {
+        box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.16);
+        background-color: white;
+    }
+    .ticket-img {
+//        padding: none;
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+    }
+    .ticket-qty {
+        display: inline-block;
+        width: 100%;
+        .ticket-qty-num {
+                    margin-left: 30px;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: $info;
+                    border-radius: 50px;
+                    text-align: center;
+                    span {
+                        margin: 0 auto;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                }
+    }
+}
+
+
+
+
