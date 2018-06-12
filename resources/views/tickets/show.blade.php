@@ -19,7 +19,7 @@
                        <div class="col-md-9 pb-5"><!--Ticket data-->
                            <div class="row">
                                <div class="col-md-8 col-xs-12 ticket-details">
-                                   <div class="ticket-img" style="background-image: url(../images/home/1-silder.jpg);"></div>
+                                   <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});"></div>
                                    <div class="tick-name-price pt-5 d-flex justify-content-between  ">
                                        <h3>{{ $ticket->name }}</h3>
                                        <h3 class="price">{{ $ticket->price }} L.E</h3>
@@ -183,7 +183,7 @@
 
                 {{-- Request this ticket section --}}
         @if(Auth::user())
-       
+
         <div class="requestticket" id="RequestTicket">
         @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
         <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
@@ -191,28 +191,28 @@
         <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
         @endif
         </div>
-       
+
        @if($request&&$request->is_accepted==0)
         <div id="loginuser">
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
+
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
         </div>
        @endif
- 
-        
+
+
         <div class="edit" id="edit" style="display: none;">
         <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
 
         <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
+
         <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-      
+
        </div>
-      
-       
-        
-        
+
+
+
+
                 {{-- Request this ticket end section --}}
 
 
@@ -319,7 +319,7 @@ Comments:
                    }
                 }
             });
-            
+
  });
  $('.editticket').on('click' , function(){
           //  $('#editquantity').show();
@@ -339,7 +339,7 @@ Comments:
                    if(response.response =='ok'){
                    // console.log(response.response);
                     console.log(response.ticket )
-                   
+
                     alert('Edit Requested Successfully');
                    }
                    else{

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Notification;
+
 class Question
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -46,7 +47,7 @@ class Question
      */
     public function broadcastOn()
     {
-        return ['question-notification_'.$this->creator_id];
+        return ('question-notification_'.$this->creator_id);
     }
 
 

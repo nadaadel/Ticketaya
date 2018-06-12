@@ -64,7 +64,7 @@
                                 <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
                             </div>
                             <div class="ticket-btn text-center">
-                                <a type="button" href="/tickets/{{$ticket->id}}" type="button" class="btn btn-primary">Request This Ticket</a>
+                                <a href="/tickets/{{$ticket->id}}"  class="btn btn-primary">Request This Ticket</a>
                             </div>
 
                         </div>
@@ -91,7 +91,7 @@
                                         <div class="ticket-qty-num d-flex align-items-center"><span>{{$event->avaliabletickets}}</span></div>
                                     </div>
                                     <div class="ticket-btn text-center">
-                                        <a type="button" href="/events/{{$event->id}}" type="button" class="btn btn-primary">Show Event</a>
+                                        <a href="/events/{{$event->id}}"  class="btn btn-primary">Show Event</a>
                                     </div>
 
                                 </div>
