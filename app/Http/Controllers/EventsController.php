@@ -113,14 +113,15 @@ class EventsController extends Controller
 
 
     public function index(){
-        $events=Event::paginate(3);
+        $events=Event::paginate(2);
+        $categories=Category::all();
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.index';
         }
 
-        return view($view,compact('events'));
+        return view($view,compact('events','categories'));
     }
 
     public function create(){

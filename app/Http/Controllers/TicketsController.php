@@ -24,15 +24,16 @@ class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::paginate(9);
+        $categories=Category::all();
        // $admin=DB::table('roles')->where('name','=','admin')->first();
        // dd($admin->name);
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
-            return view('admin.tickets.index',compact('tickets'));
+            return view('admin.tickets.index',compact('tickets','categories'));
         }
     }
-        return view('tickets.index',compact('tickets'));
+        return view('tickets.index',compact('tickets','categories'));
      }
 
     public function show($id){

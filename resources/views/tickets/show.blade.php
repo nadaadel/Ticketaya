@@ -18,17 +18,25 @@
                        <div class="col-md-9 pb-5"><!--Ticket data-->
                            <div class="row">
                                <div class="col-md-8 col-xs-12 ticket-details">
-
                                    <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});"></div>
                                    <div class="tick-name-price pt-5 d-flex justify-content-between  ">
                                        <h3>{{ $ticket->name }}</h3>
                                        <h3 class="price">{{ $ticket->price }} L.E</h3>
                                    </div>
+                                     {{-- save ticket--}}
+                                     @if(Auth::check() )
+                                   <a class="btn ctrl-btn like-btn container">
+                                        @if(Auth::user()->savedTickets->contains($ticket->id))
+                                        <i class='fas fa-heart heart'></i>
+                                        @else
+                                        <i class='far fa-heart heart'></i>
+                                        @endif
+                                    </a>
+                                    @endif
+                                        {{-- end save ticket--}}
                                    <div class="ticket-info">
                                        <ul>
-
                                            <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
-
                                            <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
                                            <li><i class="far fa-calendar-alt"></i>Posted at : {{ $ticket->created_at->diffForHumans() }} </li>
                                            <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
@@ -76,7 +84,6 @@
                  </select>
                 <button href="#" id="editticket" class="btn btn-success">Edit</button>
                </div>
-
                 {{-- Edit Request this ticket end section --}}
 
                                </div>
@@ -198,17 +205,12 @@
             @endif
             @endif
                 {{-- end spam section --}}
-                {{-- save ticket--}}
+
             @if($ticket->user_id != Auth::user()->id)
-                @if($userSavedTicket)
-                <button id="save_ticket" class="btn btn-danger">unsave</button>
-                @else
-                <button id="save_ticket" class="btn btn-primary">save</button>
-                @endif
-                <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
+                <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-danger" >Report</a>
             @endif
         @endif
-                {{-- end save ticket--}}
+
 
                 {{-- Request this ticket section
         @if(Auth::user())
@@ -434,26 +436,27 @@ $('.reply').on('click',function(){
             })
             $(this).hide();
   });
-       $('#save_ticket').on('click' , function(){
-           console.log($(this).html());
-           if($(this).html()=='save'){
-         $.ajax({
+});
+
+  @if(Auth::check())
+        $(document).on('click','.heart',callFunction);
+        var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
+         function callFunction() {
+            var element=$(this);
+           if (!click) {$.ajax({
              url: '/tickets/save/{{$ticket->id}}',
              type: 'GET' ,
              data:{
                  '_token':'@csrf'
              },
         success:function(response){
-            console.log(response);
             if(response.res == 'success'){
-                $('#save_ticket').html('unsave');
-                $("#save_ticket").attr('class', 'btn btn-danger');
+            element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
+            click = true;
             }
         }
          });
-           }
-           else
-           if($(this).html()=='unsave'){
+           } else {
             $.ajax({
              url: '/tickets/unsave/{{$ticket->id}}',
              type: 'GET' ,
@@ -461,17 +464,16 @@ $('.reply').on('click',function(){
                  '_token':'@csrf'
              },
         success:function(response){
-            console.log(response);
             if(response.res == 'success'){
-                $('#save_ticket').html('save');
-                $("#save_ticket").attr('class', 'btn btn-primary');
+            element.parent().empty().append("<i class='far fa-heart heart'></i>");
+             click = false;
             }
             }
          });
-        }
-    });
-});
 
-</script>
+           }
+         }
+       @endif
+    </script>
 
 @endsection
