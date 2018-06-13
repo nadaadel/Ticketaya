@@ -134,10 +134,6 @@ Route::get('/admin', 'AdminsController@index')->name('admin');
 
 
 
-/* Admin Tickets */
-Route::get('/admin/tickets', 'TicketsController@index')->name('AdminAlltickets');
-
-
 
 /* Notifications */
 Route::get('/notifications','NotificationsController@show');

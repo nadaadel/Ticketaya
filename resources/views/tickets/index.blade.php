@@ -3,14 +3,14 @@
 <div class="container">
 
   <div class="row mt-3 mb-3">
-                <div class="col-md-10 col-xs-12">
-                   <div class="search-content  d-flex">
+                <div class="col-md-9 col-xs-12">
+                   <div class="search-content d-flex">
                        <form method="get" action="/tickets/search" enctype="multipart/form-data" class="text-right">
-                              <input type="hidden" name="_token" value="02waM1D8GMMjJUL1Xa54YSLhlvmTdeJC5ZiLKeT7">
+                        {!! csrf_field() !!}
                         <input class="search pgs-search" type="search" placeholder="Search for new tickets or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
-                       <a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a>
+
                    </div>
                 </div>
         </div>
@@ -35,10 +35,16 @@
         @endforeach
     </div>
     <div class="row">
-        <div class="col-md-12 mt-3">
+        <div class="col-md-12 mt-3" >
             <h2>All Tickets</h2>
         </div>
     </div>
+    @if(Auth::check())
+    <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 text-right"><a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a></div>
+    </div>
+    @endif
     <div class="row justify-content-md-center mt-5 mb-5">
     @foreach($tickets as $ticket)
         <div class="col-md-10 col-sm-10 col-10 mb-3"> <!-- Ticked list card -->
@@ -86,14 +92,6 @@
         @endforeach
     </div>
 
-
-
-
-  <form method="POST" action="/tickets/search" enctype="multipart/form-data" class="form-inline">
-    {{ csrf_field() }}
-  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
   @if(Auth::check())
   <script>
         $(document).on('click','.heart',callFunction);
