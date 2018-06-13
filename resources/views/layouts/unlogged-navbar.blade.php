@@ -4,12 +4,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-
 <!--
       <ul class="navbar-nav navbar-right">
         <li class="nav-item active pt-3">
 -->
-
        <ul class="navbar-nav navbar-left">
 
         <li class="nav-item active pt-3">

@@ -4,7 +4,7 @@
  <div class="row mt-3 mb-3">
                 <div class="col-md-10 col-xs-12">
                    <div class="search-content  d-flex">
-                       <form method="POST" action="/events/search" enctype="multipart/form-data" class="text-right">
+                       <form method="get" action="/events/search" enctype="multipart/form-data" class="text-right">
                               {{ csrf_field() }}
                         <input class="search pgs-search" type="search" placeholder="Search for upcomming events or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
@@ -16,57 +16,22 @@
     <div class="row category-tabs events-tabs">
         <div class="col-md-2 col-sm-4 col-4 mb-2">
              <a href="#">
-               <div class="catg-tab align-items-center d-flex tab-img-1">
+               <div class="catg-tab align-items-center d-flex" style="background-image: url({{ asset('storage/images/categories/events.jpg')}});">
                     <div class="overlay"></div>
                     <h3 class="m-auto">ALL EVENTS</h3>
                </div>
             </a>
         </div>
+        @foreach($categories as $category)
         <div class="col-md-2 col-sm-4 col-4 mb-2">
           <a href="#">
-               <div class=" catg-tab align-items-center d-flex tab-img-2">
+               <div class=" catg-tab align-items-center d-flex"  style="background-image: url({{ asset('storage/images/categories/'.$category->photo) }});">
                     <div class="overlay"></div>
-                    <h3 class="m-auto">SPORTS</h3>
+                    <h3 class="m-auto">{{$category->name}}</h3>
                </div>
             </a>
         </div>
-        <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
-               <div class=" catg-tab align-items-center d-flex tab-img-3">
-                    <div class="overlay"></div>
-                    <h3 class="m-auto">MUSIC</h3>
-               </div>
-            </a>
-        </div>
-        <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
-               <div class=" catg-tab align-items-center d-flex  tab-img-4">
-                    <div class="overlay"></div>
-                    <h3 class="m-auto">FESTIVAL</h3>
-               </div>
-            </a>
-        </div>
-        <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
-               <div class=" catg-tab align-items-center d-flex tab-img-5">
-                    <div class="overlay"></div>
-                    <h3 class="m-auto">TRAVEL</h3>
-               </div>
-          </a>
-        </div>
-        <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
-               <div class=" catg-tab align-items-center d-flex tab-img-6">
-                    <div class="overlay"></div>
-                    <h3 class="m-auto">FASHION</h3>
-               </div>
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12  mt-3">
-            <h2>All Events</h2>
-        </div>
+        @endforeach
     </div>
     <div class="row  mt-5 mb-5">
 
@@ -75,15 +40,12 @@
            <a href="{{ URL::to('events/' . $event->id ) }}">
                 <div class="event-card">
                     <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
-                        <a class="btn ctrl-btn like-btn"><i class="far fa-heart"></i></a>
                     </div>
                     <div class="event-content">
                         <a href="{{ URL::to('events/' . $event->id ) }}"><h3>{{ucwords($event->name)}}</h3></a>
                         <p>{{substr($event->description,0,150)}}.</p>
                     </div>
                     <div class="follow text-center">
-
-
                         @if(Auth::user() && Auth::user()->id == $event->user_id)
                         <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">View</a>
                         <a type="submit" class="btn ctrl-btn delete-btn"><i class="far fa-trash-alt"></i></a>
@@ -106,7 +68,6 @@
             {!! csrf_field() !!}
             {{method_field('Delete')}}
         </form>
-
 
 @endsection
 

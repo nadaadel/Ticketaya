@@ -6,6 +6,7 @@ use DB;
 use App\Category;
 use App\Region;
 use Auth;
+use Carbon\Carbon;
 use App\User;
 use App\City;
 use App\Events\EventSubscribers;
@@ -17,34 +18,34 @@ use Illuminate\Support\Str;
 class EventsController extends Controller
 {
 
-
     public function storeQuestion(Request $request){
-
-        $eventQuestion= EventQuestion::create([
-            'question' => $request->question,
+        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
+       // dd($questionfound);
+        if ($questionfound==null){
+        $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
+            'question'=>$request->question,
         ]);
-
-        //send Notifications
-       /*
         $asker=User::find($request->user_id);
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
-       */
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
-
+        }
+        else{
+            return response()->json(['response'=>'false']);
+        }
     }
     public function updateQuestion(Request $request){
-        $asker= User::find($request->user_id);
+        $question = EventQuestion::where([
+            'event_id' => $request->event_id,
+            'user_id' => $request->user_id,
+            'question' => $request->question
+        ])->first();
 
-        $event=Event::find($request->event_id);
-
-        $question=$asker->eventquestions()->where('question','=',$request->question)->first();
-        $question->pivot->answer=$request->answer;
-        $question->pivot->save();
-
-
+        $getQuestion = EventQuestion::find($question->id);
+        $getQuestion->answer = $request->answer;
+        $getQuestion->save();
         event(new Answer($asker, $event));
         return response()->json(['answer' => $question->pivot->answer]);
     }
@@ -103,14 +104,15 @@ class EventsController extends Controller
 
 
     public function index(){
-        $events=Event::paginate(3);
+        $events=Event::paginate(2);
+        $categories=Category::all();
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.index';
         }
 
-        return view($view,compact('events'));
+        return view($view,compact('events','categories'));
     }
 
     public function create(){

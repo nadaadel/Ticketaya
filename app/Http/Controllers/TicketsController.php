@@ -24,22 +24,23 @@ class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::paginate(9);
+        $categories=Category::all();
        // $admin=DB::table('roles')->where('name','=','admin')->first();
        // dd($admin->name);
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
-            return view('admin.tickets.index',compact('tickets'));
+            return view('admin.tickets.index',compact('tickets','categories'));
         }
     }
-        return view('tickets.index',compact('tickets'));
+        return view('tickets.index',compact('tickets','categories'));
      }
 
     public function show($id){
         $ticket = Ticket::find($id);
-        $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->get();
         if($ticket !== null){
-        if(Auth::check()){
+            $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->inRandomOrder()->get();
+            if(Auth::check()){
                 $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
                 $requestStatus = RequestedTicket::where([
                 ['requester_id' , '=' , Auth::user()->id],
@@ -62,7 +63,8 @@ class TicketsController extends Controller
                 }
                 return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket' ,'recommendedArticles'));
             }
-            return view('tickets.show' , compact('ticket' , 'recommendedArticles'));
+            return view('tickets.show' , compact('ticket','recommendedArticles'));
+
         }
         return view('notfound');
     }

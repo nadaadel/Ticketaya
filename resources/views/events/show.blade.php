@@ -41,6 +41,33 @@
 
    {{-- end info section --}}
 
+{{-- questions and answer --}}
+@if($questions)
+@foreach($questions as $question)
+<div qid="{{$question->id}}">
+Question<div class="question">{{$question->question}} </div>
+Answer: <div class="answer"  >{{$question->answer}} </div>
+
+
+@if(Auth::user() && Auth::user()->id == $event->user_id)
+
+ <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
+ <div class="answer-area" >
+        <textarea class="ans-body" id="{{$question->id}}"  cols="12">
+        </textarea>
+
+ </div>
+    <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+    <input type="hidden" id="event_id" value="{{$event->id}}">
+@endif
+</div>
+<hr>
+@endforeach
+@endif
+
+
+
+
 
 
 
