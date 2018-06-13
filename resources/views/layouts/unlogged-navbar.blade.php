@@ -96,9 +96,9 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
     encrypted: true,
-    cluster:"mt1"
+    cluster:"eu"
   });
 
 

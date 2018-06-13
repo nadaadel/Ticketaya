@@ -10,7 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Notification;
-class Answer
+use App\Event;
+
+class Answer implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,14 +21,15 @@ class Answer
      *
      * @return void
      */
-    public $user;
+    public $user_id;
     public $creator;
     public $eventname;
     public $message;
     public $notification_id;
-    public function __construct($asker,$event)
+    public function __construct($asker_id,$event_id)
     {
-        $this->user=$asker->id;
+        $event=Event::find($event_id);
+        $this->user_id=$asker_id;
         $this->creator=$event->user_id;
         $this->eventname=$event->name;
         $this->message=$event->user->name." updated answer to ".$this->eventname."event ";
@@ -47,7 +50,7 @@ class Answer
      */
     public function broadcastOn()
     {
-        return ['answer-notification_'.$this->user];
+        return ['answer-notification_'.$this->user_id];
     }
 
 }
