@@ -89,9 +89,9 @@
       </div>
 
     @endif
-
-
+    @if(Auth::user())
      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+    @endif
      <input type="hidden" id="event_id" value="{{$event->id}}">
 
 

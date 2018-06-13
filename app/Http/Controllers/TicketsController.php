@@ -64,6 +64,7 @@ class TicketsController extends Controller
                 return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket' ,'recommendedArticles'));
             }
             return view('tickets.show' , compact('ticket','recommendedArticles'));
+
         }
         return view('notfound');
     }

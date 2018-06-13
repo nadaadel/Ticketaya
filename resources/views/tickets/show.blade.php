@@ -84,6 +84,8 @@
                  </select>
                 <button href="#" id="editticket" class="btn btn-success">Edit</button>
                </div>
+        @endif
+
                 {{-- Edit Request this ticket end section --}}
 
                                </div>
@@ -109,19 +111,24 @@
                        </div><!--end of Ticket data-->
                    </div>
                </div>
+        @if(Auth::user())
                <div class="container">
+
                    <div class="row comments"><!--comments section -->
                        <div class="col-md-12">
                           <h2>Visitors Comments</h2>
                            <div class="col-md-12">
-                              <form>
+                                <form method="POST" action="/comments" enctype="multipart/form-data" >
+                                    {{ csrf_field() }}
                                <div class="row">
 
                                    <div class="col-sm-4 col-md-3">
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <input type="text" placeholder="Leave comment Here ....">
+                                       <input  type="text" placeholder="Leave comment Here ...." name="body">
+                                       <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
+
                                    </div>
                                    <div class=" col-sm-12 col-md-3  pt-3">
                                        <input type="submit" value="NEW COMMENT" class="btn btn-secondary">
@@ -129,48 +136,47 @@
                                </div>
                                </form>
                            </div>
+
+
                            <div class="col-md-12 users-comment">
+                        @foreach($ticket->comments as $comment)
+
+
                               <div class="row"> <!--every comment here -->
                                    <div class="col-sm-4 col-md-3">
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
                                        <div class="comment-content">
-                                           <h4>Adam Smith</h4>
-                                           <p class="gray">3 hours ago</p>
+                                           <h4>{{$comment->user->name}}</h4>
+                                           <p class="gray">3 {{$comment->created_at->diffForHumans()}}</p>
                                            <p>
-                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
-                                           </p>
-                                           <a href="#" class="info">REPLAY</a>
-                                       </div>
+                                                {{$comment->body}}                                           </p>
+                                           <a  class="btn btn-primary info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
+                                        <div id="{{$comment->id}}" style="display: none;">
+                                                <div class="card-body" >
+                                                    <form method="POST" action="/replies" enctype="multipart/form-data" >
+                                                    {{ csrf_field() }}
+                                                        <div class="form-group row">
+                                                            <div class="col-md-6">
+                                                            <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
+                                                            </textarea>
+                                                            <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
+                                                            <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
+                                                            <button type="submit" class="btn btn-primary">
+                                                                                {{ __('Reply') }}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                    </div>
                                </div> <!-- end of every comment -->
-                               <div class="row"> <!--every comment here -->
-                                   <div class="col-sm-4 col-md-3">
-                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img  -->
-                                   </div>
-                                   <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <div class="comment-content">
-                                           <h4>Adam Smith</h4>
-                                           <p class="gray">3 hours ago</p>
-                                           <p>
-                                                {{ $ticket->description }}
-                                           </p>
-                                           <a href="#" class="info">REPLAY</a>
-                                           <div class="row mt-5">
-                                                <div class="col-sm-4 col-md-2">
-                                                   <div class="usr-img-cmnt" style="background-image: url(../images/icons/avatar.jpg);"></div><!--user logged img -->
-                                               </div>
-                                               <div class="col-sm-12 col-md-10">
-                                                   <input type="text" placeholder="Leave comment Here ....">
-                                                   <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
-                                               </div>
-                                               <div class=" col-sm-12 col-md-3  pt-3">
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div> <!-- end of every comment -->
+
+                        @endforeach
                             </div>
 
                        </div>
@@ -178,10 +184,8 @@
                </div>
            </section>
 
-
-
                   {{-- spam section --}}
-        @if(Auth::user())
+
                   @role('admin')
                   Numbers of Spam :{{$numberofspams}}
                   @endrole
@@ -199,107 +203,18 @@
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
-
-
-
             @endif
             @endif
                 {{-- end spam section --}}
-
             @if($ticket->user_id != Auth::user()->id)
                 <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-danger" >Report</a>
             @endif
         @endif
-
-
-                {{-- Request this ticket section
-        @if(Auth::user())
-
-        <div class="requestticket" id="RequestTicket">
-        @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
-        <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
-        <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-        <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
-        @endif
-        </div>
-
-       @if($request&&$request->is_accepted==0)
-        <div id="loginuser">
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-        </div>
-       @endif
-
-
-        <div class="edit" id="edit" style="display: none;">
-        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
-
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-
-       </div> --}}
-
-
-
-
-{{-- comments and replies section --}}
-<br>
-Comments:
-<br>
-<br>
-@foreach($ticket->comments as $comment)
-{{$comment->user->name}}
-<div>{{$comment->body}} created at :{{$comment->created_at->diffForHumans()}} </div>
-
-<button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
-
-<div id="{{$comment->id}}" style="display: none;">
-    <div class="card-body"  >
-
-        <form method="POST" action="/replies" enctype="multipart/form-data" >
-         {{ csrf_field() }}
-            <div class="form-group row">
-                <div class="col-md-6">
-                   <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
-                   </textarea>
-                   <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
-                   <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
-                   <button type="submit" class="btn btn-primary">
-                                    {{ __('Reply') }}
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<hr>
-<br>
-@endforeach
-
-<div class="card-body">
-    <form method="POST" action="/comments" enctype="multipart/form-data" >
-         {{ csrf_field() }}
-        <div class="form-group row">
-                <div class="col-md-6">
-                   <textarea rows="4" cols="50" placeholder="comment here"  name="body">
-                   </textarea>
-                   <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
-                   <button type="submit" class="btn btn-primary">
-                                    {{ __('New Comment') }}
-                    </button>
-                </div>
-         </div>
-    </form>
-
-</div>
-@endif
 </hr>
 @if(sizeof($recommendedArticles) > 0)
 <section class="recommended-articles">
         <div class="container">
+            <div class="row">
                 <h2>Recommended Articles</h2>
                 <div class="row  mt-5 mb-5">
                         @foreach($recommendedArticles as $article)
@@ -321,6 +236,7 @@ Comments:
                                 </div><!--event card starts here-->
                         @endforeach
                         </div>
+            </div>
         </div>
 </section>
 @endif
@@ -407,7 +323,6 @@ Comments:
             });
  });
 $('.reply').on('click',function(){
-
     var elem = this;
     var ticketId=$(this).attr("ticket-no");
     var commentId=$(this).attr("comment-id");

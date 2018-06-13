@@ -12,6 +12,17 @@
                     <p>Category :{{ $ticket->category->name }}</p>
                     <p>Location:{{ $ticket->region->name }},{{ $ticket->city->name }}</p>
                     <p>Created by :{{ $ticket->user->name }} </p>
+                                                         {{-- save ticket--}}
+                                                         @if(Auth::check() )
+                                                         <a class="btn ctrl-btn like-btn container">
+                                                              @if(Auth::user()->savedTickets->contains($ticket->id))
+                                                              <i class='fas fa-heart heart'></i>
+                                                              @else
+                                                              <i class='far fa-heart heart'></i>
+                                                              @endif
+                                                          </a>
+                                                          @endif
+                                                              {{-- end save ticket--}}
                     @if($ticket->tags)
                     <p>
                         @foreach($ticket->tags as $tag)
@@ -75,5 +86,44 @@ $('.reply').on('click',function(){
   });
 });
   </script>
+    @if(Auth::check())
+    <script>
+          $(document).on('click','.heart',callFunction);
+          var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
+           function callFunction() {
+              var element=$(this);
+             if (!click) {$.ajax({
+               url: '/tickets/save/{{$ticket->id}}',
+               type: 'GET' ,
+               data:{
+                   '_token':'@csrf'
+               },
+          success:function(response){
+              if(response.res == 'success'){
+              element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
+              click = true;
+              }
+          }
+           });
+             } else {
+              $.ajax({
+               url: '/tickets/unsave/{{$ticket->id}}',
+               type: 'GET' ,
+               data:{
+                   '_token':'@csrf'
+               },
+          success:function(response){
+              if(response.res == 'success'){
+              element.parent().empty().append("<i class='far fa-heart heart'></i>");
+               click = false;
+              }
+              }
+           });
+
+             }
+           }
+          </script>
+           @endif
+
 
 @endsection

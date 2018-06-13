@@ -54,6 +54,44 @@
 </div>
   </div>
   </div>
+  @if(Auth::check())
+  <script>
+        $(document).on('click','.heart',callFunction);
+        var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
+         function callFunction() {
+            var element=$(this);
+           if (!click) {$.ajax({
+             url: '/tickets/save/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            if(response.res == 'success'){
+            element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
+            click = true;
+            }
+        }
+         });
+           } else {
+            $.ajax({
+             url: '/tickets/unsave/{{$ticket->id}}',
+             type: 'GET' ,
+             data:{
+                 '_token':'@csrf'
+             },
+        success:function(response){
+            if(response.res == 'success'){
+            element.parent().empty().append("<i class='far fa-heart heart'></i>");
+             click = false;
+            }
+            }
+         });
+
+           }
+         }
+        </script>
+         @endif
 @endsection
 
 
