@@ -17,30 +17,22 @@ use Illuminate\Support\Str;
 class EventsController extends Controller
 {
 
+
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
-        //dd($questionfound==null);
 
-        if ($questionfound==null){
-
-        $eventQuestion=EventQuestion::create([
+        $eventQuestion= EventQuestion::create([
+            'question' => $request->question,
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
-            'question'=>$request->question,
-
-
         ]);
+
+        //send Notifications
+       /*
         $asker=User::find($request->user_id);
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
+       */
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
-        }
-        else{
-            return response()->json(['response'=>'false']);
-        }
-
-
-
 
     }
     public function updateQuestion(Request $request){
@@ -49,10 +41,8 @@ class EventsController extends Controller
         $event=Event::find($request->event_id);
 
         $question=$asker->eventquestions()->where('question','=',$request->question)->first();
-        //dd($question);
         $question->pivot->answer=$request->answer;
         $question->pivot->save();
-        //dd( $question->pivot->answer);
 
 
         event(new Answer($asker, $event));
@@ -137,13 +127,13 @@ class EventsController extends Controller
         $view='events.show';
         if(Auth::user()){
         $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-        // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
 
-
         }
         $questions=EventQuestion::all()->where('event_id',$id);
+
+
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {

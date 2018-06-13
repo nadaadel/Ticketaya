@@ -73,7 +73,9 @@ Route::put('/events/{id}','EventsController@update');
 
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
+
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 
