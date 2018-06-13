@@ -13,6 +13,16 @@ class EventQuestion extends Pivot
         'user_id','question','event_id','answer'
     ];
 
+    public function getCreatedAtColumn()
+
+    {
+        return 'created_at';
+    }
+
+    public function getUpdatedAtColumn()
+    {
+        return 'updated_at';
+    }
   /*  public function user(){
         return $this->belongsTo(User::class);
     }

@@ -6,6 +6,7 @@ use DB;
 use App\Category;
 use App\Region;
 use Auth;
+use Carbon\Carbon;
 use App\User;
 use App\City;
 use App\Events\EventSubscribers;
@@ -18,8 +19,8 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
-        //dd($questionfound==null);
+        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
+       // dd($questionfound);
 
         if ($questionfound==null){
 
@@ -44,17 +45,14 @@ class EventsController extends Controller
 
     }
     public function updateQuestion(Request $request){
-        $asker= User::find($request->user_id);
-
-        $event=Event::find($request->event_id);
-
-        $question=$asker->eventquestions()->where('question','=',$request->question)->first();
-        //dd($question);
-        $question->answer=$request->answer;
-        $question->save();
-        //dd( $question->pivot->answer);
-
-
+        $question = EventQuestion::where([
+            'event_id' => $request->event_id,
+            'user_id' => $request->user_id,
+            'question' => $request->question
+        ])->first();
+        $getQuestion = EventQuestion::find($question->id);
+        $getQuestion->answer = $request->answer;
+        $getQuestion->save();
         event(new Answer($asker, $event));
         return response()->json(['answer' => $question->pivot->answer]);
     }

@@ -10,7 +10,6 @@
                         <input class="search pgs-search" type="search" placeholder="Search for new tickets or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
-
                    </div>
                 </div>
         </div>
@@ -28,7 +27,7 @@
           <a href="#">
                <div class=" catg-tab align-items-center d-flex"  style="background-image: url({{ asset('storage/images/categories/'.$category->photo) }});">
                     <div class="overlay"></div>
-                    <h3 class="m-auto">{{$category->name}}</h3>
+                            <h3 class="m-auto">{{$category->name}}</h3>
                </div>
             </a>
         </div>
@@ -54,7 +53,8 @@
                         <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo)}});"></div>
                     </div>
                     <div class="col-md-4 col-sm-12 pt-3 pb-3 ">
-                        <h3>{{ucwords($ticket->name)}}</h3>
+                            <a href="{{ route('showticket', ['id' => $ticket->id]) }}">
+                                <h3>{{ucwords($ticket->name)}}</h3></a>
                         <p>{{substr($ticket->description,0,150)}}.</p>
                         <div class="ticket-qty d-flex pt-2">
                             <h4 class="">Available Quantity</h4>
@@ -67,7 +67,6 @@
                         </div>
                         <div class="ticket-ctrl-btns pt-5">
                     @if(Auth::user()&&Auth::user()->id == $ticket->user_id)
-
                         <a type="submit" class="btn ctrl-btn delete-btn"><i class="far fa-trash-alt"></i></a>
                         <form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
                             {!! csrf_field() !!}

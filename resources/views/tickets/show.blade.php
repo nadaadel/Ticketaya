@@ -102,7 +102,7 @@
                                 <h3 class="mb-3">Tags</h3>
                                     <p>
                                         @foreach($ticket->tags as $tag)
-                                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} class="btn btn-success" >{{$tag->name}}</a>
                                         @endforeach
                                     </p>
                              @endif
@@ -185,10 +185,6 @@
            </section>
 
                   {{-- spam section --}}
-
-                  @role('admin')
-                  Numbers of Spam :{{$numberofspams}}
-                  @endrole
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)

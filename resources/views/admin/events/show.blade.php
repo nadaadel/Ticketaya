@@ -59,23 +59,10 @@
    </div>
       <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
       <input type="hidden" id="event_id" value="{{$event->id}}">
-
-
-
-
   @endif
   </div>
   <hr>
 
   @endforeach
  @endif
-
-   <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-   <input type="hidden" id="event_id" value="{{$event->id}}">
-
-
-
-
-
-
 @endsection

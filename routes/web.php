@@ -50,7 +50,7 @@ Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 Route::get('/twilio' , 'TwilioController@sendVerifications');
 /**Users route */
 Route::get('/users/create','UsersController@create');
-Route::get('/users/{id}','UsersController@show');
+Route::get('/users/{id}','UsersController@show')->name('showuser');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
