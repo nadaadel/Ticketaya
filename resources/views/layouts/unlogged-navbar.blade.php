@@ -65,7 +65,7 @@
           <a class="dropdown-item" href="#">Favorites</a>
           <a class="dropdown-item" href="#">Joined Events</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
+          <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
         </div>
       </li>
       <li class="nav-item active pt-1">
@@ -76,9 +76,7 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-      <li class="nav-item pt-3">
-        <a class="nav-link " href="/logout">LOG OUT</a>
-      </li>
+      
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>

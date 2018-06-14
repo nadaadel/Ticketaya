@@ -158,3 +158,5 @@ Route::get('/cities/{id}','CitiesController@show');
 Route::post('article/comments','ArticleCommentsController@store');
 Route::post('articles/replies','ArticleCommentRepliesController@store');
 Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');
+Route::get('articles/likes/{id}','ArticlesController@like');
+Route::get('articles/dislikes/{id}','ArticlesController@dislike');
