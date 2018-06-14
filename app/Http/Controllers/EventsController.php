@@ -37,6 +37,8 @@ class EventsController extends Controller
         }
     }
     public function updateQuestion(Request $request){
+        $asker_id=$request->user_id;
+        $event_id=$request->event_id;
         $question = EventQuestion::where([
             'event_id' => $request->event_id,
             'user_id' => $request->user_id,
@@ -46,7 +48,7 @@ class EventsController extends Controller
         $getQuestion = EventQuestion::find($question->id);
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
-        event(new Answer($asker, $event));
+        event(new Answer($asker_id, $event_id));
         return response()->json(['answer' => $question->pivot->answer]);
     }
     public function subscribe($event_id , $user_id){

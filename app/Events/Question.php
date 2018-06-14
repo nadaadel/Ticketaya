@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Notification;
 
-class Question
+class Question implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
