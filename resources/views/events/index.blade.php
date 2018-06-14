@@ -44,7 +44,7 @@
                     </div>
                     <div class="event-content">
                         <a href="{{ URL::to('events/' . $event->id ) }}"><h3>{{ucwords($event->name)}}</h3></a>
-                        <p>{{substr($event->description,0,150)}}.</p>
+                        <p>{{ucwords(substr($event->description,0,150))}}.</p>
                     </div>
                     <div class="follow text-center">
                         @if(Auth::user() && Auth::user()->id == $event->user_id)
