@@ -81,9 +81,9 @@ Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 /** Search For Tickets */
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
 Route::get('/tickets/requests' , 'TicketRequestsController@getUserRequests');
-Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketRequestsController@acceptTicket');
-Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketRequestsController@cancelTicketRequest');
-Route::post('/tickets/sold/{id}' , 'TicketRequestsController@ticketSold');
+Route::get('/tickets/accept/{id}/{requester_id}' , 'TicketRequestsController@acceptTicket');
+Route::get('/tickets/cancel/{id}/{requester_id}' , 'TicketRequestsController@cancelTicketRequest');
+Route::get('/tickets/sold/{id}' , 'TicketRequestsController@ticketSold');
 Route::get('/tickets/cancel/{id}','TicketRequestsController@cancelTicketSold');
 Route::post('/tickets/request/edit/{id}','TicketRequestsController@editRequestedTicket');
 Route::post('/tickets/request/{id}' , 'TicketRequestsController@requestTicket');
