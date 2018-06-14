@@ -75,7 +75,7 @@ class User extends Authenticatable
     }
 
     public function eventquestions(){
-        return $this->belongsToMany(Event::class,'event_questions')->withPivot('question','answer');
+        return $this->belongsToMany(Event::class,'event_questions')->withPivot('question','answer')->withTimestamps();;
     }
 
     public function savedTickets()

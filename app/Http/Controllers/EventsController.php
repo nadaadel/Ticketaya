@@ -43,14 +43,28 @@ class EventsController extends Controller
 
     }
     public function updateQuestion(Request $request){
-        $asker= User::find($request->user_id);
+        
         
         $event=Event::find($request->event_id);
+       /* foreach($event->eventquestions as $user){
+            if($user->pivot->question==$request->questin){
+              $user->updateExistingPivot($asker_id,['answer' =>$request->answer],false);
+        }
+    }*/
+        
 
-        $question=$asker->eventquestions()->where('question','=',$request->question)->first();
-        //dd($question);
-        $question->pivot->answer=$request->answer;
-        $question->pivot->save();
+        $asker= User::find($request->user_id);
+        $question=$asker->eventquestions()->wherePivot('question','=',$request->question)->first();
+       // dd($asker->eventquestions()->wherePivot('question','=',$request->question)->first());
+        //$question->pivot->answer=$request->answer;
+        $asker->eventquestions()->updateExistingPivot($question->id, ['answer' => $request->answer],false);
+        //$question->pivot->save();
+ 
+        //$asker->eventquestions()->updateExistingPivot($request->quesId,['answer' =>$request->answer]);
+
+        //$asker->eventquestions->attach($request->quesId);
+
+        //$question->pivot->update();
         //dd( $question->pivot->answer);
 
 
