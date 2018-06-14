@@ -34,8 +34,7 @@
                 width: 301px;
                 height: 260px;
                 border-width: 0 0 1px 0;
-                margin-right: 0px;
-            ">
+                margin-right: 0px;">
                         <div class="dropdown-toolbar">
                         <div class="dropdown-toolbar-actions" style="text-align:right;height:24px;padding-right: 3px;">
                             <a id="readall" href="#">Mark all as read </a>
@@ -45,8 +44,7 @@
                         height: 200px;
                         overflow: auto;
                         padding-left: 0px;
-                        margin-right: 0px;
-                    "></ul>
+                        margin-right: 0px;"></ul>
                         </div>
                     </div>
                         <div class="dropdown-footer text-center">
@@ -56,11 +54,25 @@
 
             </div>
         </li>
+        <li class="nav-item dropdown">
+        
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
+          <a class="dropdown-item" href="/tickets/requests">Ticket Requests</a>
+          <a class="dropdown-item" href="#">Favorites</a>
+          <a class="dropdown-item" href="#">Joined Events</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
+        </div>
+      </li>
       <li class="nav-item active pt-1">
-        <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>
+<!--        <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>-->
       </li>
       @role('admin')
-      <li class="nav-item active pt-3">
+      <li class="nav-item active">
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole

@@ -38,12 +38,12 @@
 @foreach($events as $event)
 
         <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
-           <a href="{{ URL::to('events/' . $event->id ) }}">
+           
                 <div class="event-card">
                     <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
                     </div>
                     <div class="event-content">
-                        <a href="{{ URL::to('events/' . $event->id ) }}"><h3>{{ucwords($event->name)}}</h3></a>
+                        <h3>{{ucwords($event->name)}}</h3>
                         <p>{{substr($event->description,0,150)}}.</p>
                     </div>
                     <div class="follow text-center">
@@ -52,12 +52,12 @@
                         <a type="submit" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
                         @else
-                        <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">JOIN</a>
+                        <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">SHOW EVENT</a>
 
                         @endif
                     </div>
                 </div>
-            </a>
+           
         </div><!--event card starts here-->
 @endforeach
 </div>

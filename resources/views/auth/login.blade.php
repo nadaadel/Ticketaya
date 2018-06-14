@@ -18,7 +18,15 @@
                                     <div class="col-sm-12 col-md-6 align-self-center">
                                          <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity"
                                              value="{{ old('identity') }}" autofocus placeholder="Enter Email Address or Phone Number">
-
+                @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                                              @if ($errors->has('identity'))
                                                <span class="help-block">
                                                     <strong>{{ $errors->first('identity') }}</strong>
@@ -80,14 +88,10 @@
 
 <!--
 <div class="form-group row">
-
-
                          <label for="identity" class="col-md-4 col-form-label text-md-right">Email or phone</label>
-
                          <div class="col-sm-12 col-md-6 align-self-center">
                          <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity"
                                  value="{{ old('identity') }}" autofocus>
-
                                  @if ($errors->has('identity'))
                                    <span class="help-block">
                                         <strong>{{ $errors->first('identity') }}</strong>

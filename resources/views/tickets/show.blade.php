@@ -152,7 +152,7 @@
                                            <p class="gray">3 {{$comment->created_at->diffForHumans()}}</p>
                                            <p>
                                                 {{$comment->body}}                                           </p>
-                                           <a  class="btn btn-primary info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
+                                           <a  class="info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
                                         <div id="{{$comment->id}}" style="display: none;">
                                                 <div class="card-body" >
                                                     <form method="POST" action="/replies" enctype="multipart/form-data" >
