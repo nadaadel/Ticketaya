@@ -9,40 +9,39 @@
                 <div class='slide2'></div>
                 <div class='slide3'></div>
                 <div class="content d-flex align-items-center">
+
                     <div class="card">
+
                         <h2> LOGIN</h2>
+                       
                         <div class="card-body">
+         
+                       
+
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-sm-12 col-md-6 align-self-center">
                                          <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity"
                                              value="{{ old('identity') }}" autofocus placeholder="Enter Email Address or Phone Number">
-                @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                
                                              @if ($errors->has('identity'))
-                                               <span class="help-block">
-                                                    <strong>{{ $errors->first('identity') }}</strong>
-                                                </span>
-                                            @endif
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('identity') }}</strong>
+                                            </span>
+                                          @endif
+                                            
                                     </div>
                                   </div>
                                 <div class="form-group row">
                                     <div class=" col-sm-12 col-md-6 align-self-center">
                                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="Password">
-
                                         @if ($errors->has('password'))
                                             <span class="invalid-feedback">
                                                 <strong>{{ $errors->first('password') }}</strong>
                                             </span>
                                         @endif
+                                        
                                     </div>
                                 </div>
 
