@@ -20,7 +20,7 @@
         <tr>
         <td>{{$category->id}}</td>
         <td>{{$category->name}}</td>
-        <td><img src="{{ asset('storage/images/categories/'.$category->photo) }}" style="width:160px; height:120px;"></td>
+        <td><img src="{{ asset('storage/images/categories/'. $category->photo) }}" style="width:160px; height:120px;"></td>
         <td>
         <td> <a href={{ URL::to('categories/' . $category->id ) }} type="button" class="btn btn-success" >View</a> </td>
         <td>    <a href={{ URL::to('categories/edit/' . $category->id ) }} type="button" class="btn btn-warning" >Edit</a></td>

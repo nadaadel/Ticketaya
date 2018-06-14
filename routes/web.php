@@ -71,7 +71,9 @@ Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
+
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 
@@ -108,6 +110,10 @@ Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
+Route::get('/tickets/filter/{category_id}' , 'FilterTicketsController@byCategory');
+Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
+
+
 Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');

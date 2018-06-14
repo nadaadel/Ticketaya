@@ -1,4 +1,3 @@
-
 @extends('admin.index')
 @section('content')
 <section class="editing-forms">
@@ -19,12 +18,18 @@
                         </ul>
                     </div>
                 @endif
-                <form method="POST" action="/admin/categories">
+                <form method="POST" action="/categories" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <label>Category Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Enter Category Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="image">Category Image</label>
+                            <input type="file" class="form-control-file ml-3 mt-2" name="photo"/>
                         </div>
                     </div>
                     <div class="row">
