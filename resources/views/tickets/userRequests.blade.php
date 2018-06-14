@@ -27,7 +27,7 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab"><!--Requests tabs start here-->
                   <div class="row justify-content-md-center mt-4">
-                      <div class="col-md-10 col-12 requests mt-4"><!--ticket card start here -->
+                      <div class="col-md-10 col-12 requests mt-4"><!--REQUESTED TICKET CARD START HERE -->
                           <div class="row ticket-details ">
                               <div class="col-md-2 col-6 ticket-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
                               <div class="col-md-3 col-6  ticket-content d-flex align-items-center">
@@ -46,7 +46,7 @@
                               </div>
                           </div>
                           <div class="row buyers-list">
-                             <div class="col-md-12"><!--user request start here -->
+                             <div class="col-md-12"><!--USER REQUEST START HERE -->
                                  <div class="row pt-2 pb-2">
                                      <div class="col-md-2 col-4 d-flex align-items-center">
                                          <div class="user-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
@@ -66,15 +66,16 @@
                                           </div>
                                       </div>
                                  </div>
-                             </div><!--end of user request  -->
+                             </div><!--END OF USER REQUEST  -->
+                             
                           </div>
-                      </div><!-- end of ticket card  -->
+                      </div><!-- END OF REQUESTED TICKET CARD  -->
                       
                   </div>
               </div><!--End of Requests tabs-->
               <div class="tab-pane fade" id="mysold" role="tabpanel" aria-labelledby="mysold-tab"><!--My sold tabs start here-->
                   <div class="row justify-content-md-center mt-4">
-                      <div class="col-md-10 col-12 requests mt-4"><!--ticket card start here -->
+                      <div class="col-md-10 col-12 requests mt-4"><!--SOLD TICKET CARD START HERE -->
                           <div class="row ticket-details ">
                               <div class="col-md-2 col-6 ticket-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
                               <div class="col-md-3 col-6  ticket-content d-flex align-items-center">
@@ -93,7 +94,7 @@
                               </div>
                           </div>
                           <div class="row buyers-list">
-                             <div class="col-md-12"><!--user request start here -->
+                             <div class="col-md-12"><!--USER SOLD START HERE -->
                                  <div class="row pt-2 pb-2">
                                      <div class="col-md-2 col-4 d-flex align-items-center">
                                          <div class="user-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
@@ -112,16 +113,63 @@
                                           </div>
                                       </div>
                                  </div>
-                             </div><!--end of user request  -->
+                             </div><!--END OF USER SOLD  -->
                              
                           </div>
-                      </div><!-- end of ticket card  -->
+                      </div><!-- END OF SOLD TICKET CARD  -->
                       
                   </div>
               </div><!--End of my sold-->
-              <div class="tab-pane fade" id="wanted" role="tabpanel" aria-labelledby="wanted-tab">Wanted...</div>
-              <div class="tab-pane fade" id="bought" role="tabpanel" aria-labelledby="bought-tab">Bought...</div>
-            </div>
+              <div class="tab-pane fade" id="wanted" role="tabpanel" aria-labelledby="wanted-tab"><!--Wanted tab Strat Here-->
+                   <div class="row justify-content-md-center mt-4">
+                      <div class="col-md-10 col-12 requests mt-4"><!--WANTED CARD START HERE-->
+                          <div class="row ticket-details ">
+                              <div class="col-md-2 col-6 ticket-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
+                              <div class="col-md-4 col-6  ticket-content d-flex align-items-center">
+                                  <div class="content-inner">
+                                      <h3>Ticket name here</h3>
+                                      
+                                      <p class="date">Sat, 18 jul 2018</p>
+                                      <div class="d-flex">
+                                          <h4 class="">Quantity I want</h4>
+                                          <div class="ticket-qty-num d-flex align-items-center"><span>20</span></div>
+                                      </div>    
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12 ticket-edit d-flex align-items-center">
+                                  <div class="acceptance-btns">
+                                        <a href="#" class="btn btn-success" >I Recived My Ticket </a>
+                                        <a href="#" class="btn btn-danger" >Cancel </a>
+                                         <a href="#" class="btn btn-light" >Show </a>
+                                  </div>
+                              </div>
+                            </div>
+                          </div><!--END OF WANTED CARD-->
+                      </div>
+                  </div><!--End of Wanted-->
+              <div class="tab-pane fade" id="bought" role="tabpanel" aria-labelledby="bought-tab"><!--  bought tab start here-->
+                  <div class="row justify-content-md-center mt-4">
+                      <div class="col-md-10 col-12 requests mt-4"><!--BOUGHT CARD START HERE-->
+                          <div class="row ticket-details ">
+                              <div class="col-md-2 col-6 ticket-img" style="background-image: url(../images/icons/avatar.jpg);"></div>
+                              <div class="col-md-6 col-6  ticket-content d-flex align-items-center">
+                                  <div class="content-inner">
+                                      <h3>Ticket name here</h3>
+                                      
+                                      <p class="date">Sat, 18 jul 2018</p>
+                                      <P class="mb-0">You bought this ticket from Adam smith</P>    
+                                  </div>
+                              </div>
+                              <div class="col-md-4 col-12 ticket-edit d-flex align-items-center">
+                                  <div class="acceptance-btns">
+                                        
+                                         <a href="#" class="btn btn-light" >Contact with Seller </a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div><!--END OF BOUGHT CARD-->
+              </div>
+            </div><!--  end of bought tab-->
         </div>
     </div>
 </div>

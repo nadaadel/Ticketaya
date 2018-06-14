@@ -58,7 +58,7 @@
                          <h3 class="mb-3">Tags</h3>
                              <p>
                                  @foreach($ticket->tags as $tag)
-                                 <a href={{ URL::to('tags/'.$tag->id.'/tickets') }}  class="btn btn-success" >{{$tag->name}}</a>
+                                 <a href={{ route('tagTickets', ['id' => $tag->id]) }}  class="btn btn-success" >{{$tag->name}}</a>
                                  @endforeach
                              </p>
                       @endif
@@ -186,7 +186,7 @@ $('.reply').on('click',function(){
                         if (resp == true) {
                             $.ajax({
                                 type: 'POST',
-                                url: '/tickets/'+floor_id ,
+                                url: '/tickets/'+ticket_id ,
                                 data:{
                                 '_token':'{{csrf_token()}}',
                                 '_method':'DELETE',

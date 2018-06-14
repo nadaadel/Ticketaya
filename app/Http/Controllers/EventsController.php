@@ -21,15 +21,11 @@ class EventsController extends Controller
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
        // dd($questionfound);
-
         if ($questionfound==null){
-
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
-
-
         ]);
         $asker=User::find($request->user_id);
         $event=Event::find($request->event_id);
@@ -39,10 +35,6 @@ class EventsController extends Controller
         else{
             return response()->json(['response'=>'false']);
         }
-
-
-
-
     }
     public function updateQuestion(Request $request){
         $asker_id=$request->user_id;
@@ -52,11 +44,12 @@ class EventsController extends Controller
             'user_id' => $request->user_id,
             'question' => $request->question
         ])->first();
+
         $getQuestion = EventQuestion::find($question->id);
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
         event(new Answer($asker_id, $event_id));
-        return response()->json(['answer' => $question->pivot->answer]);
+        return response()->json(['answer' => $getQuestion->answer]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
@@ -138,13 +131,13 @@ class EventsController extends Controller
         $view='events.show';
         if(Auth::user()){
         $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-        // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
 
-
         }
         $questions=EventQuestion::all()->where('event_id',$id);
+
+
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
@@ -228,7 +221,8 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-        return redirect('/events');
+
+        return response()->json(['response' => 'success']);
     }
 
 }

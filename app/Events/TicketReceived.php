@@ -11,6 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\RequestedTicket;
 use App\Notification;
+use App\NotifyType;
 
 class TicketReceived implements ShouldBroadcast
 {
@@ -19,6 +20,8 @@ class TicketReceived implements ShouldBroadcast
     public $message;
     public $request_id;
     public $notification_id;
+    public $related_id;
+
 
     /**
      * Create a new event instance.
@@ -37,12 +40,16 @@ class TicketReceived implements ShouldBroadcast
         $this->message = "Your ticket {$request->ticket()->name} hasn't been delivered to {$request->requested_user()->name}";
         }
         $id=$request->ticket()->user->id;
+        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
         $notification=Notification::create([
             'user_id' => $id,
-            'notify_type_id' => 1,
-            'message'=>$this->message
+            'notify_type_id' => $notify_type_id,
+            'message'=>$this->message,
+            'related_id'=>$request->ticket()->id
         ]);
         $this->notification_id=$notification->id;
+        $this->related_id=$request->ticket()->id;
+
     }
     /**
      * Get the channels the event should broadcast on.

@@ -41,17 +41,17 @@ class UsersController extends Controller
         }
         return redirect('users');
     }
-    public function show(Request $request){
-        $user=User::find($request->id);
-        $view='users.show';
-        if(Auth::user()&&Auth::user()->hasRole('admin'))
-        {
-            $view='admin.users.show';
+    public function show($id){
+        $user=User::find($id);
+        if($user !== null){
+        if(Auth::user() && Auth::user()->hasRole('admin')){
+            return view('admin.users.show',['user'=> $user] );
         }
-        if(Auth::user()&&Auth::user()->id==$request->id){
-        return view($view,['user'=> $user] );
-
+        if(Auth::user()&& Auth::user()->id==$id){
+        return view('users.show',['user'=> $user] );
     }
+}
+    return view('notfound');
 }
     public function edit(Request $request){
         $user=User::find($request->id);

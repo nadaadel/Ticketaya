@@ -3,19 +3,20 @@
 <div class="container">
 
   <div class="row mt-3 mb-3">
-                <div class="col-md-9 col-xs-12">
-                   <div class="search-content d-flex">
+               <div class="col-md-10 col-xs-12">
+                   <div class="search-content  d-flex">
                        <form method="get" action="/tickets/search" enctype="multipart/form-data" class="text-right">
-                        {!! csrf_field() !!}
+                              {{ csrf_field() }}
                         <input class="search pgs-search" type="search" placeholder="Search for new tickets or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
+                       <a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a>
                    </div>
                 </div>
         </div>
     <div class="row category-tabs ">
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-             <a href="#">
+        <a href="{{URL::route('alltickets')}}">
                <div class="catg-tab align-items-center d-flex tab-img-1">
                     <div class="overlay"></div>
                     <h3 class="m-auto">ALL TICKETS</h3>
@@ -24,7 +25,7 @@
         </div>
         @foreach($categories as $category)
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
+        <a href="/tickets/filter/{{$category->id}}">
                <div class=" catg-tab align-items-center d-flex"  style="background-image: url({{ asset('storage/images/categories/'.$category->photo) }});">
                     <div class="overlay"></div>
                             <h3 class="m-auto">{{$category->name}}</h3>
@@ -38,13 +39,8 @@
             <h2>All Tickets</h2>
         </div>
     </div>
-    @if(Auth::check())
-    <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6 text-right"><a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a></div>
-    </div>
-    @endif
     <div class="row justify-content-md-center mt-5 mb-5">
+    @if($tickets !== null)
     @foreach($tickets as $ticket)
         <div class="col-md-10 col-sm-10 col-10 mb-3"> <!-- Ticked list card -->
             <div class="ticket-list">
@@ -53,8 +49,8 @@
                         <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo)}});"></div>
                     </div>
                     <div class="col-md-4 col-sm-12 pt-3 pb-3 ">
-                            <a href="{{ route('showticket', ['id' => $ticket->id]) }}">
-                                <h3>{{ucwords($ticket->name)}}</h3></a>
+                            
+                                <h3>{{ucwords($ticket->name)}}</h3>
                         <p>{{substr($ticket->description,0,150)}}.</p>
                         <div class="ticket-qty d-flex pt-2">
                             <h4 class="">Available Quantity</h4>
@@ -89,9 +85,12 @@
             </div>
         </div><!-- end of Ticked list card -->
         @endforeach
+        @endif
+
     </div>
 
   @if(Auth::check())
+
   <script>
         $(document).on('click','.heart',callFunction);
         var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;

@@ -72,7 +72,7 @@
 <!--        <a class="nav-link " href="/users/{{Auth::user()->id}}"><button type="button" class="btn btn-outline-primary">Profile</button></a>-->
       </li>
       @role('admin')
-      <li class="nav-item active pt-3">
+      <li class="nav-item active">
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
@@ -122,12 +122,21 @@ $(function () {
 function notificationsHtml(data,realtime){
           var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+          var url ="";
+          if(data.notify_type_id == 1){
+              url="/tickets/"+data.related_id;
+
+          }
+          else if(data.notify_type_id == 2){
+              url="/events/"+data.related_id;
+          }
           if(realtime){
+          console.log(data)
                 notificationsCount += 1;
                 data.created_at=new Date(Date.now());
                 data.is_seen=0;
                 data.id=data.notification_id;
-                console.log(data.notification_id);
+
           }
           //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
           var newNotificationHtml = `
@@ -139,7 +148,7 @@ function notificationsHtml(data,realtime){
                         </div>
                         </div>
                         <div class="media-body">
-                            <a notif-no="`+data.id+`"  class="notify-seen" style="cursor: pointer;"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                            <a notif-no="`+data.id+`" url="`+url+`" class="notify-seen" style="cursor: pointer;"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
                             <p class="notification-desc"></p>
                             <div class="notification-meta">
                                 <small class="timestamp">`+data.created_at+`</small>
@@ -195,7 +204,8 @@ $(document).on('click','#readall',function(event){
     // change notifications status that was unseen to be seen
     $(document).on('click','.notify-seen',function(event){
         //event.preventDefault();
-        notif_id=$(this).attr('notif-no');
+        var notif_id=$(this).attr('notif-no');
+        var gotoURL=$(this).attr('url');
                 $.ajax({
                     type: 'get',
                     url: '/notifications/'+notif_id+'/edit',
@@ -207,7 +217,7 @@ $(document).on('click','#readall',function(event){
                             notificationsCount-=1;
                             updateNotificationCount();
                         }
-                        window.location = "/tickets/requests";
+                        window.location = gotoURL;
                     }
 
             });
