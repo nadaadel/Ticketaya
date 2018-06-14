@@ -179,7 +179,7 @@ class TicketsController extends Controller
         $ticket->save();
         if($ticket)
         {
-            $tagNames = explode(',' ,$request->tags);
+            $tagNames = $request->tags;
             $tagIds = [];
             foreach($tagNames as $tagName)
             {
@@ -225,6 +225,18 @@ class TicketsController extends Controller
                 $ticket->city_id=$request->city;
                 $ticket->expire_date=$request->expire_date;
                 $ticket->category_id=$request->category;
+                $tagNames = $request->tags;
+                $tagIds = [];
+                foreach($tagNames as $tagName)
+                {
+                    $tag = Tag::firstOrCreate(['name'=>$tagName]);
+                    if($tag)
+                        {
+                          $tagIds[] = $tag->id;
+                        }
+
+                    }
+                $ticket->tags()->sync($tagIds);
                 if($request->hasFile('photo')){
                     $request->file('photo')->store('public/images/tickets');
                     $file_name = $request->file('photo')->hashName();

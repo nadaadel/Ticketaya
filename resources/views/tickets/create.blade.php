@@ -75,10 +75,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="tags">
                         <label >Tags</label>
-                        <input type="text" name="tags" class="form-control" placeholder="Add Tags Sperated by comma">
+                        <span>
+                            <input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name">
+                            <i class="removeTag">remove</i>
+                        </span>
                     </div>
+                    <i id="addTag">add</i>
+
                 </div>
 
                 <div class="row">
@@ -100,6 +105,14 @@
 </section>
 <script>
 $(document).ready( function(){
+    var inputTag=`<span><input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name"><i class="removeTag">remove</i></span>`;
+    $('#addTag').on('click',function(){
+         $('#tags').append(inputTag);
+    });
+    $(document).on('click','.removeTag',function(){
+        console.log($(this).parent());
+         $(this).parent().remove();
+    });
     $('#city').on('change',function(){
     var city_id = $(this).val();
     $('#region').empty();

@@ -76,20 +76,24 @@
                         <textarea name="description" class="form-control txt-area">{{$ticket->description}}</textarea>
                     </div>
                 </div>
-<!--
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" id="tags">
                         <label >Tags</label>
-                        <input type="text" name="tags" class="form-control" placeholder="Add Tags Sperated by comma">
+                        @foreach($ticket->tags as $tag)
+                        <span>
+                        <input type="text" name="tags[]" value="{{$tag->name}}" class="form-control" />
+                        <i class="removeTag">remove</i>
+                    </span>
+                        @endforeach
                     </div>
+                    <i id="addTag">add</i>
                 </div>
--->
 
                 <div class="row">
                     <div class="col-md-6">
                        <label for="image">Ticket Image</label>
                        <img src="{{ asset('storage/images/tickets/'. $ticket->photo) }}" style=" height:150px;"/>
-                        <input type="file" class="form-control-file ml-3 mt-2" name="photo"/>
+                        <input type="file" class="form-control-file ml-3 mt-2" name="photo"/><i href=""> delete tag</i>
                     </div>
                 </div>
                 <div class="row">
@@ -103,4 +107,35 @@
         </div>
     </div>
 </section>
+<script>
+        $(document).ready( function(){
+            var inputTag=`<span><input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name"><i class="removeTag">remove</i></span>`;
+    $('#addTag').on('click',function(){
+         $('#tags').append(inputTag);
+    });
+    $(document).on('click','.removeTag',function(){
+         $(this).parent().remove();
+    });
+            $('#city').on('change',function(){
+            var city_id = $(this).val();
+            $('#region').empty();
+            $.ajax({
+                     url: '/cities/'+city_id,
+                     type: 'GET' ,
+                     data:{
+                         '_token':'@csrf'
+                     },
+                success:function(response){
+                    if(response.res == 'success'){
+                        $.each(response.cityRegions, function(index,region){
+                        var option=`<option value="`+region.id+`">`+region.name+`</option>`;
+                        $('#region').append(option);
+                    });
+                    $('#toggleRegion').show();
+                    }
+                }
+                 });
+            });
+            });
+        </script>
 @endsection
