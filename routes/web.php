@@ -117,6 +117,9 @@ Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
 Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');
+Route::get('/tickets/requeted', 'TicketRequestsController@requestedTickets')->name('requestedtickets');
+Route::get('/tickets/sold', 'TicketRequestsController@soldTickets')->name('soldtickets');
+
 Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');

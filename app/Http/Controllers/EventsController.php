@@ -20,7 +20,6 @@ class EventsController extends Controller
 
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
-       // dd($questionfound);
         if ($questionfound==null){
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
