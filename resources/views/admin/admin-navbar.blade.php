@@ -45,12 +45,12 @@
                         <!-- End Comment -->
                         <!-- Profile -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('assets/images/users/5.jpg') }}" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('storage/images/users/'.Auth::user()->avatar) }}" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
-                                    <li><a href="#"><i class="ti-user"></i> Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                                    <li><a href="{{route('showuser', ['id' => Auth::id()])}}"><i class="ti-user"></i> Profile</a></li>
+                                    {{-- <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
+                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li> --}}
                                     <li><a href="#"><i class="ti-settings"></i> Setting</a></li>
                                     <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
@@ -95,7 +95,7 @@
               var newNotificationHtml = `<div class="mail-contnet">
               <a notif-no="`+data.id+`" url="`+url+`" class="notify-seen" style="cursor: pointer;">
               <strong style="color:black;" class="notification-title">`+data.message+`</strong>
-              <span class="time">from `+data.created_at+`</span></a>
+              <span class="time"> `+data.created_at+`</span></a>
               </div>`;
             $('#dropdownmenu').html(newNotificationHtml + existingNotifications);
 

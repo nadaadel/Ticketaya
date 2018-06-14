@@ -69,8 +69,6 @@ Route::get('/events/{id}' , 'EventsController@show');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
-
-
 Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
@@ -99,7 +97,7 @@ Route::get('/tags/show/{id}' , 'TagsController@show');
 Route::get('/tags/edit/{id}' , 'TagsController@edit');
 Route::put('/tags/update/{id}' , 'TagsController@update');
 Route::delete('/tags/delete/{id}' , 'TagsController@delete');
-Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets');
+Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets')->name('tagTickets');
 
 
 

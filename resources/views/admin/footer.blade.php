@@ -1,4 +1,4 @@
-<script src="{{ asset('assets/js/lib/jquery/jquery.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/lib/jquery/jquery.min.js') }}"></script> --}}
 <!-- Bootstrap tether Core JavaScript -->
 <script src="{{ asset('assets/js/lib/bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- slimscrollbar scrollbar JavaScript -->
