@@ -40,7 +40,17 @@ nav.navbar {
       }
     
   }
+
 }
+span#user-profile {
+    height: 45px;
+    width: 45px; 
+    display: block; 
+    border-radius: 50px;
+    margin-right: 5px;
+    background-size: cover;
+    }
+    
 @media (min-width: 768px) {
   .navbar {
     border-radius: 0px;

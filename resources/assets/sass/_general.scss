@@ -17,10 +17,12 @@ body {
 *:hover{
     transition: 0.3s;
 }
+
 * {
     font-family: $font;
     transition: 0.3s;
 }
+
 
 //btn custome
 a.btn, .btn {
@@ -219,7 +221,13 @@ select {
                     padding: 5px\9;
                 } 
             }
-
+a.dropdown-item:hover {
+    background-color: $primary;
+    color: white;
+}
+.dropdown-menu {
+    background-color: $light;
+}
 //.editing-forms {
 //    .select {
 //        background: url(../images/icons/sort-down.svg) 90% 8px no-repeat #FFF;

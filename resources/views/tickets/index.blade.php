@@ -3,13 +3,14 @@
 <div class="container">
 
   <div class="row mt-3 mb-3">
-                <div class="col-md-9 col-xs-12">
-                   <div class="search-content d-flex">
+               <div class="col-md-10 col-xs-12">
+                   <div class="search-content  d-flex">
                        <form method="get" action="/tickets/search" enctype="multipart/form-data" class="text-right">
-                        {!! csrf_field() !!}
+                              {{ csrf_field() }}
                         <input class="search pgs-search" type="search" placeholder="Search for new tickets or more..." aria-label="Search" name="search">
                         <button class="btn btn btn-secondary search-btn pgs-search-btn" type="submit">Search</button>
                        </form>
+                       <a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a>
                    </div>
                 </div>
         </div>
@@ -38,12 +39,6 @@
             <h2>All Tickets</h2>
         </div>
     </div>
-    @if(Auth::check())
-    <div class="row">
-            <div class="col-md-6"></div>
-            <div class="col-md-6 text-right"><a href="{{ URL::to('tickets/create' )}} " ><input type="button" class="btn btn-primary ml-5" value='Add New Ticket'/></a></div>
-    </div>
-    @endif
     <div class="row justify-content-md-center mt-5 mb-5">
     @if($tickets !== null)
     @foreach($tickets as $ticket)
@@ -54,8 +49,8 @@
                         <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo)}});"></div>
                     </div>
                     <div class="col-md-4 col-sm-12 pt-3 pb-3 ">
-                            <a href="{{ route('showticket', ['id' => $ticket->id]) }}">
-                                <h3>{{ucwords($ticket->name)}}</h3></a>
+                            
+                                <h3>{{ucwords($ticket->name)}}</h3>
                         <p>{{substr($ticket->description,0,150)}}.</p>
                         <div class="ticket-qty d-flex pt-2">
                             <h4 class="">Available Quantity</h4>

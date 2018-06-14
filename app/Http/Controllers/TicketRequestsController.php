@@ -18,27 +18,45 @@ use Illuminate\Http\Request;
 
 class TicketRequestsController extends Controller
 {
+    public function requestedTickets(){
+        if(Auth::user()->hasrole('admin')){
+
+            $requestedTickets = RequestedTicket::paginate(6);
+            return view('admin.tickets.requested' ,compact('requestedTickets'));
+        }
+          return view('notfound');
+    }
+    public function soldTickets(){
+        if(Auth::user()->hasrole('admin')){
+
+            $soldTickets = SoldTicket::paginate(6);
+            return view('admin.tickets.sold' ,compact('soldTickets'));
+        }
+          return view('notfound');
+    }
     public function requestTicket(Request $request ,$id){
         $ticket = Ticket::find($id);
+
         $quantity=$request->quantity;
-        if ($quantity<=$ticket->quantity && $quantity!=0){
+        if ($quantity <= $ticket->quantity && $quantity != 0){
 
         RequestedTicket::create([
             'ticket_id' => $id,
             'user_id' => $ticket->user_id,
             'requester_id' => Auth::user()->id,
-            'quantity' => $request->quantity ,
+            'quantity' => $request->quantity,
         ]);
-        $request="true";
+       //  $request="true";
 
         // send request notification to ticket author
-        event(new TicketRequested($id));
+        //event(new TicketRequested($id));
         return response()->json(['response' => 'ok']);
+
         }
-        return response()->json(['quantity' =>$ticket->quantity ]);
-
-
+        return response()->json(['quantity' =>$ticket->quantity]);
     }
+
+
     public function getUserRequests(Request $request){
         /** User Tickets received Requests */
         $userRequestsReceived =RequestedTicket::all()->where('user_id' , '=' , Auth::user()->id);

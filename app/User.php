@@ -73,6 +73,10 @@ class User extends Authenticatable
 
         return $this->belongsToMany('App\Event','event_user')->withPivot('is_follower','is_saver');
     }
+    public function likes(){
+        return $this->belongsToMany('App\Article','article_user');
+
+    }
 
     public function eventquestions(){
         return $this->belongsToMany(Event::class,'event_questions')->withPivot('question','answer')->withTimestamps();;
