@@ -10,7 +10,7 @@ use App\Article;
 
 class Category extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name' ,'photo'];
     public function tickets(){
         return $this->hasMany(Ticket::Class);
     }

@@ -15,7 +15,7 @@
         </div>
     <div class="row category-tabs ">
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-             <a href="#">
+        <a href="{{URL::route('alltickets')}}">
                <div class="catg-tab align-items-center d-flex tab-img-1">
                     <div class="overlay"></div>
                     <h3 class="m-auto">ALL TICKETS</h3>
@@ -24,7 +24,7 @@
         </div>
         @foreach($categories as $category)
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-          <a href="#">
+        <a href="/tickets/filter/{{$category->id}}">
                <div class=" catg-tab align-items-center d-flex"  style="background-image: url({{ asset('storage/images/categories/'.$category->photo) }});">
                     <div class="overlay"></div>
                             <h3 class="m-auto">{{$category->name}}</h3>
@@ -45,6 +45,7 @@
     </div>
     @endif
     <div class="row justify-content-md-center mt-5 mb-5">
+    @if($tickets !== null)
     @foreach($tickets as $ticket)
         <div class="col-md-10 col-sm-10 col-10 mb-3"> <!-- Ticked list card -->
             <div class="ticket-list">
@@ -89,9 +90,12 @@
             </div>
         </div><!-- end of Ticked list card -->
         @endforeach
+        @endif
+
     </div>
 
   @if(Auth::check())
+
   <script>
         $(document).on('click','.heart',callFunction);
         var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;

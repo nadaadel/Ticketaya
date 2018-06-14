@@ -11,6 +11,14 @@ use Auth;
 
 class FilterEventController extends Controller
 {
+
+    public function byCategory($category_id){
+        $events = Event::where('category_id' , '=' , $category_id)->paginate(4);
+        $categories = Category::all();
+        return view('events.index' , compact('events' , 'categories'));
+    }
+
+
     public function filter(Request $request){
 
     $events = [];

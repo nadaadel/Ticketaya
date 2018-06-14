@@ -219,7 +219,8 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-        return redirect('/events');
+
+        return response()->json(['response' => 'success']);
     }
 
 }
