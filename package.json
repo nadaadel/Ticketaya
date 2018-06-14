@@ -21,6 +21,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "bootstrap-vue": "^2.0.0-rc.11",
         "gulp": "^3.9.1",
         "gulp-sass": "^4.0.1",
         "gulp-wait": "0.0.2"

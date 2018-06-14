@@ -64,10 +64,7 @@
 {{ $events->links() }}
 </div>
 
-        <form action="{{URL::to('events/delete/'. $event->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
-            {!! csrf_field() !!}
-            {{method_field('Delete')}}
-        </form>
+
 
 @endsection
 
