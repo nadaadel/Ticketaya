@@ -81,9 +81,9 @@ Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 /** Search For Tickets */
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
 Route::get('/tickets/requests' , 'TicketRequestsController@getUserRequests');
-Route::post('/tickets/accept/{id}/{requester_id}' , 'TicketRequestsController@acceptTicket');
-Route::post('/tickets/cancel/{id}/{requester_id}' , 'TicketRequestsController@cancelTicketRequest');
-Route::post('/tickets/sold/{id}' , 'TicketRequestsController@ticketSold');
+Route::get('/tickets/accept/{id}/{requester_id}' , 'TicketRequestsController@acceptTicket');
+Route::get('/tickets/cancel/{id}/{requester_id}' , 'TicketRequestsController@cancelTicketRequest');
+Route::get('/tickets/sold/{id}' , 'TicketRequestsController@ticketSold');
 Route::get('/tickets/cancel/{id}','TicketRequestsController@cancelTicketSold');
 Route::post('/tickets/request/edit/{id}','TicketRequestsController@editRequestedTicket');
 Route::post('/tickets/request/{id}' , 'TicketRequestsController@requestTicket');
@@ -117,6 +117,9 @@ Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
 Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');
+Route::get('/tickets/requeted', 'TicketRequestsController@requestedTickets')->name('requestedtickets');
+Route::get('/tickets/sold', 'TicketRequestsController@soldTickets')->name('soldtickets');
+
 Route::get('/tickets/create', 'TicketsController@create')->name('createticket');
 Route::post('/tickets/store', 'TicketsController@store')->name('storeticket');
 Route::get('/tickets/edit/{id}', 'TicketsController@edit');
@@ -155,3 +158,5 @@ Route::get('/cities/{id}','CitiesController@show');
 Route::post('article/comments','ArticleCommentsController@store');
 Route::post('articles/replies','ArticleCommentRepliesController@store');
 Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');
+Route::get('articles/likes/{id}','ArticlesController@like');
+Route::get('articles/dislikes/{id}','ArticlesController@dislike');

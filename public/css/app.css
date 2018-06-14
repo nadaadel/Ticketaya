@@ -6308,6 +6308,14 @@ nav.navbar {
   #unlogged-navbar ul .btn {
     margin-top: 0; }
 
+span#user-profile {
+  height: 45px;
+  width: 45px;
+  display: block;
+  border-radius: 50px;
+  margin-right: 5px;
+  background-size: cover; }
+
 @media (min-width: 768px) {
   .navbar {
     border-radius: 0px; } }
@@ -6710,6 +6718,45 @@ div.search-content {
 .event-card:hover {
   box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16); }
 
+.nav-tabs a {
+  font-weight: 600;
+  font-size: 16px; }
+
+.requests {
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16); }
+  .requests .ticket-details {
+    background-color: #060919;
+    color: white;
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16); }
+    .requests .ticket-details .ticket-img {
+      height: 100px;
+      width: 200px; }
+  .requests .ticket-qty-num {
+    margin-left: 30px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #599DE8;
+    border-radius: 50px;
+    text-align: center; }
+    .requests .ticket-qty-num span {
+      margin: 0 auto;
+      font-size: 12px;
+      font-weight: 600; }
+  .requests .ticket-edit a.btn {
+    margin: 0 auto; }
+  .requests .user-img {
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background-color: #E81F58;
+    border-radius: 100px;
+    background-size: cover; }
+  .requests .acceptance-btns {
+    margin: 0 auto; }
+  .requests .buyers-list > div:nth-child(even) {
+    background-color: white; }
+
 .gray {
   color: #707070;
   font-size: 11px; }
@@ -6879,3 +6926,10 @@ select::-ms-expand {
   select {
     background: none\9;
     padding: 5px\9; } }
+
+a.dropdown-item:hover {
+  background-color: #E81F58;
+  color: white; }
+
+.dropdown-menu {
+  background-color: #F9F9FF; }

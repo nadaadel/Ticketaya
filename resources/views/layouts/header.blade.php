@@ -20,6 +20,8 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900' rel='stylesheet' type='text/css'>
 
         <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+        
+        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
 
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/themify-icons.css') }}">

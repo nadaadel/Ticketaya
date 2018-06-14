@@ -6,6 +6,21 @@
     {{$article->description}} </br>
     {{$article->user->name}}  </br>
     {{$article->category->name}}
+    <div class="follow text-center">
+    @if($liker)
+
+    <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Dislike</button>
+    <spam id="count">
+    </spam>
+    @else
+    <button id="like" class="btn btn-primary " article-id="{{$article->id}}" >Like</button>
+    <spam id="count">
+    </spam>
+    @endif
+    
+        
+
+    </div>
 
 </br>
     {{$article->created_at->diffForHumans()}}
@@ -84,7 +99,60 @@ $('.reply').on('click',function(){
             $(this).hide();
   });
 
-});
+
+
+$('#like').on('click',function(){
+    var articleId=$(this).attr('article-id');
+   
+    if ($(this).html()=="Like"){
+        $.ajax({
+                    type: 'GET',
+                    url: '/articles/likes/'+articleId ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    'id':articleId,
+                    
+                    
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                            console.log(response)
+                            console.log('hii')
+                            $('#like').html('Dislike');
+                            $('#count').html(response.likes);
+                            
+
+                        }
+                    }
+                });
+
+    }
+    else{
+        $.ajax({
+                    type: 'GET',
+                    url: '/articles/dislikes/'+articleId ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    'id':articleId,
+                   
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                          
+                            $('#like').html('Like');
+                            $('#count').html(response.likes);
+                            
+                        }
+                    }
+                });
+
+    }
+
+
+})
+
+})
+
 
 </script>
 
