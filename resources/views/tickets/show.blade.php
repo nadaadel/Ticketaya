@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
            <section id="ticket-view">
                <div class="container">
                    <div class="row ">
@@ -19,37 +18,75 @@
                        <div class="col-md-9 pb-5"><!--Ticket data-->
                            <div class="row">
                                <div class="col-md-8 col-xs-12 ticket-details">
-                                   <div class="ticket-img" style="background-image: url(../images/home/1-silder.jpg);"></div>
+                                   <div class="ticket-img" style="background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});"></div>
                                    <div class="tick-name-price pt-5 d-flex justify-content-between  ">
                                        <h3>{{ $ticket->name }}</h3>
                                        <h3 class="price">{{ $ticket->price }} L.E</h3>
                                    </div>
+                                     {{-- save ticket--}}
+                                     @if(Auth::check() )
+                                   <a class="btn ctrl-btn like-btn container">
+                                        @if(Auth::user()->savedTickets->contains($ticket->id))
+                                        <i class='fas fa-heart heart'></i>
+                                        @else
+                                        <i class='far fa-heart heart'></i>
+                                        @endif
+                                    </a>
+                                    @endif
+                                        {{-- end save ticket--}}
                                    <div class="ticket-info">
                                        <ul>
-
                                            <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
-
                                            <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
-                                           <li><i class="far fa-calendar-alt"></i>{{ $ticket->created_at->diffForHumans() }} </li>
+                                           <li><i class="far fa-calendar-alt"></i>Posted at : {{ $ticket->created_at->diffForHumans() }} </li>
                                            <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
 
                                            <li><i class="fas fa-map-marker"></i>{{ $ticket->region->name }},{{ $ticket->city->name }}</li>
                                        </ul>
                                    </div>
+
+
+                {{-- Request this ticket end section --}}
+        @if(Auth::user())
+           @if($ticket->user_id != Auth::user()->id  && $wantStatus == true && $ticket->is_sold == 0)
+                <div class="requestticket" id="RequestTicket">
                                    <div class="ticket-actions row">
                                        <div class="col-md-6 d-flex">
                                            <h4>Quantity</h4>
-                                           <select>
-                                                <option selected value="1">1</option>
-                                                <option  value="2">2</option>
-                                                <option  value="3">3</option>
-                                                <option  value="4">4</option>
+                                           <select name="quantity" id="quantity">
+                                               @for($i =1 ; $i<= $ticket->quantity ; $i++)
+                                           <option  value="{{$i}}">{{$i}}</option>
+                                               @endfor
                                             </select>
                                        </div>
+                                <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
                                        <div class="col-md-6">
-                                           <a  href="#" class="btn btn-primary">REQUST THIS TICKET</a>
+                                           <a  href="#"   id="want" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
+                </div>
+            @endif
+
+                {{-- Request this ticket end section --}}
+                @if($request&&$request->is_accepted==0)
+                <div id="loginuser">
+                <a  href="#" id="editshow"  class="btn btn-primary">Edit My Request</a>
+                </div>
+               @endif
+
+                <div class="editrequest" id="editrequest" style="display: none;">
+                <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
+                <h4>Quantity</h4>
+                <select class="w-25" name="editquantity" id="editquantity">
+                    @for($i =1 ; $i<= $ticket->quantity ; $i++)
+                <option  value="{{$i}}">{{$i}}</option>
+                    @endfor
+                 </select>
+                <button href="#" id="editticket" class="btn btn-success">Edit</button>
+               </div>
+        @endif
+
+                {{-- Edit Request this ticket end section --}}
 
                                </div>
                                <div class="col-md-4 col-xs-12 pr-2">
@@ -65,7 +102,7 @@
                                 <h3 class="mb-3">Tags</h3>
                                     <p>
                                         @foreach($ticket->tags as $tag)
-                                        <a href={{ URL::to('tags/'.$tag->id.'/tickets') }} type="button" class="btn btn-success" >{{$tag->name}}</a>
+                                        <a href={{ route('tagTickets', ['id' => $tag->id]) }} class="btn btn-success" >{{$tag->name}}</a>
                                         @endforeach
                                     </p>
                              @endif
@@ -74,19 +111,24 @@
                        </div><!--end of Ticket data-->
                    </div>
                </div>
+        @if(Auth::user())
                <div class="container">
+
                    <div class="row comments"><!--comments section -->
                        <div class="col-md-12">
                           <h2>Visitors Comments</h2>
                            <div class="col-md-12">
-                              <form>
+                                <form method="POST" action="/comments" enctype="multipart/form-data" >
+                                    {{ csrf_field() }}
                                <div class="row">
 
                                    <div class="col-sm-4 col-md-3">
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <input type="text" placeholder="Leave comment Here ....">
+                                       <input  type="text" placeholder="Leave comment Here ...." name="body">
+                                       <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
+
                                    </div>
                                    <div class=" col-sm-12 col-md-3  pt-3">
                                        <input type="submit" value="NEW COMMENT" class="btn btn-secondary">
@@ -94,49 +136,47 @@
                                </div>
                                </form>
                            </div>
+
+
                            <div class="col-md-12 users-comment">
+                        @foreach($ticket->comments as $comment)
+
+
                               <div class="row"> <!--every comment here -->
                                    <div class="col-sm-4 col-md-3">
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
                                        <div class="comment-content">
-                                           <h4>Adam Smith</h4>
-                                           <p class="gray">3 hours ago</p>
+                                           <h4>{{$comment->user->name}}</h4>
+                                           <p class="gray">3 {{$comment->created_at->diffForHumans()}}</p>
                                            <p>
-                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
-                                           </p>
-                                           <a href="#" class="info">REPLAY</a>
-                                       </div>
-                                   </div>
-                               </div> <!-- end of every comment -->
-                               <div class="row"> <!--every comment here -->
-                                   <div class="col-sm-4 col-md-3">
-                                       <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--commented user img  -->
-                                   </div>
-                                   <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <div class="comment-content">
-                                           <h4>Adam Smith</h4>
-                                           <p class="gray">3 hours ago</p>
-                                           <p>
-                                                {{ $ticket->description }}
-                                           </p>
-                                           <a href="#" class="info">REPLAY</a>
-                                           <div class="row mt-5">
-                                                <div class="col-sm-4 col-md-2">
-                                                   <div class="usr-img-cmnt" style="background-image: url(../images/icons/avatar.jpg);"></div><!--user logged img -->
-                                               </div>
-                                               <div class="col-sm-12 col-md-10">
-                                                   <input type="text" placeholder="Leave comment Here ....">
-                                                   <input type="submit" value="NEW COMMENT" class="btn btn-secondary mt-3">
-                                               </div>
-                                               <div class=" col-sm-12 col-md-3  pt-3">
+                                                {{$comment->body}}                                           </p>
+                                           <a  class="btn btn-primary info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
+                                        <div id="{{$comment->id}}" style="display: none;">
+                                                <div class="card-body" >
+                                                    <form method="POST" action="/replies" enctype="multipart/form-data" >
+                                                    {{ csrf_field() }}
+                                                        <div class="form-group row">
+                                                            <div class="col-md-6">
+                                                            <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
+                                                            </textarea>
+                                                            <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
+                                                            <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
+                                                            <button type="submit" class="btn btn-primary">
+                                                                                {{ __('Reply') }}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-                                               </div>
-                                           </div>
-                                       </div>
+                                        </div>
                                    </div>
                                </div> <!-- end of every comment -->
+
+                        @endforeach
                             </div>
 
                        </div>
@@ -144,12 +184,7 @@
                </div>
            </section>
 
-
                   {{-- spam section --}}
-        @if(Auth::user())
-                  @role('admin')
-                  Numbers of Spam :{{$numberofspams}}
-                  @endrole
             @if(count($userSpam))
                 @foreach ($userSpam as $spam)
                         @if($spam->ticket_id == $ticket->id)
@@ -158,117 +193,50 @@
                         @endif
                 @endforeach
             @else
+
             @if($ticket->user_id != Auth::user()->id)
                 <form method="POST" action="/tickets/spam/{{$ticket->id}}">
                     @csrf
                 <input class="btn btn-danger" type="submit" value="spam">
                 </form>
-
-
-
             @endif
             @endif
                 {{-- end spam section --}}
-                {{-- save ticket--}}
             @if($ticket->user_id != Auth::user()->id)
-                @if($userSavedTicket)
-                <button id="save_ticket" class="btn btn-danger">unsave</button>
-                @else
-                <button id="save_ticket" class="btn btn-primary">save</button>
-                @endif
-                <a href={{ URL::to('tickets/report/' . $ticket->id ) }} type="button" class="btn btn-danger" >Report</a>
+                <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-danger" >Report</a>
             @endif
         @endif
-                {{-- end save ticket--}}
+</hr>
+@if(sizeof($recommendedArticles) > 0)
+<section class="recommended-articles">
+        <div class="container">
+            <div class="row">
+                <h2>Recommended Articles</h2>
+                <div class="row  mt-5 mb-5">
+                        @foreach($recommendedArticles as $article)
+                                <div class="col-md-6 col-12 mb-6"><!--event card starts here-->
+                                   <a href="{{ URL::to('articles/' . $article->id ) }}">
+                                        <div class="event-card">
+                                            <div href="{{ URL::to('articles/' . $article->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/articles/'. $article->photo) }});">
+                                            </div>
+                                            <div class="event-content">
+                                                <a href="{{ URL::to('articles/' . $article->id ) }}"><h3>{{ucwords($article->title)}}</h3></a>
+                                                <p>{{substr($article->description,0,200)}}.</p>
+                                            </div>
+                                            <div class="follow text-center">
+                                                    <a class="btn btn-primary" href="{{ URL::to('articles/' . $article->id ) }}">Read More</a>
 
-                {{-- Request this ticket section --}}
-        @if(Auth::user())
-       
-        <div class="requestticket" id="RequestTicket">
-        @if($ticket->user_id != Auth::user()->id  && $wantStatus == true)
-        <input type="hidden" id="ticket-id" value="{{$ticket->id}}">
-        <input id="quantity" type="number" name="quantity" placeholder="Quantitiy">
-        <button  type="submit" class="want" class="btn btn-primary">I Want This Ticket</button>
-        @endif
-        </div>
-       
-       @if($request&&$request->is_accepted==0)
-        <div id="loginuser">
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-        </div>
-       @endif
- 
-        
-        <div class="edit" id="edit" style="display: none;">
-        <input type="hidden" id="edit-ticket-id" value="{{$ticket->id}}">
-
-        <input id="editquantity" type="number" name="editquantity" placeholder="Quantitiy">
-       
-        <button type="submit" class="editticket" class="btn btn-primary">Edit My Request</button>
-      
-       </div>
-      
-       
-        
-        
-                {{-- Request this ticket end section --}}
-
-
-{{-- comments and replies section --}}
-<br>
-Comments:
-<br>
-<br>
-@foreach($ticket->comments as $comment)
-{{$comment->user->name}}
-<div>{{$comment->body}} created at :{{$comment->created_at->diffForHumans()}} </div>
-
-<button   class="reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >Reply</button>
-
-<div id="{{$comment->id}}" style="display: none;">
-
-    <div class="card-body"  >
-
-        <form method="POST" action="/replies" enctype="multipart/form-data" >
-         {{ csrf_field() }}
-            <div class="form-group row">
-                <div class="col-md-6">
-                   <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
-                   </textarea>
-                   <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
-                   <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
-                   <button type="submit" class="btn btn-primary">
-                                    {{ __('Reply') }}
-                    </button>
-                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div><!--event card starts here-->
+                        @endforeach
+                        </div>
             </div>
-        </form>
-    </div>
-</div>
-
-<hr>
-<br>
-@endforeach
-
-<div class="card-body">
-    <form method="POST" action="/comments" enctype="multipart/form-data" >
-         {{ csrf_field() }}
-        <div class="form-group row">
-                <div class="col-md-6">
-                   <textarea rows="4" cols="50" placeholder="comment here"  name="body">
-                   </textarea>
-                   <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
-                   <button type="submit" class="btn btn-primary">
-                                    {{ __('New Comment') }}
-                    </button>
-                </div>
-         </div>
-    </form>
-
-</div>
+        </div>
+</section>
 @endif
+
 <script src="//code.jquery.com/jquery.js"></script>
 @include('flashy::message')
 @if(Session::has('flashy_notification.message'))
@@ -286,15 +254,12 @@ Comments:
 
 
 
-
-
-
-
 <script>
     $(document).ready( function(){
-    $('.want').on('click' , function(){
-            console.log('iam here');
+    $('#want').on('click' , function(){
             var quantity = $('#quantity').val();
+            console.log(quantity);
+
             var ticket_id = $('#ticket-id').val();
             console.log(quantity);
             $.ajax({
@@ -310,8 +275,8 @@ Comments:
                     console.log(response.response);
                     alert('Ticket Requested Successfully');
                     $('.requestticket').hide();
-                    $('#edit').show();
-                    //console.log( $('#edit'));
+                    $('#loginuser').show();
+
                    }
                    else{
                     console.log(response);
@@ -319,12 +284,16 @@ Comments:
                    }
                 }
             });
-            
  });
- $('.editticket').on('click' , function(){
-          //  $('#editquantity').show();
+
+
+ $('#editshow').on('click' , function(){
+        $('#editrequest').show();
+        $(this).hide();
+ });
+
+ $('#editticket').on('click' , function(){
             var quantity  = $('#editquantity').val();
-            //console.log(quantity)
             var ticket_id = $('#edit-ticket-id').val();
             $.ajax({
                 url: '/tickets/request/edit/'+ticket_id,
@@ -339,7 +308,7 @@ Comments:
                    if(response.response =='ok'){
                    // console.log(response.response);
                     console.log(response.ticket )
-                   
+
                     alert('Edit Requested Successfully');
                    }
                    else{
@@ -350,7 +319,6 @@ Comments:
             });
  });
 $('.reply').on('click',function(){
-
     var elem = this;
     var ticketId=$(this).attr("ticket-no");
     var commentId=$(this).attr("comment-id");
@@ -361,7 +329,6 @@ $('.reply').on('click',function(){
                 '_token':'{{csrf_token()}}',
                  },
             success: function (response) {
-            //console.log(response.replies)
             console.log(response.names);
             $('#'+commentId).show();
 
@@ -380,26 +347,27 @@ $('.reply').on('click',function(){
             })
             $(this).hide();
   });
-       $('#save_ticket').on('click' , function(){
-           console.log($(this).html());
-           if($(this).html()=='save'){
-         $.ajax({
+});
+
+  @if(Auth::check())
+        $(document).on('click','.heart',callFunction);
+        var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
+         function callFunction() {
+            var element=$(this);
+           if (!click) {$.ajax({
              url: '/tickets/save/{{$ticket->id}}',
              type: 'GET' ,
              data:{
                  '_token':'@csrf'
              },
         success:function(response){
-            console.log(response);
             if(response.res == 'success'){
-                $('#save_ticket').html('unsave');
-                $("#save_ticket").attr('class', 'btn btn-danger');
+            element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
+            click = true;
             }
         }
          });
-           }
-           else
-           if($(this).html()=='unsave'){
+           } else {
             $.ajax({
              url: '/tickets/unsave/{{$ticket->id}}',
              type: 'GET' ,
@@ -407,17 +375,16 @@ $('.reply').on('click',function(){
                  '_token':'@csrf'
              },
         success:function(response){
-            console.log(response);
             if(response.res == 'success'){
-                $('#save_ticket').html('save');
-                $("#save_ticket").attr('class', 'btn btn-primary');
+            element.parent().empty().append("<i class='far fa-heart heart'></i>");
+             click = false;
             }
             }
          });
-        }
-    });
-});
 
-</script>
+           }
+         }
+       @endif
+    </script>
 
 @endsection

@@ -46,7 +46,7 @@
         <section>
 
                    {{-- HOT TICKETS --}}
-        @if($hotTickets)
+        {{-- @if($hotTickets)
             <div class="row">
             <h3 class="text-center">Hot Tickests</h3>
              @foreach ($hotTickets as $ticket)
@@ -64,7 +64,7 @@
                                 <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
                             </div>
                             <div class="ticket-btn text-center">
-                                <a type="button" href="/tickets/{{$ticket->id}}" type="button" class="btn btn-primary">Request This Ticket</a>
+                                <a href="/tickets/{{$ticket->id}}"  class="btn btn-primary">Request This Ticket</a>
                             </div>
 
                         </div>
@@ -72,10 +72,10 @@
                 </div>
              @endforeach
             </div>
-       @endif
+       @endif --}}
             <hr>
                                   {{-- HOT EVENTS --}}
-            @if($hotEvents)
+            {{-- @if($hotEvents)
             <div class="row">
                     <h3 class="text-center">Hot Events</h3>
                      @foreach ($hotEvents as $event)
@@ -91,7 +91,7 @@
                                         <div class="ticket-qty-num d-flex align-items-center"><span>{{$event->avaliabletickets}}</span></div>
                                     </div>
                                     <div class="ticket-btn text-center">
-                                        <a type="button" href="/events/{{$event->id}}" type="button" class="btn btn-primary">Show Event</a>
+                                        <a href="/events/{{$event->id}}"  class="btn btn-primary">Show Event</a>
                                     </div>
 
                                 </div>
@@ -99,7 +99,7 @@
                         </div>
                      @endforeach
                     </div>
-                @endif
+                @endif --}}
         </section>
 
 

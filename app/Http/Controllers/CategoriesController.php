@@ -18,7 +18,7 @@ class CategoriesController extends Controller
     return view('not-authorize');
 
     }
-    
+
   public function create(){
     if(Auth::user()->hasrole('admin')){
     return view('admin.categories.create');
@@ -29,10 +29,17 @@ class CategoriesController extends Controller
 }
 public function store(Request $request){
     if(Auth::user()->hasrole('admin')){
-        Category::create([
-            'name' => $request->name
-        ]);
-        return redirect('/admin/categories');
+        $category = new Category();
+        $category->name = $request->name;
+        if($request->hasFile('photo')){
+            $request->file('photo')->store('public/images/categories');
+            $file_name = $request->file('photo')->hashName();
+            $category->photo= $file_name;
+
+        }
+        $category->save();
+
+        return redirect('/categories');
     }
     return view('not-authorize');
 
@@ -57,6 +64,13 @@ public function edit($id){
     if(Auth::user()->hasrole('admin')){
         $getCategory = Category::find($id);
         $getCategory->name = $request->name;
+
+        if($request->hasFile('photo')){
+            $request->file('photo')->store('public/images/categories');
+            $file_name = $request->file('photo')->hashName();
+            $getCategory->photo= $file_name;
+
+        }
         $getCategory->save();
         return redirect('/categories');
     }

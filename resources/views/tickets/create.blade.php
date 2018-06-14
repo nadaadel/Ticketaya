@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-6">
                        <label >Ticket Quantity</label>
-                        <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+                        <input type="number" min="0" max="10" name="quantity" class="form-control" placeholder="Quantity">
                     </div>
                 </div>
                 <div class="row">
@@ -61,15 +61,12 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6 " >
+                    <div id="toggleRegion" class="col-md-6 " style="display:none;">
                         <label >Region </label>
-                        <select name="city" id="city" class="w-100">
-                            @foreach(App\City::all() as $city)
-                              <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach
+                        <select name="region" id="region" class="w-100">
                         </select>
                     </div>
-                    
+
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -83,7 +80,7 @@
                         <input type="text" name="tags" class="form-control" placeholder="Add Tags Sperated by comma">
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-12">
                         <label for="image">Ticket Image</label>
@@ -95,7 +92,7 @@
                         <input type="submit" value="SUBMIT" class="btn btn-primary pl-5 pr-5">
                     </div>
                 </div>
-                
+
             </form>
             </div>
         </div>
@@ -105,6 +102,7 @@
 $(document).ready( function(){
     $('#city').on('change',function(){
     var city_id = $(this).val();
+    $('#region').empty();
     $.ajax({
              url: '/cities/'+city_id,
              type: 'GET' ,

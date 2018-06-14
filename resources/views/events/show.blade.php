@@ -38,65 +38,56 @@
         <div>
        @endforeach
   </div>
-  <hr>
-  {{-- questions and answer --}}
-  @if($questions)
-    @foreach($questions as $question)
-    <div qid="{{$question->id}}">
-    Question<div class="question">{{$question->question}} </div>
-    Answer: <div class="answer"  >{{$question->answer}} </div>
+
+   {{-- end info section --}}
+
+{{-- questions and answer --}}
+@if($questions)
+@foreach($questions as $question)
+<div id="{{$question->id}}">
+Question<div class="question">{{$question->question}} </div>
+Answer: <div class="answer"  >{{$question->answer}} </div>
 
 
+@if(Auth::user() && Auth::user()->id == $event->user_id)
 
+ <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
+ <div class="answer-area" >
+        <textarea class="ans-body" id="{{$question->id}}"  cols="12">
+        </textarea>
 
+ </div>
+    <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+    <input type="hidden" id="event_id" value="{{$event->id}}">
+@endif
+</div>
+<hr>
+@endforeach
+@endif
 
-
-    @if(Auth::user() && Auth::user()->id == $event->user_id)
-
-     <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
-     <div class="answer-area" >
-            <textarea class="ans-body" id="{{$question->id}}"  cols="12">
-            </textarea>
-
-     </div>
-        <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-        <input type="hidden" id="event_id" value="{{$event->id}}">
-
-
-
-
-    @endif
-    </div>
-    <hr>
-
-    @endforeach
-   @endif
-
+    {{--  Subscribe and Unsubscribe--}}
     @if(Auth::user() && Auth::user()->id != $event->user_id)
-      @if(sizeof($subscribers) == 1)
+        @if(sizeof($subscribers) == 1)
 
-     <button id="subscribe" class="btn btn-danger" >unsubscribe</button>
-      @else
-      <button id="subscribe" class="btn btn-primary " >subscribe</button>
-      @endif
+        <button id="subscribe" class="btn btn-danger" >unsubscribe</button>
+        @else
+        <button id="subscribe" class="btn btn-primary " >subscribe</button>
+        @endif
 
-
-      <button id="questionbtn" class="btn btn-primary" >Question !</button>
-      <div class="question-area" style="display:none;">
-            <textarea id="ques-body" cols="12">
-            </textarea>
-            <button id="question-submit" class="btn btn-info">Post</button>
-      </div>
+          {{--  add Question --}}
+        <button id="questionbtn" class="btn btn-primary" >Question !</button>
+        <div class="question-area" style="display:none;">
+                <textarea id="ques-body" cols="12">
+                </textarea>
+                <button id="question-submit" class="btn btn-info">Post</button>
+        </div>
 
     @endif
-
-
+    @if(Auth::user())
      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+    @endif
+
      <input type="hidden" id="event_id" value="{{$event->id}}">
-
-
-
-
 <script>
     $(document).ready(function(){
 
@@ -123,37 +114,20 @@
                 },
                 success:function(response){
                  if(response.response== 'success'){
-                  console.log(response.questions.id);
-
-
-                  //$( "<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('#'+no);
+                    alert('saved Questions Successfuly')
+                  $("<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('.questions-area');
 
                  }
-                 if(response.response== 'false'){
-                  console.log("you create this question before");
-
-                 }
-
-
                 }
+        });
+    });
 
-        })
-
-
-    })
     $('.answer-submit').on('click',function(){
      var quesId=$(this).attr('question-id');
      var question=$(this).attr('question');
      var questioner=$(this).attr('questioner');
-      var body=$('#'+quesId).val();
-
-      var event_id = $('#event_id').val();
-     /* console.log(question);
-      console.log(event_id);
-      console.log(quesId);
-      console.log(questioner);*/
-
-
+     var body=$('#'+quesId).val();
+     var event_id = $('#event_id').val();
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -168,7 +142,7 @@
                 success:function(response){
 
                   console.log(response);
-                 // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
+                  $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('.questions-area');
 
 
                 }

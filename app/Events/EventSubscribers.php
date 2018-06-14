@@ -12,12 +12,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Event;
 use Auth;
 use App\Notification;
+use App\NotifyType;
 
 class EventSubscribers implements ShouldBroadcast
 {
     public $message;
     public $user_id;
     public $notification_id;
+    public $related_id;
 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,12 +34,16 @@ class EventSubscribers implements ShouldBroadcast
       $event = Event::find($event_id);
       $this->message = "Event {$event->name} Has New informations don't miss it";
       $this->user_id = $toUser;
+      $notify_type_id=NotifyType::where('type','=','events')->first()->id;
       $notification=  Notification::create([
         'user_id' => $this->user_id,
-        'notify_type_id' => 2,
-        'message'=>$this->message
+        'notify_type_id' => $notify_type_id,
+        'message'=>$this->message,
+        'related_id'=> $event_id
    ]);
        $this->notification_id=$notification->id;
+       $this->related_id=$event_id;
+
     }
 
     /**

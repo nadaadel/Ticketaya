@@ -12,15 +12,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Notification;
 use App\Ticket;
 use Auth;
+use App\NotifyType;
+
 class TicketRequested implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $ticketName;
     public $fromUser;
-    public $message;
     public $user_id;
     public $notification_id;
+    public $related_id;
 
 
     /**
@@ -34,14 +36,16 @@ class TicketRequested implements ShouldBroadcast
         $this->ticketName = $ticket->name;
         $this->fromUser =   Auth::user()->name;
         $this->user_id  =  $ticket->user_id;
-        $this->message  = "{$this->fromUser} request Your ticket { $this->ticketName}";
-       
+
+        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
         $notification = Notification::create([
            'user_id' => $this->user_id,
-           'message' => "{$this->fromUser} request Your ticket {$this->ticketName}",
-           'notify_type_id' => 1
+           'message' => $this->fromUser.'request Your ticket'.$this->ticketName,
+           'notify_type_id' => $notify_type_id,
+           'related_id'=>$ticket_id
         ]);
         $this->notification_id=$notification->id;
+        $this->related_id=$ticket_id;
     }
     /**
      * Get the channels the event should broadcast on.

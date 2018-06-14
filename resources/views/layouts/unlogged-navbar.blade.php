@@ -4,12 +4,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-
 <!--
       <ul class="navbar-nav navbar-right">
         <li class="nav-item active pt-3">
 -->
-
        <ul class="navbar-nav navbar-left">
 
         <li class="nav-item active pt-3">
@@ -112,12 +110,21 @@ $(function () {
 function notificationsHtml(data,realtime){
           var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+          var url ="";
+          if(data.notify_type_id == 1){
+              url="/tickets/"+data.related_id;
+
+          }
+          else if(data.notify_type_id == 2){
+              url="/events/"+data.related_id;
+          }
           if(realtime){
+          console.log(data)
                 notificationsCount += 1;
                 data.created_at=new Date(Date.now());
                 data.is_seen=0;
                 data.id=data.notification_id;
-                console.log(data.notification_id);
+
           }
           //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
           var newNotificationHtml = `
@@ -129,7 +136,7 @@ function notificationsHtml(data,realtime){
                         </div>
                         </div>
                         <div class="media-body">
-                            <a notif-no="`+data.id+`"  class="notify-seen" style="cursor: pointer;"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
+                            <a notif-no="`+data.id+`" url="`+url+`" class="notify-seen" style="cursor: pointer;"><strong style="color:black;" class="notification-title">`+data.message+`</strong></a>
                             <p class="notification-desc"></p>
                             <div class="notification-meta">
                                 <small class="timestamp">`+data.created_at+`</small>
@@ -185,7 +192,8 @@ $(document).on('click','#readall',function(event){
     // change notifications status that was unseen to be seen
     $(document).on('click','.notify-seen',function(event){
         //event.preventDefault();
-        notif_id=$(this).attr('notif-no');
+        var notif_id=$(this).attr('notif-no');
+        var gotoURL=$(this).attr('url');
                 $.ajax({
                     type: 'get',
                     url: '/notifications/'+notif_id+'/edit',
@@ -197,7 +205,7 @@ $(document).on('click','#readall',function(event){
                             notificationsCount-=1;
                             updateNotificationCount();
                         }
-                        window.location = "/tickets/requests";
+                        window.location = gotoURL;
                     }
 
             });
@@ -208,8 +216,13 @@ var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
 bindChannel(statusTicketrequested,'App\\Events\\StatusTicketRequested');
+
+var eventSubscribersChannel = pusher.subscribe('event-subscriber_{{ Auth::user()->id }}');
+bindChannel(eventSubscribersChannel,'App\\Events\\EventSubscribers');
+
 var questionNotification=pusher.subscribe('question-notification_{{ Auth::user()->id }}');
 bindChannel(questionNotification,'App\\Events\\Question');
+
 var answerNotification=pusher.subscribe('answer-notification_{{ Auth::user()->id }}');
 bindChannel(answerNotification,'App\\Events\\Answer');
 });

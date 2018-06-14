@@ -13,22 +13,22 @@ class TagsController extends Controller
         if(Auth::check() && Auth::user()->hasRole('admin')){
             return view('admin.tags.index' , compact('tags'));
         }
-        return view('tags.index' , compact('tags'));
+        return view('notfound');
     }
     public function create(){
         if(Auth::check() && Auth::user()->hasRole('admin')){
             return view('admin.tags.create');
         }
-        return view('tags.create');
-
+        return view('notfound');
     }
     public function store(Request $request){
-        if(Auth::check() ){
+        if(Auth::check()  && Auth::user()->hasRole('admin') ){
             Tag::create([
             'name' => $request->name
         ]);
-            }
         return redirect('/tags');
+            }
+        return view('notfound');
     }
     public function edit($id){
         $tag = Tag::find($id);
@@ -36,7 +36,6 @@ class TagsController extends Controller
         if(Auth::check() && Auth::user()->hasRole('admin')){
             return view('admin.tags.edit' , compact('tag'));
         }
-        return view('tags.edit' , compact('tag'));
     }
     return view('notfound');
     }
@@ -46,7 +45,6 @@ class TagsController extends Controller
             if(Auth::check() && Auth::user()->hasRole('admin')){
                 return view('admin.tags.show' , compact('tag'));
             }
-        return view('tags.show' , compact('tag'));
         }
         return view('notfound');
 
@@ -56,11 +54,10 @@ class TagsController extends Controller
     public function tagTickets($id){
         $tag = Tag::find($id);
         if($tag !== null){
-            $tickets=$tag->tickets;
+            $tickets=$tag->tickets()->paginate(2);
                 if(Auth::check() && Auth::user()->hasRole('admin')){
                     return view('admin.tags.show_tickets' , compact('tickets','tag'));
                 }
-            return view('tags.show_tickets' , compact('tickets','tag'));
         }
         return view('notfound');
 
@@ -82,8 +79,9 @@ class TagsController extends Controller
         if($getTag !== null){
             if(Auth::check() && Auth::user()->hasRole('admin')){
                 $getTag->delete();
+                return redirect('/tags');
             }
-        return redirect('/tags');
+
         }
         return view('notfound');
     }

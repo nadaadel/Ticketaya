@@ -14,13 +14,13 @@ class UsersController extends Controller
 
     public function index (){
         $users=User::all();
-       
+
         if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
             return view('admin.users.index',compact('users'));
         }
         return view('notfound');
-       
+
     }
     public function create(){
         $cities=City::all();
@@ -28,7 +28,7 @@ class UsersController extends Controller
         {
             return view('admin.users.create',compact('cities'));
         }
-       
+
         return view('notfound');
 
     }
@@ -41,21 +41,21 @@ class UsersController extends Controller
         }
         return redirect('users');
     }
-    public function show(Request $request){
-        $user=User::find($request->id);
-        $view='users.show';
-        if(Auth::user()&&Auth::user()->hasRole('admin'))
-        {
-            $view='admin.users.show';
+    public function show($id){
+        $user=User::find($id);
+        if($user !== null){
+        if(Auth::user() && Auth::user()->hasRole('admin')){
+            return view('admin.users.show',['user'=> $user] );
         }
-        if(Auth::user()&&Auth::user()->id==$request->id){
-        return view($view,['user'=> $user] );
-
+        if(Auth::user()&& Auth::user()->id==$id){
+        return view('users.show',['user'=> $user] );
     }
+}
+    return view('notfound');
 }
     public function edit(Request $request){
         $user=User::find($request->id);
-    
+
         $cities=City::all();
          if($user->city_id){
             $cityUser=City::find($user->city_id);
@@ -63,7 +63,7 @@ class UsersController extends Controller
             // dd($regions);
         }
         $regions=Region::all();
-      
+
         $view='users.edit';
         if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
@@ -95,14 +95,14 @@ class UsersController extends Controller
         $user->city_id=$request->city;
         $user->region_id=$request->region;
         $user->phone=$request->phone;
-       
+
         $user->save();
        return redirect('userss');
 
     }
     public function update (Request $request){
-     
-       
+
+
         $user=User::find($request->id);
         if($request->hasFile('avatar'))
         {
@@ -111,7 +111,7 @@ class UsersController extends Controller
         $user->avatar= $file_name;
         }
         if($request->region){
-            $user->region_id=$request->region; 
+            $user->region_id=$request->region;
         }
         $user->avatar=$user->avatar;
         $user->name=$request->name;
@@ -120,11 +120,11 @@ class UsersController extends Controller
         $user->region_id=$user->region_id;
         $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
-       
-        $user->save();
-       
 
-        
+        $user->save();
+
+
+
         return redirect('/users/'.$user->id);
 
     }

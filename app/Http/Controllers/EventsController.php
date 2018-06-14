@@ -4,7 +4,9 @@ use App\Event;
 use App\EventInfo;
 use DB;
 use App\Category;
+use App\Region;
 use Auth;
+use Carbon\Carbon;
 use App\User;
 use App\City;
 use App\Events\EventSubscribers;
@@ -17,17 +19,13 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','LIKE',$request->question)->first();
-        //dd($questionfound==null);
-
+        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
+       // dd($questionfound);
         if ($questionfound==null){
-
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
-
-
         ]);
         $asker=User::find($request->user_id);
         $event=Event::find($request->event_id);
@@ -37,39 +35,21 @@ class EventsController extends Controller
         else{
             return response()->json(['response'=>'false']);
         }
-
-
-
-
     }
     public function updateQuestion(Request $request){
-        
-        
-        $event=Event::find($request->event_id);
-       /* foreach($event->eventquestions as $user){
-            if($user->pivot->question==$request->questin){
-              $user->updateExistingPivot($asker_id,['answer' =>$request->answer],false);
-        }
-    }*/
-        
+        $asker_id=$request->user_id;
+        $event_id=$request->event_id;
+        $question = EventQuestion::where([
+            'event_id' => $request->event_id,
+            'user_id' => $request->user_id,
+            'question' => $request->question
+        ])->first();
 
-        $asker= User::find($request->user_id);
-        $question=$asker->eventquestions()->wherePivot('question','=',$request->question)->first();
-       // dd($asker->eventquestions()->wherePivot('question','=',$request->question)->first());
-        //$question->pivot->answer=$request->answer;
-        $asker->eventquestions()->updateExistingPivot($question->id, ['answer' => $request->answer],false);
-        //$question->pivot->save();
- 
-        //$asker->eventquestions()->updateExistingPivot($request->quesId,['answer' =>$request->answer]);
-
-        //$asker->eventquestions->attach($request->quesId);
-
-        //$question->pivot->update();
-        //dd( $question->pivot->answer);
-
-
-        event(new Answer($asker, $event));
-        return response()->json(['answer' => $question->pivot->answer]);
+        $getQuestion = EventQuestion::find($question->id);
+        $getQuestion->answer = $request->answer;
+        $getQuestion->save();
+        event(new Answer($asker_id, $event_id));
+        return response()->json(['answer' => $getQuestion->answer]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
@@ -126,14 +106,15 @@ class EventsController extends Controller
 
 
     public function index(){
-        $events=Event::paginate(3);
+        $events=Event::paginate(2);
+        $categories=Category::all();
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.index';
         }
 
-        return view($view,compact('events'));
+        return view($view,compact('events','categories'));
     }
 
     public function create(){
@@ -150,13 +131,13 @@ class EventsController extends Controller
         $view='events.show';
         if(Auth::user()){
         $eventSubscibers = DB::table('event_user')->where('event_id' ,'=' , $id)->get();
-        // dd($eventSubscibers);
         $subscribers = DB::table('event_user')->where('event_id' ,'=' , $id)
         ->where('user_id' , '=' , Auth::user()->id)->get();
 
-
         }
         $questions=EventQuestion::all()->where('event_id',$id);
+
+
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
@@ -198,10 +179,16 @@ class EventsController extends Controller
     public function edit(Request $request){
         $event=Event::find($request->id);
         $categories=Category::all();
+        $regions = Region::all();
+        $cities = City::all();
+
         return view('events.edit',[
 
             'event' => $event,
             'categories'=>$categories,
+            'cities' => $cities,
+            'regions' => $regions
+
 
 
         ]);
@@ -209,7 +196,6 @@ class EventsController extends Controller
     }
     public function update(Request $request){
         $event=Event::find($request->id);
-
        if($request->hasFile('photo'))
         {
         $request->file('photo')->store('public/images/events');
@@ -220,8 +206,8 @@ class EventsController extends Controller
         $event->name = $request->name;
         $event->description=$request->description;
         $event->user_id= Auth::user()->id;
-        $event->city=$request->city;
-        $event->region=$request->region;
+        $event->city_id=$request->city;
+        $event->region_id=$request->region;
         $event->startdate=$request->startdate;
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;
@@ -235,7 +221,8 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-        return redirect('/events');
+
+        return response()->json(['response' => 'success']);
     }
 
 }

@@ -10,6 +10,7 @@ use App\Category;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
+use App\Article;
 use App\Notification;
 use App\Events\TicketRequested;
 use App\Events\TicketReceived;
@@ -23,21 +24,23 @@ class TicketsController extends Controller
 {
     public function index (){
         $tickets=Ticket::paginate(9);
+        $categories=Category::all();
        // $admin=DB::table('roles')->where('name','=','admin')->first();
        // dd($admin->name);
         if(Auth::check()){
         if(Auth::user()->hasRole('admin'))
         {
-            return view('admin.tickets.index',compact('tickets'));
+            return view('admin.tickets.index',compact('tickets','categories'));
         }
     }
-        return view('tickets.index',compact('tickets'));
+        return view('tickets.index',compact('tickets','categories'));
      }
 
     public function show($id){
         $ticket = Ticket::find($id);
         if($ticket !== null){
-        if(Auth::check()){
+            $recommendedArticles = Article::where('category_id' , '=' , $ticket->category_id)->inRandomOrder()->get();
+            if(Auth::check()){
                 $userSpam = DB::table('spam_tickets')->where('user_id' , '=' , Auth::user()->id)->get();
                 $requestStatus = RequestedTicket::where([
                 ['requester_id' , '=' , Auth::user()->id],
@@ -58,9 +61,10 @@ class TicketsController extends Controller
                     $numberofspams=$ticket->spammers->count();
                     return view('admin.tickets.show',compact('ticket',  'numberofspams' ));
                 }
-                return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket'));
+                return view('tickets.show' , compact('ticket' , 'userSpam' , 'request','wantStatus','userSavedTicket' ,'recommendedArticles'));
             }
-            return view('tickets.show' , compact('ticket'));
+            return view('tickets.show' , compact('ticket','recommendedArticles'));
+
         }
         return view('notfound');
     }

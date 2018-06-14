@@ -1,27 +1,52 @@
 @extends('layouts.app')
 @section('content')
-@if($articles)
-<div class="row">
-<h3 class="text-center">Articles</h3>
- @foreach ($articles as $article)
- <div class="col-md-4 col-xs-12 tick-search ticket-card-parent">
-        <div class="card ticket-card">
-            <div class="card-img"  style=" background-image: url({{ asset('storage/images/articles/'. $article->photo) }});">
-
-            </div>
-
-            <div class="card-body">
-                <h3 class="card-title">{{$article->title}} </h3>
-                <p class="ticket-des">{{substr($article->description,0,150)}}</p>
-                <div class="ticket-btn text-center">
-                    <a type="button" href="/articles/{{$article->id}}" type="button" class="btn btn-primary">Read More</a>
+<div class="container">
+        <div class="row">
+                <div class="col-md-12  mt-3 text-center">
+                    <h2 style="font-family:sans-serif">Our Blog</h2>
                 </div>
-
             </div>
-        </div>
-    </div>
- @endforeach
+<div class="row  mt-5 mb-5">
+@foreach($articles as $article)
+        <div class="col-md-6 col-12 mb-6"><!--event card starts here-->
+           <a href="{{ URL::to('articles/' . $article->id ) }}">
+                <div class="event-card">
+                    <div href="{{ URL::to('articles/' . $article->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/articles/'. $article->photo) }});">
+                    </div>
+                    <div class="event-content">
+                        <a href="{{ URL::to('articles/' . $article->id ) }}"><h3>{{ucwords($article->title)}}</h3></a>
+                        <p>{{substr($article->description,0,200)}}.</p>
+                    </div>
+                    <div class="follow text-center">
+                            <a class="btn btn-primary" href="{{ URL::to('articles/' . $article->id ) }}">Read More</a>
+
+                    </div>
+                </div>
+            </a>
+        </div><!--event card starts here-->
+@endforeach
 </div>
-@endif
+</div>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

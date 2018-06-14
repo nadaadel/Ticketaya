@@ -13,11 +13,12 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $categories = array (
-            array('name' => 'Sport' ,'created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-            array('name' => 'Music','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-            array('name' => 'Festival','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-            array('name' => 'Travel','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
-            array('name' => 'Fashion','created_at' => Carbon::now(),'updated_at' => Carbon::now())
+            array('name' => 'Sport' ,'photo'=>'sports.jpg','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+            array('name' => 'Music','photo'=>'music.jpeg','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+            array('name' => 'Festival','photo'=>'festival.jpg','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+            array('name' => 'Travel','photo'=>'travel.jpg','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+          //  array('name' => 'Fashion','photo'=>'fashion.jpg','created_at' => Carbon::now(),'updated_at' => Carbon::now()),
+            array('name' => 'Others','photo'=>'others.jpg','created_at' => Carbon::now(),'updated_at' => Carbon::now())
         );
         Category::insert($categories);
     }

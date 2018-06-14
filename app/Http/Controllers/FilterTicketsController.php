@@ -8,6 +8,14 @@ use App\Category;
 
 class FilterTicketsController extends Controller
 {
+
+   public function byCategory($category_id){
+       $tickets = Ticket::where('category_id' , '=' , $category_id)->get();
+       $categories = Category::all();
+       return view('tickets.index' , compact('tickets' , 'categories'));
+   }
+
+
     public function filter(Request $request){
 
     $tickets = [];
