@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\User;
 use App\NotifyType;
+use Carbon\Carbon;
 
 class Notification extends Model
 {
@@ -18,5 +19,10 @@ class Notification extends Model
 
     public function type(){
         return $this->belongsTo(NotifyType::class);
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->diffForHumans();
     }
 }

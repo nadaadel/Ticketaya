@@ -97,31 +97,6 @@
          }
         </script>
          @endif
-         <script>
-                $(document).on('click','.deletebtn',function(){
-                        var ticket_id =
-                        var resp = confirm("Are you sure?");
-                        if (resp == true) {
-                            $.ajax({
-                                type: 'POST',
-                                url: '/floors/'+floor_id ,
-                                data:{
-                                '_token':'{{csrf_token()}}',
-                                '_method':'DELETE',
-                                },
-                                success: function (response) {
-                                    if(response.response=='success'){
-                                    $('#myTable').DataTable().ajax.reload();
-                                    }
-                                    else{
-                                        alert(response.response);
-                                    }
-                                }
-                            });
-
-                        }
-                       });
-                </script>
 @endsection
 
 
