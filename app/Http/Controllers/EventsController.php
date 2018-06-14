@@ -56,7 +56,7 @@ class EventsController extends Controller
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
         event(new Answer($asker_id, $event_id));
-        return response()->json(['answer' => $question->pivot->answer]);
+        return response()->json(['answer' => $getQuestion->answer]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([

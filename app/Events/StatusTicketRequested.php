@@ -13,6 +13,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\User;
 use App\Ticket;
 use App\Notification;
+use App\NotifyType;
 
 class StatusTicketRequested implements ShouldBroadcast
 {
@@ -27,6 +28,8 @@ class StatusTicketRequested implements ShouldBroadcast
      public $message;
      public $notification_id;
      public $is_accept;
+     public $related_id;
+
     public function __construct($requestedTicket,$is_accept)
 
     {
@@ -46,13 +49,15 @@ class StatusTicketRequested implements ShouldBroadcast
             $this->message = "{$this->sellerName} cancel Your ticket {$this->TicketName} with quantity= {$this->Quantity}";
 
         }
-        
+        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
         $notification=  Notification::create([
                         'user_id' => $this->BuyerId,
-                        'notify_type_id' => 2,
-                        'message'=>$this->message
+                        'notify_type_id' => $notify_type_id,
+                        'message'=>$this->message,
+                        'related_id'=> $requestedTicket->ticket_id
                    ]);
         $this->notification_id=$notification->id;
+        $this->related_id=$requestedTicket->ticket_id;
     }
 
     /**

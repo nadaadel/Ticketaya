@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('message');
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->Boolean('is_seen')->default(0);
+            $table->integer('related_id')->unsigned()->nullable();
             $table->integer('notify_type_id')->unsigned()->index()->nullable();
             $table->timestamps();
         });

@@ -186,7 +186,7 @@ $('.reply').on('click',function(){
                         if (resp == true) {
                             $.ajax({
                                 type: 'POST',
-                                url: '/tickets/'+floor_id ,
+                                url: '/tickets/'+ticket_id ,
                                 data:{
                                 '_token':'{{csrf_token()}}',
                                 '_method':'DELETE',

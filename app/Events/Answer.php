@@ -11,6 +11,8 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Notification;
 use App\Event;
+use App\NotifyType;
+
 
 class Answer implements ShouldBroadcast
 {
@@ -26,19 +28,25 @@ class Answer implements ShouldBroadcast
     public $eventname;
     public $message;
     public $notification_id;
+    public $related_id;
+
     public function __construct($asker_id,$event_id)
     {
         $event=Event::find($event_id);
         $this->user_id=$asker_id;
         $this->creator=$event->user_id;
         $this->eventname=$event->name;
+        $notify_type_id=NotifyType::where('type','=','events')->first()->id;
         $this->message=$event->user->name." updated answer to ".$this->eventname."event ";
         $notification=Notification::create([
             'user_id' => $this->creator,
-            'notify_type_id' => 1,
-            'message'=>$this->message
+            'notify_type_id' => $notify_type_id,
+            'message'=>$this->message,
+            'related_id'=> $event_id
         ]);
         $this->notification_id=$notification->id;
+        $this->related_id=$event_id;
+
 
 
     }
