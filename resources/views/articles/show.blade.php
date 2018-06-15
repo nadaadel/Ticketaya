@@ -5,7 +5,13 @@
 </br>
     {{$article->description}} </br>
     {{$article->user->name}}  </br>
-    {{$article->category->name}}
+    {{$article->category->name}}</br>
+    {{$article->created_at->diffForHumans()}}
+
+
+{{-- Like and dislike--}}
+
+    @if(Auth::user())
     <div class="follow text-center">
     @if($liker)
 
@@ -16,20 +22,14 @@
     <button id="like" class="btn btn-primary " article-id="{{$article->id}}" >Like</button>
     <spam id="count">
     </spam>
+
     @endif
-    
-        
-
     </div>
-
-</br>
-    {{$article->created_at->diffForHumans()}}
-
-
-
-
+  
 {{-- comments and replies section --}}
+
 <br>
+
 Comments:
 <br>
 <br>
@@ -76,6 +76,7 @@ Comments:
     </form>
 
 </div>
+@endif
 <script>
 $(function(){
 $('.reply').on('click',function(){

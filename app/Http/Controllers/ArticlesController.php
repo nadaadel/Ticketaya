@@ -21,15 +21,18 @@ class ArticlesController extends Controller
       }
       public function show($id){
         $article = Article::find($id);
-        $liker=DB::table('article_user')->where(['article_id'=>$id,'user_id'=> Auth::user()->id])->first();
-   
-    
+        $liker="";
         if(Auth::check()){
-       if(Auth::user()->hasrole('admin')){
+            $liker=DB::table('article_user')->where(['article_id'=>$id,'user_id'=> Auth::user()->id])->first();
+   
+        if(Auth::user()->hasrole('admin')){
            return view('admin.articles.show' , compact('article','liker'));
        }
-    }
-       return view('articles.show' , compact('article','liker'));
+
+       }
+       
+        return view('articles.show' , compact('article','liker'));
+       
     }
     public function create(){
        if(Auth::user()->hasrole('admin')){
@@ -108,7 +111,7 @@ class ArticlesController extends Controller
 
   public function like ($id){
     
-    
+    if(Auth::check()){
     DB::table('article_user')->insert([
         'article_id' => $id,
         'user_id' => Auth::user()->id
@@ -117,6 +120,7 @@ class ArticlesController extends Controller
    $likes=$article->likes->count();
 
    return response()->json(['response' => 'success','likes'=>$likes]);
+    }
   }
 
   public function dislike ($id){
