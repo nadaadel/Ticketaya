@@ -27,6 +27,7 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab"><!--Requests tabs start here-->
                   <div class="row justify-content-md-center mt-4">
+
          @foreach ($userRequestsReceived as  $ticket)
             @if($ticket->is_accepted == 0)
                       <div class="col-md-10 col-12 requests mt-4"><!--REQUESTED TICKET CARD START HERE -->
@@ -79,6 +80,7 @@
               </div><!--End of Requests tabs-->
               <div class="tab-pane fade" id="mysold" role="tabpanel" aria-labelledby="mysold-tab"><!--My sold tabs start here-->
                   <div class="row justify-content-md-center mt-4">
+            @if(sizeof($userTicketsSold) != 0)
              @foreach ($userTicketsSold as  $sold)
                       <div class="col-md-10 col-12 requests mt-4"><!--SOLD TICKET CARD START HERE -->
                           <div class="row ticket-details ">
@@ -123,7 +125,9 @@
                           </div>
                       </div><!-- END OF SOLD TICKET CARD  -->
             @endforeach
-
+            @else
+                      <h3>You didn't Sell any Ticket yet !</h3>
+            @endif
                   </div>
               </div><!--End of my sold-->
               <div class="tab-pane fade" id="wanted" role="tabpanel" aria-labelledby="wanted-tab"><!--Wanted tab Strat Here-->
@@ -164,6 +168,7 @@
                   </div><!--End of Wanted-->
               <div class="tab-pane fade" id="bought" role="tabpanel" aria-labelledby="bought-tab"><!--  bought tab start here-->
                   <div class="row justify-content-md-center mt-4">
+                @if(sizeof($userTicketsBought) != 0)
                 @foreach ($userTicketsBought as  $bought)
                       <div class="col-md-10 col-12 requests mt-4"><!--BOUGHT CARD START HERE-->
                           <div class="row ticket-details ">
@@ -185,6 +190,9 @@
                           </div>
                       </div><!--END OF BOUGHT CARD-->
                 @endforeach
+                @else
+                    <h3>You didn't Buy any Ticket yet !</h3>
+                @endif
               </div>
             </div><!--  end of bought tab-->
         </div>
