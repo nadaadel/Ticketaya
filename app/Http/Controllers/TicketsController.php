@@ -7,6 +7,7 @@ use App\User;
 use Image;
 use Auth;
 use App\Category;
+use App\City;
 use App\RequestedTicket;
 use App\SoldTicket;
 use App\Tag;
@@ -107,6 +108,10 @@ class TicketsController extends Controller
 
      public function search (Request $request){
         $tickets=Ticket::latest()->paginate(3);
+        
+        $cities = City::whereIn('id' , Ticket::all()->pluck('city_id'))->get();
+        $categories = Category::whereIn('id' , Ticket::all()->pluck('category_id'))->get();
+        //dd( Ticket::all()->pluck('category_id'));
          if($request->search !== null){
              $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
              ->latest()
@@ -117,10 +122,10 @@ class TicketsController extends Controller
         if(Auth:: check() && Auth::user()->hasRole('admin')){
 
 
-        return view('admin.search.Ticketsearch',['tickets'=> $tickets] );
+        return view('admin.search.Ticketsearch',['tickets'=> $tickets,'cities'=>$cities,'categories'=>$categories] );
         }
 
-        return view('search.Ticketsearch',['tickets'=> $tickets] );
+        return view('search.Ticketsearch',['tickets'=> $tickets,'cities'=>$cities,'categories'=>$categories] );
      }
 
     public function create (){

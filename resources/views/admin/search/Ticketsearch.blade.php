@@ -14,6 +14,7 @@
                 </div>
         </div>
     </section>
+  
     <section>
         <div class="row">
             <div class="col-md-3">
@@ -33,18 +34,18 @@
                     <a href="#demo2" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-book"></i> Category <i class="fa fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo2">
                       <ul class="p-0 mb-0">
-                             <li class="list-group-item"><input type="checkbox" name="category" value="sport"> Sport</li>
-                             <li class="list-group-item"><input type="checkbox" name="category" value="train"> Train</li>
-                             <li class="list-group-item"><input type="checkbox" name="category" value="concert"> Concert</li>
-                             <li class="list-group-item"><input type="checkbox" name="category" value="travel"> Travel</li>
+                      @foreach($categories as $category)
+                      <li class="list-group-item"><input type="checkbox" name="category[]" value="{{$category->name}}"> {{$category->name}}</li>
+                      @endforeach
 
-                         </ul>
+                     </ul>
                     </div>
                     <a href="#demo5" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-cubes"></i>  Location <i class="fa fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo5">
                       <ul class="p-0 mb-0">
-                             <li class="list-group-item"><input type="checkbox" name="city" value="cairo"> Cairo</li>
-                             <li class="list-group-item"><input type="checkbox" name="city" value="alexandria"> Alexandria</li>
+                           @foreach($cities as $city)
+                            <li class="list-group-item"><input type="checkbox" name="city[]" value="{{$city->name}}"> {{$city->name}}</li>
+                            @endforeach
                          </ul>
                     </div>
 
@@ -82,7 +83,7 @@
 
                 </div>
             </div>
-            {{ $tickets->links() }}
+            
         </div>
     </section>
 </div>

@@ -77,6 +77,8 @@ Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuesti
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
+Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
+
 
 /** Search For Tickets */
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');
@@ -110,8 +112,7 @@ Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
-Route::get('/tickets/filter/{category_id}' , 'FilterTicketsController@byCategory');
-Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
+
 
 
 Route::get('/tickets/saved_tickets' , 'TicketsController@showSavedTickets')->name('showSavedTickets');

@@ -89,12 +89,8 @@ class EventsController extends Controller
     }
     public function deleteInfo($id){
        $info= EventInfo::find($id);
-       
-       
        $info->delete();
        return response()->json(['response' => 'success']);
-      
-
 
     }
     public function search (Request $request){

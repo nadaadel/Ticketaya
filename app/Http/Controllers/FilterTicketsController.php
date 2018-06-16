@@ -4,124 +4,129 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ticket;
+use App\City;
+use App\Event;
 use App\Category;
+use Auth;
 
 class FilterTicketsController extends Controller
 {
 
-   public function byCategory($category_id){
-       $tickets = Ticket::where('category_id' , '=' , $category_id)->get();
-       $categories = Category::all();
-       return view('tickets.index' , compact('tickets' , 'categories'));
-   }
+ 
 
 
     public function filter(Request $request){
-
-    $tickets = [];
-    $ticketsCity= [];
-    $ticketsCategory = [];
-    $ticketsPrice = [];
-    if($request['category'] && $request['city'] && ($request['price']||$request['highprice'])){
-
+    $cityIds=[];
+    $categoryIds=[];
+    $cities = City::whereIn('id' , Ticket::all()->pluck('city_id'))->get();
+    $categories = Category::whereIn('id' , Ticket::all()->pluck('category_id'))->get();
+    if($request['city']){
+        $getCity  = City::whereIn('name' , $request['city'])->get();
+        foreach($getCity as $city)
+        {
+            $cityIds[] = $city->id;
+         }
+         $tickets = Ticket::whereIn('city_id' , $cityIds)->get();
+        if($request['category']){
+            $getCategory  = Category::whereIn('name' , $request['category'])->get();
+            foreach($getCategory as $cat)
+            {
+                $categoryIds[] = $cat->id;
+             }
+             $tickets= Ticket::whereIn('category_id' , $categoryIds)
+             ->whereIn('city_id' , $cityIds)
+             ->get();
+        }
         if($request['highprice']){
+            if($categoryIds){
+            $tickets = Ticket::whereIn('category_id' , $categoryIds)
+            ->whereIn('city' ,  $cityIds)
+            ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
+            ->get();
+            }else{
+            $tickets = Ticket::whereIn('city_id' , $cityIds)
+            ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
+            ->get();
+            }
 
-            $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-            $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
-                              ->where('city' , '=' , $request['city'])
-                              ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
-                              ->get();
+
         }
-        else{
-            $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-            $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
-             ->where('city' , '=' , $request['city'])
-             ->whereBetween('price'  , [$request['price'],$request['price']+50])
-             ->get();
-        }
-    }
-    elseif($request['category'] && $request['city']){
-        $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-        $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
-         ->where('city' , '=' , $request['city'])->get();
-
-
-    }
-
-    elseif($request['category'] && ($request['price']||$request['highprice'])){
         if($request['price']){
-        $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-            $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
+            if($categoryIds){
+            $tickets = Ticket::whereIn('category_id' , $categoryIds)
+            ->whereIn('city_id' ,  $cityIds)
+            ->whereBetween('price'  , [$request['price'],$request['price']+50])
+            ->get();
+         
+            }
+            else{
+                $tickets = Ticket::whereIn('city_id' ,  $cityIds)
+                ->whereBetween('price'  , [$request['price'],$request['price']+50])
+                ->get();
 
-             ->whereBetween('price'  , [$request['price'],$request['price']+50])
-             ->get();
-        }
-        else{
-            $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-            $tickets = Ticket::where('category_id' , '=' ,  $getCategory->id)
-
-             ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
-             ->get();
-
-        }
-
-
-    }
-    elseif($request['city'] && ($request['price']||$request['highprice'])){
-
-        if($request['price']){
-
-            $tickets = Ticket::where('city' , '=' , $request['city'] )
-
-             ->whereBetween('price'  , [$request['price'],$request['price']+50])
-             ->get();
-        }
-        else{
-
-            $tickets = Ticket::where('city' , '=' , $request['city'] )
-
-             ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
-             ->get();
+            }
 
         }
     }
-
-
     elseif($request['category']){
-        $getCategory  = Category::where('name' ,'=' , $request['category'])->first();
-        $tickets = Ticket::where('category_id' , '=' ,  $getCategory ->id)->get();
+        $getCategory  = Category::whereIn('name' ,$request['category'])->get();
+        
+        foreach($getCategory as $cat)
+        {
+            $categoryIds[] = $cat->id;
+         }
+       
+        $tickets = Ticket::whereIn('category_id' ,  $categoryIds)->get();
+       
+        if($request['highprice']){
+            
+            $tickets = Ticket::whereIn('category_id' ,  $categoryIds)
+            
+            ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
+            ->get();
+            //dd($tickets);
 
-    }
-    elseif($request['city']){
-        $tickets  = Ticket::where('city' , '=' , $request['city'])->get();
-    }
 
-    elseif($request['price']){
+        }
+        if($request['price']){
+        
+            $tickets = Ticket::whereIn('category_id' ,   $categoryIds)
+            ->whereBetween('price'  , [$request['price'],$request['price']+50])
+            ->get();
+             //dd($tickets);
+            
+            
 
-        $tickets = Ticket::whereBetween('price'  , [$request['price'],$request['price']+50])->get();
+        }
+
 
     }
     elseif($request['highprice']){
-
         $tickets = Ticket::whereBetween('price'  , [$request['highprice'],$request['highprice']+100000])->get();
 
+
+    }
+    elseif($request['price']){
+        $tickets = Ticket::whereBetween('price'  , [$request['price'],$request['price']+50])->get();
+
+    }
+    if(Auth::check() && Auth::user()->hasRole('admin')){
+        return view('admin.search.Ticketsearch' , compact('tickets','categories','cities'));
+    }
+
+      return view('search.Ticketsearch' , compact('tickets','categories','cities'));
     }
 
 
 
-
-
-   /* if(!$tickets){
-        if(!$ticketsCity){
-           $alltickets=$ticketsCategory;
-           $tickets= $alltickets->merge($ticketsPrice);
-        }
-        $alltickets  = $ticketsCity->merge($ticketsCategory);
-        //$tickets= $alltickets->merge($ticketsPrice);
-    }*/
-
-
-      return view('search.search' , compact('tickets'));
-    }
 }
-//whereBetween
+
+
+
+
+
+
+
+  
+
+
