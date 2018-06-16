@@ -35,8 +35,9 @@
         <div class="event-info" id="{{$info->id}}" style="display:block;">
             <p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
+            @if(Auth::user() && Auth::user()->id == $event->user_id)
              <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
-
+            @endif
         <div>
          
         

@@ -43,7 +43,7 @@
       
         <td>{{$event->category->name}}</td>
         <td>{{$event->avaliabletickets}}</td>
-        <td><a href="{{ route('showuser', ['id' => $event->user->id]) }}"></a>{{$event->user->name}}</td>
+        <td><a href="{{ route('showuser', ['id' => $event->user_id])}}">{{$event->user->name}}</a></td>
 
         <td> {{ $event->startdate }} </td>
         <td>{{ $event->enddate}}</td>
