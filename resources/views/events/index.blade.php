@@ -15,7 +15,7 @@
         </div>
     <div class="row category-tabs events-tabs">
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-        <a href="{{URL::route('alltickets')}}">
+        <a href="{{URL::route('allevents')}}">
                <div class="catg-tab align-items-center d-flex" style="background-image: url({{ asset('storage/images/categories/events.jpg')}});">
                     <div class="overlay"></div>
                     <h3 class="m-auto">ALL EVENTS</h3>
@@ -38,7 +38,7 @@
 @foreach($events as $event)
 
         <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
-           
+
                 <div class="event-card">
                     <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
                     </div>
@@ -57,7 +57,7 @@
                         @endif
                     </div>
                 </div>
-           
+
         </div><!--event card starts here-->
 @endforeach
 </div>

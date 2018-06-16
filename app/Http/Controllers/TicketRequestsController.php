@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 class TicketRequestsController extends Controller
 {
     public function requestedTickets(){
-        if(Auth::user()->hasrole('admin')){
+        if(Auth::check() && Auth::user()->hasRole('admin')){
 
             $requestedTickets = RequestedTicket::paginate(6);
             return view('admin.tickets.requested' ,compact('requestedTickets'));
@@ -27,7 +27,7 @@ class TicketRequestsController extends Controller
           return view('notfound');
     }
     public function soldTickets(){
-        if(Auth::user()->hasrole('admin')){
+        if(Auth::check() && Auth::user()->hasRole('admin')){
 
             $soldTickets = SoldTicket::paginate(6);
             return view('admin.tickets.sold' ,compact('soldTickets'));

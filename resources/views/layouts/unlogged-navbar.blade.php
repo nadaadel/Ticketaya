@@ -62,7 +62,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
           <a class="dropdown-item" href="/tickets/requests">Ticket Requests</a>
-          <a class="dropdown-item" href="#">Favorites</a>
+          <a class="dropdown-item" href="{{URL::route('showSavedTickets')}}">Favorites</a>
           <a class="dropdown-item" href="#">Joined Events</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
@@ -76,7 +76,7 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-      
+
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>

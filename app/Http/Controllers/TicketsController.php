@@ -93,6 +93,18 @@ class TicketsController extends Controller
         return redirect('/tickets/'.$request->ticket_id);
     }
 
+    public function showSavedTickets(){
+        if(Auth::check()){
+            $tickets=Auth::user()->savedTickets()->paginate(2);
+            if(Auth::user()->hasRole('admin'))
+            {
+                return view('admin.tickets.showSavedTickets',compact('tickets' ));
+            }
+                return view('tickets.showSavedTickets' , compact('tickets' ));
+        }
+        return view('notfound');
+    }
+
      public function search (Request $request){
         $tickets=Ticket::latest()->paginate(3);
          if($request->search !== null){
@@ -183,11 +195,13 @@ class TicketsController extends Controller
             $tagIds = [];
             foreach($tagNames as $tagName)
             {
+                if($tagName !== null){
                 $tag = Tag::firstOrCreate(['name'=>$tagName]);
                 if($tag)
                 {
                   $tagIds[] = $tag->id;
                 }
+            }
 
             }
             $ticket->tags()->sync($tagIds);
@@ -229,12 +243,13 @@ class TicketsController extends Controller
                 $tagIds = [];
                 foreach($tagNames as $tagName)
                 {
+                    if($tagName !== null){
                     $tag = Tag::firstOrCreate(['name'=>$tagName]);
                     if($tag)
                         {
                           $tagIds[] = $tag->id;
                         }
-
+                    }
                     }
                 $ticket->tags()->sync($tagIds);
                 if($request->hasFile('photo')){

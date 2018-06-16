@@ -79,11 +79,10 @@
                         <label >Tags</label>
                         <span>
                             <input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name">
-                            <i class="removeTag">remove</i>
+                            <i class="removeTag fas fa-minus-circle"></i>
                         </span>
                     </div>
-                    <i id="addTag">add</i>
-
+                    <i id="addTag" class="fas fa-plus-square"></i>
                 </div>
 
                 <div class="row">
@@ -105,7 +104,9 @@
 </section>
 <script>
 $(document).ready( function(){
-    var inputTag=`<span><input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name"><i class="removeTag">remove</i></span>`;
+    var inputTag=`<span>
+    <input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name">
+    <i class="removeTag fas fa-minus-circle"></i></span>`;
     $('#addTag').on('click',function(){
          $('#tags').append(inputTag);
     });

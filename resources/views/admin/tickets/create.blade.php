@@ -74,10 +74,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <label >Tags</label>
-                            <input type="text" name="tags" class="form-control" placeholder="Add Tags Sperated by comma">
-                        </div>
+                            <div class="col-md-12" id="tags">
+                                    <label >Tags</label>
+                                    <span>
+                                        <input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name">
+                                        <i class="removeTag fas fa-minus-circle"></i>
+                                    </span>
+                                </div>
+                                <i id="addTag" class="fas fa-plus-square"></i>
                     </div>
 
                     <div class="row">
@@ -99,6 +103,16 @@
     </section>
 <script>
 $(document).ready( function(){
+    var inputTag=`<span>
+    <input type="text" name="tags[]" class="form-control" placeholder="Add Tag Name">
+    <i class="removeTag fas fa-minus-circle"></i></span>`;
+    $('#addTag').on('click',function(){
+         $('#tags').append(inputTag);
+    });
+    $(document).on('click','.removeTag',function(){
+        console.log($(this).parent());
+         $(this).parent().remove();
+    });
     $('#city').on('change',function(){
     var city_id = $(this).val();
     $.ajax({

@@ -114,6 +114,7 @@ Route::get('/tickets/filter/{category_id}' , 'FilterTicketsController@byCategory
 Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
 
 
+Route::get('/tickets/saved_tickets' , 'TicketsController@showSavedTickets')->name('showSavedTickets');
 Route::get('/tickets/search','TicketsController@search');
 Route::delete('/tickets/{id}','TicketsController@destroy');
 Route::get('/tickets', 'TicketsController@index')->name('alltickets');
