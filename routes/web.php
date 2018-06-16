@@ -76,7 +76,7 @@ Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuesti
 
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
-
+Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
 
 /** Search For Tickets */
 Route::post('/tickets/spam/{id}' , 'TicketsController@spamTicket');

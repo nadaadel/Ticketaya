@@ -108,16 +108,65 @@ $('#showModel').on('click' , function(){
            },
         success:function(response){
             if(response.status == 'success'){
-                $( "<div id='event-info'><p class='event-time'>about minute ago</p></div>" ).prependTo(".info-parent" );
-                $( "<div id='event-info'><p class='event-body'>"+description+"</p></div>" ).prependTo(".info-parent" );
+                console.log(response.time.date);
+               
+                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
+                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
+                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
+               
                 $('.info-area').hide();
                 $('#showModel').show();
+                $('.deleteinfo').on('click',function(){
+                var id =$(this).attr('btn-id');
+                console.log(id)
+                 $.ajax({
+                         url: '/events/info/delete/'+id,
+                         type:'POST',
+                        data:{
+                            '_token': '{{csrf_token()}}',
+                            '_method':'DELETE',
+               
+                          },
+                 success:function(response){
+
+                    if(response.response == 'success'){
+                    console.log('pl')
+                   $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
             }else{
              alert('error');
             }
 
         }
        })
+    });
+    $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('ok')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
     });
     $('.deletebtn').on('click',function(){
             console.log('iam here');

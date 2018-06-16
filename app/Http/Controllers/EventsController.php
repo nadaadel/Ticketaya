@@ -67,7 +67,7 @@ class EventsController extends Controller
         }
 
     public function newInfo($event_id , Request $request){
-      EventInfo::create([
+        $info=EventInfo::create([
          'event_id' => $event_id,
          'body' => $request->description
       ]);
@@ -77,11 +77,21 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
+      
       $eventInfos=EventInfo::all();
+      $time=Carbon::now();
       if(Auth::user()->hasRole('admin')){
-        return view('admin.events.show',['eventInfos'=> $eventInfos] );
+        return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
+        //return view('admin.events.show',['eventInfos'=> $eventInfos] );
       }
-      return response()->json(['status' => 'success']);
+      return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
+
+    }
+    public function deleteInfo($id){
+       $info= EventInfo::find($id);
+       $info->delete();
+       return response()->json(['response' => 'success']);
+
 
     }
     public function search (Request $request){

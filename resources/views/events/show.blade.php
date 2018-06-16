@@ -28,14 +28,19 @@
      </div>
     @endif
     {{-- info --}}
-  <div class="info-parent">
+  <div class="info-parent" >
+        Post of Event:
         @foreach ($eventInfos as $info )
-        <div class="event-info" style="display:block;">
-            Post of Event<p class="event-body">{{$info->body}} <p>
+      
+        <div class="event-info" id="{{$info->id}}" style="display:block;">
+            <p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-
+             <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
 
         <div>
+         
+        
+        <hr>
        @endforeach
   </div>
 
@@ -221,7 +226,7 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-       alert("helllo");
+       
        console.log(description);
        var event_id = $('#event_id').val();
        console.log(event_id);
@@ -233,11 +238,38 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                'description':description
            },
         success:function(response){
+
             if(response.status == 'success'){
-                $( "<div id='event-info'><p class='event-time'>about minute ago</p></div>" ).prependTo(".info-parent" );
-                $( "<div id='event-info'><p class='event-body'>"+description+"</p></div>" ).prependTo(".info-parent" );
+                console.log('ok')
+                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
+                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
+                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
+               
                 $('.info-area').hide();
                 $('#showModel').show();
+                $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('pl')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
             }else{
              alert('error');
             }
@@ -245,6 +277,28 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
         }
        })
     });
+    $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('pl')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
 
    });
 
