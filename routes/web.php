@@ -65,7 +65,7 @@ Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
-Route::get('/events/{id}' , 'EventsController@show');
+Route::get('/events/{id}' , 'EventsController@show')->name('eventshow');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');

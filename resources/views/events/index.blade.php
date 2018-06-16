@@ -37,7 +37,7 @@
 @if($events !== null)
 @foreach($events as $event)
 
-        <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
+        <div class="col-md-4 col-12 mb-4" id="{{$event->id}}"><!--event card starts here-->
 
                 <div class="event-card">
                     <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
@@ -49,7 +49,7 @@
                     <div class="follow text-center">
                         @if(Auth::user() && Auth::user()->id == $event->user_id)
                         <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">View</a>
-                        <a type="submit" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                        <a type="submit"  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
                         @else
                         <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">SHOW EVENT</a>
@@ -68,32 +68,25 @@
 @else
      <h2> There are Not Events For This Category Yet ! </h2>
 @endif
-@endsection
-
-{{--
-<form action="{{URL::to('events/delete/'. $event->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
-    {!! csrf_field() !!}
-    {{method_field('Delete')}}
-</form>
-    --}}
 
 <script>
-     $(document).on('click','.deletebtn',function(){
-            consolel.log('iam here');
-            var event_id = $('$event_id').val();
-            var resp = confirm("Do you really want to delete this ticket?");
+     $('.deletebtn').on('click',function(){
+            console.log('iam here');
+            var event_id = $(this).attr('event-id');
+            var resp = confirm("Do you really want to delete this event?");
             if (resp == true) {
                 $.ajax({
                     type: 'POST',
-                    url: '/events/'+event_id ,
+                    url: '/events/delete/'+event_id ,
                     data:{
                     '_token':'{{csrf_token()}}',
                     '_method':'DELETE',
                     },
                     success: function (response) {
-                        if(response.res=='success'){
-                            alert('atms7 ababa')
-                            window.location('/events');
+                        if(response.response=='success'){
+                      
+                         
+                           $('#'+event_id).remove();
 
                         }
                     }
@@ -102,4 +95,9 @@
             }
         });
 </script>
+@endsection
+
+
+
+
 

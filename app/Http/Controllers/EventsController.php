@@ -151,7 +151,7 @@ class EventsController extends Controller
             'name'=>'required|min:4|max:200',
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'startdate' => 'required|date|before_or_equal:enddate',
-            'enddate'  => 'required|date|date_format:Y-m-d|after_or_equal:startdate',
+            'enddate'  => 'required|date|after_or_equal:startdate',
             'user_id' => 'exists:users,id',
             'category' => 'exists:categories,id',
             'city' => 'exists:cities,id',
@@ -180,8 +180,11 @@ class EventsController extends Controller
         $categories=Category::all();
         $regions = Region::all();
         $cities = City::all();
-
-        return view('events.edit',[
+        $view='events.edit';
+        if(Auth::user()&& Auth::user()->hasRole('admin')){
+            $view='admin.events.edit';
+        }
+        return view($view,[
 
             'event' => $event,
             'categories'=>$categories,
@@ -220,7 +223,7 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-
+     
         return response()->json(['response' => 'success']);
     }
 

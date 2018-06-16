@@ -119,6 +119,30 @@ $('#showModel').on('click' , function(){
         }
        })
     });
+    $('.deletebtn').on('click',function(){
+            console.log('iam here');
+            var event_id = $(this).attr('event-id');
+            var resp = confirm("Do you really want to delete this event?");
+            if (resp == true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/events/delete/'+event_id ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    '_method':'DELETE',
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                          console.log('ok');
+                            $('#'+event_id).remove();
+                           
+
+                        }
+                    }
+                });
+
+            }
+        });
 
 });
 

@@ -106,7 +106,7 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+  var pusher = new Pusher('7cd2d7485f85e6da6263', {
     encrypted: true,
     cluster:"mt1"
   });
