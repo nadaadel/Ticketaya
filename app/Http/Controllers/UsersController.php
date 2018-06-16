@@ -8,6 +8,7 @@ use App\City;
 use App\Region;
 use Auth;
 use DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 class UsersController extends Controller
 {
@@ -37,7 +38,7 @@ class UsersController extends Controller
         $user->delete();
         if(Auth::user()&&Auth::user()->hasRole('admin'))
         {
-            return redirect('admin/users');
+            return response()->json(['response' => 'success']);
         }
         return redirect('users');
     }
@@ -97,7 +98,7 @@ class UsersController extends Controller
         $user->phone=$request->phone;
 
         $user->save();
-       return redirect('userss');
+       return redirect('users');
 
     }
     public function update (Request $request){

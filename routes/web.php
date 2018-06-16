@@ -54,7 +54,7 @@ Route::get('/users/{id}','UsersController@show')->name('showuser');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
-Route::delete('/users/{id}' , 'UsersController@delete');
+Route::delete('/users/{id}' , 'UsersController@destroy');
 Route::get('/users','UsersController@index')->name('allusers');
 Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
 Route::post('tickets/report','TicketsController@report');
