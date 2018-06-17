@@ -45,9 +45,12 @@
   {{-- questions and answer --}}
   @if($questions)
   @foreach($questions as $question)
-  <div qid="{{$question->id}}">
-  Question<div class="question">{{$question->question}} </div>
-  Answer: <div class="answer"  >{{$question->answer}} </div>
+  <div class="questions">
+    <div id ="{{$question->id}}}">
+        Question<p>{{$question->question}} </p>
+        Answer: <p>{{$question->answer}} </p>
+    </div>
+</div>
 
   @if(Auth::user() && Auth::user()->id == $event->user_id)
 
@@ -60,7 +63,7 @@
       <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
       <input type="hidden" id="event_id" value="{{$event->id}}">
   @endif
-  </div>
+
   <hr>
 
   @endforeach

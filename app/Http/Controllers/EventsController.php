@@ -19,21 +19,23 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
-        if ($questionfound==null){
+        $questionfound=EventQuestion::where('question','=',$request->question)->first();
+      
+       
+
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
         ]);
+        //dd($eventQuestion);
         $asker=User::find($request->user_id);
+       
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
-        }
-        else{
-            return response()->json(['response'=>'false']);
-        }
+        
+        
     }
     public function updateQuestion(Request $request){
         $asker_id=$request->user_id;
@@ -48,7 +50,7 @@ class EventsController extends Controller
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
         event(new Answer($asker_id, $event_id));
-        return response()->json(['answer' => $getQuestion->answer]);
+        return response()->json(['response'=>'success','answer' => $getQuestion]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([

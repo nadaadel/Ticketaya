@@ -60,12 +60,6 @@ $(document).ready(function(){
       var body=$('#'+quesId).val();
 
       var event_id = $('#event_id').val();
-     /* console.log(question);
-      console.log(event_id);
-      console.log(quesId);
-      console.log(questioner);*/
-
-
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -79,12 +73,14 @@ $(document).ready(function(){
                 },
                 success:function(response){
 
-                  console.log(response);
-                 // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
-
+                  if(response.response== 'success'){
+                    console.log("kkkk");
+                    console.log(response.answer.id);
+                  $("<div>Answer:<p>"+response.answer.answer+"</p</div>><hr>" ).prependTo("#"+quesId )
+                  //console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
 
                 }
-
+}
         })
 })
 $('#showModel').on('click' , function(){

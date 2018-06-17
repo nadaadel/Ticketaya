@@ -111,7 +111,7 @@ class TicketsController extends Controller
         
         $cities = City::whereIn('id' , Ticket::all()->pluck('city_id'))->get();
         $categories = Category::whereIn('id' , Ticket::all()->pluck('category_id'))->get();
-        //dd( Ticket::all()->pluck('category_id'));
+        
          if($request->search !== null){
              $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
              ->latest()

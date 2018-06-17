@@ -50,10 +50,12 @@
 {{-- questions and answer --}}
 @if($questions)
 @foreach($questions as $question)
-<div id="{{$question->id}}">
-Question<div class="question">{{$question->question}} </div>
-Answer: <div class="answer"  >{{$question->answer}} </div>
-
+<div class="questions">
+    <div id ="{{$question->id}}}">
+        Question<p>{{$question->question}} </p>
+        Answer: <p>{{$question->answer}} </p>
+    </div>
+</div>
 
 @if(Auth::user() && Auth::user()->id == $event->user_id)
 
@@ -66,7 +68,7 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
     <input type="hidden" id="event_id" value="{{$event->id}}">
 @endif
-</div>
+
 <hr>
 @endforeach
 @endif
@@ -119,10 +121,11 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                 'user_id':user_id,
                 },
                 success:function(response){
-                 if(response.response== 'success'){
-                    alert('saved Questions Successfuly')
-                  $("<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('.questions-area');
-
+                 if(response.response == 'success'){
+                    console.log(response.questions)
+                    //alert('saved Questions Successfuly')
+                 $("<div id='"+response.questions.id+"'></div>").prependTo('.questions');
+                  $('#'+response.questions.id).append("Question:<p class='event-body'>"+response.questions.question+"</p><hr>")
                  }
                 }
         });
@@ -146,11 +149,13 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                 'quesId':quesId,
                 },
                 success:function(response){
+                if(response.response== 'success'){
+                    console.log("kkkk");
+                    console.log(response);
+                   console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
 
-                  console.log(response);
-                  $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('.questions-area');
 
-
+                }
                 }
 
         })

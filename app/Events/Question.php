@@ -36,15 +36,16 @@ class Question implements ShouldBroadcast
         $this->creator_id=$event->user_id;
         $this->eventname=$event->name;
         $this->message=$this->user->name." ask a question to ".$this->eventname."event ";
-        $notify_type_id=NotifyType::where('type','=','events')->first()->id;
+        $notify_type_id=NotifyType::where('type','=','events')->first();
+
         $notification=Notification::create([
             'user_id' => $this->creator_id,
-            'notify_type_id' => $notify_type_id,
+            'notify_type_id' => $notify_type_id->id,
             'message'=>$this->message,
-            'related_id'=> $event_id
+            'related_id'=> $event->id
         ]);
         $this->notification_id=$notification->id;
-        $this->related_id=$event_id;
+        $this->related_id=$event->id;
 
     }
 
