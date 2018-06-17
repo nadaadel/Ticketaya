@@ -107,7 +107,7 @@ class TicketsController extends Controller
     }
 
      public function search (Request $request){
-        $tickets=Ticket::latest()->paginate(3);
+        $tickets=Ticket::latest()->paginate(2);
         
         $cities = City::whereIn('id' , Ticket::all()->pluck('city_id'))->get();
         $categories = Category::whereIn('id' , Ticket::all()->pluck('category_id'))->get();
@@ -115,7 +115,7 @@ class TicketsController extends Controller
          if($request->search !== null){
              $tickets=Ticket::where('name', 'LIKE', '%'. Str::lower($request->search) .'%')
              ->latest()
-             ->paginate(3)
+             ->paginate(2)
              ->setpath('');
             $tickets->appends(['search'=> $request->search]);
          }
