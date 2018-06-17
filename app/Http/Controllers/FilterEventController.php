@@ -26,6 +26,9 @@ class FilterEventController extends Controller
     $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
     $categoryIds= [];
     $cityIds = [];
+    if(!$request['city']&& !$request['category']){
+        $events = Event::latest()->paginate(2); 
+    }
     if($request['city']){
         $getCity  = City::whereIn('name' , $request['city'])->get();
         foreach($getCity as $city)
