@@ -1,5 +1,71 @@
 @extends('layouts.app')
 @section('content')
+     <section id="event-view">
+       <div class="contaner-fluid"  style="background-image: url(../images/home/2-silder.jpg);">
+         <div class="overlay"></div>
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-md-8">
+                      <div class="row pt-5 pb-4">
+                          <div class="col-md-8 col-12">
+                              <h2> Amr Diab Marina Concert</h2>
+                              <ul>
+                                  <li><i class="fas fa-ticket-alt"></i> Available Tickets <span>200</span></li>
+                                  <li><i class="fas fa-th-large"></i> Concert </li>
+                                  <li><i class="far fa-calendar-alt"></i>Posted at : Sat, 12 Nov 2018 </li>
+                                  <li><i class="far fa-calendar-alt"></i>expire at : Sat, 12 Nov 2018 </li>
+                                  <li><i class="fas fa-map-marker"></i>Marina no 5, Nourth Coast </li>
+                              </ul>
+
+                          </div>
+                          <div class="col-md-4 col-12">
+                              <a href="#" class="btn btn-primary">SUBSCRIBE</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+           
+       </div>
+        <div class="container">
+            <div class="row pt-5 event-info">
+                 <div class="col-md-2 col-xs-12 text-center"><!--User profile-->
+                           <div class="user-img">
+                               <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
+
+                            </div>
+                               <h4 class="user-name pt-4">Event Creator</h4>
+                               <div class="user-loc d-flex justify-content-center">
+                               <p class="gray">Alexandria</p>
+                           </div>
+                           <button class="btn btn-info"> Contact Organizer </button>
+                       </div><!--End of User profile-->
+                <div class="col-md-10 pb-5"><!--Event data-->
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 event-details pl-4">
+                           <h3 class="mb-3">Event Details</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                            <p class="mb-5">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                            <h3 class="mb-3">You Should Know</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-xs-12 pr-2">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            
+        </div>
+         
+     </section>
 
      {{ $event-> name}} EVENT <br>
      <fieldset>

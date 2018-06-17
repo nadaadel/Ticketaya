@@ -1,4 +1,4 @@
-<nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#"><img src="../images/home/logo.png"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -58,6 +58,7 @@
         
         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
+          <span class="pr-1 pl-1">Takwa Khamis</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
@@ -65,7 +66,7 @@
           <a class="dropdown-item" href="#">Favorites</a>
           <a class="dropdown-item" href="#">Joined Events</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
+          <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
         </div>
       </li>
       <li class="nav-item active pt-1">
@@ -76,9 +77,11 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
+<!--
       <li class="nav-item pt-3">
         <a class="nav-link " href="/logout">LOG OUT</a>
       </li>
+-->
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
