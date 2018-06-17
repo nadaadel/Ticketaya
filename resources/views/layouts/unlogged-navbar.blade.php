@@ -1,5 +1,5 @@
 <nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href="#"><img src="../images/home/logo.png"></a>
+    <a class="navbar-brand" href="#"><img src="{{ asset('/images/home/logo.png')}}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -106,9 +106,9 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('6042cdb1e9ffa998e5be', {
+  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
     encrypted: true,
-    cluster:"mt1"
+    cluster:"eu"
   });
 
 
@@ -121,20 +121,17 @@ function notificationsHtml(data,realtime){
           var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
           var url ="";
-          if(data.notify_type_id == 1){
-              url="/tickets/"+data.related_id;
-
+          if(data.notify_type == 'tickets'|| data.notify_type_id == 1){
+              url="/tickets/requests";
           }
-          else if(data.notify_type_id == 2){
+          else if(data.notify_type == 'events'|| data.notify_type_id == 2){
               url="/events/"+data.related_id;
           }
           if(realtime){
-          console.log(data)
                 notificationsCount += 1;
                 data.created_at=new Date(Date.now());
                 data.is_seen=0;
                 data.id=data.notification_id;
-
           }
           //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
           var newNotificationHtml = `
@@ -201,7 +198,6 @@ $(document).on('click','#readall',function(event){
 
     // change notifications status that was unseen to be seen
     $(document).on('click','.notify-seen',function(event){
-        //event.preventDefault();
         var notif_id=$(this).attr('notif-no');
         var gotoURL=$(this).attr('url');
                 $.ajax({

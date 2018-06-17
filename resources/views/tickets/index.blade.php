@@ -94,7 +94,6 @@
   <script>
 
         $(document).on('click','.heart',
-        // var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
          function () {
             var element=$(this);
             var click =element.attr('clicked');

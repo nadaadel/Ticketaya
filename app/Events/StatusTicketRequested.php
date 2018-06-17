@@ -29,8 +29,9 @@ class StatusTicketRequested implements ShouldBroadcast
      public $notification_id;
      public $is_accept;
      public $related_id;
+     public $notify_type;
 
-    public function __construct($requestedTicket,$is_accept)
+    public function __construct($requestedTicket,$is_accept,$notify_type)
 
     {
         $this->Ticket=Ticket::find($requestedTicket->ticket_id)->first();
@@ -49,7 +50,7 @@ class StatusTicketRequested implements ShouldBroadcast
             $this->message = "{$this->sellerName} cancel Your ticket {$this->TicketName} with quantity= {$this->Quantity}";
 
         }
-        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
+        $notify_type_id=NotifyType::where('type','=',$notify_type)->first()->id;
         $notification=  Notification::create([
                         'user_id' => $this->BuyerId,
                         'notify_type_id' => $notify_type_id,
@@ -58,6 +59,7 @@ class StatusTicketRequested implements ShouldBroadcast
                    ]);
         $this->notification_id=$notification->id;
         $this->related_id=$requestedTicket->ticket_id;
+        $this->notify_type=$notify_type;
     }
 
     /**

@@ -49,7 +49,7 @@ class TicketRequestsController extends Controller
        //  $request="true";
 
         // send request notification to ticket author
-        //event(new TicketRequested($id));
+        event(new TicketRequested($id,'tickets'));
         return response()->json(['response' => 'ok']);
 
         }
@@ -80,7 +80,7 @@ class TicketRequestsController extends Controller
         $request->pivot->save();
         $requestedTicket=RequestedTicket::all()->where('requester_id' , '=' , $requester_id)->first();
         $is_accept=true;
-        event(new StatusTicketRequested( $requestedTicket,$is_accept));
+        event(new StatusTicketRequested( $requestedTicket,$is_accept,"tickets"));
 
         return redirect('/tickets/requests');
     }
@@ -93,7 +93,7 @@ class TicketRequestsController extends Controller
             $requestTicket->pivot->quantity =$request->quantity;
             $requestTicket->pivot->save();
 
-            event(new TicketRequested($request->ticket_id));
+            event(new TicketRequested($request->ticket_id,'tickets'));
 
             return response()->json(['response' => 'ok']);
 
@@ -113,7 +113,7 @@ class TicketRequestsController extends Controller
             $is_accept=false;
             $requestedTicket=RequestedTicket::all()->where('requester_id' , '=' , $requester_id)
                                                    ->where('is_accepted','=',0)->first();
-            event(new StatusTicketRequested( $requestedTicket,$is_accept));
+            event(new StatusTicketRequested( $requestedTicket,$is_accept,'tickets'));
             $allrequest->pivot->delete();
             return redirect('/tickets/requests');
         }
@@ -148,7 +148,7 @@ class TicketRequestsController extends Controller
              'buyer_id' => Auth::user()->id,
              'quantity' => $requested->quantity ,
             ]);
-            event(new TicketReceived($requested->id,1));
+            event(new TicketReceived($requested->id,$ticket->is_sold,'tickets'));
            return redirect('/tickets/requests');
          }
 
@@ -163,7 +163,7 @@ class TicketRequestsController extends Controller
             $requested[0]->is_sold = 0;
             $requested[0]->save();
 
-            event(new TicketReceived($requested[0]->id,0));
+            event(new TicketReceived($requested[0]->id,0,'tickets'));
             $requested[0]->delete();
            return redirect('/tickets/requests');
          }
