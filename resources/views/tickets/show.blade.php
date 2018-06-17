@@ -340,8 +340,8 @@ $('.reply').on('click',function(){
                for (var j=0;j<response.names.length;j++){
                 if (i==j){
                     $('#'+commentId).append('<div>'+response.names[j]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')
-
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
+                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
                }
 
                }

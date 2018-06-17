@@ -21,12 +21,16 @@
                             <a class="btn btn-primary" href="{{ URL::to('articles/' . $article->id ) }}">Read More</a>
 
                     </div>
+                  
                 </div>
             </a>
         </div><!--event card starts here-->
 @endforeach
 </div>
 </div>
+
+
+
 @endsection
 
 

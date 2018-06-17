@@ -55,15 +55,15 @@
             </div>
         </li>
         <li class="nav-item dropdown">
-        
+
         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
-          <span class="pr-1 pl-1">Takwa Khamis</span>
+          <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
           <a class="dropdown-item" href="/tickets/requests">Ticket Requests</a>
-          <a class="dropdown-item" href="#">Favorites</a>
+          <a class="dropdown-item" href="{{URL::route('showSavedTickets')}}">Favorites</a>
           <a class="dropdown-item" href="#">Joined Events</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt pr-2"></i>Log Out</a>
@@ -77,11 +77,6 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-<!--
-      <li class="nav-item pt-3">
-        <a class="nav-link " href="/logout">LOG OUT</a>
-      </li>
--->
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
@@ -111,9 +106,9 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+  var pusher = new Pusher('7cd2d7485f85e6da6263', {
     encrypted: true,
-    cluster:"eu"
+    cluster:"mt1"
   });
 
 

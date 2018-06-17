@@ -26,4 +26,8 @@ class Article extends Model
     public function replies(){
         return $this->hasMany(ArticleCommentReply::class);
     }
+    public function likes(){
+        return $this->belongsToMany('App\User','article_user');
+
+    }
 }

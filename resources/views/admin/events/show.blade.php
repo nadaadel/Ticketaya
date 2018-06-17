@@ -27,27 +27,30 @@
        @endif
        {{-- info --}}
      <div class="info-parent">
+          
            @foreach ($eventInfos as $info )
-           <div class="event-info" style="display:block;">
-               Post of Event<p class="event-body">{{$info->body}} <p>
-               <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-
+             <div class="event-info" id="{{$info->id}}"style="display:block;">
+               <p class="event-body">{{$info->body}} </p>
+               <p class="event-time">{{$info->created_at->diffForHumans()}} </p>
+               @if(Auth::user() && Auth::user()->id == $event->user_id)
+                <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
+              @endif
 
            <div>
+           <hr>
           @endforeach
+         
      </div>
   <hr>
   {{-- questions and answer --}}
   @if($questions)
   @foreach($questions as $question)
-  <div qid="{{$question->id}}">
-  Question<div class="question">{{$question->question}} </div>
-  Answer: <div class="answer"  >{{$question->answer}} </div>
-
-
-
-
-
+  <div class="questions">
+    <div id ="{{$question->id}}}">
+        Question<p>{{$question->question}} </p>
+        Answer: <p>{{$question->answer}} </p>
+    </div>
+</div>
 
   @if(Auth::user() && Auth::user()->id == $event->user_id)
 
@@ -60,9 +63,10 @@
       <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
       <input type="hidden" id="event_id" value="{{$event->id}}">
   @endif
-  </div>
+
   <hr>
 
   @endforeach
  @endif
+ <input type="hidden" id="event_id" value="{{$event->id}}">
 @endsection

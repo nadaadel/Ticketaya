@@ -5,7 +5,7 @@ use App\Category;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use DB;
 class ArticlesController extends Controller
 {
 
@@ -21,12 +21,18 @@ class ArticlesController extends Controller
       }
       public function show($id){
         $article = Article::find($id);
+        $liker="";
         if(Auth::check()){
-       if(Auth::user()->hasrole('admin')){
-           return view('admin.articles.show' , compact('article'));
+            $liker=DB::table('article_user')->where(['article_id'=>$id,'user_id'=> Auth::user()->id])->first();
+   
+        if(Auth::user()->hasrole('admin')){
+           return view('admin.articles.show' , compact('article','liker'));
        }
-    }
-       return view('articles.show' , compact('article'));
+
+       }
+       
+        return view('articles.show' , compact('article','liker'));
+       
     }
     public function create(){
        if(Auth::user()->hasrole('admin')){
@@ -100,6 +106,31 @@ class ArticlesController extends Controller
   public function delete($id){
       $article = Article::find($id)->delete();
     return redirect('/articles');
+
+  }
+
+  public function like ($id){
+    
+    if(Auth::check()){
+    DB::table('article_user')->insert([
+        'article_id' => $id,
+        'user_id' => Auth::user()->id
+   ]);
+   $article=Article::find($id);
+   $likes=$article->likes->count();
+
+   return response()->json(['response' => 'success','likes'=>$likes]);
+    }
+  }
+
+  public function dislike ($id){
+    $disliker =DB::table('article_user')->where('article_id' ,'=' ,$id)
+    ->where('user_id' , '=' , Auth::user()->id);
+    $disliker->delete();
+    $article=Article::find($id);  
+    $likes=$article->likes->count();
+   return response()->json(['response' => 'success','likes'=>$likes]);
+
 
   }
 }

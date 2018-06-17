@@ -5,22 +5,40 @@
 </br>
     {{$article->description}} </br>
     {{$article->user->name}}  </br>
-    {{$article->category->name}}
-
-</br>
+    {{$article->category->name}}</br>
     {{$article->created_at->diffForHumans()}}
 
 
+{{-- Like and dislike--}}
 
+    @if(Auth::user())
+    <div class="follow text-center">
+    @if($liker)
 
+    <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Dislike</button>
+    <spam id="count">
+    </spam>
+    @else
+    <button id="like" class="btn btn-primary " article-id="{{$article->id}}" >Like</button>
+    <spam id="count">
+    </spam>
+
+    @endif
+    </div>
+  
 {{-- comments and replies section --}}
+
 <br>
+
 Comments:
 <br>
 <br>
+@if(Auth::check())
 @foreach($article->comments as $comment)
+@if($comment->user)
 {{$comment->user->name}}
 <div>{{$comment->body}} created at :{{$comment->created_at->diffForHumans()}} </div>
+
 <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
 <div id="{{$comment->id}}" style="display: none;">
     <div class="card-body"  >
@@ -43,7 +61,9 @@ Comments:
 
 <hr>
 <br>
+@endif
 @endforeach
+@endif
 
 <div class="card-body">
     <form method="POST" action="/article/comments" enctype="multipart/form-data" >
@@ -61,6 +81,7 @@ Comments:
     </form>
 
 </div>
+@endif
 <script>
 $(function(){
 $('.reply').on('click',function(){
@@ -76,7 +97,8 @@ $('.reply').on('click',function(){
             $('#'+commentId).show();
             for(var i=0;i<response.replies.length;i++){
                     $('#'+commentId).append('<div>'+response.names[i]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
+                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
 
             }
             }
@@ -84,7 +106,60 @@ $('.reply').on('click',function(){
             $(this).hide();
   });
 
-});
+
+
+$('#like').on('click',function(){
+    var articleId=$(this).attr('article-id');
+   
+    if ($(this).html()=="Like"){
+        $.ajax({
+                    type: 'GET',
+                    url: '/articles/likes/'+articleId ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    'id':articleId,
+                    
+                    
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                            console.log(response)
+                            console.log('hii')
+                            $('#like').html('Dislike');
+                            $('#count').html(response.likes);
+                            
+
+                        }
+                    }
+                });
+
+    }
+    else{
+        $.ajax({
+                    type: 'GET',
+                    url: '/articles/dislikes/'+articleId ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    'id':articleId,
+                   
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                          
+                            $('#like').html('Like');
+                            $('#count').html(response.likes);
+                            
+                        }
+                    }
+                });
+
+    }
+
+
+})
+
+})
+
 
 </script>
 

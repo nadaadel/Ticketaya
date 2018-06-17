@@ -43,7 +43,7 @@ class Ticket extends Model
     }
 
     public function requestedTicket(){
-       return $this->belongsToMany(User::class , 'requested_tickets')->using('App\RequestedTicket');
+       return $this->belongsToMany(User::class , 'requested_tickets')->using('App\RequestedTicket')->withTimestamps();;
     }
     public function soldTickets(){
        return  $this->belongsToMany(User::class , 'sold_tickets');

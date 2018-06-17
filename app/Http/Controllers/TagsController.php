@@ -54,10 +54,11 @@ class TagsController extends Controller
     public function tagTickets($id){
         $tag = Tag::find($id);
         if($tag !== null){
-            $tickets=$tag->tickets()->paginate(2);
+        $tickets=$tag->tickets()->paginate(2);
                 if(Auth::check() && Auth::user()->hasRole('admin')){
                     return view('admin.tags.show_tickets' , compact('tickets','tag'));
                 }
+                return view('tags.show_tickets' , compact('tickets','tag'));
         }
         return view('notfound');
 

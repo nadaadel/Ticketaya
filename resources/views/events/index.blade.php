@@ -15,7 +15,7 @@
         </div>
     <div class="row category-tabs events-tabs">
         <div class="col-md-2 col-sm-4 col-4 mb-2">
-        <a href="{{URL::route('alltickets')}}">
+        <a href="{{URL::route('allevents')}}">
                <div class="catg-tab align-items-center d-flex" style="background-image: url({{ asset('storage/images/categories/events.jpg')}});">
                     <div class="overlay"></div>
                     <h3 class="m-auto">ALL EVENTS</h3>
@@ -49,7 +49,7 @@
                     <div class="follow text-center">
                         @if(Auth::user() && Auth::user()->id == $event->user_id)
                         <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">View</a>
-                        <a type="submit" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                        <a type="submit"  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
                       
 
@@ -67,32 +67,25 @@
 @else
      <h2> There are Not Events For This Category Yet ! </h2>
 @endif
-@endsection
-
-{{--
-<form action="{{URL::to('events/delete/'. $event->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
-    {!! csrf_field() !!}
-    {{method_field('Delete')}}
-</form>
-    --}}
 
 <script>
-     $(document).on('click','.deletebtn',function(){
-            consolel.log('iam here');
-            var event_id = $('$event_id').val();
-            var resp = confirm("Do you really want to delete this ticket?");
+     $('.deletebtn').on('click',function(){
+            console.log('iam here');
+            var event_id = $(this).attr('event-id');
+            var resp = confirm("Do you really want to delete this event?");
             if (resp == true) {
                 $.ajax({
                     type: 'POST',
-                    url: '/events/'+event_id ,
+                    url: '/events/delete/'+event_id ,
                     data:{
                     '_token':'{{csrf_token()}}',
                     '_method':'DELETE',
                     },
                     success: function (response) {
-                        if(response.res=='success'){
-                            alert('atms7 ababa')
-                            window.location('/events');
+                        if(response.response=='success'){
+                      
+                         
+                           $('#'+event_id).remove();
 
                         }
                     }
@@ -101,4 +94,9 @@
             }
         });
 </script>
+@endsection
+
+
+
+
 
