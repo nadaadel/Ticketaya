@@ -33,7 +33,6 @@
             <div class="dropdown-container">
                 <ul class="dropdown-menu" style="
                 width: 301px;
-                height: 260px;
                 border-width: 0 0 1px 0;
                 margin-right: 0px;">
                         <div class="dropdown-toolbar">
@@ -107,11 +106,7 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-<<<<<<< HEAD
   var pusher = new Pusher('0fe1c9173ec82e038dd5', {
-=======
-  var pusher = new Pusher('7cd2d7485f85e6da6263', {
->>>>>>> 59e083aec307c24eec1d2d1b590496d5298f4a70
     encrypted: true,
     cluster:"eu"
   });
