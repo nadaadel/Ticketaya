@@ -14,6 +14,7 @@
                 </div>
             <div class="col-md-8">
                 <div class="row">
+                        @if($tickets != null)
                         @foreach($tickets as $ticket)
                         <div class="col-md-4 col-xs-12 tick-search ticket-card-parent">
                             <div class="card ticket-card">
@@ -26,61 +27,29 @@
                                         <h4 class="">Available Quantity</h4>
                                         <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
                                     </div>
+                                    @if(Auth::user()->id != $ticket->user_id)
                                     <div class="ticket-btn text-center">
                                         <a href="/tickets/{{$ticket->id}}" class="btn btn-primary">Request This Ticket</a>
                                     </div>
+                                    @else
+                                    <div class="ticket-btn text-center">
+                                            <a href="/tickets/{{$ticket->id}}" class="btn btn-primary">Show Ticket</a>
+                                    </div>
+                                    @endif
 
                                 </div>
                             </div>
                         </div>
-
                         @endforeach
-
+                        @else
+                        <h3>You didn't Favourite any Ticket yet !</h3>
+                        @endif
                 </div>
             </div>
         </div>
         {{ $tickets->links() }}
     </section>
 </div>
-  @if(Auth::check())
-
-  <script>
-        $(document).on('click','.heart',callFunction);
-        var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
-         function callFunction() {
-            var element=$(this);
-           if (!click) {$.ajax({
-             url: '/tickets/save/{{$ticket->id}}',
-             type: 'GET' ,
-             data:{
-                 '_token':'@csrf'
-             },
-        success:function(response){
-            if(response.res == 'success'){
-            element.parent().empty().append("<i  class='fas fa-heart heart'></i>");
-            click = true;
-            }
-        }
-         });
-           } else {
-            $.ajax({
-             url: '/tickets/unsave/{{$ticket->id}}',
-             type: 'GET' ,
-             data:{
-                 '_token':'@csrf'
-             },
-        success:function(response){
-            if(response.res == 'success'){
-            element.parent().empty().append("<i class='far fa-heart heart'></i>");
-             click = false;
-            }
-            }
-         });
-
-           }
-         }
-        </script>
-         @endif
 @endsection
 
 

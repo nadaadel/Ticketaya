@@ -26,13 +26,17 @@ class FilterEventController extends Controller
     $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
     $categoryIds= [];
     $cityIds = [];
+    if(!$request['city']&& !$request['category']){
+        $events = Event::latest()->paginate(2); 
+    }
     if($request['city']){
         $getCity  = City::whereIn('name' , $request['city'])->get();
         foreach($getCity as $city)
         {
             $cityIds[] = $city->id;
          }
-         $events = Event::whereIn('city_id' , $cityIds)->get();
+         $events = Event::whereIn('city_id' , $cityIds)->paginate(2);
+         $events->appends(['city' => $request['city'],'category'=> $request['category']]);
         if($request['category']){
             $getCategory  = Category::whereIn('name' , $request['category'])->get();
             foreach($getCategory as $cat)
@@ -40,8 +44,8 @@ class FilterEventController extends Controller
                 $categoryIds[] = $cat->id;
              }
              $events= Event::whereIn('category_id' , $categoryIds)
-             ->whereIn('city_id' , $cityIds)
-             ->get();
+             ->whereIn('city_id' , $cityIds)->paginate(2);
+             $events->appends(['city' => $request['city'],'category'=> $request['category']]);
         }
     }
     elseif($request['category']){
@@ -50,8 +54,8 @@ class FilterEventController extends Controller
         {
             $categoryIds[] = $cat->id;
          }
-        $events = Event::whereIn('category_id' ,  $categoryIds)->get();
-
+        $events = Event::whereIn('category_id' ,  $categoryIds)->paginate(2);
+        $events->appends(['city' => $request['city'],'category'=> $request['category']]);
     }
     if(Auth::check() && Auth::user()->hasRole('admin')){
 

@@ -1,0 +1,30 @@
+@import 'variables';
+
+.user-profile {
+   
+    .user-profile-img > div{
+        height: 150px;
+        width: 150px;
+        border-radius: 100px;
+        background-size: cover;
+        margin: 0 auto;
+        img {
+            height: 150px;
+            width: 150px;
+            border-radius: 100px;
+        }
+    }
+    .user-info {
+        
+        table {
+            margin: 0 auto;
+        }
+        td{
+            padding: 5px 0px;
+        }
+        span.bold {
+            font-weight: 600;
+            padding-right: 20px;
+        }
+    }
+}

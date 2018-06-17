@@ -83,7 +83,7 @@
 
                 </div>
             </div>
-            
+            {{ $tickets->links() }}
         </div>
     </section>
 </div>

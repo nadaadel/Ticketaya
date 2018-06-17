@@ -1,5 +1,6 @@
+
 <nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href="#"><img src="../images/home/logo.png"></a>
+    <a class="navbar-brand" href="#"><img src="{{ asset('/images/home/logo.png')}}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,7 +33,6 @@
             <div class="dropdown-container">
                 <ul class="dropdown-menu" style="
                 width: 301px;
-                height: 260px;
                 border-width: 0 0 1px 0;
                 margin-right: 0px;">
                         <div class="dropdown-toolbar">
@@ -57,7 +57,8 @@
         <li class="nav-item dropdown">
 
         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span id="user-profile" style="background-image: url({{ asset('storage/images/users/'. Auth::user()->avatar)}}); "></span>
+          <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
+          <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
@@ -76,7 +77,6 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
@@ -120,20 +120,17 @@ function notificationsHtml(data,realtime){
           var existingNotifications = $('#dropdownmenu').html();
           var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
           var url ="";
-          if(data.notify_type_id == 1){
-              url="/tickets/"+data.related_id;
-
+          if(data.notify_type == 'tickets'|| data.notify_type_id == 1){
+              url="/tickets/requests";
           }
-          else if(data.notify_type_id == 2){
+          else if(data.notify_type == 'events'|| data.notify_type_id == 2){
               url="/events/"+data.related_id;
           }
           if(realtime){
-          console.log(data)
                 notificationsCount += 1;
                 data.created_at=new Date(Date.now());
                 data.is_seen=0;
                 data.id=data.notification_id;
-
           }
           //var date= data.created_at === undefined ? new Date(Date.now())  : data.created_at ;
           var newNotificationHtml = `
@@ -200,7 +197,6 @@ $(document).on('click','#readall',function(event){
 
     // change notifications status that was unseen to be seen
     $(document).on('click','.notify-seen',function(event){
-        //event.preventDefault();
         var notif_id=$(this).attr('notif-no');
         var gotoURL=$(this).attr('url');
                 $.ajax({

@@ -21,13 +21,14 @@ class TicketReceived implements ShouldBroadcast
     public $request_id;
     public $notification_id;
     public $related_id;
+    public $notify_type;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($request_id,$is_sold)
+    public function __construct($request_id,$is_sold,$notify_type)
     {
         $this->request_id = $request_id;
         $request=RequestedTicket::find($this->request_id);
@@ -39,7 +40,7 @@ class TicketReceived implements ShouldBroadcast
         $this->message = "Your ticket {$request->ticket()->name} hasn't been delivered to {$request->requested_user()->name}";
         }
         $id=$request->ticket()->user->id;
-        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
+        $notify_type_id=NotifyType::where('type','=',$notify_type)->first()->id;
         $notification=Notification::create([
             'user_id' => $id,
             'notify_type_id' => $notify_type_id,
@@ -48,6 +49,7 @@ class TicketReceived implements ShouldBroadcast
         ]);
         $this->notification_id=$notification->id;
         $this->related_id=$request->ticket()->id;
+        $this->notify_type=$notify_type;
 
     }
     /**

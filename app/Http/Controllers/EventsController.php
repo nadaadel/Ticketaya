@@ -20,8 +20,8 @@ class EventsController extends Controller
 
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::where('question','=',$request->question)->first();
-      
-       
+
+
 
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
@@ -30,12 +30,12 @@ class EventsController extends Controller
         ]);
         //dd($eventQuestion);
         $asker=User::find($request->user_id);
-       
+
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
-        
-        
+
+
     }
     public function updateQuestion(Request $request){
         $asker_id=$request->user_id;
@@ -79,7 +79,7 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
-      
+
       $eventInfos=EventInfo::all();
       $time=Carbon::now();
       if(Auth::user()->hasRole('admin')){
@@ -96,7 +96,7 @@ class EventsController extends Controller
 
     }
     public function search (Request $request){
-        $events=Event::latest()->paginate(3);
+        $events=Event::latest()->paginate(2);
         $cities = City::whereIn('id' , Event::all()->pluck('city_id'))->get();
         $categories = Category::whereIn('id' , Event::all()->pluck('category_id'))->get();
         $view='events.search';
@@ -234,7 +234,7 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-     
+
         return response()->json(['response' => 'success']);
     }
 
