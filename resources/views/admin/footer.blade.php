@@ -60,12 +60,6 @@ $(document).ready(function(){
       var body=$('#'+quesId).val();
 
       var event_id = $('#event_id').val();
-     /* console.log(question);
-      console.log(event_id);
-      console.log(quesId);
-      console.log(questioner);*/
-
-
       $.ajax({
             url: '/events/answer/'+event_id+'/'+user_id,
                type: 'GET' ,
@@ -79,12 +73,14 @@ $(document).ready(function(){
                 },
                 success:function(response){
 
-                  console.log(response);
-                 // $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('#'+quesId);
-
+                  if(response.response== 'success'){
+                    console.log("kkkk");
+                    console.log(response.answer.id);
+                  $("<div>Answer:<p>"+response.answer.answer+"</p</div>><hr>" ).prependTo("#"+quesId )
+                  //console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
 
                 }
-
+}
         })
 })
 $('#showModel').on('click' , function(){
@@ -108,10 +104,37 @@ $('#showModel').on('click' , function(){
            },
         success:function(response){
             if(response.status == 'success'){
-                $( "<div id='event-info'><p class='event-time'>about minute ago</p></div>" ).prependTo(".info-parent" );
-                $( "<div id='event-info'><p class='event-body'>"+description+"</p></div>" ).prependTo(".info-parent" );
+                console.log(response.time.date);
+               
+                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
+                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
+                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
+               
                 $('.info-area').hide();
                 $('#showModel').show();
+                $('.deleteinfo').on('click',function(){
+                var id =$(this).attr('btn-id');
+                console.log(id)
+                 $.ajax({
+                         url: '/events/info/delete/'+id,
+                         type:'POST',
+                        data:{
+                            '_token': '{{csrf_token()}}',
+                            '_method':'DELETE',
+               
+                          },
+                 success:function(response){
+
+                    if(response.response == 'success'){
+                    console.log('pl')
+                   $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
             }else{
              alert('error');
             }
@@ -119,6 +142,76 @@ $('#showModel').on('click' , function(){
         }
        })
     });
+    $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('ok')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    });
+    $('.deletebtn').on('click',function(){
+            console.log('iam here');
+            var event_id = $(this).attr('event-id');
+            var resp = confirm("Do you really want to delete this event?");
+            if (resp == true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/events/delete/'+event_id ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    '_method':'DELETE',
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                          console.log('ok');
+                            $('#'+event_id).remove();
+                           
+
+                        }
+                    }
+                });
+
+            }
+        });
+    $('.deleteuser').on('click',function(){
+            console.log('iam here');
+            var user_id = $(this).attr('user-id');
+            var resp = confirm("Do you really want to delete this user?");
+            if (resp == true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/users/'+user_id ,
+                    data:{
+                    '_token':'{{csrf_token()}}',
+                    '_method':'DELETE',
+                    },
+                    success: function (response) {
+                        if(response.response=='success'){
+                          console.log('ok');
+                            $('#'+user_id).remove();
+                           
+
+                        }
+                    }
+                });
+
+            }
+        });
 
 });
 

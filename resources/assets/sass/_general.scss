@@ -14,13 +14,13 @@ body {
     background-color: $light;
 }
 //all elements
-*:hover{
-    transition: 0.3s;
-}
-
+//*:hover{
+//    transition: 0.2s;
+//}
+//
 * {
     font-family: $font;
-    transition: 0.3s;
+//    transition: 0.2s;
 }
 
 
@@ -78,6 +78,15 @@ a.ctrl-btn {
 }
 .like-btn:hover {
      background-color: $primary;
+}
+.info {
+    font-size: 12px;
+    font-weight: 900;
+    color: $info !important;
+    cursor: pointer;
+}
+.info:hover {
+    color: $primary!important;
 }
 
 .search {
@@ -163,7 +172,7 @@ form {
 //input feilds 
 
 
-input[type="datetimelocal"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"]{
+input[type="datetimelocal"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"],input[type="datetime-local"] {
      height: 40px;
 //     width: 350;
      border: 1px solid $gray;
@@ -182,7 +191,10 @@ input[type="identity"]{
      font-size: 14px;
                 
 }
-
+textarea {
+    border: 1px solid $gray;
+    border-radius: 50px;
+}
 .txt-area {
 //     height: 40px;
 //     width: 350;

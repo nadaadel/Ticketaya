@@ -12,7 +12,7 @@
   @if($user->city)
   City:<div>{{$user->city->name}}</div>
   @endif
-  @if($user->region->name)
+  @if($user->region)
   Region:<div>{{$user->region->name}}</div>
   @endif
   

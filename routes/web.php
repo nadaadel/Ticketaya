@@ -54,7 +54,7 @@ Route::get('/users/{id}','UsersController@show')->name('showuser');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
-Route::delete('/users/{id}' , 'UsersController@delete');
+Route::delete('/users/{id}' , 'UsersController@destroy');
 Route::get('/users','UsersController@index')->name('allusers');
 Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
 Route::post('tickets/report','TicketsController@report');
@@ -65,7 +65,7 @@ Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
 Route::get('/events/create' , 'EventsController@create');
 Route::post('/events/store' , 'EventsController@store');
-Route::get('/events/{id}' , 'EventsController@show');
+Route::get('/events/{id}' , 'EventsController@show')->name('eventshow');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
 Route::get('/events/edit/{id}','EventsController@edit');
 Route::put('/events/{id}','EventsController@update');
@@ -76,6 +76,8 @@ Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuesti
 
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
+Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
+Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
 
 
 /** Search For Tickets */
@@ -110,8 +112,7 @@ Route::post('/replies','RepliesController@store')->middleware('auth');
 
 
 /** Ticket CRUD Operations */
-Route::get('/tickets/filter/{category_id}' , 'FilterTicketsController@byCategory');
-Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');
+
 
 
 Route::get('/tickets/saved_tickets' , 'TicketsController@showSavedTickets')->name('showSavedTickets');

@@ -6557,6 +6557,43 @@ div.search-content {
       border-bottom: 1px solid #a7a7a77a;
       padding-bottom: 10px; }
 
+#event-view .contaner-fluid {
+  background-size: cover;
+  position: relative;
+  color: white; }
+  #event-view .contaner-fluid .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.6); }
+  #event-view .contaner-fluid .container ul {
+    list-style: none;
+    padding-left: 10px;
+    padding-top: 20px; }
+    #event-view .contaner-fluid .container ul li {
+      font-size: 14px;
+      padding-bottom: 5px; }
+      #event-view .contaner-fluid .container ul li i {
+        padding-right: 10px; }
+
+#event-view .event-info {
+  border-bottom: 1px solid #a7a7a77a; }
+  #event-view .event-info div.text-center {
+    border-right: 1px solid #a7a7a77a; }
+
+#event-view .user-img div {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+  border-radius: 100px;
+  background-size: cover; }
+
+#event-view .user-img .user-loc i {
+  font-size: 10px; }
+
 .login .slider {
   width: 100%;
   height: calc(100vh - 63.9px);
@@ -6697,6 +6734,10 @@ div.search-content {
 .events-tabs div.tab-img-1 {
   background-image: url(../images/imgsTabs/events.jpg); }
 
+a.event-card-click {
+  text-decoration: none;
+  color: #060919; }
+
 .event-card {
   box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16);
   background-color: white;
@@ -6714,9 +6755,13 @@ div.search-content {
       right: 20px; }
   .event-card .event-content {
     padding: 25px 20px 10px 20px; }
+    .event-card .event-content p {
+      text-transform: lowercase; }
 
 .event-card:hover {
-  box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16); }
+  box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16);
+  background-color: #E81F58;
+  color: white; }
 
 .nav-tabs a {
   font-weight: 600;
@@ -6757,6 +6802,49 @@ div.search-content {
   .requests .buyers-list > div:nth-child(even) {
     background-color: white; }
 
+.user-profile .user-profile-img > div {
+  height: 150px;
+  width: 150px;
+  border-radius: 100px;
+  background-size: cover;
+  margin: 0 auto; }
+  .user-profile .user-profile-img > div img {
+    height: 150px;
+    width: 150px;
+    border-radius: 100px; }
+
+.user-profile .user-info table {
+  margin: 0 auto; }
+
+.user-profile .user-info td {
+  padding: 5px 0px; }
+
+.user-profile .user-info span.bold {
+  font-weight: 600;
+  padding-right: 20px; }
+
+.notify-list {
+  margin: 10px 0px; }
+  .notify-list a {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.16);
+    display: block;
+    width: 100%;
+    background-color: white;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    color: #060919; }
+    .notify-list a h3 {
+      color: #E81F58; }
+    .notify-list a span {
+      padding-right: 20px;
+      font-weight: 600; }
+  .notify-list a:hover {
+    background-color: #e4e4e4; }
+
 .gray {
   color: #707070;
   font-size: 11px; }
@@ -6767,12 +6855,8 @@ div.search-content {
 body {
   background-color: #F9F9FF; }
 
-*:hover {
-  transition: 0.3s; }
-
 * {
-  font-family: "Lato", sans-serif;
-  transition: 0.3s; }
+  font-family: "Lato", sans-serif; }
 
 a.btn, .btn {
   border-radius: 50px;
@@ -6816,6 +6900,15 @@ a.ctrl-btn {
 
 .like-btn:hover {
   background-color: #E81F58; }
+
+.info {
+  font-size: 12px;
+  font-weight: 900;
+  color: #599DE8 !important;
+  cursor: pointer; }
+
+.info:hover {
+  color: #E81F58 !important; }
 
 .search {
   border: none;
@@ -6883,7 +6976,7 @@ label {
 form {
   width: 100%; }
 
-input[type="datetimelocal"], input[type="date"], input[type="number"], input[type="password"], input[type="email"], input[type="text"] {
+input[type="datetimelocal"], input[type="date"], input[type="number"], input[type="password"], input[type="email"], input[type="text"], input[type="datetime-local"] {
   height: 40px;
   border: 1px solid #707070;
   border-radius: 50px;
@@ -6896,6 +6989,10 @@ input[type="identity"] {
   border-radius: 50px;
   padding-left: 17px;
   font-size: 14px; }
+
+textarea {
+  border: 1px solid #707070;
+  border-radius: 50px; }
 
 .txt-area {
   border: 1px solid #707070;

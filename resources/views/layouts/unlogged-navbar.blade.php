@@ -1,3 +1,4 @@
+
 <nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
     <a class="navbar-brand" href="#"><img src="{{ asset('/images/home/logo.png')}}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +58,8 @@
         <li class="nav-item dropdown">
 
         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span id="user-profile" style="background-image: url({{ asset('storage/images/users/'. Auth::user()->avatar)}}); "></span>
+          <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
+          <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>
@@ -76,7 +78,6 @@
         <a class="nav-link " href="/admin"><button type="button" class="btn btn-outline-primary">Admin Panel</button></a>
       </li>
      @endrole
-
       @else
       <li class="nav-item pt-3 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
@@ -106,7 +107,11 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
+<<<<<<< HEAD
   var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+=======
+  var pusher = new Pusher('7cd2d7485f85e6da6263', {
+>>>>>>> 59e083aec307c24eec1d2d1b590496d5298f4a70
     encrypted: true,
     cluster:"eu"
   });

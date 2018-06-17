@@ -1,0 +1,58 @@
+@import 'variables';
+
+#event-view {
+    .contaner-fluid {
+//        height: 300px;
+        background-size: cover;
+        position: relative;
+        color: white;
+        .overlay {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .container {
+            ul {
+                list-style: none;
+                padding-left: 10px;
+                padding-top: 20px;
+                li {
+                    font-size: 14px;
+                    padding-bottom: 5px;
+                    i {
+                        padding-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+    
+    .event-info {
+    border-bottom:  1px solid #a7a7a77a;
+        div.text-center {
+            border-right: 1px solid #a7a7a77a;
+    }
+}
+    .user-img {
+        
+        div {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+            border-radius: 100px;
+            background-size: cover;
+            
+        }
+        .user-loc {
+            i {
+                font-size: 10px;
+            }
+        }
+    }
+
+  }
+

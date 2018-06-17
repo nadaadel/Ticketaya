@@ -1,5 +1,71 @@
 @extends('layouts.app')
 @section('content')
+     <section id="event-view">
+       <div class="contaner-fluid"  style="background-image: url(../images/home/2-silder.jpg);">
+         <div class="overlay"></div>
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-md-8">
+                      <div class="row pt-5 pb-4">
+                          <div class="col-md-8 col-12">
+                              <h2> Amr Diab Marina Concert</h2>
+                              <ul>
+                                  <li><i class="fas fa-ticket-alt"></i> Available Tickets <span>200</span></li>
+                                  <li><i class="fas fa-th-large"></i> Concert </li>
+                                  <li><i class="far fa-calendar-alt"></i>Posted at : Sat, 12 Nov 2018 </li>
+                                  <li><i class="far fa-calendar-alt"></i>expire at : Sat, 12 Nov 2018 </li>
+                                  <li><i class="fas fa-map-marker"></i>Marina no 5, Nourth Coast </li>
+                              </ul>
+
+                          </div>
+                          <div class="col-md-4 col-12">
+                              <a href="#" class="btn btn-primary">SUBSCRIBE</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+           
+       </div>
+        <div class="container">
+            <div class="row pt-5 event-info">
+                 <div class="col-md-2 col-xs-12 text-center"><!--User profile-->
+                           <div class="user-img">
+                               <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
+
+                            </div>
+                               <h4 class="user-name pt-4">Event Creator</h4>
+                               <div class="user-loc d-flex justify-content-center">
+                               <p class="gray">Alexandria</p>
+                           </div>
+                           <button class="btn btn-info"> Contact Organizer </button>
+                       </div><!--End of User profile-->
+                <div class="col-md-10 pb-5"><!--Event data-->
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12 event-details pl-4">
+                           <h3 class="mb-3">Event Details</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                            <p class="mb-5">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                            <h3 class="mb-3">You Should Know</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-xs-12 pr-2">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            
+        </div>
+         
+     </section>
 
      {{ $event-> name}} EVENT <br>
      <fieldset>
@@ -28,14 +94,20 @@
      </div>
     @endif
     {{-- info --}}
-  <div class="info-parent">
+  <div class="info-parent" >
+        Post of Event:
         @foreach ($eventInfos as $info )
-        <div class="event-info" style="display:block;">
-            Post of Event<p class="event-body">{{$info->body}} <p>
+      
+        <div class="event-info" id="{{$info->id}}" style="display:block;">
+            <p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-
-
+            @if(Auth::user() && Auth::user()->id == $event->user_id)
+             <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
+            @endif
         <div>
+         
+        
+        <hr>
        @endforeach
   </div>
 
@@ -44,10 +116,12 @@
 {{-- questions and answer --}}
 @if($questions)
 @foreach($questions as $question)
-<div id="{{$question->id}}">
-Question<div class="question">{{$question->question}} </div>
-Answer: <div class="answer"  >{{$question->answer}} </div>
-
+<div class="questions">
+    <div id ="{{$question->id}}}">
+        Question<p>{{$question->question}} </p>
+        Answer: <p>{{$question->answer}} </p>
+    </div>
+</div>
 
 @if(Auth::user() && Auth::user()->id == $event->user_id)
 
@@ -60,7 +134,7 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
     <input type="hidden" id="event_id" value="{{$event->id}}">
 @endif
-</div>
+
 <hr>
 @endforeach
 @endif
@@ -113,10 +187,11 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                 'user_id':user_id,
                 },
                 success:function(response){
-                 if(response.response== 'success'){
-                    alert('saved Questions Successfuly')
-                  $("<div class='question'>Question:<p class='event-body'>"+response.questions.question+"</p></div><hr>" ).prependTo('.questions-area');
-
+                 if(response.response == 'success'){
+                    console.log(response.questions)
+                    //alert('saved Questions Successfuly')
+                 $("<div id='"+response.questions.id+"'></div>").prependTo('.questions');
+                  $('#'+response.questions.id).append("Question:<p class='event-body'>"+response.questions.question+"</p><hr>")
                  }
                 }
         });
@@ -140,11 +215,13 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                 'quesId':quesId,
                 },
                 success:function(response){
+                if(response.response== 'success'){
+                    console.log("kkkk");
+                    console.log(response);
+                   console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
 
-                  console.log(response);
-                  $( "<div class='answer'>Answer:<p class='event-body'>"+response.answer.answer+"</p></div><hr>" ).prependTo('.questions-area');
 
-
+                }
                 }
 
         })
@@ -221,7 +298,7 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-       alert("helllo");
+       
        console.log(description);
        var event_id = $('#event_id').val();
        console.log(event_id);
@@ -233,11 +310,38 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
                'description':description
            },
         success:function(response){
+
             if(response.status == 'success'){
-                $( "<div id='event-info'><p class='event-time'>about minute ago</p></div>" ).prependTo(".info-parent" );
-                $( "<div id='event-info'><p class='event-body'>"+description+"</p></div>" ).prependTo(".info-parent" );
+                console.log('ok')
+                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
+                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
+                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
+               
                 $('.info-area').hide();
                 $('#showModel').show();
+                $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('pl')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
             }else{
              alert('error');
             }
@@ -245,6 +349,28 @@ Answer: <div class="answer"  >{{$question->answer}} </div>
         }
        })
     });
+    $('.deleteinfo').on('click',function(){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
+               
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('pl')
+                $('#'+id).remove();
+                
+
+        }
+       }
+        })
+    })
 
    });
 

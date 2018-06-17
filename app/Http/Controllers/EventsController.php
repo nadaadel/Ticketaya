@@ -19,21 +19,23 @@ class EventsController extends Controller
 {
 
     public function storeQuestion(Request $request){
-        $questionfound=EventQuestion::all()->where('question','=',$request->question)->first();
-        if ($questionfound==null){
+        $questionfound=EventQuestion::where('question','=',$request->question)->first();
+      
+       
+
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
             'question'=>$request->question,
         ]);
+        //dd($eventQuestion);
         $asker=User::find($request->user_id);
+       
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
-        }
-        else{
-            return response()->json(['response'=>'false']);
-        }
+        
+        
     }
     public function updateQuestion(Request $request){
         $asker_id=$request->user_id;
@@ -48,7 +50,7 @@ class EventsController extends Controller
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
         event(new Answer($asker_id, $event_id));
-        return response()->json(['answer' => $getQuestion->answer]);
+        return response()->json(['response'=>'success','answer' => $getQuestion]);
     }
     public function subscribe($event_id , $user_id){
     DB::table('event_user')->insert([
@@ -67,7 +69,7 @@ class EventsController extends Controller
         }
 
     public function newInfo($event_id , Request $request){
-      EventInfo::create([
+        $info=EventInfo::create([
          'event_id' => $event_id,
          'body' => $request->description
       ]);
@@ -77,11 +79,20 @@ class EventsController extends Controller
          event(new EventSubscribers($event_id , $subscriber->user_id));
 
       }
+      
       $eventInfos=EventInfo::all();
+      $time=Carbon::now();
       if(Auth::user()->hasRole('admin')){
-        return view('admin.events.show',['eventInfos'=> $eventInfos] );
+        return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
+        //return view('admin.events.show',['eventInfos'=> $eventInfos] );
       }
-      return response()->json(['status' => 'success']);
+      return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
+
+    }
+    public function deleteInfo($id){
+       $info= EventInfo::find($id);
+       $info->delete();
+       return response()->json(['response' => 'success']);
 
     }
     public function search (Request $request){
@@ -151,7 +162,7 @@ class EventsController extends Controller
             'name'=>'required|min:4|max:200',
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
             'startdate' => 'required|date|before_or_equal:enddate',
-            'enddate'  => 'required|date|date_format:Y-m-d|after_or_equal:startdate',
+            'enddate'  => 'required|date|after_or_equal:startdate',
             'user_id' => 'exists:users,id',
             'category' => 'exists:categories,id',
             'city' => 'exists:cities,id',
@@ -180,8 +191,11 @@ class EventsController extends Controller
         $categories=Category::all();
         $regions = Region::all();
         $cities = City::all();
-
-        return view('events.edit',[
+        $view='events.edit';
+        if(Auth::user()&& Auth::user()->hasRole('admin')){
+            $view='admin.events.edit';
+        }
+        return view($view,[
 
             'event' => $event,
             'categories'=>$categories,
@@ -220,7 +234,7 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         $event->delete();
-
+     
         return response()->json(['response' => 'success']);
     }
 

@@ -13,7 +13,7 @@
 <!--                               <i class="fas fa-map-marker gray"></i>-->
                                <p class="gray">{{ $ticket->city->name }}</p>
                            </div>
-                           <button class="btn btn-info"> Chat with Seller</button>
+                           <button class="btn btn-info"> Contact with Seller </button>
                        </div><!--End of User profile-->
                        <div class="col-md-9 pb-5"><!--Ticket data-->
                            <div class="row">
@@ -36,7 +36,7 @@
                                         {{-- end save ticket--}}
                                    <div class="ticket-info">
                                        <ul>
-                                           <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
+                                           <li><i class="fas fa-ticket-alt"></i> Available Tickets :{{ $ticket->quantity }}</li>
                                            <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
                                            <li><i class="far fa-calendar-alt"></i>Posted at : {{ $ticket->created_at->diffForHumans() }} </li>
                                            <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
@@ -64,6 +64,7 @@
                                            <a  href="#"   id="want" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
+                                
                 </div>
             @endif
 
@@ -83,7 +84,9 @@
                     @endfor
                  </select>
                 <button href="#" id="editticket" class="btn btn-success">Edit</button>
+            
                </div>
+                    
         @endif
 
                 {{-- Edit Request this ticket end section --}}
@@ -110,7 +113,7 @@
                            </div>
                        </div><!--end of Ticket data-->
                    </div>
-               </div>
+                       </div>
         @if(Auth::user())
                <div class="container">
 
@@ -159,11 +162,11 @@
                                                     {{ csrf_field() }}
                                                         <div class="form-group row">
                                                             <div class="col-md-6">
-                                                            <textarea rows="4" cols="50" placeholder="reply here"  name="bodyReply">
+                                                            <textarea class="w-100" placeholder="Enter Your Replay here..."  name="bodyReply">
                                                             </textarea>
                                                             <input  name="ticket_id" type="hidden"  value= {{$comment->ticket_id}} >
                                                             <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
-                                                            <button type="submit" class="btn btn-primary">
+                                                            <button type="submit" class="btn btn-primary mt-2 ml-3">
                                                                                 {{ __('Reply') }}
                                                                 </button>
                                                             </div>
@@ -337,8 +340,8 @@ $('.reply').on('click',function(){
                for (var j=0;j<response.names.length;j++){
                 if (i==j){
                     $('#'+commentId).append('<div>'+response.names[j]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')
-
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
+                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
                }
 
                }

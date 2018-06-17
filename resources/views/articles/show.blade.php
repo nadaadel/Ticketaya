@@ -33,9 +33,12 @@
 Comments:
 <br>
 <br>
+@if(Auth::check())
 @foreach($article->comments as $comment)
+@if($comment->user)
 {{$comment->user->name}}
 <div>{{$comment->body}} created at :{{$comment->created_at->diffForHumans()}} </div>
+
 <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
 <div id="{{$comment->id}}" style="display: none;">
     <div class="card-body"  >
@@ -58,7 +61,9 @@ Comments:
 
 <hr>
 <br>
+@endif
 @endforeach
+@endif
 
 <div class="card-body">
     <form method="POST" action="/article/comments" enctype="multipart/form-data" >
@@ -92,7 +97,8 @@ $('.reply').on('click',function(){
             $('#'+commentId).show();
             for(var i=0;i<response.replies.length;i++){
                     $('#'+commentId).append('<div>'+response.names[i]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' +'<br>')
+                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
+                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
 
             }
             }
