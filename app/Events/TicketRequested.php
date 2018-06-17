@@ -23,6 +23,8 @@ class TicketRequested implements ShouldBroadcast
     public $user_id;
     public $notification_id;
     public $related_id;
+    public $notify_type;
+    public $message;
 
 
     /**
@@ -30,14 +32,15 @@ class TicketRequested implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($ticket_id)
+    public function __construct($ticket_id,$notify_type)
     {
         $ticket = Ticket::find($ticket_id);
         $this->ticketName = $ticket->name;
         $this->fromUser =   Auth::user()->name;
         $this->user_id  =  $ticket->user_id;
+        $this->message= $this->fromUser.'request Your ticket'.$this->ticketName;
 
-        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
+        $notify_type_id=NotifyType::where('type','=',$notify_type)->first()->id;
         $notification = Notification::create([
            'user_id' => $this->user_id,
            'message' => $this->fromUser.'request Your ticket'.$this->ticketName,
@@ -45,6 +48,7 @@ class TicketRequested implements ShouldBroadcast
            'related_id'=>$ticket_id
         ]);
         $this->notification_id=$notification->id;
+        $this->notify_type=$notify_type;
         $this->related_id=$ticket_id;
     }
     /**

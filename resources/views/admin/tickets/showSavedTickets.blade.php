@@ -2,6 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+            @if($tickets != null)
   <table class="table table-hover ">
     <thead>
       <tr>
@@ -19,7 +20,7 @@
     <tbody>
   @foreach($tickets as $ticket)
 
-  <tr class="danger">
+  <tr class="danger" ticket-no='1'>
 
 
         <th scope="row">{{$ticket->id}}</th>
@@ -34,11 +35,11 @@
         <td> {{ $ticket->created_at->diffForHumans() }} </td>
         <td>{{ $ticket->expire_date}}</td>
         <td>
-                <a class="btn">
+        <a class="btn" ticket-no={{$ticket->id}}>
                         @if(Auth::user()->savedTickets->contains($ticket->id))
-                        <span class='heart'>unsave</span>
+                        <span class='heart' clicked='1'>unsave</span>
                         @else
-                        <span class='heart'>save</span>
+                        <span class='heart' clicked='0'>save</span>
                         @endif
                     </a>
         </td>
@@ -47,48 +48,58 @@
   @endforeach
   </tbody>
   </table>
+  @else
+  <h3>You didn't Favourite any Ticket yet !</h3>
+  @endif
   {{ $tickets->links() }}
 </div>
   </div>
   </div>
-  @if(Auth::check() && Auth::user()->hasRole('admin'))
+  @if(Auth::check())
+
   <script>
-        $(document).on('click','.heart',callFunction);
-        var click ={!! json_encode(Auth::user()->savedTickets->contains($ticket->id))!!} ;
-         function callFunction() {
+
+        $(document).on('click','.heart',
+         function () {
             var element=$(this);
-           if (!click) {$.ajax({
-             url: '/tickets/save/{{$ticket->id}}',
+            var click =element.attr('clicked');
+            var ticket_id=element.parent().attr('ticket-no');
+            var ticket_row=element.closest('tr');
+           if (click != 1)
+            {$.ajax({
+             url: '/tickets/save/'+ticket_id,
              type: 'GET' ,
              data:{
                  '_token':'@csrf'
              },
         success:function(response){
             if(response.res == 'success'){
-            element.parent().empty().append("<span class='heart'>unsave</span>");
+                element.parent().empty().append("<span class='heart' clicked='1'>unsave</span>");
             click = true;
             }
         }
          });
            } else {
+
             $.ajax({
-             url: '/tickets/unsave/{{$ticket->id}}',
+             url: '/tickets/unsave/'+ticket_id,
              type: 'GET' ,
              data:{
                  '_token':'@csrf'
              },
         success:function(response){
             if(response.res == 'success'){
-            element.parent().empty().append("<span class='heart'>save</span>");
+                ticket_row.remove();
              click = false;
+
             }
             }
          });
 
            }
-         }
+         });
         </script>
-        @endif
+         @endif
 @endsection
 
 
