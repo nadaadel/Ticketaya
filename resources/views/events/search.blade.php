@@ -61,7 +61,7 @@
                                         <div class="event-qty-num d-flex align-items-center"><span>{{$event->avaliabletickets}}</span></div>
                                     </div>
                                     <div class="event-btn text-center">
-                                        <a type="button" href="/events/{{$event->id}}" type="button" class="btn btn-primary">View This Event</a>
+                                        <a  href="/events/{{$event->id}}"  class="btn btn-primary">View This Event</a>
                                     </div>
 
                                 </div>
@@ -71,7 +71,7 @@
                         @endforeach
                 </div>
             </div>
-            {{ $events->links() }}
+            {{ $events->links()  }}
         </div>
     </section>
 </div>
