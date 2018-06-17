@@ -49,7 +49,7 @@ class TicketRequestsController extends Controller
        //  $request="true";
 
         // send request notification to ticket author
-        //event(new TicketRequested($id));
+        event(new TicketRequested($id));
         return response()->json(['response' => 'ok']);
 
         }

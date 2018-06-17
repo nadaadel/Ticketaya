@@ -6714,6 +6714,8 @@ div.search-content {
       right: 20px; }
   .event-card .event-content {
     padding: 25px 20px 10px 20px; }
+    .event-card .event-content p {
+      text-transform: lowercase; }
 
 .event-card:hover {
   box-shadow: 0px 3px 25px 0px rgba(0, 0, 0, 0.16); }
@@ -6816,6 +6818,18 @@ a.ctrl-btn {
 
 .like-btn:hover {
   background-color: #E81F58; }
+
+.spam {
+  color: #dc3545; }
+  .spam i {
+    padding-right: 10px;
+    font-size: 14px; }
+
+.report {
+  color: #ffc107; }
+  .report i {
+    padding-right: 10px;
+    font-size: 14px; }
 
 .search {
   border: none;

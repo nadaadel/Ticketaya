@@ -37,10 +37,10 @@ class TicketRequested implements ShouldBroadcast
         $this->fromUser =   Auth::user()->name;
         $this->user_id  =  $ticket->user_id;
 
-        $notify_type_id=NotifyType::where('type','=','tickets')->first()->id;
+        $notify_type_id= NotifyType::where('type','=','tickets')->first()->id;
         $notification = Notification::create([
            'user_id' => $this->user_id,
-           'message' => $this->fromUser.'request Your ticket'.$this->ticketName,
+           'message' => $this->fromUser.' request Your ticket '.$this->ticketName,
            'notify_type_id' => $notify_type_id,
            'related_id'=>$ticket_id
         ]);

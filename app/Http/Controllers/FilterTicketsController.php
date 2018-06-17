@@ -12,7 +12,12 @@ use Auth;
 class FilterTicketsController extends Controller
 {
 
- 
+    public function byCategory($category_id){
+        $tickets = Ticket::where('category_id' , '=' , $category_id)->paginate(4);
+        $categories = Category::all();
+        return view('tickets.index' , compact('tickets' , 'categories'));
+    }
+
 
 
     public function filter(Request $request){
@@ -57,7 +62,7 @@ class FilterTicketsController extends Controller
             ->whereIn('city_id' ,  $cityIds)
             ->whereBetween('price'  , [$request['price'],$request['price']+50])
             ->get();
-         
+
             }
             else{
                 $tickets = Ticket::whereIn('city_id' ,  $cityIds)
@@ -70,18 +75,18 @@ class FilterTicketsController extends Controller
     }
     elseif($request['category']){
         $getCategory  = Category::whereIn('name' ,$request['category'])->get();
-        
+
         foreach($getCategory as $cat)
         {
             $categoryIds[] = $cat->id;
          }
-       
+
         $tickets = Ticket::whereIn('category_id' ,  $categoryIds)->get();
-       
+
         if($request['highprice']){
-            
+
             $tickets = Ticket::whereIn('category_id' ,  $categoryIds)
-            
+
             ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
             ->get();
             //dd($tickets);
@@ -89,13 +94,13 @@ class FilterTicketsController extends Controller
 
         }
         if($request['price']){
-        
+
             $tickets = Ticket::whereIn('category_id' ,   $categoryIds)
             ->whereBetween('price'  , [$request['price'],$request['price']+50])
             ->get();
              //dd($tickets);
-            
-            
+
+
 
         }
 
@@ -127,6 +132,6 @@ class FilterTicketsController extends Controller
 
 
 
-  
+
 
 

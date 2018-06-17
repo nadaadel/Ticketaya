@@ -27,7 +27,7 @@
                                      @if(Auth::check() )
                                    <a class="btn ctrl-btn like-btn container">
                                         @if(Auth::user()->savedTickets->contains($ticket->id))
-                                        <i class='fas fa-heart heart'></i>
+                                       <i class='fas fa-heart heart'></i>
                                         @else
                                         <i class='far fa-heart heart'></i>
                                         @endif
@@ -39,8 +39,7 @@
                                            <li><i class="fa fa-spinner"></i> Available Tickets :{{ $ticket->quantity }}</li>
                                            <li><i class="fas fa-th-large"></i> {{ $ticket->category->name }}</li>
                                            <li><i class="far fa-calendar-alt"></i>Posted at : {{ $ticket->created_at->diffForHumans() }} </li>
-                                           <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->created_at->diffForHumans() }} </li>
-
+                                           <li><i class="far fa-calendar-alt"></i>expire at : {{ $ticket->expire_date }} </li>
                                            <li><i class="fas fa-map-marker"></i>{{ $ticket->region->name }},{{ $ticket->city->name }}</li>
                                        </ul>
                                    </div>
@@ -106,6 +105,32 @@
                                         @endforeach
                                     </p>
                              @endif
+                             <p>
+            @if(Auth::check())
+                  {{-- spam section --}}
+                @if(count($userSpam))
+                    @foreach ($userSpam as $spam)
+                            @if($spam->ticket_id == $ticket->id)
+                                    <p style="color:red">  You Spammed This Ticket </p>
+                                    <br>
+                            @endif
+                    @endforeach
+                @else
+
+                @if($ticket->user_id != Auth::user()->id)
+                    <form method="POST" action="/tickets/spam/{{$ticket->id}}">
+                        @csrf
+                        <button class="btn btn-light spam" ><i class="fas fa-times-circle"></i>  Spam</button>
+                    {{-- <input class="btn btn-light spam" type="submit" value="spam"> --}}
+                    </form>
+                @endif
+                @endif
+                    {{-- end spam section --}}
+                @if($ticket->user_id != Auth::user()->id)
+                    <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-light report" > <i class="fas fa-exclamation-triangle"></i>Report</a>
+                @endif
+            @endif
+                             </p>
                                </div>
                            </div>
                        </div><!--end of Ticket data-->
@@ -184,27 +209,6 @@
                </div>
            </section>
 
-                  {{-- spam section --}}
-            @if(count($userSpam))
-                @foreach ($userSpam as $spam)
-                        @if($spam->ticket_id == $ticket->id)
-                                <p style="color:red">  You Spammed This Ticket </p>
-                                <br>
-                        @endif
-                @endforeach
-            @else
-
-            @if($ticket->user_id != Auth::user()->id)
-                <form method="POST" action="/tickets/spam/{{$ticket->id}}">
-                    @csrf
-                <input class="btn btn-danger" type="submit" value="spam">
-                </form>
-            @endif
-            @endif
-                {{-- end spam section --}}
-            @if($ticket->user_id != Auth::user()->id)
-                <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-danger" >Report</a>
-            @endif
         @endif
 </hr>
 @if(sizeof($recommendedArticles) > 0)

@@ -131,6 +131,8 @@ Route::put('/tickets/update/{id}', 'TicketsController@update')->name('updatetick
 Route::get('/tickets/save/{id}' , 'TicketsController@saveTicket');
 Route::get('/tickets/unsave/{id}' , 'TicketsController@unsaveTicket');
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
+Route::get('/tickets/filter/{id}' , 'FilterTicketsController@byCategory');
+
 
 
 Auth::routes();

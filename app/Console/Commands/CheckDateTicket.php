@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Ticket;
+use App\RequestedTicket;
+use App\SoldTicket;
 use Carbon\Carbon;
 class CheckDateTicket extends Command
 {
@@ -39,6 +41,18 @@ class CheckDateTicket extends Command
     {
         $tickets = Ticket::where('expire_date' ,'<=', Carbon::now()->toDateTimeString())->get();
         foreach($tickets as $ticket){
+    //      $ticketRequests = RequestedTicket::where('ticket_id', '=' , $ticket->id)->get();
+    //      if(ticketRequests !== null){
+    //         foreach($ticketRequests as $ticket){
+    //         $ticket->delete();
+    //            }
+    //     }
+    //     $ticketSolds = SoldTicket::where('ticket_id', '=' , $ticket->id)->get();
+    //     if($ticketSolds !== null){
+    //     foreach($ticketSolds as $ticket){
+    //         $ticket->delete();
+    //      }
+    //    }
                 $ticket->delete();
         }
     }

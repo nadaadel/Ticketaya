@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-     {{ $event-> name}} EVENT <br>
      <fieldset>
             <legend style="background-color: gray">Event Info </legend>
             <img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:150px; height:150px;">
@@ -31,7 +30,7 @@
   <div class="info-parent" >
         Post of Event:
         @foreach ($eventInfos as $info )
-      
+
         <div class="event-info" id="{{$info->id}}" style="display:block;">
             <p class="event-body">{{$info->body}} <p>
             <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
@@ -39,8 +38,8 @@
              <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
             @endif
         <div>
-         
-        
+
+
         <hr>
        @endforeach
   </div>
@@ -232,7 +231,7 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-       
+
        console.log(description);
        var event_id = $('#event_id').val();
        console.log(event_id);
@@ -251,7 +250,7 @@
                 $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
                 $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
                 $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
-               
+
                 $('.info-area').hide();
                 $('#showModel').show();
                 $('.deleteinfo').on('click',function(){
@@ -263,14 +262,14 @@
            data:{
                '_token': '{{csrf_token()}}',
                '_method':'DELETE',
-               
+
            },
         success:function(response){
 
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-                
+
 
         }
        }
@@ -292,14 +291,14 @@
            data:{
                '_token': '{{csrf_token()}}',
                '_method':'DELETE',
-               
+
            },
         success:function(response){
 
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-                
+
 
         }
        }
