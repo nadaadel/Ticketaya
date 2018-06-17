@@ -40,7 +40,7 @@ class FilterTicketsController extends Controller
         if($request['highprice']){
             if($categoryIds){
             $tickets = Ticket::whereIn('category_id' , $categoryIds)
-            ->whereIn('city' ,  $cityIds)
+            ->whereIn('city_id' ,  $cityIds)
             ->whereBetween('price'  , [$request['highprice'],$request['highprice']+10000])
             ->get();
             }else{
