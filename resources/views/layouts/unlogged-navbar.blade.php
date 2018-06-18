@@ -106,11 +106,10 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
+  var pusher = new Pusher('6042cdb1e9ffa998e5be', {
     encrypted: true,
-    cluster:"eu"
+    cluster:"mt1"
   });
-
 
   function updateNotificationCount(){
     notificationsCountElem.attr('data-count', notificationsCount);
@@ -218,6 +217,7 @@ $(document).on('click','#readall',function(event){
        });
 var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
 bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
+
 var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
@@ -232,6 +232,5 @@ bindChannel(questionNotification,'App\\Events\\Question');
 var answerNotification=pusher.subscribe('answer-notification_{{ Auth::user()->id }}');
 bindChannel(answerNotification,'App\\Events\\Answer');
 });
-
 </script>
 @endif

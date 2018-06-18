@@ -83,8 +83,6 @@
                     },
                     success: function (response) {
                         if(response.response=='success'){
-                      
-                         
                            $('#'+event_id).remove();
 
                         }

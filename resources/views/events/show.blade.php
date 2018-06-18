@@ -141,7 +141,7 @@
     
 
 
-{{-- questions and answer --}}
+
 
 
 
@@ -284,7 +284,7 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-       
+
        console.log(description);
        var event_id = $('#event_id').val();
        console.log(event_id);
@@ -303,7 +303,7 @@
                 $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
                 $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
                 $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
-               
+
                 $('.info-area').hide();
                 $('#showModel').show();
                 $('.deleteinfo').on('click',function(){
@@ -315,14 +315,14 @@
            data:{
                '_token': '{{csrf_token()}}',
                '_method':'DELETE',
-               
+
            },
         success:function(response){
 
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-                
+
 
         }
        }
@@ -344,14 +344,14 @@
            data:{
                '_token': '{{csrf_token()}}',
                '_method':'DELETE',
-               
+
            },
         success:function(response){
 
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-                
+
 
         }
        }

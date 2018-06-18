@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ticket;
 use App\Event;
+use App\RequestedTicket;
 
 
 
@@ -27,6 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $hotTickets  = RequestedTicket::all()->groupBy('ticket_id')->first();
+        // dd($hotTickets);
         $hotTickets  = Ticket::orderBy('created_at' , 'desc')->take(6)->get();
         $hotEvents   = Event::orderBy('created_at' , 'desc')->take(6)->get();
         return view('home' , compact('hotTickets' , 'hotEvents'));
