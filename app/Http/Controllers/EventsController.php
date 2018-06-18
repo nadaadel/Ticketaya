@@ -148,7 +148,7 @@ class EventsController extends Controller
         $questions=EventQuestion::all()->where('event_id',$id);
 
 
-        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->get();
+        $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->paginate(2);
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.show';

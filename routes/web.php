@@ -63,14 +63,14 @@ Route::post('tickets/report','TicketsController@report');
 Route::get('/events/search' , 'EventsController@search');
 Route::get('/events/filter' , 'FilterEventController@filter');
 Route::get('/events' ,'EventsController@index')->name('allevents');
-Route::get('/events/create' , 'EventsController@create');
+Route::get('/events/create' , 'EventsController@create')->middleware('auth');
 Route::post('/events/store' , 'EventsController@store');
 Route::get('/events/{id}' , 'EventsController@show')->name('eventshow');
 Route::delete('/events/delete/{id}' , 'EventsController@delete');
-Route::get('/events/edit/{id}','EventsController@edit');
-Route::put('/events/{id}','EventsController@update');
-Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe');
-Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe');
+Route::get('/events/edit/{id}','EventsController@edit')->middleware('auth');
+Route::put('/events/{id}','EventsController@update')->middleware('auth');
+Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscribe')->middleware('auth');
+Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe')->middleware('auth');
 
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
 

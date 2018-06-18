@@ -40,9 +40,12 @@
                         
                     </table>
                 </div>
+                @if(Auth::check()&&Auth::user()->id==$user->id)
                 <div class="mt-4">
+                   
                     <a href="{{ URL::to('users/edit/' . $user->id ) }}" class="btn btn-secondary"> Edit Profile</a>
                 </div>
+                @endif
             </div>
         </div>
     </div>

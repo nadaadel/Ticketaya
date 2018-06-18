@@ -48,9 +48,9 @@ class UsersController extends Controller
         if(Auth::user() && Auth::user()->hasRole('admin')){
             return view('admin.users.show',['user'=> $user] );
         }
-        if(Auth::user()&& Auth::user()->id==$id){
+        
         return view('users.show',['user'=> $user] );
-    }
+    
 }
     return view('notfound');
 }
