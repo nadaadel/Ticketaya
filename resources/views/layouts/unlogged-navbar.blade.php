@@ -11,16 +11,16 @@
 -->
        <ul class="navbar-nav navbar-left">
 
-        <li class="nav-item active pt-3">
+        <li class="nav-item active pt-2">
             <a class="nav-link" href="{{URL::route('home')}}">HOME</a>
         </li>
-        <li class="nav-item active pt-3">
+        <li class="nav-item active pt-2">
             <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
         </li>
-        <li class="nav-item pt-3">
+        <li class="nav-item pt-2">
             <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
         </li>
-        <li class="nav-item pt-3">
+        <li class="nav-item pt-2">
             <a class="nav-link " href="{{URL::route('allarticles')}}">BLOG</a>
         </li>
 
@@ -79,11 +79,11 @@
       </li>
      @endrole
       @else
-      <li class="nav-item pt-3 pl-5">
+      <li class="nav-item pt-2 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link mt-1" href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-light">REGISTER</button></a>
+              <a class="nav-link " href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-light">REGISTER</button></a>
             </li>
     @endif
   </ul>
