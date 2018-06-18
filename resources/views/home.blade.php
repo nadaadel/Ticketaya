@@ -46,7 +46,7 @@
         <section>
 
                    {{-- HOT TICKETS --}}
-        {{-- @if($hotTickets)
+        {{-- @if($hotTickets !== null)
             <div class="row">
             <h3 class="text-center">Hot Tickests</h3>
              @foreach ($hotTickets as $ticket)
@@ -55,7 +55,6 @@
                         <div class="card-img"  style=" background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});">
 
                         </div>
-
                         <div class="card-body">
                             <h3 class="card-title">{{$ticket->name}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
                             <p class="ticket-des">{{substr($ticket->description,0,70)}}</p>
@@ -75,7 +74,8 @@
        @endif --}}
             <hr>
                                   {{-- HOT EVENTS --}}
-            {{-- @if($hotEvents)
+{{--
+            @if($hotEvents !== null)
             <div class="row">
                     <h3 class="text-center">Hot Events</h3>
                      @foreach ($hotEvents as $event)

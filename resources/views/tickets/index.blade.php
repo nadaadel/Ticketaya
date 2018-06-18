@@ -42,7 +42,7 @@
     <div class="row justify-content-md-center mt-5 mb-5">
     @if($tickets !== null)
     @foreach($tickets as $ticket)
-        <div class="col-md-10 col-sm-10 col-10 mb-3"> <!-- Ticked list card -->
+        <div class="col-md-10 col-sm-10 col-10 mb-3" id="{{$ticket->id}}"> <!-- Ticked list card -->
             <div class="ticket-list">
                 <div class="row">
                     <div class="col-md-3 col-sm-12 pl-0 pr-0">
@@ -63,11 +63,7 @@
                     </div>
                     <div class="ticket-ctrl-btns pt-5">
                     @if(Auth::user()&&Auth::user()->id == $ticket->user_id)
-                        <a type="submit" class="btn ctrl-btn delete-btn"><i class="far fa-trash-alt"></i></a>
-                        <form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
-                            {!! csrf_field() !!}
-                            {{method_field('Delete')}}
-                        </form>
+                        <a type="submit" class="btn ctrl-btn deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('tickets/edit/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
                     @elseif(Auth::check())
                     <a class="btn ctrl-btn like-btn container" ticket-no={{$ticket->id}} >
@@ -129,7 +125,28 @@
 
            }
          });
+         $(document).on('click','.deletebtn',function(){
+                        var ticket_id ={!! json_encode($ticket->id)!!}
+                        var resp = confirm("Do you really want to delete this ticket?");
+                        if (resp == true) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/tickets/'+ticket_id ,
+                                data:{
+                                '_token':'{{csrf_token()}}',
+                                '_method':'DELETE',
+                                },
+                                success: function (response) {
+                                    if(response.res=='success'){
+                                    $('#'+ticket_id).remove();
+                                    }
+                                }
+                            });
+
+                        }
+                       });
         </script>
+
          @endif
 @endsection
 

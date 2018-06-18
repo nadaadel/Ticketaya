@@ -35,8 +35,8 @@ a.btn, .btn {
     padding: 10px 15px;
     font-size: 14px;
     font-weight: 700;
-    
-    
+
+
 }
 
 button.search-btn {
@@ -98,11 +98,11 @@ a.ctrl-btn {
     user-select: none;
     padding: 10px 15px;
     font-size: 14px;
-    
+
     line-height: 1.6;
 }
 
-//pages search 
+//pages search
 .pgs-search {
     border: 1px solid #ccc;
 }
@@ -112,25 +112,25 @@ h1 {
     font-weight: 600;
 }
 
-//fonts 
+//fonts
 i {
     font-size: 12px;
 }
 p {
     font-size: 12px;
     font-weight: 100;
-    
+
     font-weight: 400;
 }
 
 li {
     font-size: 12px;
     font-family: $font;
-    
+
 }
 h1 {
     font-size: 50px;
-    
+
     font-weight: 700;
 }
 h2 {
@@ -164,12 +164,12 @@ label {
     background-size: 100%;
 }
 
-//form 
+//form
 form {
     width: 100%;
 }
 
-//input feilds 
+//input feilds
 
 
 input[type="datetimelocal"],input[type="date"],input[type="number"],input[type="password"],input[type="email"],input[type="text"],input[type="datetime-local"] {
@@ -179,7 +179,7 @@ input[type="datetimelocal"],input[type="date"],input[type="number"],input[type="
      border-radius: 50px;
      padding-left: 17px;
      font-size: 14px;
-                
+
 }
 
 input[type="identity"]{
@@ -189,7 +189,7 @@ input[type="identity"]{
      border-radius: 50px;
      padding-left: 17px;
      font-size: 14px;
-                
+
 }
 textarea {
     border: 1px solid $gray;
@@ -222,7 +222,7 @@ select {
             }
 
             /* CAUTION: IE hackery ahead */
-        select::-ms-expand { 
+        select::-ms-expand {
                 display: none; /* remove default arrow on ie10 and ie11 */
             }
 
@@ -231,7 +231,7 @@ select {
                 select {
                     background:none\9;
                     padding: 5px\9;
-                } 
+                }
             }
 a.dropdown-item:hover {
     background-color: $primary;

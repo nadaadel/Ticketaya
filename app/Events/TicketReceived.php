@@ -23,7 +23,6 @@ class TicketReceived implements ShouldBroadcast
     public $related_id;
     public $notify_type;
 
-
     /**
      * Create a new event instance.
      *

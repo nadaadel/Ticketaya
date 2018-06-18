@@ -33,7 +33,6 @@
             <div class="dropdown-container">
                 <ul class="dropdown-menu" style="
                 width: 301px;
-                height: 260px;
                 border-width: 0 0 1px 0;
                 margin-right: 0px;">
                         <div class="dropdown-toolbar">
@@ -107,15 +106,10 @@ $(function () {
   Pusher.logToConsole = true;
 
   //** don't forget to change this **//
-<<<<<<< HEAD
-  var pusher = new Pusher('0fe1c9173ec82e038dd5', {
-=======
-  var pusher = new Pusher('7cd2d7485f85e6da6263', {
->>>>>>> 59e083aec307c24eec1d2d1b590496d5298f4a70
+  var pusher = new Pusher('6042cdb1e9ffa998e5be', {
     encrypted: true,
-    cluster:"eu"
+    cluster:"mt1"
   });
-
 
   function updateNotificationCount(){
     notificationsCountElem.attr('data-count', notificationsCount);
@@ -223,6 +217,7 @@ $(document).on('click','#readall',function(event){
        });
 var ticketRequestChannel = pusher.subscribe('ticket-requested_{{ Auth::user()->id }}');
 bindChannel(ticketRequestChannel,'App\\Events\\TicketRequested');
+
 var ticketReceivedChannel= pusher.subscribe('ticket-received_{{ Auth::user()->id }}');
 bindChannel(ticketReceivedChannel,'App\\Events\\TicketReceived');
 var statusTicketrequested=pusher.subscribe('status-tickedrequest_{{ Auth::user()->id }}');
@@ -237,6 +232,5 @@ bindChannel(questionNotification,'App\\Events\\Question');
 var answerNotification=pusher.subscribe('answer-notification_{{ Auth::user()->id }}');
 bindChannel(answerNotification,'App\\Events\\Answer');
 });
-
 </script>
 @endif

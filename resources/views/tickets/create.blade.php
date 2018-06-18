@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-6">
                         <label >Ticket Expire Date </label>
-                        <input type="datetime-local" name="expire_date" class="form-control"/>
+                        <input type="datetime-local" name="expire_date" class="form-control" placeholder="ex mm/dd/yyyy, --:-- --"/>
                     </div>
                 </div>
                 <div class="row">
