@@ -57,8 +57,10 @@ class Answer implements ShouldBroadcast
      * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
+
     {
-        return ['answer-notification_'.$this->user_id];
+        return new Channel ('answer-notification_'.$this->user_id);
+        
     }
 
 }

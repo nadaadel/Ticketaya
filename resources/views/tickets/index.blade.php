@@ -65,6 +65,7 @@
                     @if(Auth::user()&&Auth::user()->id == $ticket->user_id)
                         <a  class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('tickets/edit/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
+                        <a href="{{ URL::to('tickets/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="fa fa-cloud"></i></a>
                     @elseif(Auth::check())
                     <a class="btn ctrl-btn like-btn container" >
                             @if(Auth::user()->savedTickets->contains($ticket->id))

@@ -73,7 +73,7 @@ Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscrib
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe')->middleware('auth');
 
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
-
+Route::delete('/questions/delete/{id}','EventsController@deleteQuestion');
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
@@ -107,6 +107,7 @@ Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets')->name('tagTickets
 
 /** Ticket Comments */
 Route::post('/comments','CommentsController@store')->middleware('auth');
+Route::delete('/comments/delete/{id}','CommentsController@delete')->middleware('auth');
 Route::get('/replies/{id}','RepliesController@show');
 Route::post('/replies','RepliesController@store')->middleware('auth');
 
@@ -160,6 +161,7 @@ Route::get('/cities/{id}','CitiesController@show');
 
 /* article comments and replies*/
 Route::post('article/comments','ArticleCommentsController@store');
+Route::delete('article/comments/delete/{id}','ArticleCommentsController@delete');
 Route::post('articles/replies','ArticleCommentRepliesController@store');
 Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');
 Route::get('articles/likes/{id}','ArticlesController@like');

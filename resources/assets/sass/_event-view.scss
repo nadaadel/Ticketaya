@@ -53,6 +53,23 @@
             }
         }
     }
+    .posts {
+        .event-info {
+            padding-left: 20px;
+            padding-top: 20px;
+            span { 
+            font-weight: 800;
+            }
+            
+        }
+        .event-info:nth-last-child(odd){
+//            background-color: #ccc;
+        } 
+    }
 
   }
-
+.pagenation {
+    ul {
+        margin: 0 auto;
+    }
+}
