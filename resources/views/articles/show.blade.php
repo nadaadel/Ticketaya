@@ -20,12 +20,14 @@
                                 <div class="follow text-center">
                                 @if($liker)
 
-                                <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Dislike</button>
+                                <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Unlike</button>
                                 <span id="count" class="pl-3">
+                                {{$article->likes->count()}}
                                 </span>
                                 @else
                                 <button id="like" class="btn btn-primary " article-id="{{$article->id}}" >Like</button>
                                 <span id="count" class="pl-3">
+                                {{$article->likes->count()}}
                                 </span>
 
                                 @endif
@@ -174,7 +176,7 @@ $('#like').on('click',function(){
                         if(response.response=='success'){
                             console.log(response)
                             console.log('hii')
-                            $('#like').html('Dislike');
+                            $('#like').html('Unlike');
                             $('#count').html(response.likes);
                             
 
