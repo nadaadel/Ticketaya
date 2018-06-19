@@ -19,8 +19,8 @@
             <div class="col-md-3">
               <form method="GET" action="/tickets/filter">
                   <div class="list-group panel">
-                    <a class="list-group-item list-group-item strong text-center" style="background: #009ce0; color: white;" data-toggle="collapse"> Personalize Your Search</a>
-                    <a href="#demo1" class="list-group-item list-group-item-success strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-photo"></i> Price <i class="fa fa-caret-down"></i></a>
+                    <a class="list-group-item list-group-item strong text-center" style="background: #01628b;  color: white;" data-toggle="collapse"> Personalize Your Search</a>
+                    <a href="#demo1" class="list-group-item list-group-item-success strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fas fa-dollar-sign"></i> Price <i class="fas fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo1">
                      <ul class="p-0 mb-0">
                          <li class="list-group-item"><input type="checkbox" name="price" value="50" > 50-100</li>
@@ -30,7 +30,7 @@
 
                      </ul>
                     </div>
-                    <a href="#demo2" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-book"></i> Category <i class="fa fa-caret-down"></i></a>
+                    <a href="#demo2" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fas fa-th-large"></i> Category <i class="fas fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo2">
                       <ul class="p-0 mb-0">
                       @foreach($categories as $category)
@@ -39,7 +39,7 @@
 
                      </ul>
                     </div>
-                    <a href="#demo5" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-cubes"></i>  Location <i class="fa fa-caret-down"></i></a>
+                    <a href="#demo5" class="list-group-item list-group-item strong" style="background: #f7f7f7;" data-toggle="collapse" data-parent="#MainMenu"><i class="fas fa-map-marker"></i>  Location <i class="fas fa-caret-down"></i></a>
                     <div class="collapse list-group-submenu" id="demo5">
                       <ul class="p-0 mb-0">
                            @foreach($cities as $city)
@@ -48,7 +48,7 @@
                          </ul>
                     </div>
 
-                      <input type="submit" class="list-group-item list-group-item strong text-center" value="Apply">
+                      <input type="submit" class="list-group-item list-group-item strong text-center" value="Apply" style="color: white;">
                   </div>
               </form>
             </div> <!-- filter  -->
@@ -59,18 +59,22 @@
                         <div class="col-md-4 col-xs-12 tick-search ticket-card-parent">
                             <div class="card ticket-card">
                                 <div class="card-img"  style=" background-image: url({{ asset('storage/images/tickets/'. $ticket->photo) }});">
+                                    <div class="price-overlay">
+                                        <h4 class="ticket-price">{{$ticket->price}} L.E</h4>
+                                    </div>
 
                                 </div>
 
                                 <div class="card-body">
-                                    <h3 class="card-title">{{ucwords($ticket->name)}} <span class="ticket-price">{{$ticket->price}} L.E</span></h3>
+                                    <h4 class="card-title">{{ucwords($ticket->name)}}</h4>
+                                    
                                     <p class="ticket-des">{{substr($ticket->description,0,70)}}</p>
                                     <div class="ticket-qty d-flex">
-                                        <h4 class="">Available Quantity</h4>
+                                        <h5 class="">Available Quantity</h5>
                                         <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
                                     </div>
                                     <div class="ticket-btn text-center">
-                                        <a type="button" href="/tickets/{{$ticket->id}}" type="button" class="btn btn-primary">Request This Ticket</a>
+                                        <a href="/tickets/{{$ticket->id}}"  class="btn btn-primary mt-3">Request This Ticket</a>
                                     </div>
 
                                 </div>

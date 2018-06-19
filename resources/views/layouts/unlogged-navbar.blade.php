@@ -1,6 +1,6 @@
 
 <nav id="unlogged-navbar" class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand" href="#"><img src="{{ asset('/images/home/logo.png')}}"></a>
+    <a class="navbar-brand" href="{{URL::route('home')}}"><img src="{{ asset('/images/home/logo.png')}}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,22 +11,22 @@
 -->
        <ul class="navbar-nav navbar-left">
 
-        <li class="nav-item active pt-3">
+        <li class="nav-item active pt-2">
             <a class="nav-link" href="{{URL::route('home')}}">HOME</a>
         </li>
-        <li class="nav-item active pt-3">
+        <li class="nav-item active pt-2">
             <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
         </li>
-        <li class="nav-item pt-3">
+        <li class="nav-item pt-2">
             <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
         </li>
-        <li class="nav-item pt-3">
+        <li class="nav-item pt-2">
             <a class="nav-link " href="{{URL::route('allarticles')}}">BLOG</a>
         </li>
 
        @if (Auth::check())
        <li class="nav-item dropdown dropdown-notifications">
-            <a href="#notifications-panel" class="dropdown-toggle nav-link pt-4" data-toggle="dropdown">
+            <a href="#notifications-panel" class="dropdown-toggle nav-link pt-3" data-toggle="dropdown">
                     <i data-count="0" class="notification-icon ">
                             <i class="far fa-bell light" style="font-size: 20px;"></i></i>
             </a>
@@ -56,7 +56,7 @@
         </li>
         <li class="nav-item dropdown">
 
-        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle d-flex align-items-center pb-0 pt-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
           <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
         </a>
@@ -78,11 +78,11 @@
       </li>
      @endrole
       @else
-      <li class="nav-item pt-3 pl-5">
+      <li class="nav-item pt-2 pl-5">
               <a class="nav-link " href="{{URL::route('login')}}">LOGIN </a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link mt-1" href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-light">REGISTER</button></a>
+              <a class="nav-link " href="{{URL::route('register')}}"><button type="button" class="btn btn-outline-light">REGISTER</button></a>
             </li>
     @endif
   </ul>
