@@ -1,4 +1,8 @@
+
 <footer class="container-fluid mt-5">
+
+<section>
+
     <div class="container">
         <div class="row justify-content-center pt-3 pb-4">
             <div class="col-md-12 footer-logo text-center">
@@ -52,4 +56,5 @@
         </div>
     </div>
 </footer>
+</section>
 

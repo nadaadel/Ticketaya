@@ -19,8 +19,8 @@
                                   <li><i class="fas fa-map-marker"></i>{{ $event->region->name }},{{ $event->city->name }} </li>
                                   @endif
                               </ul>
-                  
-            
+
+
                           </div>
                           <div class="col-md-4 col-12">
                           @if(Auth::user() && Auth::user()->id != $event->user_id)
@@ -36,7 +36,7 @@
                   </div>
               </div>
           </div>
-           
+
        </div>
         <div class="container">
             <div class="row pt-5 event-info">
@@ -47,7 +47,7 @@
                             </div>
                                <h4 class="user-name pt-4">{{ $event->user->name }}</h4>
                                <div class="user-loc d-flex justify-content-center">
-                               <p class="gray">{{ $event->user->city}},{{ $event->user->region }} </p>
+                               <p class="gray">{{ $event->user->city->name }} </p>
                            </div>
                              <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  edit-btn">Conatct Organizer</a>
                        </div><!--End of User profile-->
@@ -58,7 +58,7 @@
                             <p>
                                {{$event->description}}
                             </p>
-                            
+
                             <h3 class="mb-3">You Should Know</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
                             </p>
@@ -69,9 +69,9 @@
                                <button id="info-submit" class="btn btn-info">Post</button>
                             </div>
                              @endif
-  
+
                             <div class="info-parent">
-          
+
                              @foreach ($eventInfos as $info )
                              <div class="event-info" id="{{$info->id}}"style="display:block;">
                              <p class="event-body">{{$info->body}} </p>
@@ -83,7 +83,7 @@
                              <div>
                              <hr>
                              @endforeach
-         
+
                             </div>
                         </div>
                         <div class="col-md-6 col-xs-12 pr-2">
@@ -94,12 +94,11 @@
             </div>
         </div>
         <div class="container">
-            
+
         </div>
-         
      </section>
 
-        
+
   <hr>
   {{-- questions and answer --}}
   @if($questions)

@@ -21,10 +21,10 @@ class Article extends Model
     }
 
     public function comments(){
-        return $this->hasMany(ArticleComment::class);
+        return $this->hasMany(ArticleComment::class)->orderBy('id', 'desc');;
     }
     public function replies(){
-        return $this->hasMany(ArticleCommentReply::class);
+        return $this->hasMany(ArticleCommentReply::class)->orderBy('id', 'desc');;
     }
     public function likes(){
         return $this->belongsToMany('App\User','article_user');

@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label >description</label>
-                        <textarea name="description" class="form-control txt-area " placeholder="Please Add Ticket Description Here ..."></textarea>
+                        <textarea name="description" class="form-control txt-area " style="height: 230px" placeholder="Please Add Ticket Description Here ..."></textarea>
                     </div>
                 </div>
 
