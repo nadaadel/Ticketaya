@@ -57,8 +57,8 @@
         <li class="nav-item dropdown">
 
         <a class="nav-link dropdown-toggle d-flex align-items-center pb-0 pt-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span id="user-profile" style="background-image: url(../images/icons/avatar.jpg); "></span>
-          <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
+                <span id="user-profile" style="background-image: url({{ asset('storage/images/users/'.Auth::user()->avatar)}}); "></span>
+                <span class="pr-1 pl-1">{{Auth::user()->name}}</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/users/{{Auth::user()->id}}">Your Profile</a>

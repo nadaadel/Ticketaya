@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\carbon;
 use App\NotifyType;
+
 class NotifyTypesTableSeeder extends Seeder
 {
     /**

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
              EventsTableSeeder::class,
              ArticlesTableSeeder::class,
              TagsTableSeeder::class,
-             NotifyTypesTableSeeder::class,
+             NotifyTypesTableSeeder::class
 
              ]);
     }
