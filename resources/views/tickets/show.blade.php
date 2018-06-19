@@ -63,7 +63,7 @@
                                            <a  href="#"   id="want" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
-                                
+
                 </div>
             @endif
 
@@ -83,9 +83,9 @@
                     @endfor
                  </select>
                 <button href="#" id="editticket" class="btn btn-success">Edit</button>
-            
+
                </div>
-                    
+
         @endif
 
                 {{-- Edit Request this ticket end section --}}
@@ -98,7 +98,7 @@
                                    </p>
                                    <h3 class="mb-3">You Should Know</h3>
                                    <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                    We are an intermediate between seller and you to help you find your request and get all operation more easier to get your satisfy.
                                 </p>
                              @if($ticket->tags)
                                 <h3 class="mb-3">Tags</h3>
@@ -130,11 +130,11 @@
                 @endif
                     {{-- end spam section --}}
                 @if($ticket->user_id != Auth::user()->id)
-             
+
                     <button type="button" class="btn btn-light report" data-toggle="modal" data-target="#myModal"><i class="fas fa-exclamation-triangle"></i>Report</button>
                     <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
+
       <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
@@ -157,9 +157,9 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div>
-      
-    
-  
+
+
+
              @endif
             @endif
                              </p>
@@ -211,7 +211,7 @@
                                            <h4>{{$comment->user->name}}</h4>
                                            <p class="gray"> {{$comment->created_at->diffForHumans()}}</p>
                                            <p>{{$comment->body}}  </p>
-                                          
+
                                            <a  class="info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
                                         <div id="{{$comment->id}}" style="display: none;">
                                                 <div class="card-body" >
@@ -306,7 +306,7 @@
                     '_token':'{{csrf_token()}}',
                     '_method':'DELETE',
                     'id':id,
-                    
+
                 },
                 success:function(response){
                     $('#'+id).remove();
