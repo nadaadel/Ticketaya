@@ -26,9 +26,7 @@ class EventsController extends Controller
             'user_id'=>$request->user_id,
             'question'=>$request->question,
         ]);
-        //dd($eventQuestion);
         $asker=User::find($request->user_id);
-
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);
@@ -97,7 +95,7 @@ class EventsController extends Controller
        else{
         return view('notfound');
        }
-      
+
 
     }
     public function search (Request $request){
@@ -162,7 +160,7 @@ class EventsController extends Controller
         return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
     public function deleteQuestion($id){
-       
+
        $question= EventQuestion::find($id);
        $event=Event::find($question->event_id);
        if(Auth::check()&&Auth::user()&&(($question->user_id==Auth::user()->id))||($event->user_id==Auth::user()->id)||(Auth::user()->hasRole('admin'))){
