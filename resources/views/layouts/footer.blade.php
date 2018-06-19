@@ -1,3 +1,4 @@
+<section>
 <footer class="container-fluid">
     <div class="container">
         <div class="row justify-content-center pt-3">
@@ -42,4 +43,5 @@
         </div>
     </div>
 </footer>
+</section>
 

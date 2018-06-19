@@ -84,7 +84,7 @@
         @endif
 
     </div>
-
+</div>
   @if(Auth::check() && !$tickets->isEmpty())
 
   <script>

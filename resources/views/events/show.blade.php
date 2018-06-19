@@ -47,7 +47,7 @@
                             </div>
                                <h4 class="user-name pt-4">{{ $event->user->name }}</h4>
                                <div class="user-loc d-flex justify-content-center">
-                               <p class="gray">{{ $event->user->city}},{{ $event->user->region }} </p>
+                               <p class="gray">{{ $event->user->city->name }}</p>
                            </div>
                              <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  btn-secondary">Conatct Organizer</a>
                        </div><!--End of User profile-->
@@ -60,7 +60,8 @@
                             </p>
 
                             <h3 class="mb-3">You Should Know</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            <p>                                    We are an intermediate between seller and you to help you find your request and get all operation more easier to get your satisfy.
+
                             </p>
 
                         </div>
