@@ -27,9 +27,7 @@ class EventsController extends Controller
             'user_id'=>$request->user_id,
             'question'=>$request->question,
         ]);
-        //dd($eventQuestion);
         $asker=User::find($request->user_id);
-
         $event=Event::find($request->event_id);
         event(new Question($asker, $event));
         return response()->json(['questions' => $eventQuestion,'response'=>'success']);

@@ -18,8 +18,8 @@
                                   <li><i class="fas fa-map-marker"></i>{{ $event->region->name }},{{ $event->city->name }} </li>
                                   @endif
                               </ul>
-                  
-            
+
+
                           </div>
                           <div class="col-md-4 col-12">
                           @if(Auth::user() && Auth::user()->id != $event->user_id)
@@ -30,13 +30,13 @@
                             <button id="subscribe" class="btn btn-primary " >Subscribe</button>
                              @endif
                           @endif
-                         
+
                           </div>
                       </div>
                   </div>
               </div>
           </div>
-           
+
        </div>
         <div class="container">
             <div class="row pt-5 event-info">
@@ -58,11 +58,11 @@
                             <p>
                                {{$event->description}}
                             </p>
-                            
+
                             <h3 class="mb-3">You Should Know</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
                             </p>
-                           
+
                         </div>
                         <div class="col-md-6 col-xs-12 pr-2">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -78,7 +78,7 @@
                       <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-post-tab" data-toggle="tab" href="#nav-post" role="tab" aria-controls="nav-post" aria-selected="true">Event Organizers Posts</a>
                         <a class="nav-item nav-link" id="nav-questions-tab" data-toggle="tab" href="#nav-questions" role="tab" aria-controls="nav-questions" aria-selected="false">Questions & Answers</a>
-                       
+
                       </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -102,7 +102,7 @@
                                   </div>
                                          @if(!$eventInfos->isEmpty())
                                             <div class="info-parent" >
-                                              
+
 
                                               @foreach ($eventInfos as $info )
 
@@ -124,13 +124,13 @@
 
                                             @endforeach
                                             </div>
-                                            <div class="pagenation"> 
+                                            <div class="pagenation">
                                                 {{ $eventInfos->links() }}
                                             </div>
-                                        
-                                            
+
+
                                             @else
-                                            <div class="text-center"> 
+                                            <div class="text-center">
                                                 <h3 class="mt-5 mb-5">
                                                     No Posts Created by event Organizers
                                                 </h3>
@@ -150,33 +150,20 @@
                                         </textarea>
                                         <button id="question-submit" class="btn btn-info mt-2">Post</button>
                                     </div>
-
                                 @endif
                                 @if(Auth::check())
                                     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
                                 @endif
-
+                                <div class="questions mt-3" >
                                 @if($questions)
                                     @foreach($questions as $question)
-                                    
-                                    <div class="questions mt-3" >
-                                   
-                                        <div id="{{$question->id}}}">
+                                        <div id="{{$question->id}}">
                                         @if(Auth::user() && (Auth::user()->id == $question->user_id ||Auth::user()->id == $event->user_id||Auth::user()->hasRole('admin')))
                                         <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
-                                        @endif  
+                                        @endif
                                               Question<h4>{{$question->question}} ?</h4>
                                               Answer: <p>{{$question->answer}} </p>
-                                              
-                                               
-                                             
-                                        </div>
-                                    
-                                 
-
                                 @if(Auth::user() && Auth::user()->id == $event->user_id)
-
-                                    
                                     <div class="answer-area" >
                                     <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." >
                                     </textarea>
@@ -185,51 +172,51 @@
                                      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
                                     <input type="hidden" id="event_id" value="{{$event->id}}">
                                 @endif
-
                                     <hr>
                                 </div>
                                 @endforeach
-                                <div class="pagenation"> 
+                                <div class="pagenation">
                                 {{ $questions->links() }}
                                 </div>
                                 @endif
                             </div>
+                            </div>
                         </div>
                       </div><!-- end of questions tab-->
-                      
+
                     </div>
                 </div>
             </div>
         </div>
-        
-         
+
+
      </section>
 
 
 
-   
+
 
      <input type="hidden" id="event_id" value="{{$event->id}}">
 <script>
     $(document).ready(function(){
 
     $('#questionbtn').on('click',function(){
+        $('#ques-body').val('');
         $('.question-area').show();
     });
-    $('.deletQues').on('click',function(){
-        var id=$(this).attr('delete-ques');
-        console.log("hiii")
+    $(document).on('click','.deletQues',function(){
+        var question_id=$(this).attr('delete-ques');
         $.ajax({
-            url: '/questions/delete/'+id,
+            url: '/questions/delete/'+question_id,
             type: 'POST' ,
             data:{
-                'id':id,
+                'id':question_id,
                 '_token': '{{csrf_token()}}',
                 '_method':'DELETE'
                 },
             success:function(response){
-                //alert('hi')
-                $('#'+id).remove();
+                console.log($('#'+question_id));
+                $('#'+question_id).remove();
             }
 
         })
@@ -240,7 +227,6 @@
         var user_id = $('#user_id').val();
         var event_id = $('#event_id').val();
         var no=$('.allquestion').attr('question-no');
-
         $('.question-area').hide();
         $.ajax({
             url: '/events/question/'+event_id+'/'+user_id,
@@ -253,10 +239,14 @@
                 },
                 success:function(response){
                  if(response.response == 'success'){
-                    console.log(response.questions)
-                    
-                 $("<div id='"+response.questions.id+"'></div>").prependTo('.questions');
-                  $('#'+response.questions.id).append("Question:<p class='event-body'>"+response.questions.question+"</p><hr>")
+                    var question=response.questions;
+                    $(`<div id=`+question.id+`>
+                            <button class="deletQues btn  btn-danger float-right" delete-ques=`+question.id+`>
+                            delete</button>
+                            Question<h4>`+question.question+`</h4>
+                            Answer:
+                            <hr></div>`).appendTo('.questions');
+                    $('#ques-body').val('');
                  }
                 }
         });
@@ -281,7 +271,7 @@
                 },
                 success:function(response){
                 if(response.response== 'success'){
-                    
+
                  $('.questions' ).find('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" );
 
 
