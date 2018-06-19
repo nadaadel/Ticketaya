@@ -25,9 +25,9 @@
                           @if(Auth::user() && Auth::user()->id != $event->user_id)
                            @if(sizeof($subscribers) == 1)
 
-                             <button id="subscribe" class="btn btn-danger" >unsubscribe</button>
+                             <button id="subscribe" class="btn btn-danger" >Unsubscribe</button>
                              @else
-                            <button id="subscribe" class="btn btn-primary " >subscribe</button>
+                            <button id="subscribe" class="btn btn-primary " >Subscribe</button>
                              @endif
                           @endif
                          
@@ -49,7 +49,7 @@
                                <div class="user-loc d-flex justify-content-center">
                                <p class="gray">{{ $event->user->city}},{{ $event->user->region }} </p>
                            </div>
-                             <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  edit-btn">Conatct Organizer</a>
+                             <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  btn-secondary">Conatct Organizer</a>
                        </div><!--End of User profile-->
                 <div class="col-md-10 pb-5"><!--Event data-->
                     <div class="row">
@@ -62,32 +62,7 @@
                             <h3 class="mb-3">You Should Know</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
                             </p>
-                            @if(Auth::user() && Auth::user()->id == $event->user_id)
-                               <button id="showModel" class="btn btn-primary"> Add New Info </button>
-                               <div class="info-area" style="display:none;">
-                                  <textarea  class="info-body form-control txt-area" placeholder="Please Add New Post ...">
-
-                                  </textarea>
-                                  <button id="info-submit" class="btn btn-info">Post</button>
-                                </div>
-                            @endif
-                            <div class="info-parent" >
-   
-                              @foreach ($eventInfos as $info )
-      
-                               <div class="event-info" id="{{$info->id}}" style="display:block;">
-                                    <p class="event-body">{{$info->body}} <p>
-                                    <p class="event-time">{{$info->created_at->diffForHumans()}} <p>
-                                   @if(Auth::user() && Auth::user()->id == $event->user_id)
-                                         <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
-                                   @endif
-                                </div>
-         
-        
-                              
-                            @endforeach
-                            </div>
-                            {{ $eventInfos->links() }}
+                           
                         </div>
                         <div class="col-md-6 col-xs-12 pr-2">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -96,43 +71,123 @@
                 </div>
             </div>
         </div>
-        @if(Auth::user() && Auth::user()->id != $event->user_id)
-             <button id="questionbtn" class="btn btn-primary" >Question !</button>
-             <div class="question-area" style="display:none;">
-                <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ...">
-                </textarea>
-                <button id="question-submit" class="btn btn-info">Post</button>
-            </div>
+        <div class="container posts">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-12 mt-5 mb-3">
+                    <nav>
+                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-post-tab" data-toggle="tab" href="#nav-post" role="tab" aria-controls="nav-post" aria-selected="true">Event Organizers Posts</a>
+                        <a class="nav-item nav-link" id="nav-questions-tab" data-toggle="tab" href="#nav-questions" role="tab" aria-controls="nav-questions" aria-selected="false">Questions & Answers</a>
+                       
+                      </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab"><!-- posts tab-->
+                          <div class="row justify-content-center">
+                                <div class="col-md-10 col-12">
+                                  <div class="row">
+                                      <div class="col-md-12 mt-3">
+                                             @if(Auth::user() && Auth::user()->id == $event->user_id)
+                                               <button id="showModel" class="btn btn-primary "> Add New Info </button>
+                                               <div class="info-area" style="display:none;">
+                                                  <div class="">
+                                                      <textarea  class="info-body form-control txt-area w-50" placeholder="Please Add New Post...">
 
-        @endif
-        @if(Auth::check())
-            <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-        @endif
+                                                      </textarea>
+                                                      <button id="info-submit" class="btn btn-info mt-2">Post</button>
+                                                  </div>
+                                                </div>
+                                            @endif
+                                      </div>
+                                  </div>
+@if(!$eventInfos->isEmpty())
+                                            <div class="info-parent" >
+                                              
 
-        @if($questions)
-            @foreach($questions as $question)
-            <div class="questions">
-                <div id ="{{$question->id}}}">
-                      Question<p>{{$question->question}} </p>
-                      Answer: <p>{{$question->answer}} </p>
+                                              @foreach ($eventInfos as $info )
+
+                                               <div class="event-info" id="{{$info->id}}" style="display:block;">
+                                               <div class="row">
+                                                   <div class="col-md-8">
+                                                       <h4 class="event-body">{{$info->body}} <h4>
+                                                        <p class="event-time"><span>Posted at</span> {{$info->created_at->diffForHumans()}} <p>
+                                                   </div>
+                                                    <div class="col-md-4">
+                                                       @if(Auth::user() && Auth::user()->id == $event->user_id)
+                                                             <button class="deleteinfo btn btn-danger float-right" btn-id ="{{$info->id}}">delete</button>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                                </div>
+
+
+
+                                            @endforeach
+                                            </div>
+                                            <div class="pagenation"> 
+                                                {{ $eventInfos->links() }}
+                                            </div>
+                                        
+                                            
+                                            @else
+                                            <div class="text-center"> 
+                                                <h3 class="mt-5 mb-5">
+                                                    No Posts Created by event Organizers
+                                                </h3>
+                                            </div>
+                                            @endif
+
+                                </div>
+                            </div>
+                      </div><!-- end ofposts tab-->
+                      <div class="tab-pane fade" id="nav-questions" role="tabpanel" aria-labelledby="nav-questions-tab"><!-- questions tab-->
+                          <div class="row justify-content-center">
+                               <div class="col-md-10 col-12">
+                                @if(Auth::user() && Auth::user()->id != $event->user_id)
+                                     <button id="questionbtn" class="btn btn-primary mb-3 mt-4" >Do You Have a Question ?</button>
+                                     <div class="question-area" style="display:none;">
+                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ...">
+                                        </textarea>
+                                        <button id="question-submit" class="btn btn-info mt-2">Post</button>
+                                    </div>
+
+                                @endif
+                                @if(Auth::check())
+                                    <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+                                @endif
+
+                                @if($questions)
+                                    @foreach($questions as $question)
+                                    <div class="questions mt-3">
+                                        <div id ="{{$question->id}}}">
+                                              Question<h4>{{$question->question}} ?</h4>
+                                              Answer: <p>{{$question->answer}} </p>
+                                        </div>
+                                    </div>
+
+                                @if(Auth::user() && Auth::user()->id == $event->user_id)
+
+                                    
+                                    <div class="answer-area" >
+                                    <textarea class="ans-body form-control txt-area" placeholder=" Add New Question ..." id="{{$question->id}}">
+                                    </textarea>
+                                    </div>
+                                    <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Answer</button>
+                                     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+                                    <input type="hidden" id="event_id" value="{{$event->id}}">
+                                @endif
+
+                                    <hr>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                      </div><!-- end of questions tab-->
+                      
+                    </div>
                 </div>
             </div>
-
-        @if(Auth::user() && Auth::user()->id == $event->user_id)
-
-            <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
-            <div class="answer-area" >
-            <textarea class="ans-body form-control txt-area" placeholder=" Add New Question ..." id="{{$question->id}}"  cols="12">
-            </textarea>
-
-            </div>
-             <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-            <input type="hidden" id="event_id" value="{{$event->id}}">
-        @endif
-
-            <hr>
-        @endforeach
-        @endif
+        </div>
         
          
      </section>

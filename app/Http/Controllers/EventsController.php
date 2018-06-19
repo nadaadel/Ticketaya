@@ -15,6 +15,7 @@ use App\Events\Answer;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
+
 class EventsController extends Controller
 {
 
@@ -161,7 +162,7 @@ class EventsController extends Controller
         $request->validate([
             'name'=>'required|min:4|max:200',
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'startdate' => 'required|date|before_or_equal:enddate',
+            'startdate' => 'required|date|after:'.Carbon::now().'|before_or_equal:enddate',
             'enddate'  => 'required|date|after_or_equal:startdate',
             'user_id' => 'exists:users,id',
             'category' => 'exists:categories,id',

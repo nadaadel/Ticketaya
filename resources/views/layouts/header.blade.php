@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="_token" content="{{csrf_token()}}" />
         <link rel="apple-touch-icon" href="apple-icon.png">
-        <link rel="shortcut icon" href="favicon.ico">
+<!--        <link rel="shortcut icon" href="favicon.ico">-->
+       <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" />
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" type="text/css"  href="{{ asset('assets/css/bootstrap-notifications.css') }}">
