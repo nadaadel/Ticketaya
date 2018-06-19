@@ -1,31 +1,54 @@
 @extends('admin.index')
 @section('content')
 
-{{ $user->name}} Profile <br>
-   
-
-  Email<div>{{$user->email}}</div>
-  @if($user->avatar)
-   Avatar<img src="{{ asset('storage/images/users/'. $user->avatar) }}" style="width:150px; height:150px;"></td>
-  @endif
-  <br>
-  @if($user->city)
-  City:<div>{{$user->city->name}}</div>
-  @endif
-  @if($user->region)
-  Region:<div>{{$user->region->name}}</div>
-  @endif
-  
-
-
-
-  <br>
-
-  <a href={{ URL::to('users/edit/' . $user->id ) }} type="button" class="btn btn-primary" >Edit Profile</a>
- 
-  
-
-   
-
+<section class="user-profile">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <div class="user-profile-img">
+                     <div style="background-image: url(../images/icons/avatar.jpg);">
+                      @if($user->avatar)
+                       <img src="{{ asset('storage/images/users/'. $user->avatar) }}">
+                      @endif
+<!--                    <div style="background-image: url(../images/icons/avatar.jpg);"></div>-->
+                    </div>
+                </div>
+                <div class="user-info mt-4">
+                    <h3>{{$user->name}}</h3>
+                    
+                    <table>
+                        <tr>
+                            <td><span class="bold">Email </span></td>
+                            <td>{{$user->email}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold">Phone </span></td>
+                            <td>{{$user->phone}}</td>
+                        </tr>
+                        <tr>
+                           @if($user->city)
+                            <td><span class="bold">City </span></td>
+                            <td> {{$user->city->name}}</td>
+                            @endif
+                        </tr>
+                        <tr>
+                           @if($user->region)
+                            <td><span class="bold">Region </span></td>
+                            <td>{{$user->region->name}}</td>
+                             @endif
+                        </tr>
+                        
+                    </table>
+                </div>
+                @if(Auth::check()&&Auth::user()->id==$user->id)
+                <div class="mt-4">
+                   
+                    <a href="{{ URL::to('users/edit/' . $user->id ) }}" class="btn btn-secondary"> Edit Profile</a>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
 
 @endsection

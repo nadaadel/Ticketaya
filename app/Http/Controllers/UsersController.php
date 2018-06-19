@@ -70,11 +70,15 @@ class UsersController extends Controller
         {
             $view='admin.users.edit';
         }
-        if(Auth::user()&&Auth::user()->id==$request->id){
+        if(Auth::user()&&(Auth::user()->id==$request->id||Auth::user()->hasRole('admin'))){
         return view($view,['user'=> $user,
         'cities'=>$cities,'regions'=>$regions] );
         }
-        return view('notfound');
+        else{
+            return view('notfound');
+        }
+        
+        
 
 
     }
@@ -99,10 +103,16 @@ class UsersController extends Controller
         $user->phone=$request->phone;
 
         $user->save();
+        
         if($request->role=="1"){
 
             $user->assignRole('admin');
         }
+        if($request->role=="0"){
+
+            $user->removeRole('admin');
+        }
+
        return redirect('users');
 
     }
@@ -138,8 +148,14 @@ class UsersController extends Controller
         $user->region_id=$user->region_id;
         $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
-
+        //dd($request->role);
         $user->save();
+       
+       
+        if($request->role==null){
+
+            $user->removeRole('admin');
+        }
 
 
 
