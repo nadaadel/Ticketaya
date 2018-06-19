@@ -130,8 +130,37 @@
                 @endif
                     {{-- end spam section --}}
                 @if($ticket->user_id != Auth::user()->id)
-                    <a href={{ URL::to('tickets/report/' . $ticket->id ) }}  class="btn btn-light report" > <i class="fas fa-exclamation-triangle"></i>Report</a>
-                @endif
+             
+                    <button type="button" class="btn btn-light report" data-toggle="modal" data-target="#myModal"><i class="fas fa-exclamation-triangle"></i>Report</button>
+                    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <h4> You Want to Report User " {{$ticket->user->name}} " That have Ticket : {{ucwords($ticket->name)}}  </h4>
+        <br>
+        Let Your Message :
+        <br>
+        <form  method="POST" action="/tickets/report" enctype="multipart/form-data" class="form-inline">
+        @csrf
+        <textarea name="msg"></textarea>
+
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Send</button>
+        <input type="hidden" name="ticket_id" value="{{$ticket->id}}">
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+      
+    
+  
+             @endif
             @endif
                              </p>
                                </div>
