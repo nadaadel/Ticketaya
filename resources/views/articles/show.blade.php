@@ -175,10 +175,6 @@ $('.reply').on('click',function(){
 
 $('#like').on('click',function(){
     var articleId=$(this).attr('article-id');
-<<<<<<< HEAD
-=======
-
->>>>>>> b66616cf2550e441bf9368843633d4e0195639f8
     if ($(this).html()=="Like"){
         $.ajax({
                     type: 'GET',
@@ -186,11 +182,6 @@ $('#like').on('click',function(){
                     data:{
                     '_token':'{{csrf_token()}}',
                     'id':articleId,
-<<<<<<< HEAD
-=======
-
-
->>>>>>> b66616cf2550e441bf9368843633d4e0195639f8
                     },
                     success: function (response) {
                         if(response.response=='success'){
