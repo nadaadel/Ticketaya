@@ -5,11 +5,11 @@
           <div class="row justify-content-center mt-5">
               <div class="col-md-10">
                   <div class="row">
-                      <div class="col-md-4 col-12">
-                          <img src="{{ asset('storage/images/articles/'. $article->photo) }}" style="width:150px; height:150px;">
-                      </div>
                       <div class="col-md-8 col-12">
+                          <img  src="{{ asset('storage/images/articles/'. $article->photo) }}" style="width:100%; ">
+                      </div>
 
+                      <div class="col-md-4 col-12">
                           <h2>{{$article->title}}</h2>
                           <div class="article-info">
                              <p><span></span>{{$article->created_at->diffForHumans()}}</p>
@@ -175,6 +175,10 @@ $('.reply').on('click',function(){
 
 $('#like').on('click',function(){
     var articleId=$(this).attr('article-id');
+<<<<<<< HEAD
+=======
+
+>>>>>>> b66616cf2550e441bf9368843633d4e0195639f8
     if ($(this).html()=="Like"){
         $.ajax({
                     type: 'GET',
@@ -182,6 +186,11 @@ $('#like').on('click',function(){
                     data:{
                     '_token':'{{csrf_token()}}',
                     'id':articleId,
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> b66616cf2550e441bf9368843633d4e0195639f8
                     },
                     success: function (response) {
                         if(response.response=='success'){

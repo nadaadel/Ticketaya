@@ -98,7 +98,7 @@
                                    </p>
                                    <h3 class="mb-3">You Should Know</h3>
                                    <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                                    We are an intermediate between seller and you to help you find your request and get all operation more easier to get your satisfy.
                                 </p>
                              @if($ticket->tags)
                                 <h3 class="mb-3">Tags</h3>

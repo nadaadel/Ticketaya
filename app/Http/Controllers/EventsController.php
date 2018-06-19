@@ -15,6 +15,7 @@ use App\Events\Answer;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
+use App\Http\Controllers\MapController;
 
 class EventsController extends Controller
 {
@@ -119,7 +120,7 @@ class EventsController extends Controller
 
 
     public function index(){
-        $events=Event::paginate(2);
+        $events=Event::paginate(3);
         $categories=Category::all();
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
@@ -140,6 +141,8 @@ class EventsController extends Controller
         return view($view,compact('categories'));
     }
     public function show($id){
+
+
         $event = Event::find($id);
         $view='events.show';
         if(Auth::user()){
