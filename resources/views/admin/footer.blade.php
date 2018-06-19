@@ -28,6 +28,29 @@
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
 <script>
 $(document).ready(function(){
+
+    $('.admin').on('click',function(){
+      var elem =$(this);
+      var id =$(this).attr('user-id');
+      $.ajax({
+            url: '/users/admin/'+id,
+            type: 'GET',
+            data:{
+                 '_token':'@csrf'
+             },
+            success:function(response){
+                if(response.response == 'success'){
+                  $(elem).hide();
+
+                }
+
+            }
+
+
+
+      })
+
+    });
     $('#city').on('change',function(){
         var cityId=$(this).val();
         $('#region').empty();
@@ -83,6 +106,7 @@ $(document).ready(function(){
 }
         })
 })
+
 $('#showModel').on('click' , function(){
         $('.info-area').show();
         $(this).hide();

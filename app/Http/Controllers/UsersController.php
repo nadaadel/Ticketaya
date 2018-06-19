@@ -90,6 +90,7 @@ class UsersController extends Controller
             $file_name = $request->file('avatar')->hashName();
             $user->avatar= $file_name;
         }
+       
         $user->name = Str::lower($request->name);
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
@@ -98,7 +99,23 @@ class UsersController extends Controller
         $user->phone=$request->phone;
 
         $user->save();
+        if($request->role=="1"){
+
+            $user->assignRole('admin');
+        }
        return redirect('users');
+
+    }
+
+    public function  admin($id){
+    if (Auth::check()&&Auth::user()->hasRole('admin')){
+     $user=User::find($id);
+     $user->assignRole('admin');
+     return response()->json(['response' => 'success']);
+    }
+    else{
+        return view('notfound');
+    }
 
     }
     public function update (Request $request){
