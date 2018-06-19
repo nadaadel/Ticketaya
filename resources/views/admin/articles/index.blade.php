@@ -24,8 +24,8 @@
         <td>{{$article->category->name}}</td>
 
         <td>
-        <td> <a href={{ URL::to('articles/' . $article->id ) }} type="button" class="btn btn-success" >View</a> </td>
-        <td>    <a href={{ URL::to('articles/edit/' . $article->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
+        <td> <a href={{ URL::to('articles/' . $article->id ) }} class="btn btn-success" >View</a> </td>
+        <td>    <a href={{ URL::to('articles/edit/' . $article->id ) }}  class="btn btn-warning" >Edit</a></td>
         <td>    <form action="{{URL::to('articles/' . $article->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
                           {!! csrf_field() !!}
                           {{method_field('Delete')}}

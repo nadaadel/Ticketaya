@@ -46,7 +46,7 @@
 
         <td>{{ $requested->ticket()->expire_date}}</td>
 
-     <td><a href={{ URL::to('tickets/' . $requested->ticket_id ) }} type="button" class="btn btn-warning" >View Ticket</a></td>
+     <td><a href={{ URL::to('tickets/' . $requested->ticket_id ) }} class="btn btn-warning" >View Ticket</a></td>
   </tr>
 
   @endforeach

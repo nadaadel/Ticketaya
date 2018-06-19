@@ -48,7 +48,7 @@
 
         <td> {{ $ticket->created_at->diffForHumans() }} </td>
 <td>{{ $ticket->expire_date}}</td>
-        <td><a href={{ URL::to('tickets/edit/' . $ticket->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
+        <td><a href={{ URL::to('tickets/edit/' . $ticket->id ) }}  class="btn btn-warning" >Edit</a></td>
    <td><form action="{{URL::to('tickets/' . $ticket->id ) }}" onsubmit="return confirm('Do you really want to delete?');" method="post" ><input name="_method" value="delete" type="submit" class="btn btn-danger" />
       {!! csrf_field() !!}
       {{method_field('Delete')}}

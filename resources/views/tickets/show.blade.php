@@ -63,7 +63,7 @@
                                            <a  href="#"   id="want" class="btn btn-primary">REQUST THIS TICKET</a>
                                        </div>
                                    </div>
-                                
+
                 </div>
             @endif
 
@@ -83,9 +83,9 @@
                     @endfor
                  </select>
                 <button href="#" id="editticket" class="btn btn-success">Edit</button>
-            
+
                </div>
-                    
+
         @endif
 
                 {{-- Edit Request this ticket end section --}}
@@ -130,11 +130,11 @@
                 @endif
                     {{-- end spam section --}}
                 @if($ticket->user_id != Auth::user()->id)
-             
+
                     <button type="button" class="btn btn-light report" data-toggle="modal" data-target="#myModal"><i class="fas fa-exclamation-triangle"></i>Report</button>
                     <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
+
       <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
@@ -157,9 +157,9 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div>
-      
-    
-  
+
+
+
              @endif
             @endif
                              </p>
@@ -183,7 +183,7 @@
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <input  type="text" placeholder="Leave comment Here ...." name="body">
+                                       <input  type="text" placeholder="Leave comment Here ...." name="body" required>
                                        <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
 
                                    </div>
@@ -211,7 +211,7 @@
                                            <h4>{{$comment->user->name}}</h4>
                                            <p class="gray"> {{$comment->created_at->diffForHumans()}}</p>
                                            <p>{{$comment->body}}  </p>
-                                          
+
                                            <a  class="info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
                                         <div id="{{$comment->id}}" style="display: none;">
                                                 <div class="card-body" >
@@ -306,7 +306,7 @@
                     '_token':'{{csrf_token()}}',
                     '_method':'DELETE',
                     'id':id,
-                    
+
                 },
                 success:function(response){
                     $('#'+id).remove();
