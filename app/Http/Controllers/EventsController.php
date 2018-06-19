@@ -34,12 +34,10 @@ class EventsController extends Controller
 
 
     }
-    public function updateQuestion(Request $request){
-        $asker_id=$request->user_id;
-        $event_id=$request->event_id;
+    public function updateQuestion(Request $request,$event_id,$asker_id){
         $question = EventQuestion::where([
-            'event_id' => $request->event_id,
-            'user_id' => $request->user_id,
+            'event_id' => $event_id,
+            'user_id' => $asker_id,
             'question' => $request->question
         ])->first();
 
@@ -141,8 +139,6 @@ class EventsController extends Controller
         return view($view,compact('categories'));
     }
     public function show($id){
-
-
         $event = Event::find($id);
         $view='events.show';
         if(Auth::user()){

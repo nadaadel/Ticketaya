@@ -15,7 +15,7 @@
                 </div>
                 <div class="user-info mt-4">
                     <h3>{{$user->name}}</h3>
-                    
+
                     <table>
                         <tr>
                             <td><span class="bold">Email </span></td>
@@ -37,23 +37,18 @@
                             <td>{{$user->region->name}}</td>
                              @endif
                         </tr>
-                        
+
                     </table>
                 </div>
                 @if(Auth::check()&&Auth::user()->id==$user->id)
                 <div class="mt-4">
-                   
+
                     <a href="{{ URL::to('users/edit/' . $user->id ) }}" class="btn btn-secondary"> Edit Profile</a>
                 </div>
                 @endif
             </div>
         </div>
     </div>
+    <br/>
 </section>
-
-  
-
-   
-
-
 @endsection
