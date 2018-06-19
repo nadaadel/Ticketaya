@@ -157,6 +157,13 @@ class EventsController extends Controller
 
         return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
+    public function deleteQuestion($id){
+       
+       $question= EventQuestion::find($id);
+       $question->delete();
+       return response()->json(['response' => 'success']);
+
+    }
 
     public function store(Request $request){
         $request->validate([

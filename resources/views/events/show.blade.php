@@ -100,7 +100,7 @@
                                             @endif
                                       </div>
                                   </div>
-@if(!$eventInfos->isEmpty())
+                                         @if(!$eventInfos->isEmpty())
                                             <div class="info-parent" >
                                               
 
@@ -158,18 +158,24 @@
 
                                 @if($questions)
                                     @foreach($questions as $question)
-                                    <div class="questions mt-3">
-                                        <div id ="{{$question->id}}}">
+                                    
+                                    <div class="questions mt-3" >
+                                   
+                                        <div id="{{$question->id}}}">
                                               Question<h4>{{$question->question}} ?</h4>
                                               Answer: <p>{{$question->answer}} </p>
+                                              @if(Auth::user() && Auth::user()->id == $event->user_id)
+                                                 <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
+                                             @endif
                                         </div>
-                                    </div>
+                                    
+                                 
 
                                 @if(Auth::user() && Auth::user()->id == $event->user_id)
 
                                     
                                     <div class="answer-area" >
-                                    <textarea class="ans-body form-control txt-area" placeholder=" Add New Question ..." id="{{$question->id}}">
+                                    <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." >
                                     </textarea>
                                     </div>
                                     <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Answer</button>
@@ -178,6 +184,7 @@
                                 @endif
 
                                     <hr>
+                                </div>
                                 @endforeach
                                 @endif
                             </div>
@@ -193,12 +200,6 @@
      </section>
 
 
-    
-
-
-
-
-
 
    
 
@@ -209,7 +210,24 @@
     $('#questionbtn').on('click',function(){
         $('.question-area').show();
     });
+    $('.deletQues').on('click',function(){
+        var id=$(this).attr('delete-ques');
+        console.log("hiii")
+        $.ajax({
+            url: '/questions/delete/'+id,
+            type: 'POST' ,
+            data:{
+                'id':id,
+                '_token': '{{csrf_token()}}',
+                '_method':'DELETE'
+                },
+            success:function(response){
+                //alert('hi')
+                $('#'+id).remove();
+            }
 
+        })
+    })
     $('#question-submit').on('click',function(){
 
         var body=$('#ques-body').val();
@@ -230,7 +248,7 @@
                 success:function(response){
                  if(response.response == 'success'){
                     console.log(response.questions)
-                    //alert('saved Questions Successfuly')
+                    
                  $("<div id='"+response.questions.id+"'></div>").prependTo('.questions');
                   $('#'+response.questions.id).append("Question:<p class='event-body'>"+response.questions.question+"</p><hr>")
                  }
@@ -257,9 +275,8 @@
                 },
                 success:function(response){
                 if(response.response== 'success'){
-                    console.log("kkkk");
-                    console.log(response);
-                   console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
+                    
+                 $('.questions' ).find('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" );
 
 
                 }
@@ -354,11 +371,11 @@
 
             if(response.status == 'success'){
                 console.log('ok')
-                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
-                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
-                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
-                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
-
+                $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
+                $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
+                $('#'+response.id).append("<div class='col-4'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
+                $('#'+response.id).append("<hr>");
                 $('.info-area').hide();
                 $('#showModel').show();
                 $('.deleteinfo').on('click',function(){

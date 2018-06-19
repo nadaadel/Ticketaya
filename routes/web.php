@@ -73,7 +73,7 @@ Route::get('/events/subscribe/{event_id}/{user_id}' , 'EventsController@subscrib
 Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubscribe')->middleware('auth');
 
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
-
+Route::delete('/questions/delete/{id}','EventsController@deleteQuestion');
 Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
