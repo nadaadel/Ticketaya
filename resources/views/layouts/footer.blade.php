@@ -1,41 +1,54 @@
+
+<footer class="container-fluid mt-5">
+
 <section>
-<footer class="container-fluid">
+
     <div class="container">
-        <div class="row justify-content-center pt-3">
+        <div class="row justify-content-center pt-3 pb-4">
             <div class="col-md-12 footer-logo text-center">
                 <a class="" href="{{URL::route('home')}}"><img src="{{ asset('/images/home/logo.png')}}"></a>
             </div>
             <div class="col-md-5 col-12 text-center footer-about">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et leo in lacus sodales laoreet. Phasellus placerat elit eu ligula ullamcorper gravida.</p>
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et leo in lacus sodales laoreet. Phasellus placerat elit eu ligula ullamcorper gravida.</p>-->
             </div>
         </div>
-        <div class="row justify-content-center pt-3 ">
-            <div class="col-md-8 footer-nav  social text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Explore</h4>
                 <ul>
-                     <li class="pt-2">
-                        <a class="nav-link" href="{{URL::route('home')}}">HOME</a>
+                     <li class="pt-1">
+                        <a class="" href="{{URL::route('home')}}">Home</a>
                     </li>
-                    <li class="nav-item active pt-2">
-                        <a class="nav-link" href="{{URL::route('alltickets')}}">TICKETS</a>
+                    <li class="pt-1">
+                        <a class="" href="{{URL::route('alltickets')}}">Tickets</a>
                     </li>
-                    <li class="nav-item pt-2">
-                        <a class="nav-link" href="{{URL::route('allevents')}}">EVENTS</a>
+                    <li class="pt-1">
+                        <a class="" href="{{URL::route('allevents')}}">Events</a>
                     </li>
-                    <li class="nav-item pt-2">
-                        <a class="nav-link " href="{{URL::route('allarticles')}}">BLOG</a>
+                    <li class=" pt-1">
+                        <a class="" href="{{URL::route('allarticles')}}">Blog</a>
                     </li>
                 </ul>
             </div>
-        </div>
-        <div class="row justify-content-center pt-3 ">
-            <div class="col-md-8 social text-center">
+            <div class="col-md-4">
+                <h4>Social Media</h4>
                 <ul>
-                    <li><i class="fab fa-facebook-square"></i></li>
-                    <li><i class="fab fa-twitter-square"></i></li>
-                    <li><i class="fab fa-instagram"></i></li>
+                    <li class="pt-1"><a href="#" ><i class="fab fa-facebook-square"></i>Facebook</a></li>
+                    <li class="pt-1"><a href="#"><i class="fab fa-twitter-square"></i>Twitter</a></li>
+                    <li class="pt-1"><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
                 </ul>
             </div>
+            <div class="col-md-4" id="contact-us">
+                <h4>Contact Us</h4>
+                <form>
+                    <input type="text" value="Your Name" class="form-control">
+                    <input type="email" value="Your Email Address" class="form-control">
+                    <textarea placeholder="Your Message Here..." class="form-control"></textarea>
+                    <input type="submit" class="btn btn-outline-primary">
+                </form>
+            </div>
         </div>
+    
         <div class="row justify-content-center ">
             <div class="col-md-8 cpy-right">
                 <p class="">All Rights Reserved for ITI Students Intake 38 - 2018</p>
