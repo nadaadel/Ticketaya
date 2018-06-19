@@ -52,8 +52,8 @@
                             <h4>{{$comment->user->name}}</h4>
                             <p><span>Created at </span>{{$comment->created_at->diffForHumans()}}</p>
                             <p>{{$comment->body}}</p>
-                            @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$ticket->user_id||Auth::user()->hasRole('admin')))
-                            <button class="btn  btn-danger float-right" >delete</button>
+                            @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$article->user_id||Auth::user()->hasRole('admin')))
+                            <button class=" deleteCommment btn  btn-danger float-right" comment-id="{{$comment->id}}">delete</button>
                             @endif
                             <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
                             <div id="{{$comment->id}}" style="display: none;">
@@ -114,6 +114,25 @@
 
 <script>
 $(function(){
+    $('.deleteCommment').on('click',function(){
+        var id=$(this).attr('comment-id');
+        console.log(id)
+        $.ajax({
+                url: '/article/comments/delete/'+id,
+                type:'POST',
+                data:{
+                    '_token':'{{csrf_token()}}',
+                    '_method':'DELETE',
+                    'id':id,
+                    
+                },
+                success:function(response){
+                    //$('#'+id).remove();
+                }
+
+        })
+
+    });
 $('.reply').on('click',function(){
     var commentId=$(this).attr("comment-id");
     $.ajax({
@@ -126,9 +145,9 @@ $('.reply').on('click',function(){
             console.log(response);
             $('#'+commentId).show();
             for(var i=0;i<response.replies.length;i++){
-                    $('#'+commentId).append('<div>'+response.names[i]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
-                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
+                    $('#'+commentId).append('<h4>'+response.names[i]+'</h4>')
+                    $('#'+commentId).append('<p>'+response.replies[i].body+'</p>' )
+                    $('#'+commentId).append('<p class="gray">'+response.replies[i].created_at+'</p>' +'<br>')
 
             }
             }

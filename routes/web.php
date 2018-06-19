@@ -161,6 +161,7 @@ Route::get('/cities/{id}','CitiesController@show');
 
 /* article comments and replies*/
 Route::post('article/comments','ArticleCommentsController@store');
+Route::delete('article/comments/delete/{id}','ArticleCommentsController@delete');
 Route::post('articles/replies','ArticleCommentRepliesController@store');
 Route::get('articles/replies/{id}','ArticleCommentRepliesController@show');
 Route::get('articles/likes/{id}','ArticlesController@like');

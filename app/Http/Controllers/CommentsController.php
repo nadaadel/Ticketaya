@@ -21,7 +21,7 @@ class CommentsController extends Controller
     public function delete($id){
         $comment=Comment::find($id);
        
-       // dd($replies);
+       
         if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->hasRole('admin')||Auth::user()->id==$comment->ticket->user_id)){
             $comment->delete();
             $replies=Reply::where('comment_id','=',$id)->delete();
