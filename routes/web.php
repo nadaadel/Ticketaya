@@ -107,6 +107,7 @@ Route::get('/tags/{id}/tickets' , 'TagsController@tagTickets')->name('tagTickets
 
 /** Ticket Comments */
 Route::post('/comments','CommentsController@store')->middleware('auth');
+Route::delete('/comments/delete/{id}','CommentsController@delete')->middleware('auth');
 Route::get('/replies/{id}','RepliesController@show');
 Route::post('/replies','RepliesController@store')->middleware('auth');
 

@@ -176,10 +176,13 @@
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
                                        <div class="comment-content">
+                                           @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$ticket->user_id||Auth::user()->hasRole('admin')))
+                                           <button class="deleteCommment btn  btn-danger float-right" comment-id="{{$comment->id}}" >delete</button>
+                                          @endif
                                            <h4>{{$comment->user->name}}</h4>
-                                           <p class="gray">3 {{$comment->created_at->diffForHumans()}}</p>
-                                           <p>
-                                                {{$comment->body}}                                           </p>
+                                           <p class="gray"> {{$comment->created_at->diffForHumans()}}</p>
+                                           <p>{{$comment->body}}  </p>
+                                          
                                            <a  class="info reply" ticket-no="{{$ticket->id}}" comment-id="{{$comment->id}}" >REPLAY</a>
                                         <div id="{{$comment->id}}" style="display: none;">
                                                 <div class="card-body" >
@@ -263,6 +266,26 @@
 
 <script>
     $(document).ready( function(){
+
+    $('.deleteCommment').on('click',function(){
+        var id=$(this).attr('comment-id');
+        console.log(id)
+        $.ajax({
+                url: '/comments/delete/'+id,
+                type:'POST',
+                data:{
+                    '_token':'{{csrf_token()}}',
+                    '_method':'DELETE',
+                    'id':id,
+                    
+                },
+                success:function(response){
+                    $('#'+id).remove();
+                }
+
+        })
+
+    });
     $('#want').on('click' , function(){
             var quantity = $('#quantity').val();
             console.log(quantity);
@@ -343,9 +366,9 @@ $('.reply').on('click',function(){
 
                for (var j=0;j<response.names.length;j++){
                 if (i==j){
-                    $('#'+commentId).append('<div>'+response.names[j]+'</div>')
-                    $('#'+commentId).append('<div>'+response.replies[i].body+'</div>' )
-                    $('#'+commentId).append('<div>'+response.replies[i].created_at+'</div>' +'<br>')
+                    $('#'+commentId).append('<h4>'+response.names[j]+'</h4>')
+                    $('#'+commentId).append('<p>'+response.replies[i].body+'</p>' )
+                    $('#'+commentId).append('<p class="gray">'+response.replies[i].created_at+'</p>' +'<br>')
                }
 
                }

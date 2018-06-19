@@ -162,11 +162,14 @@
                                     <div class="questions mt-3" >
                                    
                                         <div id="{{$question->id}}}">
+                                        @if(Auth::user() && (Auth::user()->id == $question->user_id ||Auth::user()->id == $event->user_id||Auth::user()->hasRole('admin')))
+                                        <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
+                                        @endif  
                                               Question<h4>{{$question->question}} ?</h4>
                                               Answer: <p>{{$question->answer}} </p>
-                                              @if(Auth::user() && Auth::user()->id == $event->user_id)
-                                                 <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
-                                             @endif
+                                              
+                                               
+                                             
                                         </div>
                                     
                                  
@@ -186,6 +189,9 @@
                                     <hr>
                                 </div>
                                 @endforeach
+                                <div class="pagenation"> 
+                                {{ $questions->links() }}
+                                </div>
                                 @endif
                             </div>
                         </div>

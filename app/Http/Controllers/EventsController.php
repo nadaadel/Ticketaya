@@ -21,9 +21,6 @@ class EventsController extends Controller
 
     public function storeQuestion(Request $request){
         $questionfound=EventQuestion::where('question','=',$request->question)->first();
-
-
-
         $eventQuestion=EventQuestion::create([
             'event_id'=>$request->event_id,
             'user_id'=>$request->user_id,
@@ -92,8 +89,15 @@ class EventsController extends Controller
     }
     public function deleteInfo($id){
        $info= EventInfo::find($id);
-       $info->delete();
-       return response()->json(['response' => 'success']);
+       $event=Event::find($info->event_id);
+       if(Auth::check()&& $event->user_id==Auth::user()->id){
+        $info->delete();
+        return response()->json(['response' => 'success']);
+       }
+       else{
+        return view('notfound');
+       }
+      
 
     }
     public function search (Request $request){
@@ -146,7 +150,7 @@ class EventsController extends Controller
         ->where('user_id' , '=' , Auth::user()->id)->get();
 
         }
-        $questions=EventQuestion::all()->where('event_id',$id);
+        $questions=EventQuestion::where('event_id',$id)->latest()->paginate(2);
 
 
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->paginate(2);
@@ -160,8 +164,14 @@ class EventsController extends Controller
     public function deleteQuestion($id){
        
        $question= EventQuestion::find($id);
+       $event=Event::find($question->event_id);
+       if(Auth::check()&&Auth::user()&&(($question->user_id==Auth::user()->id))||($event->user_id==Auth::user()->id)||(Auth::user()->hasRole('admin'))){
        $question->delete();
        return response()->json(['response' => 'success']);
+       }
+       else{
+        return view('notfound');
+       }
 
     }
 
@@ -203,6 +213,7 @@ class EventsController extends Controller
         if(Auth::user()&& Auth::user()->hasRole('admin')){
             $view='admin.events.edit';
         }
+        if(Auth::check()&&($event->user_id==Auth::user()->id||Auth::user()->hasRole('admin'))){
         return view($view,[
 
             'event' => $event,
@@ -213,6 +224,10 @@ class EventsController extends Controller
 
 
         ]);
+        }
+        else{
+            return view('notfound');
+        }
 
     }
     public function update(Request $request){
@@ -233,17 +248,27 @@ class EventsController extends Controller
         $event->enddate=$request->enddate;
         $event->category_id=$request->category;
         $event->avaliabletickets=$request->avaliabletickets;
-        $event->save();
+        if(Auth::check()&&(Auth::user()->id==$event->user_id||Auth::user()->hasRole('admin'))){
+            $event->save();
         return redirect('events');
+        }
+        else{
+            return view('notfound');
+        }
 
      }
 
 
     public function delete($id){
         $event = Event::find($id);
+        if(Auth::check()&&(Auth::user()->id==$event->user_id||Auth::user()->hasRole('admin'))){
         $event->delete();
 
         return response()->json(['response' => 'success']);
+        }
+        else{
+            return view('notfound');
+        }
     }
 
 }

@@ -52,7 +52,9 @@
                             <h4>{{$comment->user->name}}</h4>
                             <p><span>Created at </span>{{$comment->created_at->diffForHumans()}}</p>
                             <p>{{$comment->body}}</p>
-                            
+                            @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$ticket->user_id||Auth::user()->hasRole('admin')))
+                            <button class="btn  btn-danger float-right" >delete</button>
+                            @endif
                             <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
                             <div id="{{$comment->id}}" style="display: none;">
                                 <div class="card-body"  >
