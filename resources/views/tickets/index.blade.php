@@ -61,12 +61,12 @@
                         <div class="ticket-price">
                             <h3 class="price">{{$ticket->price}} L.E</h3>
                     </div>
-                    <div class="ticket-ctrl-btns pt-5">
+                    <div class="ticket-ctrl-btns pt-5" ticket-no={{$ticket->id}}>
                     @if(Auth::user()&&Auth::user()->id == $ticket->user_id)
-                        <a type="submit" class="btn ctrl-btn deletebtn"><i class="far fa-trash-alt"></i></a>
+                        <a  class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('tickets/edit/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
                     @elseif(Auth::check())
-                    <a class="btn ctrl-btn like-btn container" ticket-no={{$ticket->id}} >
+                    <a class="btn ctrl-btn like-btn container" >
                             @if(Auth::user()->savedTickets->contains($ticket->id))
                             <i class='fas fa-heart heart' clicked="1"></i>
                             @else
@@ -85,7 +85,7 @@
 
     </div>
 
-  @if(Auth::check())
+  @if(Auth::check() && !$tickets->isEmpty())
 
   <script>
 
@@ -93,7 +93,7 @@
          function () {
             var element=$(this);
             var click =element.attr('clicked');
-            var ticket_id=element.parent().attr('ticket-no');
+            var ticket_id=element.closest('div').attr('ticket-no');
            if (click != 1)
             {$.ajax({
              url: '/tickets/save/'+ticket_id,
@@ -126,7 +126,8 @@
            }
          });
          $(document).on('click','.deletebtn',function(){
-                        var ticket_id ={!! json_encode($ticket->id)!!}
+                        var ticket_id=$(this).closest('div').attr('ticket-no');
+                        var url="{{ URL::route('alltickets') }}"
                         var resp = confirm("Do you really want to delete this ticket?");
                         if (resp == true) {
                             $.ajax({
@@ -139,6 +140,10 @@
                                 success: function (response) {
                                     if(response.res=='success'){
                                     $('#'+ticket_id).remove();
+                                    window.location=url
+                                    }
+                                    else{
+                                        alert('failed')
                                     }
                                 }
                             });

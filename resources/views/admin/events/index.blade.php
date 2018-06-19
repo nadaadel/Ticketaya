@@ -24,7 +24,7 @@
         <th scope="col">Name</th>
         <th scope="col">Photo</th>
         <th scope="col">Category</th>
-        <th scope="col">Avaliable Ticket</th>   
+        <th scope="col">Avaliable Ticket</th>
         <th scope="col">Created By</th>
         <th scope="col">start at </th>
         <th scope="col">End at </th>
@@ -40,15 +40,15 @@
         <th scope="row">{{$event->id}}</th>
         <td><a href="{{ route('eventshow', ['id' => $event->id]) }}">{{ucwords($event->name)}}</a></td>
         <td><img src="{{ asset('storage/images/events/'. $event->photo) }}" style="width:160px; height:120px;"></td>
-      
+
         <td>{{$event->category->name}}</td>
         <td>{{$event->avaliabletickets}}</td>
         <td><a href="{{ route('showuser', ['id' => $event->user_id])}}">{{$event->user->name}}</a></td>
 
         <td> {{ $event->startdate }} </td>
         <td>{{ $event->enddate}}</td>
-        <td><a href={{ URL::to('events/edit/' . $event->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
-        <td> <a event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a></td>
+        <td><a href={{ URL::to('events/edit/' . $event->id ) }} class="btn ctrl-btn edit-btn" ><i class="far fa-edit"></i></a></td>
+        <td><a event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a></td>
   </tr>
 
   @endforeach

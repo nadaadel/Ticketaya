@@ -270,14 +270,14 @@ class TicketsController extends Controller
 
      public function destroy($id){
         $ticket=Ticket::find($id);
-        $user=Auth::user();
         if($ticket !== null && Auth::check() ){
+            $user=Auth::user();
             if($ticket->user_id == $user->id || $user->hasRole('admin') ){
                 $ticket->delete();
             }
         return response()->json(['res' => 'success']);
         }
-        return view('notfound');
+        return response()->json(['res' => 'failed']);
     }
 
 }
