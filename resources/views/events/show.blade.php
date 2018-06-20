@@ -66,7 +66,7 @@
 
                         </div>
                         <div class="col-md-6 col-xs-12 pr-2">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
+                          map here
                         </div>
                     </div>
                 </div>

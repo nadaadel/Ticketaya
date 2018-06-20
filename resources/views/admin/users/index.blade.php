@@ -27,7 +27,10 @@
        <td> <a href={{ URL::to('users/' . $user->id ) }} type="button" class="btn btn-success" >View</a></td>
         <td><a href={{ URL::to('users/edit/' . $user->id ) }} type="button" class="btn btn-warning" >Edit</a></td>
      <td>
+    @if(Auth::user()->id != $user->id )
      <td> <a user-id="{{$user->id}}" class="btn ctrl-btn  deleteuser"><i class="far fa-trash-alt"></i></a></td>
+     @endif
+
     </td>
   </tr>
   @endforeach

@@ -19,30 +19,10 @@
                 <li> <a  href="{{URL::route('allcategories')}}" aria-expanded="false"><i class="fa fa-cube"></i><span class="hide-menu">Categories</span></a></li>
                 <li> <a  href="{{URL::route('allarticles')}}" aria-expanded="false"><i class="f	fa fa-book"></i><span class="hide-menu">Articles</span></a></li>
 
+                <li> <a  href="{{URL::route('eventslocation')}}" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Events Locations</span></a></li>
+                <li> <a  href="{{URL::route('ticketslocation')}}" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Tickets Locations</span></a></li>
                 </li>
 
-                <li class="nav-label">FEATURE</li>
-
-                <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Maps</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                    <li><a href="{{URL::route('eventslocation')}}">Events</a></li>
-                        <li><a href="{{URL::route('ticketslocation')}}">Tickets</a></li>
-                    </ul>
-                </li>
-                <li> <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">Multi level dd</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="#">item 1.1</a></li>
-                        <li><a href="#">item 1.2</a></li>
-                        <li> <a class="has-arrow" href="#" aria-expanded="false">Menu 1.3</a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="#">item 1.3.1</a></li>
-                                <li><a href="#">item 1.3.2</a></li>
-                                <li><a href="#">item 1.3.3</a></li>
-                                <li><a href="#">item 1.3.4</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">item 1.4</a></li>
-                    </ul>
                 </li>
             </ul>
         </nav>

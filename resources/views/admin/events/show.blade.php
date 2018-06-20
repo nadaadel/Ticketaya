@@ -86,9 +86,6 @@
 
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-12 pr-2">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +94,6 @@
 
         </div>
      </section>
-
 
   <hr>
   {{-- questions and answer --}}
@@ -127,4 +123,238 @@
   @endforeach
  @endif
  <input type="hidden" id="event_id" value="{{$event->id}}">
+
+ <input type="hidden" id="event_id" value="{{$event->id}}">
+ <script>
+     $(document).ready(function(){
+
+     $('#questionbtn').on('click',function(){
+         $('#ques-body').val('');
+         $('.question-area').show();
+     });
+     $(document).on('click','.deletQues',function(){
+         var question_id=$(this).attr('delete-ques');
+         $.ajax({
+             url: '/questions/delete/'+question_id,
+             type: 'POST' ,
+             data:{
+                 'id':question_id,
+                 '_token': '{{csrf_token()}}',
+                 '_method':'DELETE'
+                 },
+             success:function(response){
+                 console.log($('#'+question_id));
+                 $('#'+question_id).remove();
+             }
+
+         })
+     })
+     $('#question-submit').on('click',function(){
+
+         var body=$('#ques-body').val();
+         var user_id = $('#user_id').val();
+         var event_id = $('#event_id').val();
+         var no=$('.allquestion').attr('question-no');
+         $('.question-area').hide();
+         $.ajax({
+             url: '/events/question/'+event_id+'/'+user_id,
+                type: 'GET' ,
+                data:{
+                 '_token':'@csrf',
+                 'question':body,
+                 'event_id':event_id,
+                 'user_id':user_id,
+                 },
+                 success:function(response){
+                  if(response.response == 'success'){
+                     var question=response.questions;
+                     $(`<div id=`+question.id+`>
+                             <button class="deletQues btn  btn-danger float-right" delete-ques=`+question.id+`>
+                             delete</button>
+                             Question<h4>`+question.question+`</h4>
+                             Answer:
+                             <hr></div>`).appendTo('.questions');
+                     $('#ques-body').val('');
+                  }
+                 }
+         });
+     });
+
+     $('.answer-submit').on('click',function(){
+      var quesId=$(this).attr('question-id');
+      var question=$(this).attr('question');
+      var questioner=$(this).attr('questioner');
+      var body=$('#'+quesId).val();
+      var event_id = $('#event_id').val();
+       $.ajax({
+             url: '/events/answer/'+event_id+'/'+user_id,
+                type: 'GET' ,
+                data:{
+                 '_token':'@csrf',
+                 'question':question,
+                 'event_id':event_id,
+                 'user_id':questioner,
+                 'answer':body,
+                 'quesId':quesId,
+                 },
+                 success:function(response){
+                 if(response.response== 'success'){
+
+                  $('.questions' ).find('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" );
+
+
+                 }
+                 }
+
+         })
+
+
+   })
+
+     $('#subscribe').on('click' , function(){
+
+          var user_id = $('#user_id').val();
+          var event_id = $('#event_id').val();
+          console.log($(this).html())
+          if ($(this).html()=="subscribe"){
+              console.log("hiii")
+              $.ajax({
+                url: '/events/subscribe/'+event_id+'/'+user_id,
+                type: 'GET' ,
+                data:{
+                 '_token':'@csrf'
+                 },
+
+
+             success:function(response){
+              console.log(response);
+
+             if(response.status == 'success'){
+                $('#subscribe').html('unsubscribe');
+                console.log('success');
+               $('#subscribe').attr('class' , 'btn btn-danger');
+              }
+          }
+
+
+
+          });
+     }
+     else{
+
+          $.ajax({
+                url: '/events/unsubscribe/'+event_id+'/'+user_id,
+                type: 'GET' ,
+                data:{
+                 '_token':'@csrf'
+                 },
+
+
+             success:function(response){
+              console.log(response);
+
+             if(response.status == 'success'){
+                $('#subscribe').html('subscribe');
+                console.log('success');
+               $('#subscribe').attr('class' , 'btn btn-primary');
+              }
+          }
+
+
+
+          });
+
+     }
+
+
+
+
+         });
+
+
+
+     $('#showModel').on('click' , function(){
+         $('.info-area').show();
+         $(this).hide();
+     });
+
+     $('#info-submit').on('click' , function(){
+        var description = $('.info-body').val();
+
+        console.log(description);
+        var event_id = $('#event_id').val();
+        console.log(event_id);
+        $.ajax({
+            url: '/events/info/new/'+event_id,
+            type:'POST',
+            data:{
+                '_token': '{{csrf_token()}}',
+                'description':description
+            },
+         success:function(response){
+
+             if(response.status == 'success'){
+                 console.log('ok')
+                 $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
+                 $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
+                 $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
+                 $('#'+response.id).append("<div class='col-4'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
+                 $('#'+response.id).append("<hr>");
+                 $('.info-area').hide();
+                 $('#showModel').show();
+                 $('.deleteinfo').on('click',function(){
+         var id =$(this).attr('btn-id');
+         console.log(id)
+         $.ajax({
+            url: '/events/info/delete/'+id,
+            type:'POST',
+            data:{
+                '_token': '{{csrf_token()}}',
+                '_method':'DELETE',
+
+            },
+         success:function(response){
+
+             if(response.response == 'success'){
+                 console.log('pl')
+                 $('#'+id).remove();
+
+
+         }
+        }
+         })
+     })
+             }else{
+              alert('error');
+             }
+
+         }
+        })
+     });
+     $('.deleteinfo').on('click',function(){
+         var id =$(this).attr('btn-id');
+         console.log(id)
+         $.ajax({
+            url: '/events/info/delete/'+id,
+            type:'POST',
+            data:{
+                '_token': '{{csrf_token()}}',
+                '_method':'DELETE',
+
+            },
+         success:function(response){
+
+             if(response.response == 'success'){
+                 console.log('pl')
+                 $('#'+id).remove();
+
+
+         }
+        }
+         })
+     })
+
+    });
+
+ </script>
 @endsection
