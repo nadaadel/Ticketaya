@@ -46,7 +46,7 @@ class EventsController extends Controller
         $getQuestion->answer = $request->answer;
         $getQuestion->save();
         $notify_type="events";
-        event(new Answer($asker_id, $event_id,$notify_type));
+        event(new Answer($question->user_id, $event_id,$notify_type));
         return response()->json(['response'=>'success','answer' => $getQuestion]);
     }
     public function subscribe($event_id , $user_id){
@@ -152,14 +152,19 @@ class EventsController extends Controller
         }
         $questions=EventQuestion::where('event_id',$id)->latest()->paginate(2);
 
-
+        if($event){
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->paginate(2);
+        
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.show';
         }
 
         return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
+    }
+    else{
+        return view('notfound');
+    }
     }
     public function deleteQuestion($id){
 

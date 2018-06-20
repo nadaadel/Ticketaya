@@ -125,9 +125,7 @@
 
                                             @endforeach
                                             </div>
-                                            <div class="pagenation">
-                                                {{ $eventInfos->links() }}
-                                            </div>
+                                            
 
 
                                             @else
@@ -139,6 +137,9 @@
                                             @endif
 
                                 </div>
+                            </div>
+                            <div class="pagenation">
+                             {{ $eventInfos->links() }}
                             </div>
                       </div><!-- end ofposts tab-->
                       <div class="tab-pane fade" id="nav-questions" role="tabpanel" aria-labelledby="nav-questions-tab"><!-- questions tab-->
@@ -183,15 +184,16 @@
                                     <hr>
                                 </div>
                                 @endforeach
-                                <div class="pagenation">
-                                {{ $questions->links() }}
-                                </div>
+                               
                                 @endif
                             </div>
                             </div>
                         </div>
+                        <div class="pagenation">
+                                {{ $questions->links() }}
+                     </div>
                       </div><!-- end of questions tab-->
-
+                     
                     </div>
                 </div>
             </div>

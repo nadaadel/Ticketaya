@@ -75,37 +75,110 @@ $(document).ready(function(){
 
 
     });
+    $(document).on('click','.deletQues',function(){
+        var question_id=$(this).attr('delete-ques');
+        $.ajax({
+            url: '/questions/delete/'+question_id,
+            type: 'POST' ,
+            data:{
+                'id':question_id,
+                '_token': '{{csrf_token()}}',
+                '_method':'DELETE'
+                },
+            success:function(response){
+                $('#'+question_id).remove();
+            }
 
-    $('.answer-submit').on('click',function(){
+        })
+    })
+
+     $('.answer-submit').on('click',function(){
      var quesId=$(this).attr('question-id');
      var question=$(this).attr('question');
      var questioner=$(this).attr('questioner');
-      var body=$('#'+quesId).val();
-
-      var event_id = $('#event_id').val();
+     var body=$(this).parent().find('textarea').val();
+     var event_id = $('#event_id').val();
       $.ajax({
-            url: '/events/answer/'+event_id+'/'+user_id,
+            url: '/events/answer/'+event_id+'/'+questioner,
                type: 'GET' ,
                data:{
                 '_token':'@csrf',
                 'question':question,
                 'event_id':event_id,
-                'user_id':questioner,
+                'asker_id':questioner,
                 'answer':body,
                 'quesId':quesId,
                 },
                 success:function(response){
-
-                  if(response.response== 'success'){
-                    console.log("kkkk");
-                    console.log(response.answer.id);
-                  $("<div>Answer:<p>"+response.answer.answer+"</p</div>><hr>" ).prependTo("#"+quesId )
-                  //console.log( $('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" ));
+                if(response.response== 'success'){
+               $('#'+response.answer.id).find("div[my-name='answer']").html("Answer:"+response.answer.answer+"<hr>")
 
                 }
-}
+                }
+
         })
-})
+
+
+  })
+  $('#subscribe').on('click' , function(){
+
+var user_id = $('#user_id').val();
+var event_id = $('#event_id').val();
+console.log($(this).html())
+if ($(this).html()=="subscribe"){
+    console.log("hiii")
+    $.ajax({
+      url: '/events/subscribe/'+event_id+'/'+user_id,
+      type: 'GET' ,
+      data:{
+       '_token':'@csrf'
+       },
+
+
+   success:function(response){
+    console.log(response);
+
+   if(response.status == 'success'){
+      $('#subscribe').html('unsubscribe');
+      console.log('success');
+     $('#subscribe').attr('class' , 'btn btn-danger');
+    }
+}
+
+
+
+});
+}
+else{
+
+$.ajax({
+      url: '/events/unsubscribe/'+event_id+'/'+user_id,
+      type: 'GET' ,
+      data:{
+       '_token':'@csrf'
+       },
+
+
+   success:function(response){
+    console.log(response);
+
+   if(response.status == 'success'){
+      $('#subscribe').html('subscribe');
+      console.log('success');
+     $('#subscribe').attr('class' , 'btn btn-primary');
+    }
+}
+
+
+
+});
+
+}
+
+
+
+
+});
 
 $('#showModel').on('click' , function(){
         $('.info-area').show();
@@ -113,9 +186,9 @@ $('#showModel').on('click' , function(){
     });
 
 
-  $('#info-submit').on('click' , function(event){
-      event.preventDefault();
+   $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
+
        console.log(description);
        var event_id = $('#event_id').val();
        console.log(event_id);
@@ -127,33 +200,33 @@ $('#showModel').on('click' , function(){
                'description':description
            },
         success:function(response){
+
             if(response.status == 'success'){
-                console.log(response.time.date);
-               
-                $( "<div id='"+response.id+"'></div" ).prependTo(".info-parent" );
-                $('#'+response.id).append("<p class='event-body'>"+description+"</p>")
-                $('#'+response.id).append( "<p class='event-time'>"+response.time.date+"</p>" );
-                $('#'+response.id).append("<button class='deleteinfo' btn-id='"+response.id+"'>Delete</button>");
-               
+                console.log('ok')
+                $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
+                $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
+                $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
+                $('#'+response.id).append("<div class='col-md-8'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
+                $('#'+response.id).append("<hr>");
                 $('.info-area').hide();
                 $('#showModel').show();
                 $('.deleteinfo').on('click',function(){
-                var id =$(this).attr('btn-id');
-                console.log(id)
-                 $.ajax({
-                         url: '/events/info/delete/'+id,
-                         type:'POST',
-                        data:{
-                            '_token': '{{csrf_token()}}',
-                            '_method':'DELETE',
-               
-                          },
-                 success:function(response){
+        var id =$(this).attr('btn-id');
+        console.log(id)
+        $.ajax({
+           url: '/events/info/delete/'+id,
+           type:'POST',
+           data:{
+               '_token': '{{csrf_token()}}',
+               '_method':'DELETE',
 
-                    if(response.response == 'success'){
-                    console.log('pl')
-                   $('#'+id).remove();
-                
+           },
+        success:function(response){
+
+            if(response.response == 'success'){
+                console.log('pl')
+                $('#'+id).remove();
+
 
         }
        }
@@ -238,7 +311,36 @@ $('#showModel').on('click' , function(){
         });
 
 });
+$('#question-submit').on('click',function(){
 
+var body=$('#ques-body').val();
+var user_id = $('#user_id').val();
+var event_id = $('#event_id').val();
+var no=$('.allquestion').attr('question-no');
+$('.question-area').hide();
+$.ajax({
+    url: '/events/question/'+event_id+'/'+user_id,
+       type: 'GET' ,
+       data:{
+        '_token':'@csrf',
+        'question':body,
+        'event_id':event_id,
+        'user_id':user_id,
+        },
+        success:function(response){
+         if(response.response == 'success'){
+            var question=response.questions;
+            $(`<div id=`+question.id+`>
+                    <button class="deletQues btn  btn-danger float-right" delete-ques=`+question.id+`>
+                    delete</button>
+                    Question<h4>`+question.question+`</h4>
+                    Answer:
+                    <hr></div>`).appendTo('.questions');
+            $('#ques-body').val('');
+         }
+        }
+});
+});
 
 </script>
 
