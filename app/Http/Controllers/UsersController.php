@@ -148,17 +148,17 @@ class UsersController extends Controller
         $user->region_id=$user->region_id;
         $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
-        //dd($request->role);
+       
         $user->save();
        
-       
+       if(Auth::check()&&Auth::user()->hasRole('admin')){
         if($request->role==null){
 
             $user->removeRole('admin');
         }
 
-
-
+       }
+        
         return redirect('/users/'.$user->id);
 
     }
