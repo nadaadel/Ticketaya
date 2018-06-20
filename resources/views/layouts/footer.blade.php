@@ -48,13 +48,14 @@
                 </form>
             </div>
         </div>
-    
+
         <div class="row justify-content-center ">
             <div class="col-md-8 cpy-right">
                 <p class="">All Rights Reserved for ITI Students Intake 38 - 2018</p>
             </div>
         </div>
     </div>
-</footer>
+
 </section>
 
+</footer>

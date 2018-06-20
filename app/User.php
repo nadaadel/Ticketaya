@@ -70,8 +70,7 @@ class User extends Authenticatable
         return $this->hasMany(Event::class);
     }
     public function favouriteEvents(){
-
-        return $this->belongsToMany('App\Event','event_user')->withPivot('is_follower','is_saver');
+        return $this->belongsToMany('App\Event','event_user');
     }
     public function likes(){
         return $this->belongsToMany('App\Article','article_user');
