@@ -45,7 +45,7 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
-
+Route::post('/reports','ReportController@Report');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
 /**Users route */
