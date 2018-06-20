@@ -20,6 +20,7 @@ class EventSubscribers implements ShouldBroadcast
     public $user_id;
     public $notification_id;
     public $related_id;
+    public $notify_type;
 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,13 +29,13 @@ class EventSubscribers implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($event_id , $toUser)
+    public function __construct($event_id , $toUser,$notify_type)
     {
 
       $event = Event::find($event_id);
       $this->message = "Event {$event->name} Has New informations don't miss it";
       $this->user_id = $toUser;
-      $notify_type_id=NotifyType::where('type','=','events')->first()->id;
+      $notify_type_id=NotifyType::where('type','=',$notify_type)->first()->id;
       $notification=  Notification::create([
         'user_id' => $this->user_id,
         'notify_type_id' => $notify_type_id,
@@ -43,6 +44,7 @@ class EventSubscribers implements ShouldBroadcast
    ]);
        $this->notification_id=$notification->id;
        $this->related_id=$event_id;
+       $this->notify_type=$notify_type;
 
     }
 

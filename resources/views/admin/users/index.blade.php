@@ -24,9 +24,12 @@
 
         <td><img src="{{ asset('storage/images/users/'.$user->avatar) }}" style="width:150px; height:150px;"></td>
         <td> {{ $user->created_at->diffForHumans() }} </td>
-       <td> <a href={{ URL::to('users/' . $user->id ) }} class="btn btn-success" >View</a></td>
+       <td> <a href={{ URL::to('users/' . $user->id ) }}  class="btn btn-success" >View</a></td>
         <td><a href={{ URL::to('users/edit/' . $user->id ) }}  class="btn btn-warning" >Edit</a></td>
      <td>
+     @if(!$user->hasRole('admin'))
+     <td><a  class="admin btn btn-secondary" user-id="{{$user->id}}">Admin Role</a></td>
+     @endif
      <td> <a user-id="{{$user->id}}" class="btn ctrl-btn  deleteuser"><i class="far fa-trash-alt"></i></a></td>
     </td>
   </tr>
@@ -37,5 +40,7 @@
   </div>
   </div>
 @endsection
+
+
 
 

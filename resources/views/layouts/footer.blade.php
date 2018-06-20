@@ -40,10 +40,12 @@
             </div>
             <div class="col-md-4" id="contact-us">
                 <h4>Contact Us</h4>
-                <form>
-                    <input type="text" value="Your Name" class="form-control">
-                    <input type="email" value="Your Email Address" class="form-control">
-                    <textarea placeholder="Your Message Here..." class="form-control"></textarea>
+                <form method="post" action="/reports" enctype="multipart/form-data">
+                  {{method_field('POST')}}
+                  {{csrf_field()}}
+                    <input type="text" name="name" class="form-control" placeholder="Your Name Here..." required>
+                    <input type="email" name="email"  class="form-control"  placeholder="Your email Here..." required>
+                    <textarea placeholder="Your Message Here..." class="form-control" name="msg" required></textarea>
                     <input type="submit" class="btn btn-outline-primary">
                 </form>
             </div>

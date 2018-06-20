@@ -28,15 +28,16 @@ class Question implements ShouldBroadcast
     public $message;
     public $notification_id;
     public $related_id;
+    public $notify_type;
 
 
-    public function __construct($asker,$event)
+    public function __construct($asker,$event,$notify_type)
     {
         $this->user=$asker;
         $this->creator_id=$event->user_id;
         $this->eventname=$event->name;
         $this->message=$this->user->name." ask a question to ".$this->eventname."event ";
-        $notify_type_id=NotifyType::where('type','=','events')->first();
+        $notify_type_id=NotifyType::where('type','=',$notify_type)->first();
 
         $notification=Notification::create([
             'user_id' => $this->creator_id,
@@ -46,6 +47,7 @@ class Question implements ShouldBroadcast
         ]);
         $this->notification_id=$notification->id;
         $this->related_id=$event->id;
+        $this->notify_type=$notify_type;
 
     }
 

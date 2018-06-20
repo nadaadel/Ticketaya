@@ -35,7 +35,7 @@
 <div class="form-group row">
     <label class="col-md-4 col-form-label text-md-right" >Phone Number </label>
         <div class="col-md-6">
-            <input type="text" name=phone  />
+            <input type="text" name="phone" value="{{$user->phone}}"/>
             @if ($errors->has('phone'))
                  <span class="alert alert-danger">
                     <strong>{{ $errors->first('phone') }}</strong>
@@ -93,6 +93,21 @@
 @if ($errors->has('avatar'))
     <span class="alert alert-danger">
     <strong>{{ $errors->first('avatar') }}</strong>
+    </span>
+@endif
+</div>
+
+</div>
+
+<div class="form-group row">
+<label for="role" class="col-md-4 col-form-label text-md-right">Admin Role</label>
+<div class="col-md-6">
+
+<input type="checkbox" name="role" value="0">
+
+@if ($errors->has('role'))
+    <span class="alert alert-danger">
+    <strong>{{ $errors->first('role') }}</strong>
     </span>
 @endif
 </div>

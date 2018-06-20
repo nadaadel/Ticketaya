@@ -70,11 +70,15 @@ class UsersController extends Controller
         {
             $view='admin.users.edit';
         }
-        if(Auth::user()&&Auth::user()->id==$request->id){
+        if(Auth::user()&&(Auth::user()->id==$request->id||Auth::user()->hasRole('admin'))){
         return view($view,['user'=> $user,
         'cities'=>$cities,'regions'=>$regions] );
         }
-        return view('notfound');
+        else{
+            return view('notfound');
+        }
+        
+        
 
 
     }
@@ -90,6 +94,7 @@ class UsersController extends Controller
             $file_name = $request->file('avatar')->hashName();
             $user->avatar= $file_name;
         }
+       
         $user->name = Str::lower($request->name);
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
@@ -98,7 +103,29 @@ class UsersController extends Controller
         $user->phone=$request->phone;
 
         $user->save();
+        
+        if($request->role=="1"){
+
+            $user->assignRole('admin');
+        }
+        if($request->role=="0"){
+
+            $user->removeRole('admin');
+        }
+
        return redirect('users');
+
+    }
+
+    public function  admin($id){
+    if (Auth::check()&&Auth::user()->hasRole('admin')){
+     $user=User::find($id);
+     $user->assignRole('admin');
+     return response()->json(['response' => 'success']);
+    }
+    else{
+        return view('notfound');
+    }
 
     }
     public function update (Request $request){
@@ -121,11 +148,17 @@ class UsersController extends Controller
         $user->region_id=$user->region_id;
         $user->phone=$request->phone;
         $user->password=Hash::make($request->password);
-
+       
         $user->save();
+       
+       if(Auth::check()&&Auth::user()->hasRole('admin')){
+        if($request->role==null){
 
+            $user->removeRole('admin');
+        }
 
-
+       }
+        
         return redirect('/users/'.$user->id);
 
     }
