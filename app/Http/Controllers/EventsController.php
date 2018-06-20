@@ -82,10 +82,11 @@ class EventsController extends Controller
       $time=Carbon::now();
       if(Auth::user()->hasRole('admin')){
         return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
-        //return view('admin.events.show',['eventInfos'=> $eventInfos] );
+       // return redirect()->route('eventshow', ['id' =>$event->id ]);
+
       }
       return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
-
+     // return redirect()->route('eventshow', ['id' =>$event->id ]);
     }
     public function deleteInfo($id){
        $info= EventInfo::find($id);

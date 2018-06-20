@@ -154,8 +154,7 @@
                                 @if(Auth::user() && Auth::user()->id != $event->user_id)
                                      <button id="questionbtn" class="btn btn-primary mb-3 mt-4" >Do You Have a Question ?</button>
                                      <div class="question-area" style="display:none;">
-                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ...">
-                                        </textarea>
+                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ..."></textarea>
                                         <button id="question-submit" class="btn btn-info mt-2">Post</button>
                                     </div>
                                 @endif
@@ -393,10 +392,7 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-
-       console.log(description);
        var event_id = $('#event_id').val();
-       console.log(event_id);
        $.ajax({
            url: '/events/info/new/'+event_id,
            type:'POST',
@@ -405,17 +401,16 @@
                'description':description
            },
         success:function(response){
-
             if(response.status == 'success'){
-                console.log('ok')
-                $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
+                $( "<div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
                 $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
                 $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
-                $('#'+response.id).append("<div class='col-4'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
+                $('#'+response.id).append("<button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button>");
                 $('#'+response.id).append("<hr>");
                 $('.info-area').hide();
                 $('#showModel').show();
-                $('.deleteinfo').on('click',function(){
+            }}});});
+    $('.deleteinfo').on('click',function(){
         var id =$(this).attr('btn-id');
         console.log(id)
         $.ajax({
@@ -431,12 +426,6 @@
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-
-
-        }
-       }
-        })
-    })
             }else{
              alert('error');
             }
