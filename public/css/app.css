@@ -6872,21 +6872,39 @@ footer {
       margin: 0a auto; }
       footer .footer-logo a img {
         width: 100px; }
-  footer .footer-nav a {
-    color: white; }
-  footer .footer-nav a:hover {
-    color: #FFB200; }
-  footer .social ul {
-    list-style: none;
-    padding-left: 0px; }
-    footer .social ul li {
-      display: inline-block;
-      color: #ccc; }
-      footer .social ul li i {
-        font-size: 20px;
-        padding: 0 10px; }
-    footer .social ul li:hover i {
-      color: #FFB200; }
+  footer h4 {
+    color: white;
+    margin-bottom: 20px; }
+  footer ul {
+    padding-left: 0px;
+    list-style: none; }
+    footer ul li {
+      color: white; }
+    footer ul a {
+      color: white;
+      text-decoration: none;
+      padding: none;
+      font-size: 14px; }
+      footer ul a i {
+        padding-right: 10px; }
+    footer ul a:hover {
+      color: #FFB200;
+      text-decoration: none; }
+  footer #contact-us input[type="email"], footer #contact-us input[type="text"] {
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 50px;
+    padding-left: 17px;
+    font-size: 14px;
+    background-color: #000000;
+    margin-bottom: 5px; }
+  footer #contact-us textarea {
+    border: 1px solid white;
+    border-radius: 50px;
+    padding-left: 17px;
+    font-size: 14px;
+    background-color: #000000;
+    margin-bottom: 5px; }
   footer .cpy-right {
     color: rgba(230, 230, 230, 0.6);
     border-top: 1px solid rgba(230, 230, 230, 0.1);

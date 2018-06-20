@@ -99,6 +99,21 @@
 
 </div>
 
+<div class="form-group row">
+<label for="role" class="col-md-4 col-form-label text-md-right">Admin Role</label>
+<div class="col-md-6">
+
+<input type="checkbox" name="role" value="0">
+
+@if ($errors->has('role'))
+    <span class="alert alert-danger">
+    <strong>{{ $errors->first('role') }}</strong>
+    </span>
+@endif
+</div>
+
+</div>
+
 
 
 

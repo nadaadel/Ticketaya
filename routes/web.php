@@ -45,7 +45,7 @@ Route::post('/notification/auth' , 'NotificationsController@auth');
 /** Search For Tickets */
 Route::get('/tickets/filter' , 'FilterTicketsController@filter');
 
-
+Route::post('/reports','ReportController@Report');
 
 Route::get('/twilio' , 'TwilioController@sendVerifications');
 /**Users route */
@@ -54,6 +54,7 @@ Route::get('/users/{id}','UsersController@show')->name('showuser');
 Route::get('/users/edit/{id}','UsersController@edit');
 Route::put('/users/{id}','UsersController@update');
 Route::post('/users','UsersController@store');
+Route::get('/users/admin/{id}','UsersController@admin');
 Route::delete('/users/{id}' , 'UsersController@destroy');
 Route::get('/users','UsersController@index')->name('allusers');
 Route::get('/tickets/report/{id}','TicketsController@reportview')->middleware('auth');
@@ -74,7 +75,7 @@ Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubs
 
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
 Route::delete('/questions/delete/{id}','EventsController@deleteQuestion');
-Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
+Route::get('/events/answer/{event_id}/{asker_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
 Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');

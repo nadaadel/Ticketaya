@@ -1,8 +1,7 @@
 @extends('admin.index')
 @section('content')
-
-    <section id="event-view">
-       <div class="contaner-fluid"  style="background-image: url(../images/home/2-silder.jpg);">
+     <section id="event-view">
+       <div class="contaner-fluid"  style="background-image: url(../images/home/concert.jpeg);">
          <div class="overlay"></div>
           <div class="container">
               <div class="row justify-content-center">
@@ -26,11 +25,12 @@
                           @if(Auth::user() && Auth::user()->id != $event->user_id)
                            @if(sizeof($subscribers) == 1)
 
-                             <button id="subscribe" class="btn btn-danger" >unsubscribe</button>
+                             <button id="subscribe" class="btn btn-danger" >Unsubscribe</button>
                              @else
-                            <button id="subscribe" class="btn btn-primary " >subscribe</button>
+                            <button id="subscribe" class="btn btn-primary " >Subscribe</button>
                              @endif
                           @endif
+
                           </div>
                       </div>
                   </div>
@@ -47,9 +47,9 @@
                             </div>
                                <h4 class="user-name pt-4">{{ $event->user->name }}</h4>
                                <div class="user-loc d-flex justify-content-center">
-                               <p class="gray">{{ $event->user->city->name }} </p>
+                               <p class="gray">{{ $event->user->city->name }}</p>
                            </div>
-                             <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  edit-btn">Conatct Organizer</a>
+                             <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  btn-secondary">Conatct Organizer</a>
                        </div><!--End of User profile-->
                 <div class="col-md-10 pb-5"><!--Event data-->
                     <div class="row">
@@ -60,301 +60,135 @@
                             </p>
 
                             <h3 class="mb-3">You Should Know</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ullamcorper, ante in ornare scelerisque, ex mauris luctus dui, sed egestas justo quam suscipit arcu. Vestibulum ante ipsum.
+                            <p>We are an intermediate between seller and you to help you find your request and get all operation more easier to get your satisfy.
+
                             </p>
-                            @if(Auth::user() && Auth::user()->id == $event->user_id)
-                            <button id="showModel" class="btn btn-primary"> Add New Info </button>
-                            <div class="info-area" style="display:none;">
-                              <textarea class="info-body" cols="9"> </textarea>
-                               <button id="info-submit" class="btn btn-info">Post</button>
-                            </div>
-                             @endif
 
-                            <div class="info-parent">
-
-                             @foreach ($eventInfos as $info )
-                             <div class="event-info" id="{{$info->id}}"style="display:block;">
-                             <p class="event-body">{{$info->body}} </p>
-                             <p class="event-time">{{$info->created_at->diffForHumans()}} </p>
-                            @if(Auth::user() && Auth::user()->id == $event->user_id)
-                             <button class='deleteinfo' btn-id ="{{$info->id}}">delete</button>
-                            @endif
-
-                             <div>
-                             <hr>
-                             @endforeach
-
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container posts">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-12 mt-5 mb-3">
 
+                          <div class="row justify-content-center">
+                                <div class="col-md-10 col-12">
+                                  <div class="row">
+                                      <div class="col-md-12 mt-3">
+                                             @if(Auth::user() && Auth::user()->id == $event->user_id)
+                                               <button id="showModel" class="btn btn-primary "> Add New Info </button>
+                                               <div class="info-area" style="display:none;">
+                                                  <div class="">
+                                                      <textarea  class="info-body form-control txt-area w-50" placeholder="Please Add New Post...">
+
+                                                      </textarea>
+                                                      <button id="info-submit" class="btn btn-info mt-2">Post</button>
+                                                  </div>
+                                                </div>
+                                            @endif
+                                      </div>
+                                  </div>
+                                         @if(!$eventInfos->isEmpty())
+                                            <div class="info-parent" >
+
+
+                                              @foreach ($eventInfos as $info )
+
+                                               <div class="event-info" id="{{$info->id}}" style="display:block;">
+                                               <div class="row">
+                                                   <div class="col-md-8">
+                                                       <h4 class="event-body">{{$info->body}} <h4>
+                                                        <p class="event-time"><span>Posted at</span> {{$info->created_at->diffForHumans()}} <p>
+                                                   </div>
+                                                    <div class="col-md-4">
+                                                       @if(Auth::user() && Auth::user()->id == $event->user_id)
+                                                             <button class="deleteinfo btn btn-danger float-right" btn-id ="{{$info->id}}">delete</button>
+                                                       @endif
+                                                   </div>
+                                               </div>
+                                                </div>
+
+
+
+                                            @endforeach
+                                            </div>
+
+
+
+                                            @else
+                                            <div class="text-center">
+                                                <h3 class="mt-5 mb-5">
+                                                    No Posts Created by event Organizers
+                                                </h3>
+                                            </div>
+                                            @endif
+
+
+                            <div class="pagenation">
+                             {{ $eventInfos->links() }}
+                            </div>
+
+
+
+                               <div class="col-md-10 col-12">
+                                @if(Auth::user() && Auth::user()->id != $event->user_id)
+                                     <button id="questionbtn" class="btn btn-primary mb-3 mt-4" >Do You Have a Question ?</button>
+                                     <div class="question-area" style="display:none;">
+                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ...">
+                                        </textarea>
+                                        <button id="question-submit" class="btn btn-info mt-2">Post</button>
+                                    </div>
+                                @endif
+                                @if(Auth::check())
+                                    <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+                                @endif
+                                <div class="questions mt-3" >
+                                @if($questions)
+                                    @foreach($questions as $question)
+                                        <div id="{{$question->id}}">
+                                        @if(Auth::user() && (Auth::user()->id == $question->user_id ||Auth::user()->id == $event->user_id||Auth::user()->hasRole('admin')))
+                                        <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
+                                        @endif
+                                              Question<h4>{{$question->question}} ?</h4>
+                                              <div my-name='answer'>Answer:{{$question->answer}}</div>
+                                              @if(Auth::user() && Auth::user()->id == $event->user_id || Auth::user()->hasRole('admin'))
+                                                  @if($question->answer != null)
+                                                  <div class="answer-area" >
+                                                        <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." >{{$question->answer}}</textarea>
+                                                        <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Edit Answer</button>
+                                                    </div>
+                                                  @else
+                                                    <div class="answer-area" >
+                                                        <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." ></textarea>
+                                                        <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Answer</button>
+                                                        <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+                                                       <input type="hidden" id="event_id" value="{{$event->id}}">
+
+                                                    </div>
+                                                  @endif
+                                              @endif
+                                    <hr>
+                                </div>
+                                @endforeach
+
+                                @endif
+                            </div>
+
+                        </div>
+                        <div class="pagenation">
+                                {{ $questions->links() }}
+                     </div>
+                      </div><!-- end of questions tab-->
+
+                    </div>
+                </div>
+            </div>
         </div>
+
+
      </section>
+     <input type="hidden" id="event_id" value="{{$event->id}}">
 
-  <hr>
-  {{-- questions and answer --}}
-  @if($questions)
-  @foreach($questions as $question)
-  <div class="questions">
-    <div id ="{{$question->id}}}">
-        Question<p>{{$question->question}} </p>
-        Answer: <p>{{$question->answer}} </p>
-    </div>
-</div>
-
-  @if(Auth::user() && Auth::user()->id == $event->user_id)
-
-   <button class="answer-submit" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" class="btn btn-info">Answer</button>
-   <div class="answer-area" >
-          <textarea class="ans-body" id="{{$question->id}}"  cols="12">
-          </textarea>
-
-   </div>
-      <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-      <input type="hidden" id="event_id" value="{{$event->id}}">
-  @endif
-
-  <hr>
-
-  @endforeach
- @endif
- <input type="hidden" id="event_id" value="{{$event->id}}">
-
- <input type="hidden" id="event_id" value="{{$event->id}}">
- <script>
-     $(document).ready(function(){
-
-     $('#questionbtn').on('click',function(){
-         $('#ques-body').val('');
-         $('.question-area').show();
-     });
-     $(document).on('click','.deletQues',function(){
-         var question_id=$(this).attr('delete-ques');
-         $.ajax({
-             url: '/questions/delete/'+question_id,
-             type: 'POST' ,
-             data:{
-                 'id':question_id,
-                 '_token': '{{csrf_token()}}',
-                 '_method':'DELETE'
-                 },
-             success:function(response){
-                 console.log($('#'+question_id));
-                 $('#'+question_id).remove();
-             }
-
-         })
-     })
-     $('#question-submit').on('click',function(){
-
-         var body=$('#ques-body').val();
-         var user_id = $('#user_id').val();
-         var event_id = $('#event_id').val();
-         var no=$('.allquestion').attr('question-no');
-         $('.question-area').hide();
-         $.ajax({
-             url: '/events/question/'+event_id+'/'+user_id,
-                type: 'GET' ,
-                data:{
-                 '_token':'@csrf',
-                 'question':body,
-                 'event_id':event_id,
-                 'user_id':user_id,
-                 },
-                 success:function(response){
-                  if(response.response == 'success'){
-                     var question=response.questions;
-                     $(`<div id=`+question.id+`>
-                             <button class="deletQues btn  btn-danger float-right" delete-ques=`+question.id+`>
-                             delete</button>
-                             Question<h4>`+question.question+`</h4>
-                             Answer:
-                             <hr></div>`).appendTo('.questions');
-                     $('#ques-body').val('');
-                  }
-                 }
-         });
-     });
-
-     $('.answer-submit').on('click',function(){
-      var quesId=$(this).attr('question-id');
-      var question=$(this).attr('question');
-      var questioner=$(this).attr('questioner');
-      var body=$('#'+quesId).val();
-      var event_id = $('#event_id').val();
-       $.ajax({
-             url: '/events/answer/'+event_id+'/'+user_id,
-                type: 'GET' ,
-                data:{
-                 '_token':'@csrf',
-                 'question':question,
-                 'event_id':event_id,
-                 'user_id':questioner,
-                 'answer':body,
-                 'quesId':quesId,
-                 },
-                 success:function(response){
-                 if(response.response== 'success'){
-
-                  $('.questions' ).find('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" );
-
-
-                 }
-                 }
-
-         })
-
-
-   })
-
-     $('#subscribe').on('click' , function(){
-
-          var user_id = $('#user_id').val();
-          var event_id = $('#event_id').val();
-          console.log($(this).html())
-          if ($(this).html()=="subscribe"){
-              console.log("hiii")
-              $.ajax({
-                url: '/events/subscribe/'+event_id+'/'+user_id,
-                type: 'GET' ,
-                data:{
-                 '_token':'@csrf'
-                 },
-
-
-             success:function(response){
-              console.log(response);
-
-             if(response.status == 'success'){
-                $('#subscribe').html('unsubscribe');
-                console.log('success');
-               $('#subscribe').attr('class' , 'btn btn-danger');
-              }
-          }
-
-
-
-          });
-     }
-     else{
-
-          $.ajax({
-                url: '/events/unsubscribe/'+event_id+'/'+user_id,
-                type: 'GET' ,
-                data:{
-                 '_token':'@csrf'
-                 },
-
-
-             success:function(response){
-              console.log(response);
-
-             if(response.status == 'success'){
-                $('#subscribe').html('subscribe');
-                console.log('success');
-               $('#subscribe').attr('class' , 'btn btn-primary');
-              }
-          }
-
-
-
-          });
-
-     }
-
-
-
-
-         });
-
-
-
-     $('#showModel').on('click' , function(){
-         $('.info-area').show();
-         $(this).hide();
-     });
-
-     $('#info-submit').on('click' , function(){
-        var description = $('.info-body').val();
-
-        console.log(description);
-        var event_id = $('#event_id').val();
-        console.log(event_id);
-        $.ajax({
-            url: '/events/info/new/'+event_id,
-            type:'POST',
-            data:{
-                '_token': '{{csrf_token()}}',
-                'description':description
-            },
-         success:function(response){
-
-             if(response.status == 'success'){
-                 console.log('ok')
-                 $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
-                 $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
-                 $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
-                 $('#'+response.id).append("<div class='col-4'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
-                 $('#'+response.id).append("<hr>");
-                 $('.info-area').hide();
-                 $('#showModel').show();
-                 $('.deleteinfo').on('click',function(){
-         var id =$(this).attr('btn-id');
-         console.log(id)
-         $.ajax({
-            url: '/events/info/delete/'+id,
-            type:'POST',
-            data:{
-                '_token': '{{csrf_token()}}',
-                '_method':'DELETE',
-
-            },
-         success:function(response){
-
-             if(response.response == 'success'){
-                 console.log('pl')
-                 $('#'+id).remove();
-
-
-         }
-        }
-         })
-     })
-             }else{
-              alert('error');
-             }
-
-         }
-        })
-     });
-     $('.deleteinfo').on('click',function(){
-         var id =$(this).attr('btn-id');
-         console.log(id)
-         $.ajax({
-            url: '/events/info/delete/'+id,
-            type:'POST',
-            data:{
-                '_token': '{{csrf_token()}}',
-                '_method':'DELETE',
-
-            },
-         success:function(response){
-
-             if(response.response == 'success'){
-                 console.log('pl')
-                 $('#'+id).remove();
-
-
-         }
-        }
-         })
-     })
-
-    });
-
- </script>
 @endsection

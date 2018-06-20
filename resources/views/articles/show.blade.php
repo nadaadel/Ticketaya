@@ -10,27 +10,29 @@
                       </div>
 
                       <div class="col-md-4 col-12">
-
                           <h2>{{$article->title}}</h2>
                           <div class="article-info">
                              <p><span></span>{{$article->created_at->diffForHumans()}}</p>
                              <p><span>Article Type </span>{{$article->category->name}}</p>
                              <p><span>By </span>{{$article->user->name}}</p>
                               <div class="article-like">
-                              @if(Auth::user())
+                              @if(Auth::check())
                                 <div class="follow text-center">
                                 @if($liker)
 
-                                <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Dislike</button>
+                                <button id="like" class="btn btn-danger" article-id="{{$article->id}}">Unlike</button>
                                 <span id="count" class="pl-3">
+                                {{$article->likes->count()}}
                                 </span>
                                 @else
                                 <button id="like" class="btn btn-primary " article-id="{{$article->id}}" >Like</button>
                                 <span id="count" class="pl-3">
+                                {{$article->likes->count()}}
                                 </span>
 
                                 @endif
                                 </div>
+                                @endif
                           </div>
                           </div>
 
@@ -44,45 +46,8 @@
                   <div class="row">
                      <div class="col-md-12">
                          <h2>Comments</h2>
-                     </div>
-                      <div class="col-md-12">
-
-                            @if(Auth::check())
-                            @foreach($article->comments as $comment)
-                            @if($comment->user)
-                            <h4>{{$comment->user->name}}</h4>
-                            <p><span>Created at </span>{{$comment->created_at->diffForHumans()}}</p>
-                            <p>{{$comment->body}}</p>
-                            @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$article->user_id||Auth::user()->hasRole('admin')))
-                            <button class=" deleteCommment btn  btn-danger float-right" comment-id="{{$comment->id}}">delete</button>
-                            @endif
-                            <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
-                            <div id="{{$comment->id}}" style="display: none;">
-                                <div class="card-body"  >
-                                    <form method="POST" action="/articles/replies" enctype="multipart/form-data" >
-                                     {{ csrf_field() }}
-                                        <div class="form-group row">
-                                            <div class="col-md-6">
-                                               <textarea placeholder="reply here"  name="bodyReply">
-                                               </textarea>
-                                               <input  name="article_id" type="hidden"  value= {{$article->id}} >
-                                               <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
-                                               <button type="submit" class="btn btn-info">
-                                                                {{ __('Reply') }}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <br>
-                            @endif
-                            @endforeach
-                            @endif
-
-                            <div class="card-body">
+                         @if(Auth::check())
+                         <div class="card-body">
                                 <form method="POST" action="/article/comments" enctype="multipart/form-data" >
                                      {{ csrf_field() }}
                                     <div class="form-group row">
@@ -98,7 +63,59 @@
                                 </form>
 
                             </div>
+                        @else
+                            <div class="card-body">
+                                <form method="POST" action="/article/comments" enctype="multipart/form-data" >
+                                     {{ csrf_field() }}
+                                    <div class="form-group row">
+                                            <div class="col-md-6">
+                                               <textarea  placeholder="  Login to Comment"  name="body" class="w-100 d-block"></textarea>
+                                            </div>
+                                     </div>
+                                </form>
+
+                            </div>
+                        @endif
+                     </div>
+                      <div class="col-md-12">
+                        @foreach($article->comments as $comment)
+                            @if($comment->user)
+                            <div comment-no="{{$comment->id}}">
+                            <h4>{{$comment->user->name}}</h4>
+                            <p><span>Created from </span>{{$comment->created_at->diffForHumans()}}</p>
+                            <p>{{$comment->body}}</p>
+                                @if(Auth::check()&&(Auth::user()->id==$comment->user->id||Auth::user()->id==$article->user_id||Auth::user()->hasRole('admin')))
+                                <button class=" deleteCommment btn  btn-danger float-right" comment-id="{{$comment->id}}">delete</button>
+                                @endif
+                            <button   class="reply btn btn-primary" article-no="{{$article->id}}" comment-id="{{$comment->id}}" >Reply</button>
+                            <div class="card-body" id="{{$comment->id}}" style="display: none;">
+                                    @if(Auth::check())
+                                    <form method="POST" action="/articles/replies" enctype="multipart/form-data" >
+                                     {{ csrf_field() }}
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                               <textarea placeholder=" reply here"  name="bodyReply"></textarea>
+                                               <input  name="article_id" type="hidden"  value= {{$article->id}} >
+                                               <input  name="comment_id" type="hidden"  value= {{$comment->id}} >
+                                               <button type="submit" class="btn btn-info">
+                                                                {{ __('Reply') }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    @else
+                                           <div class="form-group row">
+                                               <div class="col-md-6">
+                                                  <textarea placeholder=" Login to Reply"  name="bodyReply"></textarea>
+                                               </div>
+                                            </div>
+                                    @endif
+                                </div>
+                            <hr>
+                            <br>
+                            </div>
                             @endif
+                        @endforeach
                       </div>
                   </div>
               </div>
@@ -116,7 +133,8 @@
 <script>
 $(function(){
     $('.deleteCommment').on('click',function(){
-        var id=$(this).attr('comment-id');
+        var id=$(this).parent().attr('comment-no');
+        var comment_div=$(this).parent();
         console.log(id)
         $.ajax({
                 url: '/article/comments/delete/'+id,
@@ -128,7 +146,7 @@ $(function(){
 
                 },
                 success:function(response){
-                    //$('#'+id).remove();
+                    $(comment_div).remove();
                 }
 
         })
@@ -143,7 +161,6 @@ $('.reply').on('click',function(){
                 '_token':'{{csrf_token()}}',
                  },
             success: function (response) {
-            console.log(response);
             $('#'+commentId).show();
             for(var i=0;i<response.replies.length;i++){
                     $('#'+commentId).append('<h4>'+response.names[i]+'</h4>')
@@ -160,7 +177,6 @@ $('.reply').on('click',function(){
 
 $('#like').on('click',function(){
     var articleId=$(this).attr('article-id');
-
     if ($(this).html()=="Like"){
         $.ajax({
                     type: 'GET',
@@ -168,14 +184,12 @@ $('#like').on('click',function(){
                     data:{
                     '_token':'{{csrf_token()}}',
                     'id':articleId,
-
-
                     },
                     success: function (response) {
                         if(response.response=='success'){
                             console.log(response)
                             console.log('hii')
-                            $('#like').html('Dislike');
+                            $('#like').html('Unlike');
                             $('#count').html(response.likes);
 
 

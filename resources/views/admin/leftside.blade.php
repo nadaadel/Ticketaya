@@ -6,8 +6,7 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li class="nav-devider"></li>
-                <li class="nav-label">Home</li>
-            <li> <a  href="{{URL::route('admin-index')}}" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard </span></a></li>
+                <li> <a  href="{{URL::route('admin-index')}}" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard </span></a></li>
                 <li> <a class="has-arrow" href="{{URL::route('alltickets')}}" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">Tickets </span></a></li>
                 <li> <a class="has-arrow" href="{{URL::route('requestedtickets')}}" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">Requested Tickets </span></a></li>
                 <li> <a class="has-arrow" href="{{URL::route('soldtickets')}}" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">Sold Tickets </span></a></li>

@@ -125,9 +125,7 @@
 
                                             @endforeach
                                             </div>
-                                            <div class="pagenation">
-                                                {{ $eventInfos->links() }}
-                                            </div>
+                                            
 
 
                                             @else
@@ -139,6 +137,9 @@
                                             @endif
 
                                 </div>
+                            </div>
+                            <div class="pagenation">
+                             {{ $eventInfos->links() }}
                             </div>
                       </div><!-- end ofposts tab-->
                       <div class="tab-pane fade" id="nav-questions" role="tabpanel" aria-labelledby="nav-questions-tab"><!-- questions tab-->
@@ -163,28 +164,36 @@
                                         <button class="deletQues btn  btn-danger float-right" delete-ques="{{$question->id}}">delete</button>
                                         @endif
                                               Question<h4>{{$question->question}} ?</h4>
-                                              Answer: <p>{{$question->answer}} </p>
-                                @if(Auth::user() && Auth::user()->id == $event->user_id)
-                                    <div class="answer-area" >
-                                    <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." >
-                                    </textarea>
-                                    </div>
-                                    <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Answer</button>
-                                     <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
-                                    <input type="hidden" id="event_id" value="{{$event->id}}">
-                                @endif
+                                              <div my-name='answer'>Answer:{{$question->answer}}</div>
+                                              @if(Auth::user() && Auth::user()->id == $event->user_id || Auth::user()->hasRole('admin'))
+                                                  @if($question->answer != null)
+                                                  <div class="answer-area" >
+                                                        <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." >{{$question->answer}}</textarea>
+                                                        <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Edit Answer</button>
+                                                    </div>
+                                                  @else
+                                                    <div class="answer-area" >
+                                                        <textarea class="ans-body form-control txt-area" id={{$question->id}} placeholder=" Add Answer  ..." ></textarea>
+                                                        <button class="answer-submit btn btn-info mt-2" question-id="{{$question->id}}" question="{{$question->question}}" questioner="{{$question->user_id}}" >Answer</button>
+                                                        <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+                                                       <input type="hidden" id="event_id" value="{{$event->id}}">
+
+                                                    </div>
+                                                  @endif
+                                              @endif
                                     <hr>
                                 </div>
                                 @endforeach
-                                <div class="pagenation">
-                                {{ $questions->links() }}
-                                </div>
+                               
                                 @endif
                             </div>
                             </div>
                         </div>
+                        <div class="pagenation">
+                                {{ $questions->links() }}
+                     </div>
                       </div><!-- end of questions tab-->
-
+                     
                     </div>
                 </div>
             </div>
@@ -216,7 +225,6 @@
                 '_method':'DELETE'
                 },
             success:function(response){
-                console.log($('#'+question_id));
                 $('#'+question_id).remove();
             }
 
@@ -257,24 +265,22 @@
      var quesId=$(this).attr('question-id');
      var question=$(this).attr('question');
      var questioner=$(this).attr('questioner');
-     var body=$('#'+quesId).val();
+     var body=$(this).parent().find('textarea').val();
      var event_id = $('#event_id').val();
       $.ajax({
-            url: '/events/answer/'+event_id+'/'+user_id,
+            url: '/events/answer/'+event_id+'/'+questioner,
                type: 'GET' ,
                data:{
                 '_token':'@csrf',
                 'question':question,
                 'event_id':event_id,
-                'user_id':questioner,
+                'asker_id':questioner,
                 'answer':body,
                 'quesId':quesId,
                 },
                 success:function(response){
                 if(response.response== 'success'){
-
-                 $('.questions' ).find('#'+response.answer.id).append( "Answer:<p class='event-body'>"+response.answer.answer+"</p><hr>" );
-
+               $('#'+response.answer.id).find("div[my-name='answer']").html("Answer:"+response.answer.answer+"<hr>")
 
                 }
                 }

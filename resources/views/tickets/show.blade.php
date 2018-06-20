@@ -183,7 +183,7 @@
                                        <div class="usr-img-cmnt float-right" style="background-image: url(../images/icons/avatar.jpg);"></div><!--logged in user img -->
                                    </div>
                                    <div class="col-sm-8 col-md-6 col-sm-8">
-                                       <input  type="text" placeholder="Leave comment Here ...." name="body">
+                                       <input  type="text" placeholder="Leave comment Here ...." name="body" required>
                                        <input  name="ticket_id" type="hidden"  value= {{$ticket->id}} >
 
                                    </div>
