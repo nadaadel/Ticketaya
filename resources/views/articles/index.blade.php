@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<section>
 <div class="container">
         <div class="row">
                 <div class="col-md-12  mt-3 text-center">
@@ -21,7 +22,7 @@
                             <a class="btn btn-primary" href="{{ URL::to('articles/' . $article->id ) }}">Read More</a>
 
                     </div>
-                  
+
                 </div>
             </a>
         </div><!--event card starts here-->
@@ -29,7 +30,7 @@
 </div>
 </div>
 
-
+</section>
 
 @endsection
 

@@ -15,6 +15,7 @@ use App\Events\Answer;
 use Illuminate\Http\Request;
 use App\EventQuestion;
 use Illuminate\Support\Str;
+use App\Http\Controllers\MapController;
 
 class EventsController extends Controller
 {
@@ -26,9 +27,7 @@ class EventsController extends Controller
             'user_id'=>$request->user_id,
             'question'=>$request->question,
         ]);
-        //dd($eventQuestion);
         $asker=User::find($request->user_id);
-
         $event=Event::find($request->event_id);
         $notify_type="events";
         event(new Question($asker, $event,$notify_type));
@@ -36,12 +35,10 @@ class EventsController extends Controller
 
 
     }
-    public function updateQuestion(Request $request){
-        $asker_id=$request->user_id;
-        $event_id=$request->event_id;
+    public function updateQuestion(Request $request,$event_id,$asker_id){
         $question = EventQuestion::where([
-            'event_id' => $request->event_id,
-            'user_id' => $request->user_id,
+            'event_id' => $event_id,
+            'user_id' => $asker_id,
             'question' => $request->question
         ])->first();
 
@@ -100,7 +97,7 @@ class EventsController extends Controller
        else{
         return view('notfound');
        }
-      
+
 
     }
     public function search (Request $request){
@@ -124,7 +121,7 @@ class EventsController extends Controller
 
 
     public function index(){
-        $events=Event::paginate(2);
+        $events=Event::paginate(3);
         $categories=Category::all();
         $view='events.index';
         if(Auth::user()&& Auth::user()->hasRole('admin'))
@@ -165,7 +162,7 @@ class EventsController extends Controller
         return view( $view, compact('event' , 'subscribers' ,'eventInfos','questions'));
     }
     public function deleteQuestion($id){
-       
+
        $question= EventQuestion::find($id);
        $event=Event::find($question->event_id);
        if(Auth::check()&&Auth::user()&&(($question->user_id==Auth::user()->id))||($event->user_id==Auth::user()->id)||(Auth::user()->hasRole('admin'))){

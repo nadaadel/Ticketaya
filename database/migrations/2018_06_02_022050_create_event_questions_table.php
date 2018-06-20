@@ -20,7 +20,6 @@ class CreateEventQuestionsTable extends Migration
             $table->integer('event_id');
             $table->integer('user_id');
             $table->timestamps();
-
             $table->unique(['question']);
         });
     }

@@ -75,7 +75,7 @@ Route::get('/events/unsubscribe/{event_id}/{user_id}' , 'EventsController@unsubs
 
 Route::get('/events/question/{event_id}/{user_id}','EventsController@storeQuestion');
 Route::delete('/questions/delete/{id}','EventsController@deleteQuestion');
-Route::get('/events/answer/{event_id}/{user_id}','EventsController@updateQuestion');
+Route::get('/events/answer/{event_id}/{asker_id}','EventsController@updateQuestion');
 Route::post('/events/info/new/{event_id}', 'EventsController@newInfo');
 Route::delete('/events/info/delete/{id}', 'EventsController@deleteInfo');
 Route::get('/events/filter/{category_id}' , 'FilterEventController@byCategory');

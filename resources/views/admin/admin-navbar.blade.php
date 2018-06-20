@@ -2,15 +2,15 @@
         <div class="header">
             <nav class="navbar top-navbar navbar-expand-md navbar-light bg-dark">
                 <!-- Logo -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/admin/index">
+                <div class="navbar">
                         <!-- Logo icon -->
-                        <img src="/images/home/logo.png"  width="100 px" />
+                        <a class="navbar-brand" href="{{URL::route('home')}}">
+                                <img src="{{ asset('/images/home/logo.png')}}"  width="120 px" />
+                        </a>
+                        {{-- <img src="/images/home/logo.png"  width="100 px" /> --}}
                         <!--End Logo icon -->
                         <!-- Logo text -->
-                        {{-- <span><img src="{{ asset('assets/images/logo.png') }}" alt="homepage" class="dark-logo" /></span> --}}
-                    </a>
-                </div>
+                            </div>
                 <!-- End Logo -->
                 <div class="navbar-collapse">
                     <!-- toggle and nav items -->
@@ -51,7 +51,6 @@
                                     <li><a href="{{route('showuser', ['id' => Auth::id()])}}"><i class="ti-user"></i> Profile</a></li>
                                     {{-- <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
                                     <li><a href="#"><i class="ti-email"></i> Inbox</a></li> --}}
-                                    <li><a href="#"><i class="ti-settings"></i> Setting</a></li>
                                     <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>

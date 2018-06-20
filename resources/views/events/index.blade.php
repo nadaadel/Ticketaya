@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<section>
 <div class="container">
  <div class="row mt-3 mb-3">
                 <div class="col-md-10 col-xs-12">
@@ -51,7 +52,7 @@
                         <a class="btn btn-primary" href="{{ URL::to('events/' . $event->id ) }}">View</a>
                         <a type="submit"  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
                         <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
-                      
+
 
                         @endif
                     </div>
@@ -67,7 +68,7 @@
 @else
      <h2> There are Not Events For This Category Yet ! </h2>
 @endif
-
+</div>
 <script>
      $('.deletebtn').on('click',function(){
             console.log('iam here');
@@ -92,6 +93,7 @@
             }
         });
 </script>
+</section>
 @endsection
 
 

@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
-
 @section('content')
-<section>
 
+<section>
 <!-- main header in home page -->
         <section id="hero-home">
             <div class='slider'>
@@ -43,7 +42,7 @@
               </div>
 
         </section>
-        <section>
+
 <!--
 
                    {{-- HOT TICKETS --}}
@@ -73,7 +72,7 @@
              @endforeach
             </div>
        @endif --}}
-            
+
                                   {{-- HOT EVENTS --}}
 {{--
             @if($hotEvents !== null)
@@ -108,29 +107,6 @@
 
 
             <!-- End of header in home page -->
-            <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
 
 
-        <!-- <div class="row justify-content-center">
-        @role('admin')
-        <a href="/admin"  type="button" class="btn btn-default" >Admin Panel</a>
-         @endrole
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        You are logged in!
-                    </div>
-
-                </div>
-            </div>
-        </div> -->
-  </section>
 @endsection
