@@ -12,6 +12,7 @@ class NotificationsController extends Controller
 
 
     public function show(){
+        if(Auth::check()){
         $user=Auth::user();
         $userNotifications=$user->notifications;
         $unseenUserNotifications=$userNotifications->where('is_seen','=',0);
@@ -19,7 +20,12 @@ class NotificationsController extends Controller
             $userNotification->is_seen= 1;
             $userNotification->save();
         }
+        if(Auth::user()->hasRole('admin')){
+            return view('admin.notifications.show',compact('userNotifications'));
+        }
         return view('notifications.show',compact('userNotifications'));
+    }
+    return view('notfound');
     }
     public function updateAllRead(){
         $user=Auth::user();

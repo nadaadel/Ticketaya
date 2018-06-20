@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
     <section>
         <div class="row">
                 <div class="col-md-12 col-xs-12">
@@ -49,7 +48,6 @@
         </div>
         {{ $tickets->links() }}
     </section>
-</div>
 @endsection
 
 

@@ -10,7 +10,6 @@
                       @if($user->avatar)
                        <img src="{{ asset('storage/images/users/'. $user->avatar) }}">
                       @endif
-<!--                    <div style="background-image: url(../images/icons/avatar.jpg);"></div>-->
                     </div>
                 </div>
                 <div class="user-info mt-4">
@@ -62,76 +61,83 @@
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade show active" id="mytickets" role="tabpanel" aria-labelledby="mytickets-tab">
                           <div class="row justify-content-center mt-4">
-                              
+
                                   <div class="col-md-10 col-sm-10 col-10 mb-3" id=""> <!-- Ticked list card -->
                                         <div class="ticket-list">
+                                            @foreach(Auth::user()->tickets as $ticket)
                                             <div class="row ">
                                                 <div class="col-md-3 col-sm-12 pl-0 pr-0">
-                                                    <div class="ticket-img" style="background-image: url(http://localhost:8000/storage/images/tickets/default.jpg);"></div>
+                                                    <div class="ticket-img" style="background-image: url(http://localhost:8000/storage/images/tickets/{{$ticket->photo}});"></div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-12 pt-3 pb-3 ">
 
-                                                            <h3>Hamaki Concert Ticket</h3>
-                                                    <p>i want to sell this tickets.</p>
+                                                            <h3>{{$ticket->name}}</h3>
+                                                    <p>{{$ticket->description}}</p>
                                                     <div class="ticket-qty d-flex pt-2">
                                                         <h4 class="">Available Quantity</h4>
-                                                        <div class="ticket-qty-num d-flex align-items-center"><span>6</span></div>
+                                                        <div class="ticket-qty-num d-flex align-items-center"><span>{{$ticket->quantity}}</span></div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-sm-12 pt-3 pb-3 text-right">
                                                     <div class="ticket-price">
-                                                        <h3 class="price">500 L.E</h3>
+                                                        <h3 class="price">{{$ticket->price}}</h3>
                                                 </div>
-                                                <div class="ticket-ctrl-btns pt-5" ticket-no="">
-                                                <a  class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
-                                                <a href="" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
-                                                    <a class="btn btn-primary ml-3" href="">View</a>
+                                            <div class="ticket-ctrl-btns pt-5" ticket-no="{{$ticket->id}}">
+                                                        <a  class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                                                        <a href="{{ URL::to('tickets/edit/' . $ticket->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
+                                                    <a class="btn btn-primary ml-3" href="{{ route('showticket', ['id' => $ticket->id]) }}">View</a>
                                                                         </div>
                                                 </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div><!-- end of Ticked list card -->
 
-                              
+
                           </div>
                       </div>
                       <div class="tab-pane fade" id="myevents" role="tabpanel" aria-labelledby="myevents-tab">
                           <div class="row mt-4">
-                              <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
-                               
-                                    <div class="event-card">
-                                        <div href="http://localhost:8000/events/1" class="event-img" style="background-image: url(http://localhost:8000/storage/images/events/photo);">
+
+                                @foreach(Auth::user()->events as $event)
+
+                                <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
+                                   <a href="{{ URL::to('events/' . $event->id ) }}" class="event-card-click">
+                                        <div class="event-card">
+                                            <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
+                                            </div>
+                                            <div class="event-content">
+                                                <h3>{{ucwords($event->name)}}</h3>
+                                                <p>{{substr($event->description,0,150)}}.</p>
+                                            </div>
+                                            <div class="follow text-center">
+                                                <a  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                                                <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
+                                            </div>
                                         </div>
-                                        <div class="event-content">
-                                            <h3>Tamer Hosny Concert</h3>
-                                            <p>SUPER STAR KARIM MOHSEN.</p>
-                                        </div>
-                                        <div class="follow text-center">
-                                            <a  class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
-                                            <a href="" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
-                                            <a class="btn btn-primary ml-3" href="">View</a>
-                                        </div>
-                                    </div>
-                              
-                            </div><!--event card starts here-->
+                                   </a>
+                                </div><!--event card starts here-->
+                        @endforeach
                           </div>
                       </div>
                       <div class="tab-pane fade" id="eventsub" role="tabpanel" aria-labelledby="eventsub-tab">
                           <div class="row mt-4">
+                              @if(!Auth::user()->favouriteEvents->isEmpty())
+                              @foreach(Auth::user()->favouriteEvents as $event)
                               <div class="col-md-4 col-12 mb-4"><!--event card starts here-->
-                               <a href="http://localhost:8000/events/1" class="event-card-click">
+                                <a href="{{ URL::to('events/' . $event->id ) }}" class="event-card-click">
                                     <div class="event-card">
-                                        <div href="http://localhost:8000/events/1" class="event-img" style="background-image: url(http://localhost:8000/storage/images/events/photo);">
+                                        <div href="{{ URL::to('events/' . $event->id ) }}" class="event-img" style="background-image: url({{ asset('storage/images/events/'. $event->photo) }});">
                                         </div>
                                         <div class="event-content">
-                                            <h3>Tamer Hosny Concert</h3>
-                                            <p>SUPER STAR KARIM MOHSEN.</p>
+                                            <h3>{{ucwords($event->name)}}</h3>
+                                            <p>{{substr($event->description,0,150)}}.</p>
                                         </div>
-                                        <div class="follow text-center">
-                                                                </div>
                                     </div>
                                </a>
                             </div><!--event card starts here-->
+                            @endforeach
+                            @endif
                           </div>
                       </div>
                     </div>
@@ -140,4 +146,32 @@
     </div>
     <br/>
 </section>
+
+<script>
+         $(document).on('click','.deletebtn',function(){
+                        var ticket_id=$(this).closest('div').attr('ticket-no');
+                        var url="{{ URL::route('alltickets') }}"
+                        var resp = confirm("Do you really want to delete this ticket?");
+                        if (resp == true) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/tickets/'+ticket_id ,
+                                data:{
+                                '_token':'{{csrf_token()}}',
+                                '_method':'DELETE',
+                                },
+                                success: function (response) {
+                                    if(response.res=='success'){
+                                    $('#'+ticket_id).remove();
+                                    window.location=url
+                                    }
+                                    else{
+                                        alert('failed')
+                                    }
+                                }
+                            });
+
+                        }
+                       });
+        </script>
 @endsection

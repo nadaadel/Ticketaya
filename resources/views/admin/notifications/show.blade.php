@@ -1,6 +1,5 @@
-@extends('layouts.app')
+@extends('admin.index')
 @section('content')
-
 <section>
     <div class="container">
         <div class="row mt-4 justify-content-center">
