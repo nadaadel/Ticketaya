@@ -154,7 +154,7 @@ class EventsController extends Controller
 
         if($event){
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->paginate(2);
-        
+
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.show';
@@ -267,12 +267,11 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         if(Auth::check()&&(Auth::user()->id==$event->user_id||Auth::user()->hasRole('admin'))){
-        $event->delete();
-
-        return response()->json(['response' => 'success']);
+            $event->delete();
+            return response()->json(['res' => 'success']);
         }
         else{
-            return view('notfound');
+            return response()->json(['res' => 'failed']);
         }
     }
 

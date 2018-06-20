@@ -65,6 +65,12 @@
                             </p>
 
                         </div>
+                        @if(Auth:: check() && Auth::id() == $event->user_id)
+                        <div class="follow text-center">
+                                <a  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                                <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
+                            </div>
+                        @endif
                         <div class="col-md-6 col-xs-12 pr-2">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6818.152267792459!2d30.058911199999997!3d31.301640799999998!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2seg!4v1529197337727" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
@@ -125,7 +131,7 @@
 
                                             @endforeach
                                             </div>
-                                            
+
 
 
                                             @else
@@ -184,7 +190,7 @@
                                     <hr>
                                 </div>
                                 @endforeach
-                               
+
                                 @endif
                             </div>
                             </div>
@@ -193,7 +199,7 @@
                                 {{ $questions->links() }}
                      </div>
                       </div><!-- end of questions tab-->
-                     
+
                     </div>
                 </div>
             </div>
@@ -207,7 +213,35 @@
 
 
      <input type="hidden" id="event_id" value="{{$event->id}}">
+     @if(Auth:: check() && Auth::id() == $event->user_id)
 <script>
+         $(document).on('click','.deletebtn',function(){
+                        var event_id="{{$event->id}}";
+                        var url="{{ URL::route('allevents') }}"
+                        var resp = confirm("Do you really want to delete this ticket?");
+                        if (resp == true) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/events/delete/'+event_id ,
+                                data:{
+                                '_token':'{{csrf_token()}}',
+                                '_method':'DELETE',
+                                },
+                                success: function (response) {
+                                    if(response.res=='success'){
+                                    window.location=url
+                                    }
+                                    else{
+                                        alert('failed')
+                                    }
+                                }
+                            });
+
+                        }
+                       });
+                       </script>
+                       @endif
+                       <script>
     $(document).ready(function(){
 
     $('#questionbtn').on('click',function(){
