@@ -53,7 +53,7 @@
                        </div><!--End of User profile-->
                 <div class="col-md-10 pb-5"><!--Event data-->
                     <div class="row">
-                        <div class="col-md-6 col-xs-12 event-details pl-4">
+                        <div class="col-md-12 col-xs-12 event-details pl-4">
                            <h3 class="mb-3">Event Details</h3>
                             <p>
                                {{$event->description}}
@@ -65,9 +65,7 @@
                             </p>
 
                         </div>
-                        <div class="col-md-6 col-xs-12 pr-2">
-                          map here
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -125,7 +123,7 @@
 
                                             @endforeach
                                             </div>
-                                            
+
 
 
                                             @else
@@ -184,7 +182,7 @@
                                     <hr>
                                 </div>
                                 @endforeach
-                               
+
                                 @endif
                             </div>
                             </div>
@@ -193,7 +191,7 @@
                                 {{ $questions->links() }}
                      </div>
                       </div><!-- end of questions tab-->
-                     
+
                     </div>
                 </div>
             </div>

@@ -7,7 +7,7 @@
             <h2>Your Tickets Requests</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row  mb-5">
         <div class="col-md-12">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
@@ -197,5 +197,6 @@
             </div><!--  end of bought tab-->
         </div>
     </div>
+</div>
 </div>
 @endsection

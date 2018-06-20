@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-4 col-sm-12 pt-3 pb-3 ">
 
-                                <h3>{{ucwords($ticket->name)}}</h3>
+                    <a href="/tickets/{{$ticket->id}}"><h3>{{ucwords($ticket->name)}}</h3></a>
                         <p>{{substr($ticket->description,0,150)}}.</p>
                         <div class="ticket-qty d-flex pt-2">
                             <h4 class="">Available Quantity</h4>

@@ -19,7 +19,6 @@
                                   @endif
                               </ul>
 
-
                           </div>
                           <div class="col-md-4 col-12">
                           @if(Auth::user() && Auth::user()->id != $event->user_id)

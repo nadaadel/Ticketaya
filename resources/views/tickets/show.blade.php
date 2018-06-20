@@ -8,7 +8,7 @@
                                <div style="background-image: url(../images/icons/avatar.jpg);"></div><!--User logged img-->
 
                             </div>
-                           <h4 class="user-name pt-4">{{ $ticket->user->name }}</h4>
+                         <h4 class="user-name pt-4">{{ $ticket->user->name }}</h4>
                            <div class="user-loc d-flex justify-content-center">
 <!--                               <i class="fas fa-map-marker gray"></i>-->
                                <p class="gray">{{ $ticket->city->name }}</p>
@@ -68,10 +68,12 @@
             @endif
 
                 {{-- Request this ticket end section --}}
-                @if($request&&$request->is_accepted==0)
+
+                @if($request && $request->is_accepted==0)
                 <div id="loginuser">
                 <a  href="#" id="editshow"  class="btn btn-primary">Edit My Request</a>
                 </div>
+
                @endif
 
                 <div class="editrequest" id="editrequest" style="display: none;">

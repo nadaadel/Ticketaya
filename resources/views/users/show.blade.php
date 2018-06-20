@@ -61,10 +61,10 @@
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade show active" id="mytickets" role="tabpanel" aria-labelledby="mytickets-tab">
                           <div class="row justify-content-center mt-4">
-
+                                @foreach(Auth::user()->tickets as $ticket)
                                   <div class="col-md-10 col-sm-10 col-10 mb-3" id=""> <!-- Ticked list card -->
                                         <div class="ticket-list">
-                                            @foreach(Auth::user()->tickets as $ticket)
+
                                             <div class="row ">
                                                 <div class="col-md-3 col-sm-12 pl-0 pr-0">
                                                     <div class="ticket-img" style="background-image: url(http://localhost:8000/storage/images/tickets/{{$ticket->photo}});"></div>
@@ -89,9 +89,10 @@
                                                                         </div>
                                                 </div>
                                             </div>
-                                            @endforeach
+
                                         </div>
                                     </div><!-- end of Ticked list card -->
+                                    @endforeach
 
 
                           </div>

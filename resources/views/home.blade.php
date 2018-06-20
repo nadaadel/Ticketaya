@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-
 <section>
 <!-- main header in home page -->
         <section id="hero-home">
@@ -42,8 +40,5 @@
               </div>
 
         </section>
-
-
-
 
 @endsection
