@@ -46,7 +46,7 @@
                             </div>
                                <h4 class="user-name pt-4">{{ $event->user->name }}</h4>
                                <div class="user-loc d-flex justify-content-center">
-                               <p class="gray">{{ $event->user->city->name }}</p>
+
                            </div>
                              <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  btn-secondary">Conatct Organizer</a>
                        </div><!--End of User profile-->

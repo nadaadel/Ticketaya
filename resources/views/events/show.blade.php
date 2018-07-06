@@ -47,7 +47,7 @@
                             </div>
                                <h4 class="user-name pt-4">{{ $event->user->name }}</h4>
                                <div class="user-loc d-flex justify-content-center">
-                               <p class="gray">{{ $event->user->city->name }}</p>
+
                            </div>
                              <a href="{{ URL::to('users/' . $event->user->id ) }}" class="btn  btn-secondary">Conatct Organizer</a>
                        </div><!--End of User profile-->
@@ -65,7 +65,12 @@
                             </p>
 
                         </div>
-
+                        @if(Auth:: check() && Auth::id() == $event->user_id)
+                        <div class="follow text-center">
+                                <a  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
+                                <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -146,8 +151,7 @@
                                 @if(Auth::user() && Auth::user()->id != $event->user_id)
                                      <button id="questionbtn" class="btn btn-primary mb-3 mt-4" >Do You Have a Question ?</button>
                                      <div class="question-area" style="display:none;">
-                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ...">
-                                        </textarea>
+                                        <textarea id="ques-body" class="form-control txt-area" placeholder=" Add New Question ..."></textarea>
                                         <button id="question-submit" class="btn btn-info mt-2">Post</button>
                                     </div>
                                 @endif
@@ -205,7 +209,35 @@
 
 
      <input type="hidden" id="event_id" value="{{$event->id}}">
+     @if(Auth:: check() && Auth::id() == $event->user_id)
 <script>
+         $(document).on('click','.deletebtn',function(){
+                        var event_id="{{$event->id}}";
+                        var url="{{ URL::route('allevents') }}"
+                        var resp = confirm("Do you really want to delete this ticket?");
+                        if (resp == true) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/events/delete/'+event_id ,
+                                data:{
+                                '_token':'{{csrf_token()}}',
+                                '_method':'DELETE',
+                                },
+                                success: function (response) {
+                                    if(response.res=='success'){
+                                    window.location=url
+                                    }
+                                    else{
+                                        alert('failed')
+                                    }
+                                }
+                            });
+
+                        }
+                       });
+                       </script>
+                       @endif
+                       <script>
     $(document).ready(function(){
 
     $('#questionbtn').on('click',function(){
@@ -357,10 +389,7 @@
 
     $('#info-submit').on('click' , function(){
        var description = $('.info-body').val();
-
-       console.log(description);
        var event_id = $('#event_id').val();
-       console.log(event_id);
        $.ajax({
            url: '/events/info/new/'+event_id,
            type:'POST',
@@ -369,17 +398,16 @@
                'description':description
            },
         success:function(response){
-
             if(response.status == 'success'){
-                console.log('ok')
-                $( " <div class='row'><div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
+                $( "<div class='col-md-8' id='"+response.id+"'></div>" ).prependTo(".info-parent" );
                 $('#'+response.id).append("<h4 class='event-body'>"+description+"</h4>")
                 $('#'+response.id).append( "<p class='event-time'><span>Posted at</span> "+response.time.date+"</p>" );
-                $('#'+response.id).append("<div class='col-4'><button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button></div></div>");
+                $('#'+response.id).append("<button class='deleteinfo btn btn-danger float-right' btn-id='"+response.id+"'>Delete</button>");
                 $('#'+response.id).append("<hr>");
                 $('.info-area').hide();
                 $('#showModel').show();
-                $('.deleteinfo').on('click',function(){
+            }}});});
+    $('.deleteinfo').on('click',function(){
         var id =$(this).attr('btn-id');
         console.log(id)
         $.ajax({
@@ -395,12 +423,6 @@
             if(response.response == 'success'){
                 console.log('pl')
                 $('#'+id).remove();
-
-
-        }
-       }
-        })
-    })
             }else{
              alert('error');
             }

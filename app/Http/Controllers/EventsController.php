@@ -82,10 +82,11 @@ class EventsController extends Controller
       $time=Carbon::now();
       if(Auth::user()->hasRole('admin')){
         return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
-        //return view('admin.events.show',['eventInfos'=> $eventInfos] );
+       // return redirect()->route('eventshow', ['id' =>$event->id ]);
+
       }
       return response()->json(['status' => 'success','time'=>$time,'id'=>$info->id]);
-
+     // return redirect()->route('eventshow', ['id' =>$event->id ]);
     }
     public function deleteInfo($id){
        $info= EventInfo::find($id);
@@ -154,7 +155,7 @@ class EventsController extends Controller
 
         if($event){
         $eventInfos = EventInfo::where('event_id','=',$event->id)->orderBy('created_at', 'desc')->paginate(2);
-        
+
         if(Auth::user()&& Auth::user()->hasRole('admin'))
         {
             $view='admin.events.show';
@@ -267,12 +268,11 @@ class EventsController extends Controller
     public function delete($id){
         $event = Event::find($id);
         if(Auth::check()&&(Auth::user()->id==$event->user_id||Auth::user()->hasRole('admin'))){
-        $event->delete();
-
-        return response()->json(['response' => 'success']);
+            $event->delete();
+            return response()->json(['res' => 'success']);
         }
         else{
-            return view('notfound');
+            return response()->json(['res' => 'failed']);
         }
     }
 

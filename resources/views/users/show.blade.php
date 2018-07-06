@@ -111,10 +111,7 @@
                                                 <h3>{{ucwords($event->name)}}</h3>
                                                 <p>{{substr($event->description,0,150)}}.</p>
                                             </div>
-                                            <div class="follow text-center">
-                                                <a  event-id="{{$event->id}}" class="btn ctrl-btn  deletebtn"><i class="far fa-trash-alt"></i></a>
-                                                <a href="{{ URL::to('events/edit/' . $event->id ) }}" class="btn ctrl-btn edit-btn"><i class="far fa-edit"></i></a>
-                                            </div>
+
                                         </div>
                                    </a>
                                 </div><!--event card starts here-->

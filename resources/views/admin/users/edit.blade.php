@@ -20,31 +20,8 @@
         @endif
     </div>
 </div>
-
-<div class="form-group row">
-    <label class="col-md-4 col-form-label text-md-right" >Email </label>
-        <div class="col-md-6">
-            <input type="text" name=email value={{$user->email}} />
-            @if ($errors->has('email'))
-                 <span class="alert alert-danger">
-                    <strong>{{ $errors->first('email') }}</strong>
-                 </span>
-            @endif
-        </div>
+ </div>
 </div>
-<div class="form-group row">
-    <label class="col-md-4 col-form-label text-md-right" >Phone Number </label>
-        <div class="col-md-6">
-        <input type="text" name=phone value="{{$user->phone}}" required />
-            @if ($errors->has('phone'))
-                 <span class="alert alert-danger">
-                    <strong>{{ $errors->first('phone') }}</strong>
-                 </span>
-            @endif
-        </div>
-</div>
-
-
 
 <div class="form-group row">
      <label class="col-md-4 col-form-label text-md-right">City </label>
